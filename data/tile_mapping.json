@@ -1,0 +1,713 @@
+{
+  "tile_mappings": {
+    "0": {
+      "name": "Void",
+      "tileset_id": 0,
+      "sprite_file": "Void_large.png",
+      "description": "Leerer Raum - nicht begehbar",
+      "category": "void"
+    },
+    "1": {
+      "name": "Grass-Flat",
+      "tileset_id": 1,
+      "sprite_file": "Grass-flat_large.png",
+      "description": "Flaches Gras - begehbar",
+      "category": "terrain"
+    },
+    "2": {
+      "name": "Path",
+      "tileset_id": 2,
+      "sprite_file": "Path_large.png",
+      "description": "Weg - begehbar",
+      "category": "terrain"
+    },
+    "3": {
+      "name": "Grass-Rustle",
+      "tileset_id": 3,
+      "sprite_file": "Grass-rustle-00_large.png",
+      "description": "Raschelndes Gras - begehbar",
+      "category": "terrain"
+    },
+    "4": {
+      "name": "Path-Gravel",
+      "tileset_id": 4,
+      "sprite_file": "Path-Gravel_large.png",
+      "description": "Kiesweg - begehbar",
+      "category": "terrain"
+    },
+    "5": {
+      "name": "Cabinet",
+      "tileset_id": 5,
+      "sprite_file": "Cabnet-00_large.png",
+      "description": "Schrank - nicht begehbar",
+      "category": "furniture"
+    },
+    "6": {
+      "name": "Computer",
+      "tileset_id": 6,
+      "sprite_file": "Computer-type-01-00_large.png",
+      "description": "Computer - nicht begehbar",
+      "category": "electronics"
+    },
+    "7": {
+      "name": "TV",
+      "tileset_id": 7,
+      "sprite_file": "TV-type-01-00_large.png",
+      "description": "Fernseher - nicht begehbar",
+      "category": "electronics"
+    },
+    "8": {
+      "name": "Floor",
+      "tileset_id": 8,
+      "sprite_file": "Flooring-type-01_large.png",
+      "description": "Bodenbelag - begehbar",
+      "category": "flooring"
+    },
+    "9": {
+      "name": "Grass-Tall",
+      "tileset_id": 9,
+      "sprite_file": "Grass-tall_large.png",
+      "description": "Hohes Gras - begehbar",
+      "category": "terrain"
+    },
+    "10": {
+      "name": "Grass-Rustle-Alt",
+      "tileset_id": 10,
+      "sprite_file": "Grass-rustle-00_large.png",
+      "description": "Alternative Gras-Variante - begehbar",
+      "category": "terrain"
+    },
+    "11": {
+      "name": "Grass-Rustle-Alt2",
+      "tileset_id": 11,
+      "sprite_file": "Grass-rustle-00_large.png",
+      "description": "Weitere Gras-Variante - begehbar",
+      "category": "terrain"
+    },
+    "12": {
+      "name": "Grass-Rustle-Alt3",
+      "tileset_id": 12,
+      "sprite_file": "Grass-rustle-00_large.png",
+      "description": "Letzte Gras-Variante - begehbar",
+      "category": "terrain"
+    },
+    "13": {
+      "name": "Floor-Alt",
+      "tileset_id": 13,
+      "sprite_file": "Flooring-type-02_large.png",
+      "description": "Alternativer Bodenbelag - begehbar",
+      "category": "flooring"
+    },
+    "20": {
+      "name": "Floor-Alt2",
+      "tileset_id": 20,
+      "sprite_file": "Flooring-type-02_large.png",
+      "description": "Weiterer Bodenbelag - begehbar",
+      "category": "flooring"
+    },
+    "21": {
+      "name": "Computer-Type-01",
+      "tileset_id": 21,
+      "sprite_file": "Computer-type-01-00_large.png",
+      "description": "Computer Typ 1 - nicht begehbar",
+      "category": "electronics"
+    },
+    "22": {
+      "name": "Computer-Type-01-Alt",
+      "tileset_id": 22,
+      "sprite_file": "Computer-type-01-01_large.png",
+      "description": "Computer Typ 1 Alternative - nicht begehbar",
+      "category": "electronics"
+    },
+    "23": {
+      "name": "Computer-Type-01-Alt2",
+      "tileset_id": 23,
+      "sprite_file": "Computer-type-01-02_large.png",
+      "description": "Computer Typ 1 weitere Alternative - nicht begehbar",
+      "category": "electronics"
+    },
+    "24": {
+      "name": "Computer-Type-01-Alt3",
+      "tileset_id": 24,
+      "sprite_file": "Computer-type-01-03_large.png",
+      "description": "Computer Typ 1 letzte Alternative - nicht begehbar",
+      "category": "electronics"
+    },
+    "25": {
+      "name": "Bookshelf-Type-01",
+      "tileset_id": 25,
+      "sprite_file": "Bookshelf-type-01-00_large.png",
+      "description": "Bücherregal Typ 1 - nicht begehbar",
+      "category": "furniture"
+    },
+    "26": {
+      "name": "Bookshelf-Type-01-Alt",
+      "tileset_id": 26,
+      "sprite_file": "Bookshelf-type-01-01_large.png",
+      "description": "Bücherregal Typ 1 Alternative - nicht begehbar",
+      "category": "furniture"
+    },
+    "27": {
+      "name": "Bookshelf-Type-01-Alt2",
+      "tileset_id": 27,
+      "sprite_file": "Bookshelf-type-01-02_large.png",
+      "description": "Bücherregal Typ 1 weitere Alternative - nicht begehbar",
+      "category": "furniture"
+    },
+    "28": {
+      "name": "Bookshelf-Type-01-Alt3",
+      "tileset_id": 28,
+      "sprite_file": "Bookshelf-type-01-03_large.png",
+      "description": "Bücherregal Typ 1 letzte Alternative - nicht begehbar",
+      "category": "furniture"
+    },
+    "29": {
+      "name": "Indoor-Plant-Type-01",
+      "tileset_id": 29,
+      "sprite_file": "Indoor-plant-type-01-00_large.png",
+      "description": "Zimmerpflanze Typ 1 - nicht begehbar",
+      "category": "decoration"
+    },
+    "30": {
+      "name": "Indoor-Plant-Type-01-Alt",
+      "tileset_id": 30,
+      "sprite_file": "Indoor-plant-type-01-01_large.png",
+      "description": "Zimmerpflanze Typ 1 Alternative - nicht begehbar",
+      "category": "decoration"
+    },
+    "31": {
+      "name": "Indoor-Plant-Type-01-Alt2",
+      "tileset_id": 31,
+      "sprite_file": "Indoor-plant-type-01-02_large.png",
+      "description": "Zimmerpflanze Typ 1 weitere Alternative - nicht begehbar",
+      "category": "decoration"
+    },
+    "32": {
+      "name": "Indoor-Plant-Type-01-Alt3",
+      "tileset_id": 32,
+      "sprite_file": "Indoor-plant-type-01-03_large.png",
+      "description": "Zimmerpflanze Typ 1 letzte Alternative - nicht begehbar",
+      "category": "decoration"
+    },
+    "33": {
+      "name": "Back-Wall-Art",
+      "tileset_id": 33,
+      "sprite_file": "Back-wall-art-00_large.png",
+      "description": "Wandkunst - nicht begehbar",
+      "category": "decoration"
+    },
+    "34": {
+      "name": "Back-Wall-Art-Alt",
+      "tileset_id": 34,
+      "sprite_file": "Back-wall-art-01_large.png",
+      "description": "Wandkunst Alternative - nicht begehbar",
+      "category": "decoration"
+    },
+    "35": {
+      "name": "Back-Wall-Art-Alt2",
+      "tileset_id": 35,
+      "sprite_file": "Back-wall-art-02_large.png",
+      "description": "Wandkunst weitere Alternative - nicht begehbar",
+      "category": "decoration"
+    },
+    "36": {
+      "name": "Back-Wall-Art-Alt3",
+      "tileset_id": 36,
+      "sprite_file": "Back-wall-art-03_large.png",
+      "description": "Wandkunst letzte Alternative - nicht begehbar",
+      "category": "decoration"
+    },
+    "37": {
+      "name": "Back-Wall-Art-Painted",
+      "tileset_id": 37,
+      "sprite_file": "Back-wall-painted_large.png",
+      "description": "Gemalte Wandkunst - nicht begehbar",
+      "category": "decoration"
+    },
+    "38": {
+      "name": "Back-Wall-Window",
+      "tileset_id": 38,
+      "sprite_file": "Back-wall-window-00_large.png",
+      "description": "Wandfenster - nicht begehbar",
+      "category": "architecture"
+    },
+    "39": {
+      "name": "Back-Wall-Window-Alt",
+      "tileset_id": 39,
+      "sprite_file": "Back-wall-window-01_large.png",
+      "description": "Wandfenster Alternative - nicht begehbar",
+      "category": "architecture"
+    },
+    "40": {
+      "name": "Back-Wall-Window-Alt2",
+      "tileset_id": 40,
+      "sprite_file": "Back-wall-window-02_large.png",
+      "description": "Wandfenster weitere Alternative - nicht begehbar",
+      "category": "architecture"
+    },
+    "41": {
+      "name": "Back-Wall-Window-Alt3",
+      "tileset_id": 41,
+      "sprite_file": "Back-wall-window-03_large.png",
+      "description": "Wandfenster letzte Alternative - nicht begehbar",
+      "category": "architecture"
+    },
+    "70": {
+      "name": "Stool-Type-01",
+      "tileset_id": 70,
+      "sprite_file": "Stool-type-01-00_large.png",
+      "description": "Hocker Typ 1 - nicht begehbar",
+      "category": "furniture"
+    },
+    "71": {
+      "name": "Stool-Type-01-Alt",
+      "tileset_id": 71,
+      "sprite_file": "Stool-type-01-01_large.png",
+      "description": "Hocker Typ 1 Alternative - nicht begehbar",
+      "category": "furniture"
+    },
+    "72": {
+      "name": "Stool-Type-01-Alt2",
+      "tileset_id": 72,
+      "sprite_file": "Stool-type-01-02_large.png",
+      "description": "Hocker Typ 1 weitere Alternative - nicht begehbar",
+      "category": "furniture"
+    },
+    "73": {
+      "name": "Stool-Type-01-Alt3",
+      "tileset_id": 73,
+      "sprite_file": "Stool-type-01-03_large.png",
+      "description": "Hocker Typ 1 letzte Alternative - nicht begehbar",
+      "category": "furniture"
+    },
+    "80": {
+      "name": "Stool-Type-02",
+      "tileset_id": 80,
+      "sprite_file": "Stool-type-02-00_large.png",
+      "description": "Hocker Typ 2 - nicht begehbar",
+      "category": "furniture"
+    },
+    "81": {
+      "name": "Stool-Type-02-Alt",
+      "tileset_id": 81,
+      "sprite_file": "Stool-type-02-01_large.png",
+      "description": "Hocker Typ 2 Alternative - nicht begehbar",
+      "category": "furniture"
+    },
+    "82": {
+      "name": "Stool-Type-02-Alt2",
+      "tileset_id": 82,
+      "sprite_file": "Stool-type-02-02_large.png",
+      "description": "Hocker Typ 2 weitere Alternative - nicht begehbar",
+      "category": "furniture"
+    },
+    "83": {
+      "name": "Stool-Type-02-Alt3",
+      "tileset_id": 83,
+      "sprite_file": "Stool-type-02-03_large.png",
+      "description": "Hocker Typ 2 letzte Alternative - nicht begehbar",
+      "category": "furniture"
+    },
+    "90": {
+      "name": "Stove",
+      "tileset_id": 90,
+      "sprite_file": "Stove-00_large.png",
+      "description": "Herd - nicht begehbar",
+      "category": "appliance"
+    },
+    "91": {
+      "name": "Stove-Alt",
+      "tileset_id": 91,
+      "sprite_file": "Stove-01_large.png",
+      "description": "Herd Alternative - nicht begehbar",
+      "category": "appliance"
+    },
+    "92": {
+      "name": "Stove-Alt2",
+      "tileset_id": 92,
+      "sprite_file": "Stove-02_large.png",
+      "description": "Herd weitere Alternative - nicht begehbar",
+      "category": "appliance"
+    },
+    "93": {
+      "name": "Stove-Alt3",
+      "tileset_id": 93,
+      "sprite_file": "Stove-03_large.png",
+      "description": "Herd letzte Alternative - nicht begehbar",
+      "category": "appliance"
+    },
+    "100": {
+      "name": "Sink",
+      "tileset_id": 100,
+      "sprite_file": "Sink-00_large.png",
+      "description": "Spüle - nicht begehbar",
+      "category": "appliance"
+    },
+    "101": {
+      "name": "Sink-Alt",
+      "tileset_id": 101,
+      "sprite_file": "Sink-01_large.png",
+      "description": "Spüle Alternative - nicht begehbar",
+      "category": "appliance"
+    },
+    "110": {
+      "name": "Fridge-Type-01",
+      "tileset_id": 110,
+      "sprite_file": "Fridge-type-01-00_large.png",
+      "description": "Kühlschrank Typ 1 - nicht begehbar",
+      "category": "appliance"
+    },
+    "111": {
+      "name": "Fridge-Type-01-Alt",
+      "tileset_id": 111,
+      "sprite_file": "Fridge-type-01-01_large.png",
+      "description": "Kühlschrank Typ 1 Alternative - nicht begehbar",
+      "category": "appliance"
+    },
+    "112": {
+      "name": "Fridge-Type-01-Alt2",
+      "tileset_id": 112,
+      "sprite_file": "Fridge-type-01-02_large.png",
+      "description": "Kühlschrank Typ 1 weitere Alternative - nicht begehbar",
+      "category": "appliance"
+    },
+    "113": {
+      "name": "Fridge-Type-01-Alt3",
+      "tileset_id": 113,
+      "sprite_file": "Fridge-type-01-03_large.png",
+      "description": "Kühlschrank Typ 1 letzte Alternative - nicht begehbar",
+      "category": "appliance"
+    },
+    "114": {
+      "name": "Fridge-Type-01-Alt4",
+      "tileset_id": 114,
+      "sprite_file": "Fridge-type-01-04_large.png",
+      "description": "Kühlschrank Typ 1 vierte Alternative - nicht begehbar",
+      "category": "appliance"
+    },
+    "115": {
+      "name": "Fridge-Type-01-Alt5",
+      "tileset_id": 115,
+      "sprite_file": "Fridge-type-01-05_large.png",
+      "description": "Kühlschrank Typ 1 fünfte Alternative - nicht begehbar",
+      "category": "appliance"
+    },
+    "120": {
+      "name": "TV-Type-01",
+      "tileset_id": 120,
+      "sprite_file": "TV-type-01-00_large.png",
+      "description": "Fernseher Typ 1 - nicht begehbar",
+      "category": "electronics"
+    },
+    "121": {
+      "name": "TV-Type-01-Alt",
+      "tileset_id": 121,
+      "sprite_file": "TV-type-01-01_large.png",
+      "description": "Fernseher Typ 1 Alternative - nicht begehbar",
+      "category": "electronics"
+    },
+    "122": {
+      "name": "TV-Type-01-Alt2",
+      "tileset_id": 122,
+      "sprite_file": "TV-type-01-02_large.png",
+      "description": "Fernseher Typ 1 weitere Alternative - nicht begehbar",
+      "category": "electronics"
+    },
+    "123": {
+      "name": "TV-Type-01-Alt3",
+      "tileset_id": 123,
+      "sprite_file": "TV-type-01-03_large.png",
+      "description": "Fernseher Typ 1 letzte Alternative - nicht begehbar",
+      "category": "electronics"
+    },
+    "130": {
+      "name": "Radio-Type-01",
+      "tileset_id": 130,
+      "sprite_file": "Radio-type-01-00_large.png",
+      "description": "Radio Typ 1 - nicht begehbar",
+      "category": "electronics"
+    },
+    "131": {
+      "name": "Radio-Type-01-Alt",
+      "tileset_id": 131,
+      "sprite_file": "Radio-type-01-01_large.png",
+      "description": "Radio Typ 1 Alternative - nicht begehbar",
+      "category": "electronics"
+    },
+    "132": {
+      "name": "Radio-Type-01-Alt2",
+      "tileset_id": 132,
+      "sprite_file": "Radio-type-01-02_large.png",
+      "description": "Radio Typ 1 weitere Alternative - nicht begehbar",
+      "category": "electronics"
+    },
+    "133": {
+      "name": "Radio-Type-01-Alt3",
+      "tileset_id": 133,
+      "sprite_file": "Radio-type-01-03_large.png",
+      "description": "Radio Typ 1 letzte Alternative - nicht begehbar",
+      "category": "electronics"
+    },
+    "140": {
+      "name": "Radio-Type-02",
+      "tileset_id": 140,
+      "sprite_file": "Radio-type-02-00_large.png",
+      "description": "Radio Typ 2 - nicht begehbar",
+      "category": "electronics"
+    },
+    "141": {
+      "name": "Radio-Type-02-Alt",
+      "tileset_id": 141,
+      "sprite_file": "Radio-type-02-01_large.png",
+      "description": "Radio Typ 2 Alternative - nicht begehbar",
+      "category": "electronics"
+    },
+    "142": {
+      "name": "Radio-Type-02-Alt2",
+      "tileset_id": 142,
+      "sprite_file": "Radio-type-02-02_large.png",
+      "description": "Radio Typ 2 weitere Alternative - nicht begehbar",
+      "category": "electronics"
+    },
+    "143": {
+      "name": "Radio-Type-02-Alt3",
+      "tileset_id": 143,
+      "sprite_file": "Radio-type-02-03_large.png",
+      "description": "Radio Typ 2 letzte Alternative - nicht begehbar",
+      "category": "electronics"
+    },
+    "150": {
+      "name": "Bed-Type-01",
+      "tileset_id": 150,
+      "sprite_file": "Bed-type-01-00_large.png",
+      "description": "Bett Typ 1 - nicht begehbar",
+      "category": "furniture"
+    },
+    "151": {
+      "name": "Bed-Type-01-Alt",
+      "tileset_id": 151,
+      "sprite_file": "Bed-type-01-01_large.png",
+      "description": "Bett Typ 1 Alternative - nicht begehbar",
+      "category": "furniture"
+    },
+    "152": {
+      "name": "Bed-Type-01-Alt2",
+      "tileset_id": 152,
+      "sprite_file": "Bed-type-01-02_large.png",
+      "description": "Bett Typ 1 weitere Alternative - nicht begehbar",
+      "category": "furniture"
+    },
+    "153": {
+      "name": "Bed-Type-01-Alt3",
+      "tileset_id": 153,
+      "sprite_file": "Bed-type-01-03_large.png",
+      "description": "Bett Typ 1 letzte Alternative - nicht begehbar",
+      "category": "furniture"
+    },
+    "154": {
+      "name": "Bed-Type-01-Alt4",
+      "tileset_id": 154,
+      "sprite_file": "Bed-type-01-04_large.png",
+      "description": "Bett Typ 1 vierte Alternative - nicht begehbar",
+      "category": "furniture"
+    },
+    "155": {
+      "name": "Bed-Type-01-Alt5",
+      "tileset_id": 155,
+      "sprite_file": "Bed-type-01-05_large.png",
+      "description": "Bett Typ 1 fünfte Alternative - nicht begehbar",
+      "category": "furniture"
+    },
+    "156": {
+      "name": "Bed-Type-01-Alt6",
+      "tileset_id": 156,
+      "sprite_file": "Bed-type-01-06_large.png",
+      "description": "Bett Typ 1 sechste Alternative - nicht begehbar",
+      "category": "furniture"
+    },
+    "157": {
+      "name": "Bed-Type-01-Alt7",
+      "tileset_id": 157,
+      "sprite_file": "Bed-type-01-07_large.png",
+      "description": "Bett Typ 1 siebte Alternative - nicht begehbar",
+      "category": "furniture"
+    },
+    "160": {
+      "name": "Flower-Johto",
+      "tileset_id": 160,
+      "sprite_file": "Flower-johto-00_large.png",
+      "description": "Johto-Blume - nicht begehbar",
+      "category": "decoration"
+    },
+    "161": {
+      "name": "Flower-Johto-Alt",
+      "tileset_id": 161,
+      "sprite_file": "Flower-johto-01_large.png",
+      "description": "Johto-Blume Alternative - nicht begehbar",
+      "category": "decoration"
+    },
+    "170": {
+      "name": "Ridge",
+      "tileset_id": 170,
+      "sprite_file": "Ridge-00_large.png",
+      "description": "Grat - nicht begehbar",
+      "category": "terrain"
+    },
+    "171": {
+      "name": "Ridge-Alt",
+      "tileset_id": 171,
+      "sprite_file": "Ridge-01_large.png",
+      "description": "Grat Alternative - nicht begehbar",
+      "category": "terrain"
+    },
+    "172": {
+      "name": "Ridge-Alt2",
+      "tileset_id": 172,
+      "sprite_file": "Ridge-02_large.png",
+      "description": "Grat weitere Alternative - nicht begehbar",
+      "category": "terrain"
+    },
+    "173": {
+      "name": "Ridge-Alt3",
+      "tileset_id": 173,
+      "sprite_file": "Ridge-03_large.png",
+      "description": "Grat letzte Alternative - nicht begehbar",
+      "category": "terrain"
+    },
+    "174": {
+      "name": "Ridge-Alt4",
+      "tileset_id": 174,
+      "sprite_file": "Ridge-04_large.png",
+      "description": "Grat vierte Alternative - nicht begehbar",
+      "category": "terrain"
+    },
+    "175": {
+      "name": "Ridge-Alt5",
+      "tileset_id": 175,
+      "sprite_file": "Ridge-05_large.png",
+      "description": "Grat fünfte Alternative - nicht begehbar",
+      "category": "terrain"
+    },
+    "176": {
+      "name": "Ridge-Alt6",
+      "tileset_id": 176,
+      "sprite_file": "Ridge-06_large.png",
+      "description": "Grat sechste Alternative - nicht begehbar",
+      "category": "terrain"
+    },
+    "177": {
+      "name": "Ridge-Alt7",
+      "tileset_id": 177,
+      "sprite_file": "Ridge-07_large.png",
+      "description": "Grat siebte Alternative - nicht begehbar",
+      "category": "terrain"
+    },
+    "178": {
+      "name": "Ridge-Alt8",
+      "tileset_id": 178,
+      "sprite_file": "Ridge-08_large.png",
+      "description": "Grat achte Alternative - nicht begehbar",
+      "category": "terrain"
+    },
+    "179": {
+      "name": "Ridge-Alt9",
+      "tileset_id": 179,
+      "sprite_file": "Ridge-08_large.png",
+      "description": "Grat neunte Alternative - nicht begehbar",
+      "category": "terrain"
+    },
+    "180": {
+      "name": "Sign-Metal",
+      "tileset_id": 180,
+      "sprite_file": "Sign-metal-00_large.png",
+      "description": "Metallschild - nicht begehbar",
+      "category": "decoration"
+    },
+    "181": {
+      "name": "Sign-Metal-Alt",
+      "tileset_id": 181,
+      "sprite_file": "Sign-metal-01_large.png",
+      "description": "Metallschild Alternative - nicht begehbar",
+      "category": "decoration"
+    },
+    "182": {
+      "name": "Sign-Metal-Alt2",
+      "tileset_id": 182,
+      "sprite_file": "Sign-metal-02_large.png",
+      "description": "Metallschild weitere Alternative - nicht begehbar",
+      "category": "decoration"
+    },
+    "183": {
+      "name": "Sign-Metal-Alt3",
+      "tileset_id": 183,
+      "sprite_file": "Sign-metal-03_large.png",
+      "description": "Metallschild letzte Alternative - nicht begehbar",
+      "category": "decoration"
+    },
+    "184": {
+      "name": "Indoor-Exit-Mat-Type-01",
+      "tileset_id": 184,
+      "sprite_file": "Indoor-exit-mat-type-01-00_large.png",
+      "description": "Indoor-Ausgangsmatte Typ 1 - begehbar",
+      "category": "flooring"
+    },
+    "185": {
+      "name": "Indoor-Exit-Mat-Type-01-Alt",
+      "tileset_id": 185,
+      "sprite_file": "Indoor-exit-mat-type-01-01_large.png",
+      "description": "Indoor-Ausgangsmatte Typ 1 Alternative - begehbar",
+      "category": "flooring"
+    },
+    "186": {
+      "name": "Indoor-Exit-Mat-Type-02",
+      "tileset_id": 186,
+      "sprite_file": "Indoor-exit-mat-type-02-00_large.png",
+      "description": "Indoor-Ausgangsmatte Typ 2 - begehbar",
+      "category": "flooring"
+    },
+    "187": {
+      "name": "Indoor-Exit-Mat-Type-02-Alt",
+      "tileset_id": 187,
+      "sprite_file": "Indoor-exit-mat-type-02-01_large.png",
+      "description": "Indoor-Ausgangsmatte Typ 2 Alternative - begehbar",
+      "category": "flooring"
+    },
+    "188": {
+      "name": "Outdoor-Exit-Mat",
+      "tileset_id": 188,
+      "sprite_file": "Outdoor-exit-mat_large.png",
+      "description": "Outdoor-Ausgangsmatte - begehbar",
+      "category": "flooring"
+    },
+    "189": {
+      "name": "Outdoor-Exit-Mat-Alt",
+      "tileset_id": 189,
+      "sprite_file": "Outdoor-exit-mat_large.png",
+      "description": "Outdoor-Ausgangsmatte Alternative - begehbar",
+      "category": "flooring"
+    }
+  },
+  "tileset_info": {
+    "tile_size": 64,
+    "tiles_per_row": 4,
+    "total_tiles": 16,
+    "dimensions": "256x256"
+  },
+  "layer_types": {
+    "ground": "Bodenebene - wird zuerst gerendert",
+    "decor": "Dekoration - wird über dem Boden gerendert",
+    "collision": "Kollision - bestimmt, wo der Spieler laufen kann",
+    "overhang": "Überhang - wird über allem anderen gerendert"
+  },
+  "categories": {
+    "system": "System-Tiles (Void, etc.)",
+    "terrain": "Gelände (Gras, Wege)",
+    "flooring": "Bodenbeläge und Übergänge",
+    "furniture": "Möbel und Einrichtung",
+    "appliances": "Haushaltsgeräte",
+    "electronics": "Elektronische Geräte",
+    "decoration": "Dekorative Objekte",
+    "landscape": "Landschaftselemente",
+    "water": "Wasser und Gewässer"
+  }
+}
