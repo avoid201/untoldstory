@@ -1,0 +1,3144 @@
+{
+  "summary": {
+    "total_files": 345,
+    "total_size_bytes": 171090,
+    "total_size_kb": 167.080078125
+  },
+  "categories": {
+    "root": [
+      {
+        "file": "Stool-type-01-00_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 341
+        }
+      },
+      {
+        "file": "Sign-metal-00_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 313
+        }
+      },
+      {
+        "file": "Fridge-type-01-02_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 290
+        }
+      },
+      {
+        "file": "Stool-type-02-03_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 348
+        }
+      },
+      {
+        "file": "Indoor-plant-type-01-04_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 361
+        }
+      },
+      {
+        "file": "Building-roof-flat-01_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 241
+        }
+      },
+      {
+        "file": "Tree-short-00_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 370
+        }
+      },
+      {
+        "file": "Back-wall-art-02_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 309
+        }
+      },
+      {
+        "file": "Table-type-1-03_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 245
+        }
+      },
+      {
+        "file": "Bed-type-01-04_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 241
+        }
+      },
+      {
+        "file": "Ridge-02_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 348
+        }
+      },
+      {
+        "file": "Computer-type-01-01_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 302
+        }
+      },
+      {
+        "file": "Back-wall-window-01_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 326
+        }
+      },
+      {
+        "file": "Bookshelf-type-01-03_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 314
+        }
+      },
+      {
+        "file": "Grass-flat_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 332
+        }
+      },
+      {
+        "file": "Cabnet-01_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 284
+        }
+      },
+      {
+        "file": "Sink-01_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 345
+        }
+      },
+      {
+        "file": "Building-wall-00_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 264
+        }
+      },
+      {
+        "file": "Water-06_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 290
+        }
+      },
+      {
+        "file": "Indoor-exit-mat-type-02-00_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 249
+        }
+      },
+      {
+        "file": "Building-cladding-01_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 271
+        }
+      },
+      {
+        "file": "Bed-type-01-02_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 328
+        }
+      },
+      {
+        "file": "Table-type-1-05_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 245
+        }
+      },
+      {
+        "file": "Building-door-01_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 349
+        }
+      },
+      {
+        "file": "Stove-02_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 309
+        }
+      },
+      {
+        "file": "Table-type-1-11_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 347
+        }
+      },
+      {
+        "file": "TV-type-01-02_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 306
+        }
+      },
+      {
+        "file": "Radio-type-02-01_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 298
+        }
+      },
+      {
+        "file": "Radio-type-01-02_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 352
+        }
+      },
+      {
+        "file": "Fridge-type-01-04_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 314
+        }
+      },
+      {
+        "file": "Custom.png",
+        "analysis": {
+          "width": 128,
+          "height": 80,
+          "mode": "RGBA",
+          "size_bytes": 3694
+        }
+      },
+      {
+        "file": "Building-roof-flat-07_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 256
+        }
+      },
+      {
+        "file": "Flower-johto-01_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 354
+        }
+      },
+      {
+        "file": "Indoor-plant-type-01-02_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 376
+        }
+      },
+      {
+        "file": "Water-00_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 223
+        }
+      },
+      {
+        "file": "Table-type-1-08_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 261
+        }
+      },
+      {
+        "file": "Back-wall-wood_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 281
+        }
+      },
+      {
+        "file": "Bookshelf-type-01-05_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 350
+        }
+      },
+      {
+        "file": "Ridge-04_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 332
+        }
+      },
+      {
+        "file": "Building-roof-flat-00_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 265
+        }
+      },
+      {
+        "file": "Indoor-plant-type-01-05_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 364
+        }
+      },
+      {
+        "file": "Tree-short-01_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 383
+        }
+      },
+      {
+        "file": "Back-wall-art-03_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 290
+        }
+      },
+      {
+        "file": "Sign-metal-01_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 327
+        }
+      },
+      {
+        "file": "Fridge-type-01-03_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 263
+        }
+      },
+      {
+        "file": "Stool-type-01-01_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 338
+        }
+      },
+      {
+        "file": "Stool-type-02-02_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 359
+        }
+      },
+      {
+        "file": "Table-type-1-02_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 261
+        }
+      },
+      {
+        "file": "Bed-type-01-05_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 245
+        }
+      },
+      {
+        "file": "Cabnet-00_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 290
+        }
+      },
+      {
+        "file": "Sink-00_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 337
+        }
+      },
+      {
+        "file": "Ridge-03_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 392
+        }
+      },
+      {
+        "file": "Computer-type-01-00_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 324
+        }
+      },
+      {
+        "file": "Back-wall-window-00_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 316
+        }
+      },
+      {
+        "file": "Bookshelf-type-01-02_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 321
+        }
+      },
+      {
+        "file": "Building-cladding-00_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 293
+        }
+      },
+      {
+        "file": "Indoor-exit-mat-type-02-01_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 248
+        }
+      },
+      {
+        "file": "Building-wall-01_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 265
+        }
+      },
+      {
+        "file": "Table-type-1-10_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 240
+        }
+      },
+      {
+        "file": "Stove-03_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 308
+        }
+      },
+      {
+        "file": "Radio-type-02-00_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 322
+        }
+      },
+      {
+        "file": "TV-type-01-03_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 280
+        }
+      },
+      {
+        "file": "Outdoor-exit-mat_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 310
+        }
+      },
+      {
+        "file": "Radio-type-01-03_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 340
+        }
+      },
+      {
+        "file": "Bed-type-01-03_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 290
+        }
+      },
+      {
+        "file": "Flooring-type-02_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 247
+        }
+      },
+      {
+        "file": "Table-type-1-04_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 223
+        }
+      },
+      {
+        "file": "Building-door-00_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 325
+        }
+      },
+      {
+        "file": "Flower-johto-00_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 360
+        }
+      },
+      {
+        "file": "Indoor-plant-type-01-03_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 366
+        }
+      },
+      {
+        "file": "Building-roof-flat-06_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 315
+        }
+      },
+      {
+        "file": "Fridge-type-01-05_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 290
+        }
+      },
+      {
+        "file": "Ridge-08_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 369
+        }
+      },
+      {
+        "file": "Water-01_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 274
+        }
+      },
+      {
+        "file": "Table-type-1-09_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 343
+        }
+      },
+      {
+        "file": "Bookshelf-type-01-04_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 311
+        }
+      },
+      {
+        "file": "Ridge-05_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 336
+        }
+      },
+      {
+        "file": "Table-type-1-01_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 241
+        }
+      },
+      {
+        "file": "Bed-type-01-06_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 290
+        }
+      },
+      {
+        "file": "Stool-type-02-01_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 287
+        }
+      },
+      {
+        "file": "Stool-type-01-02_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 378
+        }
+      },
+      {
+        "file": "Sign-metal-02_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 312
+        }
+      },
+      {
+        "file": "Fridge-type-01-00_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 283
+        }
+      },
+      {
+        "file": "Tree-short-02_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 373
+        }
+      },
+      {
+        "file": "Indoor-plant-type-01-06_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 377
+        }
+      },
+      {
+        "file": "Tree-tall-01_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 343
+        }
+      },
+      {
+        "file": "Building-roof-flat-03_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 251
+        }
+      },
+      {
+        "file": "Back-wall-art-00_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 304
+        }
+      },
+      {
+        "file": "Building-wall-02_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 321
+        }
+      },
+      {
+        "file": "Water-04_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 272
+        }
+      },
+      {
+        "file": "Indoor-exit-mat-type-01-01_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 241
+        }
+      },
+      {
+        "file": "NewBuildingSample.png",
+        "analysis": {
+          "width": 64,
+          "height": 48,
+          "mode": "RGBA",
+          "size_bytes": 735
+        }
+      },
+      {
+        "file": "Back-wall-window-03_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 298
+        }
+      },
+      {
+        "file": "Computer-type-01-03_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 310
+        }
+      },
+      {
+        "file": "Ridge-00_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 357
+        }
+      },
+      {
+        "file": "Bookshelf-type-01-01_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 267
+        }
+      },
+      {
+        "file": "Building-roof-flat-05_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 253
+        }
+      },
+      {
+        "file": "Indoor-plant-type-01-00_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 388
+        }
+      },
+      {
+        "file": "Bed-type-01-00_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 294
+        }
+      },
+      {
+        "file": "Building-door-03_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 314
+        }
+      },
+      {
+        "file": "Table-type-1-07_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 244
+        }
+      },
+      {
+        "file": "Flooring-type-01_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 267
+        }
+      },
+      {
+        "file": "Stove-00_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 314
+        }
+      },
+      {
+        "file": "Building-window_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 266
+        }
+      },
+      {
+        "file": "Radio-type-01-00_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 284
+        }
+      },
+      {
+        "file": "TV-type-01-00_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 322
+        }
+      },
+      {
+        "file": "Radio-type-02-03_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 331
+        }
+      },
+      {
+        "file": "Bookshelf-type-01-07_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 337
+        }
+      },
+      {
+        "file": "Computer-type-01-05_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 325
+        }
+      },
+      {
+        "file": "Void_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 221
+        }
+      },
+      {
+        "file": "Grass-rustle-01_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 339
+        }
+      },
+      {
+        "file": "Ridge-06_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 394
+        }
+      },
+      {
+        "file": "Building-roof-flat-08_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 295
+        }
+      },
+      {
+        "file": "Path-Gravel_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 287
+        }
+      },
+      {
+        "file": "Water-02_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 287
+        }
+      },
+      {
+        "file": "Building-wall-04_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 311
+        }
+      },
+      {
+        "file": "Table-type-1-00_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 257
+        }
+      },
+      {
+        "file": "Back-wall-painted_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 241
+        }
+      },
+      {
+        "file": "Bed-type-01-07_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 298
+        }
+      },
+      {
+        "file": "Tree-short-03_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 380
+        }
+      },
+      {
+        "file": "Tree-tall-00_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 396
+        }
+      },
+      {
+        "file": "Building-roof-flat-02_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 293
+        }
+      },
+      {
+        "file": "Indoor-plant-type-01-07_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 350
+        }
+      },
+      {
+        "file": "Back-wall-art-01_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 320
+        }
+      },
+      {
+        "file": "Path_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 221
+        }
+      },
+      {
+        "file": "Stool-type-02-00_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 283
+        }
+      },
+      {
+        "file": "Sign-metal-03_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 307
+        }
+      },
+      {
+        "file": "Fridge-type-01-01_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 297
+        }
+      },
+      {
+        "file": "Stool-type-01-03_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 356
+        }
+      },
+      {
+        "file": "Indoor-exit-mat-type-01-00_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 243
+        }
+      },
+      {
+        "file": "Water-05_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 274
+        }
+      },
+      {
+        "file": "Building-wall-03_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 287
+        }
+      },
+      {
+        "file": "Back-wall-window-02_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 294
+        }
+      },
+      {
+        "file": "Computer-type-01-02_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 326
+        }
+      },
+      {
+        "file": "Ridge-01_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 364
+        }
+      },
+      {
+        "file": "Bookshelf-type-01-00_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 270
+        }
+      },
+      {
+        "file": "Indoor-plant-type-01-01_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 405
+        }
+      },
+      {
+        "file": "Building-roof-flat-04_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 221
+        }
+      },
+      {
+        "file": "Stove-01_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 328
+        }
+      },
+      {
+        "file": "Grass-tall_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 343
+        }
+      },
+      {
+        "file": "Radio-type-01-01_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 271
+        }
+      },
+      {
+        "file": "Radio-type-02-02_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 301
+        }
+      },
+      {
+        "file": "TV-type-01-01_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 295
+        }
+      },
+      {
+        "file": "Bed-type-01-01_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 298
+        }
+      },
+      {
+        "file": "Building-door-02_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 317
+        }
+      },
+      {
+        "file": "Table-type-1-06_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 267
+        }
+      },
+      {
+        "file": "Bookshelf-type-01-06_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 329
+        }
+      },
+      {
+        "file": "Computer-type-01-04_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 356
+        }
+      },
+      {
+        "file": "Grass-rustle-00_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 349
+        }
+      },
+      {
+        "file": "Ridge-07_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 398
+        }
+      },
+      {
+        "file": "player.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGB",
+          "size_bytes": 837
+        }
+      },
+      {
+        "file": "Water-03_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 286
+        }
+      }
+    ],
+    "npcs": [
+      {
+        "file": "npcs/npc_03.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGB",
+          "size_bytes": 699
+        }
+      },
+      {
+        "file": "npcs/npc_02.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGB",
+          "size_bytes": 752
+        }
+      },
+      {
+        "file": "npcs/npc_01.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGB",
+          "size_bytes": 729
+        }
+      },
+      {
+        "file": "npcs/npc_05.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGB",
+          "size_bytes": 701
+        }
+      },
+      {
+        "file": "npcs/elder.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGB",
+          "size_bytes": 946
+        }
+      },
+      {
+        "file": "npcs/miner.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGB",
+          "size_bytes": 877
+        }
+      },
+      {
+        "file": "npcs/npc_04.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGB",
+          "size_bytes": 686
+        }
+      },
+      {
+        "file": "npcs/npc_06.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGB",
+          "size_bytes": 694
+        }
+      },
+      {
+        "file": "npcs/worker.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGB",
+          "size_bytes": 931
+        }
+      },
+      {
+        "file": "npcs/shopkeeper.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGB",
+          "size_bytes": 788
+        }
+      }
+    ],
+    "Drafts": [
+      {
+        "file": "Drafts/Indoor-plant-00-drafts_large.png",
+        "analysis": {
+          "width": 904,
+          "height": 256,
+          "mode": "RGBA",
+          "size_bytes": 6168
+        }
+      }
+    ],
+    "Constructed": [
+      {
+        "file": "Constructed/Back-wall-window_large.png",
+        "analysis": {
+          "width": 128,
+          "height": 128,
+          "mode": "RGBA",
+          "size_bytes": 610
+        }
+      },
+      {
+        "file": "Constructed/Radio-type-01_large.png",
+        "analysis": {
+          "width": 128,
+          "height": 128,
+          "mode": "RGBA",
+          "size_bytes": 674
+        }
+      },
+      {
+        "file": "Constructed/Outdoor-exit-mat-type-01_large.png",
+        "analysis": {
+          "width": 256,
+          "height": 128,
+          "mode": "RGBA",
+          "size_bytes": 710
+        }
+      },
+      {
+        "file": "Constructed/Bookshelf-type-01_large.png",
+        "analysis": {
+          "width": 128,
+          "height": 256,
+          "mode": "RGBA",
+          "size_bytes": 1093
+        }
+      },
+      {
+        "file": "Constructed/Tree-tall_large.png",
+        "analysis": {
+          "width": 128,
+          "height": 256,
+          "mode": "RGBA",
+          "size_bytes": 1366
+        }
+      },
+      {
+        "file": "Constructed/Flower-johto_large.gif",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "P",
+          "size_bytes": 886
+        }
+      },
+      {
+        "file": "Constructed/Ridge_large.png",
+        "analysis": {
+          "width": 448,
+          "height": 384,
+          "mode": "RGBA",
+          "size_bytes": 3890
+        }
+      },
+      {
+        "file": "Constructed/Stool-type-02_large.png",
+        "analysis": {
+          "width": 128,
+          "height": 128,
+          "mode": "RGBA",
+          "size_bytes": 621
+        }
+      },
+      {
+        "file": "Constructed/Building_large.png",
+        "analysis": {
+          "width": 512,
+          "height": 512,
+          "mode": "RGBA",
+          "size_bytes": 3265
+        }
+      },
+      {
+        "file": "Constructed/Indoor-exit-mat-type-01_large.png",
+        "analysis": {
+          "width": 256,
+          "height": 128,
+          "mode": "RGBA",
+          "size_bytes": 520
+        }
+      },
+      {
+        "file": "Constructed/Computer-type-01_large.png",
+        "analysis": {
+          "width": 128,
+          "height": 256,
+          "mode": "RGBA",
+          "size_bytes": 1156
+        }
+      },
+      {
+        "file": "Constructed/Table-type-01_large.png",
+        "analysis": {
+          "width": 256,
+          "height": 320,
+          "mode": "RGBA",
+          "size_bytes": 1240
+        }
+      },
+      {
+        "file": "Constructed/Indoor-plant-type-01_large.png",
+        "analysis": {
+          "width": 128,
+          "height": 256,
+          "mode": "RGBA",
+          "size_bytes": 1464
+        }
+      },
+      {
+        "file": "Constructed/Sign_large.png",
+        "analysis": {
+          "width": 128,
+          "height": 128,
+          "mode": "RGBA",
+          "size_bytes": 623
+        }
+      },
+      {
+        "file": "Constructed/Back-wall-art_large.png",
+        "analysis": {
+          "width": 128,
+          "height": 128,
+          "mode": "RGBA",
+          "size_bytes": 571
+        }
+      },
+      {
+        "file": "Constructed/Stool-type-01_large.png",
+        "analysis": {
+          "width": 128,
+          "height": 128,
+          "mode": "RGBA",
+          "size_bytes": 695
+        }
+      },
+      {
+        "file": "Constructed/Bed-type-01_large.png",
+        "analysis": {
+          "width": 128,
+          "height": 256,
+          "mode": "RGBA",
+          "size_bytes": 960
+        }
+      },
+      {
+        "file": "Constructed/Tree-short_large.png",
+        "analysis": {
+          "width": 128,
+          "height": 128,
+          "mode": "RGBA",
+          "size_bytes": 784
+        }
+      },
+      {
+        "file": "Constructed/Cabinet_large.png",
+        "analysis": {
+          "width": 128,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 336
+        }
+      },
+      {
+        "file": "Constructed/Indoor-exit-mat-type-02_large.png",
+        "analysis": {
+          "width": 128,
+          "height": 256,
+          "mode": "RGBA",
+          "size_bytes": 746
+        }
+      },
+      {
+        "file": "Constructed/Radio-type-02_large.png",
+        "analysis": {
+          "width": 128,
+          "height": 128,
+          "mode": "RGBA",
+          "size_bytes": 682
+        }
+      },
+      {
+        "file": "Constructed/Tv-type-01_large.png",
+        "analysis": {
+          "width": 128,
+          "height": 128,
+          "mode": "RGBA",
+          "size_bytes": 574
+        }
+      },
+      {
+        "file": "Constructed/Outdoor-exit-mat-type-02_large.png",
+        "analysis": {
+          "width": 128,
+          "height": 256,
+          "mode": "RGBA",
+          "size_bytes": 989
+        }
+      },
+      {
+        "file": "Constructed/Sink_large.png",
+        "analysis": {
+          "width": 128,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 413
+        }
+      },
+      {
+        "file": "Constructed/Fridge-type-01_large.png",
+        "analysis": {
+          "width": 128,
+          "height": 192,
+          "mode": "RGBA",
+          "size_bytes": 746
+        }
+      },
+      {
+        "file": "Constructed/Stove_large.png",
+        "analysis": {
+          "width": 128,
+          "height": 128,
+          "mode": "RGBA",
+          "size_bytes": 610
+        }
+      }
+    ],
+    "Raw-water": [
+      {
+        "file": "Raw-water/Water-frame-00_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 271
+        }
+      },
+      {
+        "file": "Raw-water/Water-frames.png",
+        "analysis": {
+          "width": 8,
+          "height": 32,
+          "mode": "RGBA",
+          "size_bytes": 171
+        }
+      },
+      {
+        "file": "Raw-water/Water-frame-01_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 264
+        }
+      },
+      {
+        "file": "Raw-water/Water-frame-02_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 273
+        }
+      },
+      {
+        "file": "Raw-water/Water-frame-03_large.png",
+        "analysis": {
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "size_bytes": 264
+        }
+      }
+    ],
+    "monsters": [
+      {
+        "file": "monsters/88.png",
+        "analysis": {
+          "width": 40,
+          "height": 40,
+          "mode": "P",
+          "size_bytes": 448
+        }
+      },
+      {
+        "file": "monsters/77.png",
+        "analysis": {
+          "width": 48,
+          "height": 48,
+          "mode": "P",
+          "size_bytes": 528
+        }
+      },
+      {
+        "file": "monsters/63.png",
+        "analysis": {
+          "width": 40,
+          "height": 40,
+          "mode": "P",
+          "size_bytes": 449
+        }
+      },
+      {
+        "file": "monsters/62.png",
+        "analysis": {
+          "width": 56,
+          "height": 56,
+          "mode": "P",
+          "size_bytes": 592
+        }
+      },
+      {
+        "file": "monsters/76.png",
+        "analysis": {
+          "width": 48,
+          "height": 48,
+          "mode": "P",
+          "size_bytes": 548
+        }
+      },
+      {
+        "file": "monsters/89.png",
+        "analysis": {
+          "width": 56,
+          "height": 56,
+          "mode": "P",
+          "size_bytes": 637
+        }
+      },
+      {
+        "file": "monsters/149.png",
+        "analysis": {
+          "width": 56,
+          "height": 56,
+          "mode": "P",
+          "size_bytes": 651
+        }
+      },
+      {
+        "file": "monsters/60.png",
+        "analysis": {
+          "width": 40,
+          "height": 40,
+          "mode": "P",
+          "size_bytes": 358
+        }
+      },
+      {
+        "file": "monsters/74.png",
+        "analysis": {
+          "width": 40,
+          "height": 40,
+          "mode": "P",
+          "size_bytes": 376
+        }
+      },
+      {
+        "file": "monsters/48.png",
+        "analysis": {
+          "width": 40,
+          "height": 40,
+          "mode": "P",
+          "size_bytes": 427
+        }
+      },
+      {
+        "file": "monsters/49.png",
+        "analysis": {
+          "width": 56,
+          "height": 56,
+          "mode": "P",
+          "size_bytes": 624
+        }
+      },
+      {
+        "file": "monsters/75.png",
+        "analysis": {
+          "width": 48,
+          "height": 48,
+          "mode": "P",
+          "size_bytes": 552
+        }
+      },
+      {
+        "file": "monsters/61.png",
+        "analysis": {
+          "width": 48,
+          "height": 48,
+          "mode": "P",
+          "size_bytes": 541
+        }
+      },
+      {
+        "file": "monsters/148.png",
+        "analysis": {
+          "width": 48,
+          "height": 48,
+          "mode": "P",
+          "size_bytes": 507
+        }
+      },
+      {
+        "file": "monsters/59.png",
+        "analysis": {
+          "width": 56,
+          "height": 56,
+          "mode": "P",
+          "size_bytes": 711
+        }
+      },
+      {
+        "file": "monsters/65.png",
+        "analysis": {
+          "width": 56,
+          "height": 56,
+          "mode": "P",
+          "size_bytes": 675
+        }
+      },
+      {
+        "file": "monsters/71.png",
+        "analysis": {
+          "width": 56,
+          "height": 56,
+          "mode": "P",
+          "size_bytes": 602
+        }
+      },
+      {
+        "file": "monsters/70.png",
+        "analysis": {
+          "width": 48,
+          "height": 48,
+          "mode": "P",
+          "size_bytes": 449
+        }
+      },
+      {
+        "file": "monsters/64.png",
+        "analysis": {
+          "width": 48,
+          "height": 48,
+          "mode": "P",
+          "size_bytes": 616
+        }
+      },
+      {
+        "file": "monsters/58.png",
+        "analysis": {
+          "width": 40,
+          "height": 40,
+          "mode": "P",
+          "size_bytes": 451
+        }
+      },
+      {
+        "file": "monsters/99.png",
+        "analysis": {
+          "width": 56,
+          "height": 56,
+          "mode": "P",
+          "size_bytes": 597
+        }
+      },
+      {
+        "file": "monsters/8.png",
+        "analysis": {
+          "width": 48,
+          "height": 48,
+          "mode": "P",
+          "size_bytes": 523
+        }
+      },
+      {
+        "file": "monsters/72.png",
+        "analysis": {
+          "width": 40,
+          "height": 40,
+          "mode": "P",
+          "size_bytes": 385
+        }
+      },
+      {
+        "file": "monsters/66.png",
+        "analysis": {
+          "width": 40,
+          "height": 40,
+          "mode": "P",
+          "size_bytes": 439
+        }
+      },
+      {
+        "file": "monsters/67.png",
+        "analysis": {
+          "width": 56,
+          "height": 56,
+          "mode": "P",
+          "size_bytes": 630
+        }
+      },
+      {
+        "file": "monsters/73.png",
+        "analysis": {
+          "width": 48,
+          "height": 48,
+          "mode": "P",
+          "size_bytes": 568
+        }
+      },
+      {
+        "file": "monsters/9.png",
+        "analysis": {
+          "width": 56,
+          "height": 56,
+          "mode": "P",
+          "size_bytes": 708
+        }
+      },
+      {
+        "file": "monsters/98.png",
+        "analysis": {
+          "width": 40,
+          "height": 40,
+          "mode": "P",
+          "size_bytes": 452
+        }
+      },
+      {
+        "file": "monsters/129.png",
+        "analysis": {
+          "width": 48,
+          "height": 48,
+          "mode": "P",
+          "size_bytes": 520
+        }
+      },
+      {
+        "file": "monsters/115.png",
+        "analysis": {
+          "width": 56,
+          "height": 56,
+          "mode": "P",
+          "size_bytes": 692
+        }
+      },
+      {
+        "file": "monsters/101.png",
+        "analysis": {
+          "width": 40,
+          "height": 40,
+          "mode": "P",
+          "size_bytes": 368
+        }
+      },
+      {
+        "file": "monsters/14.png",
+        "analysis": {
+          "width": 40,
+          "height": 40,
+          "mode": "P",
+          "size_bytes": 337
+        }
+      },
+      {
+        "file": "monsters/28.png",
+        "analysis": {
+          "width": 48,
+          "height": 48,
+          "mode": "P",
+          "size_bytes": 585
+        }
+      },
+      {
+        "file": "monsters/29.png",
+        "analysis": {
+          "width": 40,
+          "height": 40,
+          "mode": "P",
+          "size_bytes": 395
+        }
+      },
+      {
+        "file": "monsters/15.png",
+        "analysis": {
+          "width": 56,
+          "height": 56,
+          "mode": "P",
+          "size_bytes": 661
+        }
+      },
+      {
+        "file": "monsters/100.png",
+        "analysis": {
+          "width": 40,
+          "height": 40,
+          "mode": "P",
+          "size_bytes": 264
+        }
+      },
+      {
+        "file": "monsters/114.png",
+        "analysis": {
+          "width": 48,
+          "height": 48,
+          "mode": "P",
+          "size_bytes": 481
+        }
+      },
+      {
+        "file": "monsters/128.png",
+        "analysis": {
+          "width": 56,
+          "height": 56,
+          "mode": "P",
+          "size_bytes": 659
+        }
+      },
+      {
+        "file": "monsters/102.png",
+        "analysis": {
+          "width": 56,
+          "height": 56,
+          "mode": "P",
+          "size_bytes": 632
+        }
+      },
+      {
+        "file": "monsters/116.png",
+        "analysis": {
+          "width": 40,
+          "height": 40,
+          "mode": "P",
+          "size_bytes": 331
+        }
+      },
+      {
+        "file": "monsters/17.png",
+        "analysis": {
+          "width": 48,
+          "height": 48,
+          "mode": "P",
+          "size_bytes": 509
+        }
+      },
+      {
+        "file": "monsters/16.png",
+        "analysis": {
+          "width": 40,
+          "height": 40,
+          "mode": "P",
+          "size_bytes": 414
+        }
+      },
+      {
+        "file": "monsters/117.png",
+        "analysis": {
+          "width": 48,
+          "height": 48,
+          "mode": "P",
+          "size_bytes": 484
+        }
+      },
+      {
+        "file": "monsters/103.png",
+        "analysis": {
+          "width": 56,
+          "height": 56,
+          "mode": "P",
+          "size_bytes": 620
+        }
+      },
+      {
+        "file": "monsters/107.png",
+        "analysis": {
+          "width": 48,
+          "height": 48,
+          "mode": "P",
+          "size_bytes": 451
+        }
+      },
+      {
+        "file": "monsters/113.png",
+        "analysis": {
+          "width": 48,
+          "height": 48,
+          "mode": "P",
+          "size_bytes": 529
+        }
+      },
+      {
+        "file": "monsters/12.png",
+        "analysis": {
+          "width": 56,
+          "height": 56,
+          "mode": "P",
+          "size_bytes": 617
+        }
+      },
+      {
+        "file": "monsters/13.png",
+        "analysis": {
+          "width": 40,
+          "height": 40,
+          "mode": "P",
+          "size_bytes": 368
+        }
+      },
+      {
+        "file": "monsters/112.png",
+        "analysis": {
+          "width": 56,
+          "height": 56,
+          "mode": "P",
+          "size_bytes": 748
+        }
+      },
+      {
+        "file": "monsters/106.png",
+        "analysis": {
+          "width": 56,
+          "height": 56,
+          "mode": "P",
+          "size_bytes": 602
+        }
+      },
+      {
+        "file": "monsters/110.png",
+        "analysis": {
+          "width": 56,
+          "height": 56,
+          "mode": "P",
+          "size_bytes": 535
+        }
+      },
+      {
+        "file": "monsters/104.png",
+        "analysis": {
+          "width": 40,
+          "height": 40,
+          "mode": "P",
+          "size_bytes": 431
+        }
+      },
+      {
+        "file": "monsters/138.png",
+        "analysis": {
+          "width": 40,
+          "height": 40,
+          "mode": "P",
+          "size_bytes": 395
+        }
+      },
+      {
+        "file": "monsters/39.png",
+        "analysis": {
+          "width": 40,
+          "height": 40,
+          "mode": "P",
+          "size_bytes": 399
+        }
+      },
+      {
+        "file": "monsters/11.png",
+        "analysis": {
+          "width": 40,
+          "height": 40,
+          "mode": "P",
+          "size_bytes": 311
+        }
+      },
+      {
+        "file": "monsters/10.png",
+        "analysis": {
+          "width": 40,
+          "height": 40,
+          "mode": "P",
+          "size_bytes": 286
+        }
+      },
+      {
+        "file": "monsters/38.png",
+        "analysis": {
+          "width": 56,
+          "height": 56,
+          "mode": "P",
+          "size_bytes": 711
+        }
+      },
+      {
+        "file": "monsters/139.png",
+        "analysis": {
+          "width": 48,
+          "height": 48,
+          "mode": "P",
+          "size_bytes": 550
+        }
+      },
+      {
+        "file": "monsters/105.png",
+        "analysis": {
+          "width": 48,
+          "height": 48,
+          "mode": "P",
+          "size_bytes": 496
+        }
+      },
+      {
+        "file": "monsters/111.png",
+        "analysis": {
+          "width": 56,
+          "height": 56,
+          "mode": "P",
+          "size_bytes": 663
+        }
+      },
+      {
+        "file": "monsters/108.png",
+        "analysis": {
+          "width": 56,
+          "height": 56,
+          "mode": "P",
+          "size_bytes": 582
+        }
+      },
+      {
+        "file": "monsters/134.png",
+        "analysis": {
+          "width": 48,
+          "height": 48,
+          "mode": "P",
+          "size_bytes": 566
+        }
+      },
+      {
+        "file": "monsters/120.png",
+        "analysis": {
+          "width": 48,
+          "height": 48,
+          "mode": "P",
+          "size_bytes": 445
+        }
+      },
+      {
+        "file": "monsters/35.png",
+        "analysis": {
+          "width": 40,
+          "height": 40,
+          "mode": "P",
+          "size_bytes": 399
+        }
+      },
+      {
+        "file": "monsters/21.png",
+        "analysis": {
+          "width": 40,
+          "height": 40,
+          "mode": "P",
+          "size_bytes": 389
+        }
+      },
+      {
+        "file": "monsters/20.png",
+        "analysis": {
+          "width": 48,
+          "height": 48,
+          "mode": "P",
+          "size_bytes": 554
+        }
+      },
+      {
+        "file": "monsters/34.png",
+        "analysis": {
+          "width": 56,
+          "height": 56,
+          "mode": "P",
+          "size_bytes": 789
+        }
+      },
+      {
+        "file": "monsters/121.png",
+        "analysis": {
+          "width": 48,
+          "height": 48,
+          "mode": "P",
+          "size_bytes": 557
+        }
+      },
+      {
+        "file": "monsters/135.png",
+        "analysis": {
+          "width": 48,
+          "height": 48,
+          "mode": "P",
+          "size_bytes": 532
+        }
+      },
+      {
+        "file": "monsters/109.png",
+        "analysis": {
+          "width": 48,
+          "height": 48,
+          "mode": "P",
+          "size_bytes": 359
+        }
+      },
+      {
+        "file": "monsters/123.png",
+        "analysis": {
+          "width": 56,
+          "height": 56,
+          "mode": "P",
+          "size_bytes": 626
+        }
+      },
+      {
+        "file": "monsters/137.png",
+        "analysis": {
+          "width": 48,
+          "height": 48,
+          "mode": "P",
+          "size_bytes": 442
+        }
+      },
+      {
+        "file": "monsters/22.png",
+        "analysis": {
+          "width": 56,
+          "height": 56,
+          "mode": "P",
+          "size_bytes": 564
+        }
+      },
+      {
+        "file": "monsters/36.png",
+        "analysis": {
+          "width": 48,
+          "height": 48,
+          "mode": "P",
+          "size_bytes": 504
+        }
+      },
+      {
+        "file": "monsters/37.png",
+        "analysis": {
+          "width": 48,
+          "height": 48,
+          "mode": "P",
+          "size_bytes": 551
+        }
+      },
+      {
+        "file": "monsters/23.png",
+        "analysis": {
+          "width": 40,
+          "height": 40,
+          "mode": "P",
+          "size_bytes": 412
+        }
+      },
+      {
+        "file": "monsters/136.png",
+        "analysis": {
+          "width": 48,
+          "height": 48,
+          "mode": "P",
+          "size_bytes": 523
+        }
+      },
+      {
+        "file": "monsters/122.png",
+        "analysis": {
+          "width": 48,
+          "height": 48,
+          "mode": "P",
+          "size_bytes": 555
+        }
+      },
+      {
+        "file": "monsters/126.png",
+        "analysis": {
+          "width": 48,
+          "height": 48,
+          "mode": "P",
+          "size_bytes": 588
+        }
+      },
+      {
+        "file": "monsters/132.png",
+        "analysis": {
+          "width": 40,
+          "height": 40,
+          "mode": "P",
+          "size_bytes": 308
+        }
+      },
+      {
+        "file": "monsters/27.png",
+        "analysis": {
+          "width": 40,
+          "height": 40,
+          "mode": "P",
+          "size_bytes": 426
+        }
+      },
+      {
+        "file": "monsters/33.png",
+        "analysis": {
+          "width": 48,
+          "height": 48,
+          "mode": "P",
+          "size_bytes": 562
+        }
+      },
+      {
+        "file": "monsters/32.png",
+        "analysis": {
+          "width": 40,
+          "height": 40,
+          "mode": "P",
+          "size_bytes": 419
+        }
+      },
+      {
+        "file": "monsters/26.png",
+        "analysis": {
+          "width": 56,
+          "height": 56,
+          "mode": "P",
+          "size_bytes": 590
+        }
+      },
+      {
+        "file": "monsters/133.png",
+        "analysis": {
+          "width": 40,
+          "height": 40,
+          "mode": "P",
+          "size_bytes": 451
+        }
+      },
+      {
+        "file": "monsters/127.png",
+        "analysis": {
+          "width": 56,
+          "height": 56,
+          "mode": "P",
+          "size_bytes": 599
+        }
+      },
+      {
+        "file": "monsters/131.png",
+        "analysis": {
+          "width": 56,
+          "height": 56,
+          "mode": "P",
+          "size_bytes": 551
+        }
+      },
+      {
+        "file": "monsters/125.png",
+        "analysis": {
+          "width": 48,
+          "height": 48,
+          "mode": "P",
+          "size_bytes": 593
+        }
+      },
+      {
+        "file": "monsters/119.png",
+        "analysis": {
+          "width": 56,
+          "height": 56,
+          "mode": "P",
+          "size_bytes": 689
+        }
+      },
+      {
+        "file": "monsters/18.png",
+        "analysis": {
+          "width": 56,
+          "height": 56,
+          "mode": "P",
+          "size_bytes": 618
+        }
+      },
+      {
+        "file": "monsters/30.png",
+        "analysis": {
+          "width": 48,
+          "height": 48,
+          "mode": "P",
+          "size_bytes": 537
+        }
+      },
+      {
+        "file": "monsters/24.png",
+        "analysis": {
+          "width": 56,
+          "height": 56,
+          "mode": "P",
+          "size_bytes": 663
+        }
+      },
+      {
+        "file": "monsters/25.png",
+        "analysis": {
+          "width": 40,
+          "height": 40,
+          "mode": "P",
+          "size_bytes": 387
+        }
+      },
+      {
+        "file": "monsters/31.png",
+        "analysis": {
+          "width": 56,
+          "height": 56,
+          "mode": "P",
+          "size_bytes": 665
+        }
+      },
+      {
+        "file": "monsters/19.png",
+        "analysis": {
+          "width": 40,
+          "height": 40,
+          "mode": "P",
+          "size_bytes": 390
+        }
+      },
+      {
+        "file": "monsters/118.png",
+        "analysis": {
+          "width": 48,
+          "height": 48,
+          "mode": "P",
+          "size_bytes": 481
+        }
+      },
+      {
+        "file": "monsters/124.png",
+        "analysis": {
+          "width": 48,
+          "height": 48,
+          "mode": "P",
+          "size_bytes": 475
+        }
+      },
+      {
+        "file": "monsters/130.png",
+        "analysis": {
+          "width": 56,
+          "height": 56,
+          "mode": "P",
+          "size_bytes": 713
+        }
+      },
+      {
+        "file": "monsters/95.png",
+        "analysis": {
+          "width": 56,
+          "height": 56,
+          "mode": "P",
+          "size_bytes": 647
+        }
+      },
+      {
+        "file": "monsters/81.png",
+        "analysis": {
+          "width": 40,
+          "height": 40,
+          "mode": "P",
+          "size_bytes": 268
+        }
+      },
+      {
+        "file": "monsters/143.png",
+        "analysis": {
+          "width": 56,
+          "height": 56,
+          "mode": "P",
+          "size_bytes": 567
+        }
+      },
+      {
+        "file": "monsters/4.png",
+        "analysis": {
+          "width": 40,
+          "height": 40,
+          "mode": "P",
+          "size_bytes": 413
+        }
+      },
+      {
+        "file": "monsters/56.png",
+        "analysis": {
+          "width": 40,
+          "height": 40,
+          "mode": "P",
+          "size_bytes": 453
+        }
+      },
+      {
+        "file": "monsters/42.png",
+        "analysis": {
+          "width": 56,
+          "height": 56,
+          "mode": "P",
+          "size_bytes": 583
+        }
+      },
+      {
+        "file": "monsters/43.png",
+        "analysis": {
+          "width": 40,
+          "height": 40,
+          "mode": "P",
+          "size_bytes": 323
+        }
+      },
+      {
+        "file": "monsters/5.png",
+        "analysis": {
+          "width": 48,
+          "height": 48,
+          "mode": "P",
+          "size_bytes": 523
+        }
+      },
+      {
+        "file": "monsters/57.png",
+        "analysis": {
+          "width": 56,
+          "height": 56,
+          "mode": "P",
+          "size_bytes": 625
+        }
+      },
+      {
+        "file": "monsters/142.png",
+        "analysis": {
+          "width": 56,
+          "height": 56,
+          "mode": "P",
+          "size_bytes": 667
+        }
+      },
+      {
+        "file": "monsters/80.png",
+        "analysis": {
+          "width": 56,
+          "height": 56,
+          "mode": "P",
+          "size_bytes": 607
+        }
+      },
+      {
+        "file": "monsters/94.png",
+        "analysis": {
+          "width": 48,
+          "height": 48,
+          "mode": "P",
+          "size_bytes": 449
+        }
+      },
+      {
+        "file": "monsters/82.png",
+        "analysis": {
+          "width": 48,
+          "height": 48,
+          "mode": "P",
+          "size_bytes": 518
+        }
+      },
+      {
+        "file": "monsters/96.png",
+        "analysis": {
+          "width": 48,
+          "height": 48,
+          "mode": "P",
+          "size_bytes": 553
+        }
+      },
+      {
+        "file": "monsters/140.png",
+        "analysis": {
+          "width": 40,
+          "height": 40,
+          "mode": "P",
+          "size_bytes": 366
+        }
+      },
+      {
+        "file": "monsters/41.png",
+        "analysis": {
+          "width": 40,
+          "height": 40,
+          "mode": "P",
+          "size_bytes": 375
+        }
+      },
+      {
+        "file": "monsters/55.png",
+        "analysis": {
+          "width": 56,
+          "height": 56,
+          "mode": "P",
+          "size_bytes": 612
+        }
+      },
+      {
+        "file": "monsters/7.png",
+        "analysis": {
+          "width": 40,
+          "height": 40,
+          "mode": "P",
+          "size_bytes": 367
+        }
+      },
+      {
+        "file": "monsters/69.png",
+        "analysis": {
+          "width": 40,
+          "height": 40,
+          "mode": "P",
+          "size_bytes": 395
+        }
+      },
+      {
+        "file": "monsters/68.png",
+        "analysis": {
+          "width": 56,
+          "height": 56,
+          "mode": "P",
+          "size_bytes": 798
+        }
+      },
+      {
+        "file": "monsters/54.png",
+        "analysis": {
+          "width": 40,
+          "height": 40,
+          "mode": "P",
+          "size_bytes": 441
+        }
+      },
+      {
+        "file": "monsters/6.png",
+        "analysis": {
+          "width": 56,
+          "height": 56,
+          "mode": "P",
+          "size_bytes": 662
+        }
+      },
+      {
+        "file": "monsters/40.png",
+        "analysis": {
+          "width": 48,
+          "height": 48,
+          "mode": "P",
+          "size_bytes": 486
+        }
+      },
+      {
+        "file": "monsters/141.png",
+        "analysis": {
+          "width": 48,
+          "height": 48,
+          "mode": "P",
+          "size_bytes": 580
+        }
+      },
+      {
+        "file": "monsters/97.png",
+        "analysis": {
+          "width": 56,
+          "height": 56,
+          "mode": "P",
+          "size_bytes": 641
+        }
+      },
+      {
+        "file": "monsters/83.png",
+        "analysis": {
+          "width": 48,
+          "height": 48,
+          "mode": "P",
+          "size_bytes": 552
+        }
+      },
+      {
+        "file": "monsters/145.png",
+        "analysis": {
+          "width": 56,
+          "height": 56,
+          "mode": "P",
+          "size_bytes": 688
+        }
+      },
+      {
+        "file": "monsters/151.png",
+        "analysis": {
+          "width": 40,
+          "height": 40,
+          "mode": "P",
+          "size_bytes": 374
+        }
+      },
+      {
+        "file": "monsters/87.png",
+        "analysis": {
+          "width": 56,
+          "height": 56,
+          "mode": "P",
+          "size_bytes": 629
+        }
+      },
+      {
+        "file": "monsters/93.png",
+        "analysis": {
+          "width": 48,
+          "height": 48,
+          "mode": "P",
+          "size_bytes": 490
+        }
+      },
+      {
+        "file": "monsters/78.png",
+        "analysis": {
+          "width": 56,
+          "height": 56,
+          "mode": "P",
+          "size_bytes": 717
+        }
+      },
+      {
+        "file": "monsters/44.png",
+        "analysis": {
+          "width": 48,
+          "height": 48,
+          "mode": "P",
+          "size_bytes": 489
+        }
+      },
+      {
+        "file": "monsters/2.png",
+        "analysis": {
+          "width": 48,
+          "height": 48,
+          "mode": "P",
+          "size_bytes": 439
+        }
+      },
+      {
+        "file": "monsters/50.png",
+        "analysis": {
+          "width": 40,
+          "height": 40,
+          "mode": "P",
+          "size_bytes": 289
+        }
+      },
+      {
+        "file": "monsters/3.png",
+        "analysis": {
+          "width": 56,
+          "height": 56,
+          "mode": "P",
+          "size_bytes": 639
+        }
+      },
+      {
+        "file": "monsters/51.png",
+        "analysis": {
+          "width": 56,
+          "height": 56,
+          "mode": "P",
+          "size_bytes": 496
+        }
+      },
+      {
+        "file": "monsters/45.png",
+        "analysis": {
+          "width": 56,
+          "height": 56,
+          "mode": "P",
+          "size_bytes": 477
+        }
+      },
+      {
+        "file": "monsters/79.png",
+        "analysis": {
+          "width": 40,
+          "height": 40,
+          "mode": "P",
+          "size_bytes": 367
+        }
+      },
+      {
+        "file": "monsters/92.png",
+        "analysis": {
+          "width": 56,
+          "height": 56,
+          "mode": "P",
+          "size_bytes": 512
+        }
+      },
+      {
+        "file": "monsters/86.png",
+        "analysis": {
+          "width": 48,
+          "height": 48,
+          "mode": "P",
+          "size_bytes": 485
+        }
+      },
+      {
+        "file": "monsters/150.png",
+        "analysis": {
+          "width": 56,
+          "height": 56,
+          "mode": "P",
+          "size_bytes": 615
+        }
+      },
+      {
+        "file": "monsters/144.png",
+        "analysis": {
+          "width": 56,
+          "height": 56,
+          "mode": "P",
+          "size_bytes": 752
+        }
+      },
+      {
+        "file": "monsters/146.png",
+        "analysis": {
+          "width": 56,
+          "height": 56,
+          "mode": "P",
+          "size_bytes": 658
+        }
+      },
+      {
+        "file": "monsters/90.png",
+        "analysis": {
+          "width": 40,
+          "height": 40,
+          "mode": "P",
+          "size_bytes": 415
+        }
+      },
+      {
+        "file": "monsters/84.png",
+        "analysis": {
+          "width": 40,
+          "height": 40,
+          "mode": "P",
+          "size_bytes": 397
+        }
+      },
+      {
+        "file": "monsters/53.png",
+        "analysis": {
+          "width": 56,
+          "height": 56,
+          "mode": "P",
+          "size_bytes": 594
+        }
+      },
+      {
+        "file": "monsters/1.png",
+        "analysis": {
+          "width": 40,
+          "height": 40,
+          "mode": "P",
+          "size_bytes": 333
+        }
+      },
+      {
+        "file": "monsters/47.png",
+        "analysis": {
+          "width": 56,
+          "height": 56,
+          "mode": "P",
+          "size_bytes": 568
+        }
+      },
+      {
+        "file": "monsters/46.png",
+        "analysis": {
+          "width": 40,
+          "height": 40,
+          "mode": "P",
+          "size_bytes": 413
+        }
+      },
+      {
+        "file": "monsters/52.png",
+        "analysis": {
+          "width": 40,
+          "height": 40,
+          "mode": "P",
+          "size_bytes": 459
+        }
+      },
+      {
+        "file": "monsters/85.png",
+        "analysis": {
+          "width": 56,
+          "height": 56,
+          "mode": "P",
+          "size_bytes": 621
+        }
+      },
+      {
+        "file": "monsters/91.png",
+        "analysis": {
+          "width": 56,
+          "height": 56,
+          "mode": "P",
+          "size_bytes": 679
+        }
+      },
+      {
+        "file": "monsters/147.png",
+        "analysis": {
+          "width": 40,
+          "height": 40,
+          "mode": "P",
+          "size_bytes": 384
+        }
+      }
+    ]
+  },
+  "size_distribution": {
+    "64×64": 165,
+    "128×80": 1,
+    "64×48": 1,
+    "904×256": 1,
+    "128×128": 10,
+    "256×128": 2,
+    "128×256": 7,
+    "448×384": 1,
+    "512×512": 1,
+    "256×320": 1,
+    "128×64": 2,
+    "128×192": 1,
+    "8×32": 1,
+    "40×40": 48,
+    "48×48": 46,
+    "56×56": 57
+  }
+}
