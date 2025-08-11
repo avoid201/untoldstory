@@ -1,0 +1,121 @@
+{
+  "id": "penny",
+  "name": "Penny Markt",
+  "size": {
+    "w": 10,
+    "h": 9,
+    "tile": 64
+  },
+  "layers": {
+    "ground": [
+      [4,4,4,4,4,4,4,4,4,4],
+      [4,4,4,4,4,4,4,4,4,4],
+      [4,4,4,4,4,4,4,4,4,4],
+      [4,4,4,4,4,4,4,4,4,4],
+      [4,4,4,4,4,4,4,4,4,4],
+      [4,4,4,4,4,4,4,4,4,4],
+      [4,4,4,4,4,4,4,4,4,4],
+      [4,4,4,4,4,4,4,4,4,4],
+      [4,4,4,4,4,4,4,4,4,4]
+    ],
+    "decor": [
+      [5,5,5,5,0,0,5,5,5,5],
+      [5,0,0,0,0,0,0,0,0,5],
+      [5,0,0,0,0,0,0,0,0,5],
+      [5,0,0,0,0,0,0,0,0,5],
+      [5,5,5,5,0,0,5,5,5,5],
+      [0,0,0,0,0,0,0,0,0,0],
+      [0,0,0,0,0,0,0,0,0,0],
+      [0,0,0,0,0,0,0,0,0,0],
+      [0,0,0,0,0,0,0,0,0,0]
+    ],
+    "collision": [
+      [1,1,1,1,1,1,1,1,1,1],
+      [1,1,1,1,0,0,1,1,1,1],
+      [1,0,0,0,0,0,0,0,0,1],
+      [1,0,0,0,0,0,0,0,0,1],
+      [1,1,1,1,0,0,1,1,1,1],
+      [1,0,0,0,0,0,0,0,0,1],
+      [1,0,0,0,0,0,0,0,0,1],
+      [1,0,0,0,0,0,0,0,0,1],
+      [1,1,1,1,0,0,1,1,1,1]
+    ]
+  },
+  "warps": [
+    {
+      "x": 4,
+      "y": 8,
+      "to": "kohlenstadt",
+      "tx": 5,
+      "ty": 16,
+      "direction": "down"
+    },
+    {
+      "x": 5,
+      "y": 8,
+      "to": "kohlenstadt",
+      "tx": 5,
+      "ty": 16,
+      "direction": "down"
+    }
+  ],
+  "triggers": [
+    {
+      "x": 4,
+      "y": 1,
+      "event": "shop",
+      "args": {
+        "items": ["potion", "super_potion", "antidote", "paralyze_heal", "awakening", "burn_heal"],
+        "greeting": "Willkommen bei Penny! Wat brauchste denn?",
+        "speaker": "Verkäufer Mehmet"
+      }
+    },
+    {
+      "x": 1,
+      "y": 2,
+      "event": "sign",
+      "args": {
+        "text": "Sonderangebot: 10 Pokébälle für nur 1000!"
+      }
+    },
+    {
+      "x": 8,
+      "y": 2,
+      "event": "sign",
+      "args": {
+        "text": "Trainer-Tipp: Verschiedene Bälle funktionieren besser bei verschiedenen Monstern!"
+      }
+    }
+  ],
+  "npcs": [
+    {
+      "id": "shopkeeper",
+      "name": "Verkäufer Mehmet",
+      "x": 4,
+      "y": 1,
+      "sprite": "clerk",
+      "movement": "standing",
+      "dialogue": {
+        "default": "Brauchste noch wat? Wir haben alles für Trainer!"
+      }
+    },
+    {
+      "id": "customer",
+      "name": "Kunde",
+      "x": 6,
+      "y": 6,
+      "sprite": "woman",
+      "movement": "wander",
+      "dialogue": {
+        "default": "Die Preise hier sin' echt fair. Besser als bei Aldi!"
+      }
+    }
+  ],
+  "properties": {
+    "music": "shop.ogg",
+    "encounters": null,
+    "spawns": {
+      "default": {"x": 4, "y": 7, "direction": "up"}
+    }
+  }
+}

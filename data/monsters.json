@@ -1,0 +1,1803 @@
+[
+  {
+    "id": 1,
+    "name": "Glutstummel",
+    "era": "present",
+    "rank": "F",
+    "types": ["Feuer"],
+    "base_stats": {
+      "hp": 40,
+      "atk": 54,
+      "def": 38,
+      "mag": 24,
+      "res": 20,
+      "spd": 44
+    },
+    "growth": {
+      "curve": "fast",
+      "yield": 48
+    },
+    "capture_rate": 249,
+    "traits": ["Entflammbar"],
+    "learnset": [
+      {"level": 1, "move": "Kratzer"},
+      {"level": 5, "move": "Funken"},
+      {"level": 10, "move": "Feuerball"}
+    ],
+    "evolution": null,
+    "description": "Ein kleiner, flackernder Feuerball mit Beinchen. Glutstummel hüpft durch die Gegend und hinterlässt überall kleine Brandflecken. Die Ruhrpottler haben sich längst dran gewöhnt - dat Vieh is halt 'n bisschen heißblütig, aber harmlos."
+  },
+  {
+    "id": 2,
+    "name": "Böllerling",
+    "era": "present",
+    "rank": "F",
+    "types": ["Feuer"],
+    "base_stats": {
+      "hp": 42,
+      "atk": 37,
+      "def": 49,
+      "mag": 30,
+      "res": 21,
+      "spd": 46
+    },
+    "growth": {
+      "curve": "fast",
+      "yield": 49
+    },
+    "capture_rate": 204,
+    "traits": ["Hitzkopf"],
+    "learnset": [
+      {"level": 1, "move": "Rempler"},
+      {"level": 4, "move": "Funken"},
+      {"level": 9, "move": "Flammenwurf"}
+    ],
+    "evolution": null,
+    "description": "Ein rundlicher Feuerball mit 'nem Temperament wie 'ne Dampflok. Böllerling explodiert bei jeder Kleinigkeit und schießt Funken in alle Richtungen. Trotz seiner defensiven Natur is er immer bereit für 'ne Rauferei."
+  },
+  {
+    "id": 3,
+    "name": "Urmolch",
+    "era": "past",
+    "rank": "F",
+    "types": ["Wasser"],
+    "base_stats": {
+      "hp": 26,
+      "atk": 32,
+      "def": 31,
+      "mag": 39,
+      "res": 43,
+      "spd": 50
+    },
+    "growth": {
+      "curve": "fast",
+      "yield": 54
+    },
+    "capture_rate": 180,
+    "traits": ["Glitschig"],
+    "learnset": [
+      {"level": 1, "move": "Rempler"},
+      {"level": 5, "move": "Blubber"},
+      {"level": 10, "move": "Wasserstrahl"}
+    ],
+    "evolution": null,
+    "description": "Ein prähistorischer Molch mit schuppiger Haut und großen Kiemen. Urmolch schwimmt elegant durch das Wasser und kann sogar an Land überleben. Seine magischen Fähigkeiten haben ihn in der Urzeit zu einem gefürchteten Raubtier gemacht."
+  },
+  {
+    "id": 4,
+    "name": "Bierlementar",
+    "era": "present",
+    "rank": "F",
+    "types": ["Wasser"],
+    "base_stats": {
+      "hp": 51,
+      "atk": 23,
+      "def": 40,
+      "mag": 34,
+      "res": 37,
+      "spd": 27
+    },
+    "growth": {
+      "curve": "fast",
+      "yield": 52
+    },
+    "capture_rate": 201,
+    "traits": ["Besoffen"],
+    "learnset": [
+      {"level": 1, "move": "Rempler"},
+      {"level": 5, "move": "Blubber"},
+      {"level": 7, "move": "Giftwolke"}
+    ],
+    "evolution": null,
+    "description": "Ein lebendiges Bierwesen, das aus dem Schaum der besten Ruhrpott-Brauereien entstanden is. Bierlementar torkelt durch die Kneipen und hinterlässt überall Pfützen aus Bier. Die Wirtinnen lieben ihn, weil er immer für Stimmung sorgt."
+  },
+  {
+    "id": 5,
+    "name": "Kohlekumpel",
+    "era": "present",
+    "rank": "F",
+    "types": ["Erde"],
+    "base_stats": {
+      "hp": 44,
+      "atk": 33,
+      "def": 47,
+      "mag": 21,
+      "res": 45,
+      "spd": 29
+    },
+    "growth": {
+      "curve": "fast",
+      "yield": 48
+    },
+    "capture_rate": 212,
+    "traits": ["Stur"],
+    "learnset": [
+      {"level": 1, "move": "Rempler"},
+      {"level": 4, "move": "Lehmschuss"},
+      {"level": 8, "move": "Steinwurf"}
+    ],
+    "evolution": null,
+    "description": "Ein kleiner Erdgeist, der aussieht wie 'n Klumpen Kohle mit Beinchen. Kohlekumpel buddelt sich durch den Boden und sammelt überall Steine und Mineralien. Die Bergleute haben ihn adoptiert - er is halt 'n bisschen stur, aber zuverlässig."
+  },
+  {
+    "id": 6,
+    "name": "Kieselkrabbler",
+    "era": "past",
+    "rank": "F",
+    "types": ["Erde"],
+    "base_stats": {
+      "hp": 30,
+      "atk": 26,
+      "def": 50,
+      "mag": 22,
+      "res": 40,
+      "spd": 29
+    },
+    "growth": {
+      "curve": "fast",
+      "yield": 53
+    },
+    "capture_rate": 158,
+    "traits": ["Robust"],
+    "learnset": [
+      {"level": 1, "move": "Rempler"},
+      {"level": 5, "move": "Härtner"},
+      {"level": 9, "move": "Steinwurf"}
+    ],
+    "evolution": null,
+    "description": "Ein prähistorischer Krebs mit einem Panzer aus purem Granit. Kieselkrabbler krabbelt langsam aber sicher durch die Gegend und kann jeden Angriff abprallen lassen. In der Urzeit war er der Tank der Dinosaurier-Herde."
+  },
+  {
+    "id": 7,
+    "name": "Flugratte",
+    "era": "present",
+    "rank": "F",
+    "types": ["Luft"],
+    "base_stats": {
+      "hp": 31,
+      "atk": 27,
+      "def": 20,
+      "mag": 40,
+      "res": 38,
+      "spd": 52
+    },
+    "growth": {
+      "curve": "fast",
+      "yield": 53
+    },
+    "capture_rate": 199,
+    "traits": ["Flatterhaft"],
+    "learnset": [
+      {"level": 1, "move": "Kratzer"},
+      {"level": 5, "move": "Windstoß"},
+      {"level": 9, "move": "Wirbelwind"}
+    ],
+    "evolution": null,
+    "description": "Eine Ratte mit kleinen Flügeln, die durch die Lüfte schwebt. Flugratte ist unberechenbar und wechselt ständig die Richtung. Die Ruhrpottler haben sich dran gewöhnt - sie is halt 'n bisschen nervös, aber harmlos."
+  },
+  {
+    "id": 8,
+    "name": "Wolkenfurz",
+    "era": "present",
+    "rank": "F",
+    "types": ["Luft"],
+    "base_stats": {
+      "hp": 34,
+      "atk": 22,
+      "def": 35,
+      "mag": 36,
+      "res": 25,
+      "spd": 53
+    },
+    "growth": {
+      "curve": "fast",
+      "yield": 46
+    },
+    "capture_rate": 227,
+    "traits": ["Flatterhaft"],
+    "learnset": [
+      {"level": 1, "move": "Giftwolke"},
+      {"level": 3, "move": "Windstoß"},
+      {"level": 7, "move": "Wirbelwind"}
+    ],
+    "evolution": null,
+    "description": "Ein klitzekleine Wolke, die nach ordentlich Gammel stinkt. Schwebt durch die Gegend und verteilt üblen Geruch – dat zieht dir die Schuh aus, ehrlich."
+  },
+  {
+    "id": 9,
+    "name": "Unkrautling",
+    "era": "present",
+    "rank": "F",
+    "types": ["Pflanze"],
+    "base_stats": {
+      "hp": 33,
+      "atk": 27,
+      "def": 41,
+      "mag": 28,
+      "res": 37,
+      "spd": 37
+    },
+    "growth": {
+      "curve": "fast",
+      "yield": 47
+    },
+    "capture_rate": 207,
+    "traits": ["Wuchernd"],
+    "learnset": [
+      {"level": 1, "move": "Kratzer"},
+      {"level": 5, "move": "Rankenhieb"},
+      {"level": 9, "move": "Blattsturm"}
+    ],
+    "evolution": null,
+    "description": "Ein kleines Unkraut-Monster, das überall wuchert wo es nicht hingehört. Unkrautling klettert an Wänden hoch und verstopft Regenrinnen. Die Gärtner fluchen über ihn, aber er is halt unverwüstlich."
+  },
+  {
+    "id": 10,
+    "name": "Pommespanzer",
+    "era": "present",
+    "rank": "F",
+    "types": ["Pflanze"],
+    "base_stats": {
+      "hp": 35,
+      "atk": 40,
+      "def": 60,
+      "mag": 35,
+      "res": 45,
+      "spd": 20
+    },
+    "growth": {
+      "curve": "fast",
+      "yield": 52
+    },
+    "capture_rate": 255,
+    "traits": ["Knusprig"],
+    "learnset": [
+      {"level": 1, "move": "Rempler"},
+      {"level": 3, "move": "Härtner"},
+      {"level": 7, "move": "Rankenhieb"}
+    ],
+    "evolution": null,
+    "description": "Ein Monster dat aussieht wie 'ne wandelnde Pommes-Schale. Findste oft anne Pommesbude oder inne Nähe von Dönerbuden."
+  },
+  {
+    "id": 11,
+    "name": "Imbissköter",
+    "era": "present",
+    "rank": "F",
+    "types": ["Bestie"],
+    "base_stats": {
+      "hp": 38,
+      "atk": 41,
+      "def": 21,
+      "mag": 21,
+      "res": 28,
+      "spd": 51
+    },
+    "growth": {
+      "curve": "fast",
+      "yield": 49
+    },
+    "capture_rate": 223,
+    "traits": ["Gefräßig"],
+    "learnset": [
+      {"level": 1, "move": "Biss"},
+      {"level": 4, "move": "Heulen"},
+      {"level": 8, "move": "Kratzer"}
+    ],
+    "evolution": null,
+    "description": "Ein struppiger Hund, der bei jeder Pommesbude bettelt. Klaut schon mal 'ne Currywurst vom Grill, wenn de nich aufpasst."
+  },
+  {
+    "id": 12,
+    "name": "Stubentiger",
+    "era": "present",
+    "rank": "F",
+    "types": ["Bestie"],
+    "base_stats": {
+      "hp": 31,
+      "atk": 45,
+      "def": 24,
+      "mag": 22,
+      "res": 40,
+      "spd": 38
+    },
+    "growth": {
+      "curve": "fast",
+      "yield": 50
+    },
+    "capture_rate": 220,
+    "traits": ["Eigensinnig"],
+    "learnset": [
+      {"level": 1, "move": "Kratzer"},
+      {"level": 3, "move": "Kopfnuss"},
+      {"level": 7, "move": "Kratzfurie"}
+    ],
+    "evolution": null,
+    "description": "Sieht aus wie 'ne dicke Hauskatze, liegt faul auffe Couch rum. Aber pass auf, dat Ding kratzt dir ruckzuck dat ganze Sofa kaputt, wenn et schlechte Laune hat."
+  },
+  {
+    "id": 13,
+    "name": "Kabelkriecher",
+    "era": "present",
+    "rank": "F",
+    "types": ["Energie"],
+    "base_stats": {
+      "hp": 26,
+      "atk": 35,
+      "def": 22,
+      "mag": 46,
+      "res": 32,
+      "spd": 40
+    },
+    "growth": {
+      "curve": "fast",
+      "yield": 50
+    },
+    "capture_rate": 210,
+    "traits": ["Unter Strom"],
+    "learnset": [
+      {"level": 1, "move": "Rempler"},
+      {"level": 4, "move": "Funkenschlag"},
+      {"level": 8, "move": "Magnetfeld"}
+    ],
+    "evolution": null,
+    "description": "Dit kleine Mistvieh wohnt in Stromleitungen und verursacht ständig Kurzschlüsse. Kommt aus jeder Steckdose gekrochen und legt die ganze Bude lahm, ehrlich."
+  },
+  {
+    "id": 14,
+    "name": "Wattwurm",
+    "era": "present",
+    "rank": "F",
+    "types": ["Energie"],
+    "base_stats": {
+      "hp": 37,
+      "atk": 21,
+      "def": 35,
+      "mag": 38,
+      "res": 24,
+      "spd": 50
+    },
+    "growth": {
+      "curve": "fast",
+      "yield": 51
+    },
+    "capture_rate": 217,
+    "traits": ["Unter Strom"],
+    "learnset": [
+      {"level": 1, "move": "Rempler"},
+      {"level": 3, "move": "Funken"},
+      {"level": 7, "move": "Donnerblitz"}
+    ],
+    "evolution": null,
+    "description": "Ein elektrischer Wurm, der sich durch Stromleitungen schlängelt. Wattwurm saugt Energie aus Steckdosen und hinterlässt überall kleine Stromschläge. Die Elektriker haben ihn adoptiert - er is halt 'n bisschen aufgeladen, aber nützlich."
+  },
+  {
+    "id": 15,
+    "name": "Wabbelpudding",
+    "era": "present",
+    "rank": "F",
+    "types": ["Chaos"],
+    "base_stats": {
+      "hp": 49,
+      "atk": 30,
+      "def": 20,
+      "mag": 28,
+      "res": 25,
+      "spd": 51
+    },
+    "growth": {
+      "curve": "fast",
+      "yield": 49
+    },
+    "capture_rate": 232,
+    "traits": ["Unberechenbar"],
+    "learnset": [
+      {"level": 1, "move": "Rempler"},
+      {"level": 5, "move": "Verwirrung"},
+      {"level": 9, "move": "Chaosblitz"}
+    ],
+    "evolution": null,
+    "description": "Ein wabbeliger Pudding, der sich in alle Richtungen verformt. Wabbelpudding springt chaotisch durch die Gegend und hinterlässt überall klebrige Flecken. Die Ruhrpottler haben sich dran gewöhnt - er is halt 'n bisschen unberechenbar, aber harmlos."
+  },
+  {
+    "id": 16,
+    "name": "Rabatzgnom",
+    "era": "present",
+    "rank": "F",
+    "types": ["Chaos"],
+    "base_stats": {
+      "hp": 35,
+      "atk": 33,
+      "def": 20,
+      "mag": 27,
+      "res": 36,
+      "spd": 53
+    },
+    "growth": {
+      "curve": "fast",
+      "yield": 55
+    },
+    "capture_rate": 206,
+    "traits": ["Durchgeknallt"],
+    "learnset": [
+      {"level": 1, "move": "Kratzer"},
+      {"level": 4, "move": "Heulen"},
+      {"level": 8, "move": "Wahnsinn"}
+    ],
+    "evolution": null,
+    "description": "Ein kleiner, verrückter Gnom, der ständig Radau macht. Rabatzgnom läuft durch die Gegend und verursacht Chaos wo er nur kann. Die Ruhrpottler haben ihn adoptiert - er is halt 'n bisschen durchgeknallt, aber unterhaltsam."
+  },
+  {
+    "id": 17,
+    "name": "Kakerlak",
+    "era": "present",
+    "rank": "F",
+    "types": ["Seuche"],
+    "base_stats": {
+      "hp": 41,
+      "atk": 39,
+      "def": 27,
+      "mag": 22,
+      "res": 22,
+      "spd": 47
+    },
+    "growth": {
+      "curve": "fast",
+      "yield": 53
+    },
+    "capture_rate": 225,
+    "traits": ["Unkaputtbar"],
+    "learnset": [
+      {"level": 1, "move": "Kratzer"},
+      {"level": 5, "move": "Giftstachel"},
+      {"level": 9, "move": "Härtner"}
+    ],
+    "evolution": null,
+    "description": "Ein überdimensionaler Kakerlak. Dat Ding überlebt alles – selbst 'nen Atombombe künnt ihn nich kleinkriegen. Läuft seelenruhig durch jede Küche und frisst den Bodenbelag weg."
+  },
+  {
+    "id": 18,
+    "name": "Bazillenschleuder",
+    "era": "present",
+    "rank": "F",
+    "types": ["Seuche"],
+    "base_stats": {
+      "hp": 50,
+      "atk": 21,
+      "def": 25,
+      "mag": 32,
+      "res": 30,
+      "spd": 53
+    },
+    "growth": {
+      "curve": "fast",
+      "yield": 55
+    },
+    "capture_rate": 214,
+    "traits": ["Ansteckend"],
+    "learnset": [
+      {"level": 1, "move": "Giftwolke"},
+      {"level": 4, "move": "Heulen"},
+      {"level": 7, "move": "Pesthauch"}
+    ],
+    "evolution": null,
+    "description": "Läuft rum und verteilt Rotz und Keime überall. Wenn dat Vieh niest, nimm besser Reißaus – sonst liegste morgen mit Fieber flach, ne."
+  },
+  {
+    "id": 19,
+    "name": "Kellergeist",
+    "era": "present",
+    "rank": "F",
+    "types": ["Mystik"],
+    "base_stats": {
+      "hp": 27,
+      "atk": 38,
+      "def": 22,
+      "mag": 53,
+      "res": 35,
+      "spd": 25
+    },
+    "growth": {
+      "curve": "fast",
+      "yield": 51
+    },
+    "capture_rate": 208,
+    "traits": ["Unheimlich"],
+    "learnset": [
+      {"level": 1, "move": "Spukball"},
+      {"level": 4, "move": "Hypnose"},
+      {"level": 8, "move": "Fluch"}
+    ],
+    "evolution": null,
+    "description": "Ein kleiner, unheimlicher Geist, der in Kellern und dunklen Ecken haust. Kellergeist spukt durch alte Häuser und erschreckt die Bewohner mit seinen mystischen Kräften. Die Ruhrpottler haben sich dran gewöhnt - er is halt 'n bisschen gruselig, aber harmlos."
+  },
+  {
+    "id": 20,
+    "name": "Spukball",
+    "era": "past",
+    "rank": "F",
+    "types": ["Mystik"],
+    "base_stats": {
+      "hp": 29,
+      "atk": 21,
+      "def": 26,
+      "mag": 51,
+      "res": 47,
+      "spd": 26
+    },
+    "growth": {
+      "curve": "fast",
+      "yield": 50
+    },
+    "capture_rate": 177,
+    "traits": ["Geisterhaft"],
+    "learnset": [
+      {"level": 1, "move": "Spukball"},
+      {"level": 3, "move": "Verwirrung"},
+      {"level": 7, "move": "Schattenhieb"}
+    ],
+    "evolution": null,
+    "description": "Ein prähistorischer Geist, der als schwebender Ball aus mystischer Energie erscheint. Spukball fliegt durch die Luft und verbreitet Angst und Schrecken. In der Urzeit war er der Bote der alten Götter."
+  },
+  {
+    "id": 21,
+    "name": "Flammimp",
+    "era": "present",
+    "rank": "E",
+    "types": ["Feuer"],
+    "base_stats": {
+      "hp": 48,
+      "atk": 58,
+      "def": 30,
+      "mag": 26,
+      "res": 22,
+      "spd": 31
+    },
+    "growth": {
+      "curve": "medium",
+      "yield": 80
+    },
+    "capture_rate": 167,
+    "traits": ["Hitzkopf"],
+    "learnset": [
+      {"level": 1, "move": "Rempler"},
+      {"level": 5, "move": "Funken"},
+      {"level": 10, "move": "Feuerball"},
+      {"level": 15, "move": "Flammenwurf"}
+    ],
+    "evolution": null,
+    "description": "Ein kleiner Feuergeist mit spitzen Ohren und glühenden Augen. Flammimp tanzt durch die Gegend und hinterlässt überall kleine Feuerstellen. Die Ruhrpottler haben ihn adoptiert - er is halt 'n bisschen heißblütig, aber nützlich für's Grillen."
+  },
+  {
+    "id": 22,
+    "name": "Feuermolch",
+    "era": "present",
+    "rank": "E",
+    "types": ["Feuer"],
+    "base_stats": {
+      "hp": 42,
+      "atk": 50,
+      "def": 34,
+      "mag": 29,
+      "res": 28,
+      "spd": 36
+    },
+    "growth": {
+      "curve": "medium",
+      "yield": 78
+    },
+    "capture_rate": 160,
+    "traits": ["Hitzkopf"],
+    "learnset": [
+      {"level": 1, "move": "Kratzer"},
+      {"level": 4, "move": "Härtner"},
+      {"level": 8, "move": "Feuerball"},
+      {"level": 12, "move": "Hitzewelle"}
+    ],
+    "evolution": null,
+    "description": "Ein Molch, dessen Haut permanent brennt und glüht. Feuermolch schwimmt durch heiße Quellen und hinterlässt überall kleine Brandflecken. Die Ruhrpottler haben ihn adoptiert - er is halt 'n bisschen heiß, aber nützlich für's Heizen."
+  },
+  {
+    "id": 23,
+    "name": "Kloakrake",
+    "era": "present",
+    "rank": "E",
+    "types": ["Wasser"],
+    "base_stats": {
+      "hp": 49,
+      "atk": 39,
+      "def": 32,
+      "mag": 40,
+      "res": 24,
+      "spd": 25
+    },
+    "growth": {
+      "curve": "medium",
+      "yield": 70
+    },
+    "capture_rate": 153,
+    "traits": ["Glitschig"],
+    "learnset": [
+      {"level": 1, "move": "Rempler"},
+      {"level": 5, "move": "Blubber"},
+      {"level": 10, "move": "Wasserstrahl"},
+      {"level": 15, "move": "Giftwolke"}
+    ],
+    "evolution": null,
+    "description": "Dat Monster gehört hier zum Alltag. Dat schwimmt in unsren Kanälen rum, als wär et ganz normal. Die Leute im Revier gucken schon gar nich mehr hin, wenn dat Vieh vorbeikommt."
+  },
+  {
+    "id": 24,
+    "name": "Sumpfschrecke",
+    "era": "past",
+    "rank": "E",
+    "types": ["Wasser"],
+    "base_stats": {
+      "hp": 45,
+      "atk": 28,
+      "def": 50,
+      "mag": 25,
+      "res": 33,
+      "spd": 30
+    },
+    "growth": {
+      "curve": "medium",
+      "yield": 82
+    },
+    "capture_rate": 146,
+    "traits": ["Glitschig"],
+    "learnset": [
+      {"level": 1, "move": "Rempler"},
+      {"level": 5, "move": "Giftstachel"},
+      {"level": 10, "move": "Blubber"},
+      {"level": 15, "move": "Wellenritt"}
+    ],
+    "evolution": null,
+    "description": "Dat urzeitliche Vieh galt lange als ausgestorben. Es kam wohl damals schon aus'm Ozean gekrochen und hat die Urzeit unsicher gemacht. Jetzt is dat wieder da und treibt hier sein Unwesen."
+  },
+  {
+    "id": 25,
+    "name": "Felsfresser",
+    "era": "present",
+    "rank": "E",
+    "types": ["Erde"],
+    "base_stats": {
+      "hp": 56,
+      "atk": 32,
+      "def": 47,
+      "mag": 27,
+      "res": 34,
+      "spd": 20
+    },
+    "growth": {
+      "curve": "medium",
+      "yield": 77
+    },
+    "capture_rate": 151,
+    "traits": ["Stur"],
+    "learnset": [
+      {"level": 1, "move": "Rempler"},
+      {"level": 4, "move": "Lehmschuss"},
+      {"level": 8, "move": "Steinwurf"},
+      {"level": 12, "move": "Erdbeben"}
+    ],
+    "evolution": null,
+    "description": "Felsfresser hockt irgendwo im Dreck un kloppt sich durch den Tag. Die Ruhrpottler sagen: 'Dat Vieh is wie 'n Bergmann im Urlaub - buddelt sich durch alles durch!' Findste oft inne Nähe von Baustellen oder wo mal 'n Haus abgerissen wurde."
+  },
+  {
+    "id": 26,
+    "name": "Kraterkröte",
+    "era": "past",
+    "rank": "E",
+    "types": ["Erde"],
+    "base_stats": {
+      "hp": 52,
+      "atk": 27,
+      "def": 51,
+      "mag": 29,
+      "res": 28,
+      "spd": 19
+    },
+    "growth": {
+      "curve": "medium",
+      "yield": 85
+    },
+    "capture_rate": 141,
+    "traits": ["Robust"],
+    "learnset": [
+      {"level": 1, "move": "Rempler"},
+      {"level": 5, "move": "Härtner"},
+      {"level": 10, "move": "Steinwurf"},
+      {"level": 15, "move": "Erdbeben"}
+    ],
+    "evolution": null,
+    "description": "Dat urzeitliche Vieh galt lange als ausgestorben. Schon zu Dino-Zeiten war dat ein echter Brocken von 'nem Vieh. Jetzt is dat wieder da und treibt hier sein Unwesen."
+  },
+  {
+    "id": 27,
+    "name": "Sturmkrähe",
+    "era": "present",
+    "rank": "E",
+    "types": ["Luft"],
+    "base_stats": {
+      "hp": 36,
+      "atk": 45,
+      "def": 27,
+      "mag": 29,
+      "res": 25,
+      "spd": 49
+    },
+    "growth": {
+      "curve": "medium",
+      "yield": 75
+    },
+    "capture_rate": 150,
+    "traits": ["Flatterhaft"],
+    "learnset": [
+      {"level": 1, "move": "Biss"},
+      {"level": 5, "move": "Windstoß"},
+      {"level": 10, "move": "Wirbelwind"},
+      {"level": 15, "move": "Orkan"}
+    ],
+    "evolution": null,
+    "description": "Dat Monster gehört hier zum Alltag. Flattert überall in der Gegend rum, aber kein Mensch guckt mehr hin. Die Leute im Revier gucken schon gar nich mehr hin, wenn dat Vieh vorbeikommt."
+  },
+  {
+    "id": 28,
+    "name": "Segelfalter",
+    "era": "future",
+    "rank": "E",
+    "types": ["Luft"],
+    "base_stats": {
+      "hp": 33,
+      "atk": 21,
+      "def": 23,
+      "mag": 44,
+      "res": 27,
+      "spd": 51
+    },
+    "growth": {
+      "curve": "medium",
+      "yield": 79
+    },
+    "capture_rate": 138,
+    "traits": ["Verstrahlt"],
+    "learnset": [
+      {"level": 1, "move": "Giftwolke"},
+      {"level": 5, "move": "Windstoß"},
+      {"level": 10, "move": "Wirbelwind"},
+      {"level": 15, "move": "Orkan"}
+    ],
+    "evolution": null,
+    "description": "Dit Vieh stammt aus 'ner kaputten Zukunft. Et ist durch 'nen Zeitriss in unsere Welt geplumst und keiner blickt so richtig, wat dat überhaupt is. Die Luft in seiner Zukunft muss total im Eimer sein, dat Biest is richtig zäh gegen Gestank und Staub. Man weiß kaum wat über dat Wesen, außer dass et verdammt zäh is."
+  },
+  {
+    "id": 29,
+    "name": "Schnappblume",
+    "era": "present",
+    "rank": "E",
+    "types": ["Pflanze"],
+    "base_stats": {
+      "hp": 50,
+      "atk": 26,
+      "def": 49,
+      "mag": 25,
+      "res": 39,
+      "spd": 21
+    },
+    "growth": {
+      "curve": "medium",
+      "yield": 74
+    },
+    "capture_rate": 156,
+    "traits": ["Dornig"],
+    "learnset": [
+      {"level": 1, "move": "Rempler"},
+      {"level": 5, "move": "Rankenhieb"},
+      {"level": 10, "move": "Samenbombe"},
+      {"level": 15, "move": "Blattsturm"}
+    ],
+    "evolution": null,
+    "description": "Schnappblume wächst und wuchert in jedem zweiten Garten, aber keinen kratzt dat. Die Ruhrpottler sagen: 'Dat Vieh is wie Unkraut, nur dat et beißt und sich wehrt!' Findste oft inne Nähe von verwilderten Gärten oder wo keiner mehr mäht."
+  },
+  {
+    "id": 30,
+    "name": "Urfarn",
+    "era": "past",
+    "rank": "E",
+    "types": ["Pflanze"],
+    "base_stats": {
+      "hp": 53,
+      "atk": 30,
+      "def": 53,
+      "mag": 21,
+      "res": 31,
+      "spd": 22
+    },
+    "growth": {
+      "curve": "medium",
+      "yield": 84
+    },
+    "capture_rate": 143,
+    "traits": ["Wuchernd"],
+    "learnset": [
+      {"level": 1, "move": "Rempler"},
+      {"level": 5, "move": "Härtner"},
+      {"level": 10, "move": "Rankenhieb"},
+      {"level": 15, "move": "Blattsturm"}
+    ],
+    "evolution": null,
+    "description": "Dat urzeitliche Vieh galt lange als ausgestorben. Dat Ding is quasi 'ne lebendige Fossilie von 'ner Pflanze aus der Urzeit. Jetzt is dat wieder da und treibt hier sein Unwesen."
+  },
+  {
+    "id": 31,
+    "name": "Straßenkeiler",
+    "era": "present",
+    "rank": "E",
+    "types": ["Bestie"],
+    "base_stats": {
+      "hp": 52,
+      "atk": 49,
+      "def": 27,
+      "mag": 20,
+      "res": 25,
+      "spd": 29
+    },
+    "growth": {
+      "curve": "medium",
+      "yield": 77
+    },
+    "capture_rate": 147,
+    "traits": ["Wild"],
+    "learnset": [
+      {"level": 1, "move": "Rempler"},
+      {"level": 5, "move": "Kopfnuss"},
+      {"level": 10, "move": "Stampfer"},
+      {"level": 15, "move": "Brüllen"}
+    ],
+    "evolution": null,
+    "description": "Dat Monster gehört hier zum Alltag. Läuft frei rum zwischen all den Leuten, als wenn's 'n Haustier wär. Die Leute im Revier gucken schon gar nich mehr hin, wenn dat Vieh vorbeikommt."
+  },
+  {
+    "id": 32,
+    "name": "Säbelzahnkaninchen",
+    "era": "past",
+    "rank": "E",
+    "types": ["Bestie"],
+    "base_stats": {
+      "hp": 48,
+      "atk": 54,
+      "def": 23,
+      "mag": 22,
+      "res": 26,
+      "spd": 36
+    },
+    "growth": {
+      "curve": "medium",
+      "yield": 85
+    },
+    "capture_rate": 139,
+    "traits": ["Wild"],
+    "learnset": [
+      {"level": 1, "move": "Biss"},
+      {"level": 5, "move": "Kratzer"},
+      {"level": 10, "move": "Krallenhieb"},
+      {"level": 15, "move": "Raserei"}
+    ],
+    "evolution": null,
+    "description": "Dat urzeitliche Vieh galt lange als ausgestorben. Schon damals war dat eine richtig wilde Bestie, sag ich dir. Jetzt is dat wieder da und treibt hier sein Unwesen."
+  },
+  {
+    "id": 33,
+    "name": "Batteriefresser",
+    "era": "present",
+    "rank": "E",
+    "types": ["Energie"],
+    "base_stats": {
+      "hp": 30,
+      "atk": 37,
+      "def": 24,
+      "mag": 54,
+      "res": 28,
+      "spd": 31
+    },
+    "growth": {
+      "curve": "medium",
+      "yield": 72
+    },
+    "capture_rate": 157,
+    "traits": ["Aufgeladen"],
+    "learnset": [
+      {"level": 1, "move": "Rempler"},
+      {"level": 5, "move": "Funkenschlag"},
+      {"level": 10, "move": "Donnerblitz"},
+      {"level": 15, "move": "Magnetfeld"}
+    ],
+    "evolution": null,
+    "description": "Batteriefresser lädt sich an unsren Steckdosen auf und fällt kaum noch auf. Die Ruhrpottler sagen: 'Dat Vieh is wie 'ne Steckdose, nur dat et läuft und Funken spuckt!' Findste oft inne Nähe von Elektrogeräten oder wo's Strom gibt."
+  },
+  {
+    "id": 34,
+    "name": "Plasmakröte",
+    "era": "future",
+    "rank": "E",
+    "types": ["Energie"],
+    "base_stats": {
+      "hp": 28,
+      "atk": 21,
+      "def": 36,
+      "mag": 52,
+      "res": 26,
+      "spd": 33
+    },
+    "growth": {
+      "curve": "medium",
+      "yield": 80
+    },
+    "capture_rate": 131,
+    "traits": ["Verstrahlt"],
+    "learnset": [
+      {"level": 1, "move": "Giftwolke"},
+      {"level": 5, "move": "Funken"},
+      {"level": 10, "move": "Donnerblitz"},
+      {"level": 15, "move": "Magnetfeld"}
+    ],
+    "evolution": null,
+    "description": "Dit Vieh stammt aus 'ner kaputten Zukunft. Et ist durch 'nen Zeitriss in unsere Welt geplumst und keiner blickt so richtig, wat dat überhaupt is. Dit Teil ist radioaktiv aufgeladen und funkt wie 'n kaputtes Atomkraftwerk. Man weiß kaum wat über dat Wesen, außer dass et verdammt zäh is."
+  },
+  {
+    "id": 35,
+    "name": "Flimmergeist",
+    "era": "present",
+    "rank": "E",
+    "types": ["Chaos"],
+    "base_stats": {
+      "hp": 27,
+      "atk": 36,
+      "def": 29,
+      "mag": 40,
+      "res": 32,
+      "spd": 32
+    },
+    "growth": {
+      "curve": "medium",
+      "yield": 82
+    },
+    "capture_rate": 148,
+    "traits": ["Unberechenbar"],
+    "learnset": [
+      {"level": 1, "move": "Verwirrung"},
+      {"level": 5, "move": "Windstoß"},
+      {"level": 10, "move": "Wirbelwind"},
+      {"level": 15, "move": "Wahnsinn"}
+    ],
+    "evolution": null,
+    "description": "Flimmergeist macht zwar Radau, aber die Leute hier im Pott ham sich dran gewöhnt. Die Ruhrpottler sagen: 'Dat Vieh is wie 'ne kaputte Glühbirne, nur dat et spricht und verrückt is!' Findste oft inne Nähe von alten Häusern oder wo's spukt."
+  },
+  {
+    "id": 36,
+    "name": "Wirrwicht",
+    "era": "past",
+    "rank": "E",
+    "types": ["Chaos"],
+    "base_stats": {
+      "hp": 32,
+      "atk": 34,
+      "def": 27,
+      "mag": 36,
+      "res": 38,
+      "spd": 33
+    },
+    "growth": {
+      "curve": "medium",
+      "yield": 84
+    },
+    "capture_rate": 144,
+    "traits": ["Durchgeknallt"],
+    "learnset": [
+      {"level": 1, "move": "Rempler"},
+      {"level": 5, "move": "Verwirrung"},
+      {"level": 10, "move": "Chaosblitz"},
+      {"level": 15, "move": "Wahnsinn"}
+    ],
+    "evolution": null,
+    "description": "Dat urzeitliche Vieh galt lange als ausgestorben. Schon in der Urzeit hat dat Ding nur für Chaos gesorgt. Jetzt is dat wieder da und treibt hier sein Unwesen."
+  },
+  {
+    "id": 37,
+    "name": "Eiterbeule",
+    "era": "present",
+    "rank": "E",
+    "types": ["Seuche"],
+    "base_stats": {
+      "hp": 51,
+      "atk": 21,
+      "def": 34,
+      "mag": 31,
+      "res": 27,
+      "spd": 30
+    },
+    "growth": {
+      "curve": "medium",
+      "yield": 83
+    },
+    "capture_rate": 152,
+    "traits": ["Eitrig"],
+    "learnset": [
+      {"level": 1, "move": "Giftwolke"},
+      {"level": 5, "move": "Giftstachel"},
+      {"level": 10, "move": "Pesthauch"},
+      {"level": 15, "move": "Seuchenschwall"}
+    ],
+    "evolution": null,
+    "description": "Dat Monster gehört hier zum Alltag. Verteilt hier und da 'ne Rotznase, aber dat kratzt hier keine Sau mehr. Die Leute im Revier gucken schon gar nich mehr hin, wenn dat Vieh vorbeikommt."
+  },
+  {
+    "id": 38,
+    "name": "Rattenkönig",
+    "era": "present",
+    "rank": "E",
+    "types": ["Seuche"],
+    "base_stats": {
+      "hp": 48,
+      "atk": 38,
+      "def": 24,
+      "mag": 26,
+      "res": 28,
+      "spd": 33
+    },
+    "growth": {
+      "curve": "medium",
+      "yield": 81
+    },
+    "capture_rate": 150,
+    "traits": ["Ansteckend"],
+    "learnset": [
+      {"level": 1, "move": "Biss"},
+      {"level": 5, "move": "Giftwolke"},
+      {"level": 10, "move": "Pesthauch"},
+      {"level": 15, "move": "Seuchenschwall"}
+    ],
+    "evolution": null,
+    "description": "Dat Monster gehört hier zum Alltag. Verteilt hier und da 'ne Rotznase, aber dat kratzt hier keine Sau mehr. Die Leute im Revier gucken schon gar nich mehr hin, wenn dat Vieh vorbeikommt."
+  },
+  {
+    "id": 39,
+    "name": "Spiegelpuppe",
+    "era": "present",
+    "rank": "E",
+    "types": ["Mystik"],
+    "base_stats": {
+      "hp": 34,
+      "atk": 24,
+      "def": 27,
+      "mag": 47,
+      "res": 32,
+      "spd": 32
+    },
+    "growth": {
+      "curve": "medium",
+      "yield": 79
+    },
+    "capture_rate": 154,
+    "traits": ["Unheimlich"],
+    "learnset": [
+      {"level": 1, "move": "Spukball"},
+      {"level": 5, "move": "Hypnose"},
+      {"level": 10, "move": "Fluch"},
+      {"level": 15, "move": "Schattenhieb"}
+    ],
+    "evolution": null,
+    "description": "Dat Monster gehört hier zum Alltag. Spukt in alten Häusern rum, aber dat juckt hier keinen mehr groß. Die Leute im Revier gucken schon gar nich mehr hin, wenn dat Vieh vorbeikommt."
+  },
+  {
+    "id": 40,
+    "name": "Irrlicht",
+    "era": "past",
+    "rank": "E",
+    "types": ["Mystik"],
+    "base_stats": {
+      "hp": 28,
+      "atk": 23,
+      "def": 33,
+      "mag": 46,
+      "res": 31,
+      "spd": 31
+    },
+    "growth": {
+      "curve": "medium",
+      "yield": 80
+    },
+    "capture_rate": 142,
+    "traits": ["Geisterhaft"],
+    "learnset": [
+      {"level": 1, "move": "Spukball"},
+      {"level": 5, "move": "Verwirrung"},
+      {"level": 10, "move": "Fluch"},
+      {"level": 15, "move": "Hypnose"}
+    ],
+    "evolution": null,
+    "description": "Dat urzeitliche Vieh galt lange als ausgestorben. Kommt aus 'ner alten Legende, war schon damals 'n Spuk. Jetzt is dat wieder da und treibt hier sein Unwesen."
+  },
+  {
+    "id": 41,
+    "name": "Vulkanodon",
+    "era": "past",
+    "rank": "D",
+    "types": ["Feuer"],
+    "base_stats": {
+      "hp": 63,
+      "atk": 60,
+      "def": 38,
+      "mag": 35,
+      "res": 27,
+      "spd": 32
+    },
+    "growth": {
+      "curve": "medium",
+      "yield": 110
+    },
+    "capture_rate": 135,
+    "traits": ["Hitzkopf"],
+    "learnset": [
+      {"level": 1, "move": "Rempler"},
+      {"level": 5, "move": "Funken"},
+      {"level": 10, "move": "Feuerball"},
+      {"level": 15, "move": "Hitzewelle"},
+      {"level": 20, "move": "Flammenwurf"}
+    ],
+    "evolution": null,
+    "description": "Dat urzeitliche Vieh galt lange als ausgestorben. Mit Lava und Glut kennt dat sich seit der Steinzeit bestens aus. Jetzt is dat wieder da und treibt hier sein Unwesen."
+  },
+  {
+    "id": 42,
+    "name": "Flammenwerwolf",
+    "era": "present",
+    "rank": "D",
+    "types": ["Feuer"],
+    "base_stats": {
+      "hp": 55,
+      "atk": 53,
+      "def": 41,
+      "mag": 29,
+      "res": 30,
+      "spd": 36
+    },
+    "growth": {
+      "curve": "medium",
+      "yield": 118
+    },
+    "capture_rate": 129,
+    "traits": ["Hitzkopf"],
+    "learnset": [
+      {"level": 1, "move": "Biss"},
+      {"level": 5, "move": "Funken"},
+      {"level": 10, "move": "Feuerball"},
+      {"level": 15, "move": "Flammenwurf"},
+      {"level": 20, "move": "Hitzewelle"}
+    ],
+    "evolution": null,
+    "description": "Flammenwerwolf spielt gern mit Feuer, aber die Leute hier juckt dat nich mehr. Die Ruhrpottler sagen: 'Dat Vieh is wie 'n Werwolf, nur dat et brennt und heiß is!' Findste oft inne Nähe von Feuerstellen oder wo's warm is."
+  },
+  {
+    "id": 43,
+    "name": "Teichschreck",
+    "era": "present",
+    "rank": "D",
+    "types": ["Wasser"],
+    "base_stats": {
+      "hp": 58,
+      "atk": 32,
+      "def": 36,
+      "mag": 38,
+      "res": 30,
+      "spd": 34
+    },
+    "growth": {
+      "curve": "medium",
+      "yield": 100
+    },
+    "capture_rate": 134,
+    "traits": ["Glitschig"],
+    "learnset": [
+      {"level": 1, "move": "Rempler"},
+      {"level": 4, "move": "Blubber"},
+      {"level": 8, "move": "Wasserstrahl"},
+      {"level": 12, "move": "Windstoß"},
+      {"level": 20, "move": "Wellenritt"}
+    ],
+    "evolution": null,
+    "description": "Teichschreck schwimmt in unsren Kanälen rum, als wär et ganz normal. Die Ruhrpottler sagen: 'Dat Vieh is wie 'ne Ente, nur dat et größer is und mehr Angst macht!' Findste oft inne Nähe von Teichen oder wo's nass is."
+  },
+  {
+    "id": 44,
+    "name": "Urhai",
+    "era": "past",
+    "rank": "D",
+    "types": ["Wasser"],
+    "base_stats": {
+      "hp": 60,
+      "atk": 41,
+      "def": 31,
+      "mag": 27,
+      "res": 34,
+      "spd": 35
+    },
+    "growth": {
+      "curve": "medium",
+      "yield": 112
+    },
+    "capture_rate": 128,
+    "traits": ["Glitschig"],
+    "learnset": [
+      {"level": 1, "move": "Rempler"},
+      {"level": 5, "move": "Blubber"},
+      {"level": 10, "move": "Wasserstrahl"},
+      {"level": 15, "move": "Pesthauch"},
+      {"level": 20, "move": "Wellenritt"}
+    ],
+    "evolution": null,
+    "description": "Dat urzeitliche Vieh galt lange als ausgestorben. Es kam wohl damals schon aus'm Ozean gekrochen und hat die Urzeit unsicher gemacht. Jetzt is dat wieder da und treibt hier sein Unwesen."
+  },
+  {
+    "id": 45,
+    "name": "Betonbrocken",
+    "era": "present",
+    "rank": "D",
+    "types": ["Erde"],
+    "base_stats": {
+      "hp": 66,
+      "atk": 37,
+      "def": 55,
+      "mag": 23,
+      "res": 35,
+      "spd": 27
+    },
+    "growth": {
+      "curve": "medium",
+      "yield": 113
+    },
+    "capture_rate": 130,
+    "traits": ["Stur"],
+    "learnset": [
+      {"level": 1, "move": "Rempler"},
+      {"level": 5, "move": "Lehmschuss"},
+      {"level": 10, "move": "Steinwurf"},
+      {"level": 15, "move": "Erdbeben"},
+      {"level": 20, "move": "Panzerhaut"}
+    ],
+    "evolution": null,
+    "description": "Betonbrocken hockt irgendwo im Dreck un kloppt sich durch den Tag. Die Ruhrpottler sagen: 'Dat Vieh is wie 'ne Betonwand, nur dat et läuft und sich wehrt!' Findste oft inne Nähe von Baustellen oder wo mal 'n Haus abgerissen wurde."
+  },
+  {
+    "id": 46,
+    "name": "Urochs",
+    "era": "past",
+    "rank": "D",
+    "types": ["Erde"],
+    "base_stats": {
+      "hp": 70,
+      "atk": 35,
+      "def": 58,
+      "mag": 24,
+      "res": 29,
+      "spd": 23
+    },
+    "growth": {
+      "curve": "medium",
+      "yield": 118
+    },
+    "capture_rate": 124,
+    "traits": ["Robust"],
+    "learnset": [
+      {"level": 1, "move": "Rempler"},
+      {"level": 5, "move": "Härtner"},
+      {"level": 10, "move": "Steinwurf"},
+      {"level": 15, "move": "Erdbeben"},
+      {"level": 20, "move": "Panzerhaut"}
+    ],
+    "evolution": null,
+    "description": "Dat urzeitliche Vieh galt lange als ausgestorben. Schon zu Dino-Zeiten war dat ein echter Brocken von 'nem Vieh. Jetzt is dat wieder da und treibt hier sein Unwesen."
+  },
+  {
+    "id": 47,
+    "name": "Sturmfalke",
+    "era": "present",
+    "rank": "D",
+    "types": ["Luft"],
+    "base_stats": {
+      "hp": 40,
+      "atk": 58,
+      "def": 32,
+      "mag": 33,
+      "res": 27,
+      "spd": 50
+    },
+    "growth": {
+      "curve": "medium",
+      "yield": 114
+    },
+    "capture_rate": 131,
+    "traits": ["Flatterhaft"],
+    "learnset": [
+      {"level": 1, "move": "Kratzer"},
+      {"level": 5, "move": "Windstoß"},
+      {"level": 10, "move": "Wirbelwind"},
+      {"level": 15, "move": "Orkan"},
+      {"level": 20, "move": "Brüllen"}
+    ],
+    "evolution": null,
+    "description": "Sturmfalke flattert überall in der Gegend rum, aber kein Mensch guckt mehr hin. Die Ruhrpottler sagen: 'Dat Vieh is wie 'n Falke, nur dat et bei jedem Wetter fliegt und nie müde wird!' Findste oft inne Nähe von Hochhäusern oder wo's windig is."
+  },
+  {
+    "id": 48,
+    "name": "Schrottgeier",
+    "era": "future",
+    "rank": "D",
+    "types": ["Luft"],
+    "base_stats": {
+      "hp": 39,
+      "atk": 27,
+      "def": 37,
+      "mag": 29,
+      "res": 30,
+      "spd": 59
+    },
+    "growth": {
+      "curve": "medium",
+      "yield": 116
+    },
+    "capture_rate": 117,
+    "traits": ["Verstrahlt"],
+    "learnset": [
+      {"level": 1, "move": "Rempler"},
+      {"level": 5, "move": "Windstoß"},
+      {"level": 10, "move": "Wirbelwind"},
+      {"level": 15, "move": "Orkan"},
+      {"level": 20, "move": "Giftwolke"}
+    ],
+    "evolution": null,
+    "description": "Kommt aus 'ner düsteren Zukunft und pickt in 'nem Haufen Schrott nach brauchbarem Metall. Sieht aus wie 'nen Klappergeier auf Meth, dat Vieh."
+  },
+  {
+    "id": 49,
+    "name": "Schlingwurzel",
+    "era": "present",
+    "rank": "D",
+    "types": ["Pflanze"],
+    "base_stats": {
+      "hp": 64,
+      "atk": 33,
+      "def": 55,
+      "mag": 26,
+      "res": 35,
+      "spd": 24
+    },
+    "growth": {
+      "curve": "medium",
+      "yield": 109
+    },
+    "capture_rate": 126,
+    "traits": ["Dornig"],
+    "learnset": [
+      {"level": 1, "move": "Rempler"},
+      {"level": 4, "move": "Rankenhieb"},
+      {"level": 8, "move": "Samenbombe"},
+      {"level": 12, "move": "Blattsturm"},
+      {"level": 20, "move": "Giftstachel"}
+    ],
+    "evolution": null,
+    "description": "Schlingwurzel wächst und wuchert in jedem zweiten Garten, aber keinen kratzt dat. Die Ruhrpottler sagen: 'Dat Vieh is wie Efeu, nur dat et beißt und sich wehrt!' Findste oft inne Nähe von verwilderten Gärten oder wo keiner mehr mäht."
+  },
+  {
+    "id": 50,
+    "name": "Urzeitbaum",
+    "era": "past",
+    "rank": "D",
+    "types": ["Pflanze"],
+    "base_stats": {
+      "hp": 68,
+      "atk": 31,
+      "def": 57,
+      "mag": 23,
+      "res": 34,
+      "spd": 25
+    },
+    "growth": {
+      "curve": "medium",
+      "yield": 117
+    },
+    "capture_rate": 121,
+    "traits": ["Wuchernd"],
+    "learnset": [
+      {"level": 1, "move": "Rempler"},
+      {"level": 5, "move": "Härtner"},
+      {"level": 10, "move": "Rankenhieb"},
+      {"level": 15, "move": "Samenbombe"},
+      {"level": 20, "move": "Blattsturm"}
+    ],
+    "evolution": null,
+    "description": "Dat urzeitliche Vieh galt lange als ausgestorben. Dat Ding is quasi 'ne lebendige Fossilie von 'ner Pflanze aus der Urzeit. Jetzt is dat wieder da und treibt hier sein Unwesen."
+  },
+  {
+    "id": 51,
+    "name": "Kanal-Kroko",
+    "era": "present",
+    "rank": "D",
+    "types": ["Bestie"],
+    "base_stats": {
+      "hp": 57,
+      "atk": 60,
+      "def": 29,
+      "mag": 24,
+      "res": 27,
+      "spd": 31
+    },
+    "growth": {
+      "curve": "medium",
+      "yield": 111
+    },
+    "capture_rate": 123,
+    "traits": ["Wild"],
+    "learnset": [
+      {"level": 1, "move": "Rempler"},
+      {"level": 5, "move": "Biss"},
+      {"level": 10, "move": "Stampfer"},
+      {"level": 15, "move": "Brüllen"},
+      {"level": 20, "move": "Giftwolke"}
+    ],
+    "evolution": null,
+    "description": "Kanal-Kroko läuft frei rum zwischen all den Leuten, als wenn's 'n Haustier wär. Die Ruhrpottler sagen: 'Dat Vieh is wie 'n Krokodil, nur dat et in Kanälen lebt und stinkt!' Findste oft inne Nähe von Abwasserkanälen oder wo's nass is."
+  },
+  {
+    "id": 52,
+    "name": "Urwolf",
+    "era": "past",
+    "rank": "D",
+    "types": ["Bestie"],
+    "base_stats": {
+      "hp": 53,
+      "atk": 64,
+      "def": 26,
+      "mag": 20,
+      "res": 21,
+      "spd": 33
+    },
+    "growth": {
+      "curve": "medium",
+      "yield": 119
+    },
+    "capture_rate": 119,
+    "traits": ["Wild"],
+    "learnset": [
+      {"level": 1, "move": "Biss"},
+      {"level": 5, "move": "Heulen"},
+      {"level": 10, "move": "Stampfer"},
+      {"level": 15, "move": "Krallenhieb"},
+      {"level": 20, "move": "Raserei"}
+    ],
+    "evolution": null,
+    "description": "Dat urzeitliche Vieh galt lange als ausgestorben. Schon damals war dat eine richtig wilde Bestie, sag ich dir. Jetzt is dat wieder da und treibt hier sein Unwesen."
+  },
+  {
+    "id": 53,
+    "name": "Stromschlange",
+    "era": "present",
+    "rank": "D",
+    "types": ["Energie"],
+    "base_stats": {
+      "hp": 35,
+      "atk": 42,
+      "def": 28,
+      "mag": 62,
+      "res": 23,
+      "spd": 30
+    },
+    "growth": {
+      "curve": "medium",
+      "yield": 110
+    },
+    "capture_rate": 128,
+    "traits": ["Aufgeladen"],
+    "learnset": [
+      {"level": 1, "move": "Rempler"},
+      {"level": 5, "move": "Funkenschlag"},
+      {"level": 10, "move": "Donnerblitz"},
+      {"level": 15, "move": "Magnetfeld"},
+      {"level": 20, "move": "Wahnsinn"}
+    ],
+    "evolution": null,
+    "description": "Stromschlange lädt sich an unsren Steckdosen auf und fällt kaum noch auf. Die Ruhrpottler sagen: 'Dat Vieh is wie 'ne Schlange, nur dat et Strom hat und Funken spuckt!' Findste oft inne Nähe von Elektrogeräten oder wo's Strom gibt."
+  },
+  {
+    "id": 54,
+    "name": "Laserauge",
+    "era": "future",
+    "rank": "D",
+    "types": ["Energie"],
+    "base_stats": {
+      "hp": 32,
+      "atk": 27,
+      "def": 29,
+      "mag": 61,
+      "res": 37,
+      "spd": 34
+    },
+    "growth": {
+      "curve": "medium",
+      "yield": 115
+    },
+    "capture_rate": 113,
+    "traits": ["Mechanisch"],
+    "learnset": [
+      {"level": 1, "move": "Rempler"},
+      {"level": 5, "move": "Funkenschlag"},
+      {"level": 10, "move": "Donnerblitz"},
+      {"level": 15, "move": "Lichtstrahl"},
+      {"level": 20, "move": "Magnetfeld"}
+    ],
+    "evolution": null,
+    "description": "Dit Vieh stammt aus 'ner kaputten Zukunft. Et ist durch 'nen Zeitriss in unsere Welt geplumst und keiner blickt so richtig, wat dat überhaupt is. Dit Teil ist radioaktiv aufgeladen und funkt wie 'n kaputtes Atomkraftwerk. Man weiß kaum wat über dat Wesen, außer dass et verdammt zäh is."
+  },
+  {
+    "id": 55,
+    "name": "Psychohuhn",
+    "era": "present",
+    "rank": "D",
+    "types": ["Chaos"],
+    "base_stats": {
+      "hp": 46,
+      "atk": 41,
+      "def": 31,
+      "mag": 32,
+      "res": 28,
+      "spd": 49
+    },
+    "growth": {
+      "curve": "medium",
+      "yield": 107
+    },
+    "capture_rate": 139,
+    "traits": ["Durchgeknallt"],
+    "learnset": [
+      {"level": 1, "move": "Rempler"},
+      {"level": 5, "move": "Verwirrung"},
+      {"level": 10, "move": "Wahnsinn"},
+      {"level": 15, "move": "Krallenhieb"},
+      {"level": 20, "move": "Stampfer"}
+    ],
+    "evolution": null,
+    "description": "Dat Monster gehört hier zum Alltag. Macht zwar Radau, aber die Leute hier im Pott ham sich dran gewöhnt. Die Leute im Revier gucken schon gar nich mehr hin, wenn dat Vieh vorbeikommt."
+  },
+  {
+    "id": 56,
+    "name": "Kuddelmuddel",
+    "era": "present",
+    "rank": "D",
+    "types": ["Chaos"],
+    "base_stats": {
+      "hp": 50,
+      "atk": 40,
+      "def": 29,
+      "mag": 35,
+      "res": 30,
+      "spd": 41
+    },
+    "growth": {
+      "curve": "medium",
+      "yield": 115
+    },
+    "capture_rate": 131,
+    "traits": ["Durchgeknallt"],
+    "learnset": [
+      {"level": 1, "move": "Rempler"},
+      {"level": 5, "move": "Verwirrung"},
+      {"level": 10, "move": "Chaosblitz"},
+      {"level": 15, "move": "Wahnsinn"},
+      {"level": 20, "move": "Brüllen"}
+    ],
+    "evolution": null,
+    "description": "Dat Monster gehört hier zum Alltag. Macht zwar Radau, aber die Leute hier im Pott ham sich dran gewöhnt. Die Leute im Revier gucken schon gar nich mehr hin, wenn dat Vieh vorbeikommt."
+  },
+  {
+    "id": 57,
+    "name": "Madenhaufen",
+    "era": "present",
+    "rank": "D",
+    "types": ["Seuche"],
+    "base_stats": {
+      "hp": 69,
+      "atk": 22,
+      "def": 28,
+      "mag": 30,
+      "res": 32,
+      "spd": 41
+    },
+    "growth": {
+      "curve": "medium",
+      "yield": 109
+    },
+    "capture_rate": 136,
+    "traits": ["Eitrig"],
+    "learnset": [
+      {"level": 1, "move": "Giftwolke"},
+      {"level": 5, "move": "Giftstachel"},
+      {"level": 10, "move": "Pesthauch"},
+      {"level": 15, "move": "Seuchenschwall"},
+      {"level": 20, "move": "Auf die Fresse"}
+    ],
+    "evolution": null,
+    "description": "Dat Monster gehört hier zum Alltag. Verteilt hier und da 'ne Rotznase, aber dat kratzt hier keine Sau mehr. Die Leute im Revier gucken schon gar nich mehr hin, wenn dat Vieh vorbeikommt."
+  },
+  {
+    "id": 58,
+    "name": "Seuchengeist",
+    "era": "past",
+    "rank": "D",
+    "types": ["Seuche"],
+    "base_stats": {
+      "hp": 61,
+      "atk": 26,
+      "def": 34,
+      "mag": 28,
+      "res": 35,
+      "spd": 39
+    },
+    "growth": {
+      "curve": "medium",
+      "yield": 118
+    },
+    "capture_rate": 120,
+    "traits": ["Ansteckend"],
+    "learnset": [
+      {"level": 1, "move": "Giftwolke"},
+      {"level": 5, "move": "Pesthauch"},
+      {"level": 10, "move": "Seuchenschwall"},
+      {"level": 15, "move": "Fluch"},
+      {"level": 20, "move": "Hypnose"}
+    ],
+    "evolution": null,
+    "description": "Dat urzeitliche Vieh galt lange als ausgestorben. Hat wohl schon die Dinos mit Seuchen geärgert damals. Jetzt is dat wieder da und treibt hier sein Unwesen."
+  },
+  {
+    "id": 59,
+    "name": "Dschinnling",
+    "era": "past",
+    "rank": "D",
+    "types": ["Mystik"],
+    "base_stats": {
+      "hp": 33,
+      "atk": 29,
+      "def": 30,
+      "mag": 63,
+      "res": 41,
+      "spd": 26
+    },
+    "growth": {
+      "curve": "medium",
+      "yield": 119
+    },
+    "capture_rate": 118,
+    "traits": ["Unheimlich"],
+    "learnset": [
+      {"level": 1, "move": "Spukball"},
+      {"level": 5, "move": "Hypnose"},
+      {"level": 10, "move": "Fluch"},
+      {"level": 15, "move": "Schattenhieb"},
+      {"level": 20, "move": "Lichtstrahl"}
+    ],
+    "evolution": null,
+    "description": "Dat urzeitliche Vieh galt lange als ausgestorben. Kommt aus 'ner alten Legende, war schon damals 'n Spuk. Jetzt is dat wieder da und treibt hier sein Unwesen."
+  },
+  {
+    "id": 60,
+    "name": "Poltertopf",
+    "era": "present",
+    "rank": "D",
+    "types": ["Mystik"],
+    "base_stats": {
+      "hp": 34,
+      "atk": 32,
+      "def": 25,
+      "mag": 59,
+      "res": 38,
+      "spd": 26
+    },
+    "growth": {
+      "curve": "medium",
+      "yield": 115
+    },
+    "capture_rate": 126,
+    "traits": ["Unheimlich"],
+    "learnset": [
+      {"level": 1, "move": "Spukball"},
+      {"level": 5, "move": "Kopfnuss"},
+      {"level": 10, "move": "Fluch"},
+      {"level": 15, "move": "Schattenhieb"},
+      {"level": 20, "move": "Hypnose"}
+    ],
+    "evolution": null,
+    "description": "Dat Monster gehört hier zum Alltag. Spukt in alten Häusern rum, aber dat juckt hier keinen mehr groß. Die Leute im Revier gucken schon gar nich mehr hin, wenn dat Vieh vorbeikommt."
+  },
+  {
+    "id": 61,
+    "name": "Glutdrache",
+    "era": "past",
+    "rank": "C",
+    "types": ["Feuer"],
+    "base_stats": {
+      "hp": 72,
+      "atk": 64,
+      "def": 42,
+      "mag": 37,
+      "res": 30,
+      "spd": 35
+    },
+    "growth": {
+      "curve": "medium",
+      "yield": 140
+    },
+    "capture_rate": 120,
+    "traits": ["Hitzkopf"],
+    "learnset": [
+      {"level": 1, "move": "Rempler"},
+      {"level": 5, "move": "Funken"},
+      {"level": 10, "move": "Feuerball"},
+      {"level": 20, "move": "Flammenwurf"},
+      {"level": 30, "move": "Hitzewelle"},
+      {"level": 30, "move": "Höllenfeuer"}
+    ],
+    "evolution": null,
+    "description": "Dat urzeitliche Vieh galt lange als ausgestorben. Mit Lava und Glut kennt dat sich seit der Steinzeit bestens aus. Jetzt is dat wieder da und treibt hier sein Unwesen."
+  },
+  {
+    "id": 62,
+    "name": "Lavahund",
+    "era": "present",
+    "rank": "C",
+    "types": ["Feuer"],
+    "base_stats": {
+      "hp": 65,
+      "atk": 59,
+      "def": 45,
+      "mag": 33,
+      "res": 35,
+      "spd": 39
+    },
+    "growth": {
+      "curve": "medium",
+      "yield": 145
+    },
+    "capture_rate": 112,
+    "traits": ["Hitzkopf"],
+    "learnset": [
+      {"level": 1, "move": "Biss"},
+      {"level": 5, "move": "Funken"},
+      {"level": 10, "move": "Feuerball"},
+      {"level": 20, "move": "Flammenwurf"},
+      {"level": 30, "move": "Hitzewelle"}
+    ],
+    "evolution": null,
+    "description": "Ein Hund aus flüssiger Lava mit glühenden Augen. Lavahund bellt Funken und hinterlässt überall Brandflecken. Trotz seiner wilden Natur is er seinem Besitzer treu ergeben."
+  }
+]

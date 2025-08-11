@@ -1,0 +1,174 @@
+# Untold Story - Game Settings
+# Diese Datei enthält alle konfigurierbaren Spieleinstellungen
+
+[game]
+title = "Untold Story"
+version = "1.0.0"
+author = "Ruhrpott Games"
+language = "de_DE"
+
+[display]
+# Logische Auflösung (wird hochskaliert)
+logical_width = 320
+logical_height = 180
+# Window scale factor (4 = 1280x720 window)
+window_scale = 4
+# Fullscreen mode
+fullscreen = false
+# Vertical sync
+vsync = true
+# Target FPS
+target_fps = 60
+
+[audio]
+# Volume settings (0.0 to 1.0)
+master_volume = 0.7
+bgm_volume = 0.5
+sfx_volume = 0.8
+# Audio channels
+channels = 8
+# Fade times in seconds
+bgm_fade_in = 1.0
+bgm_fade_out = 0.5
+
+[graphics]
+# Text speed settings
+text_speed = "normal"  # "slow", "normal", "fast"
+text_speed_multiplier = 1.0
+# Animation settings
+animation_speed = 0.15  # Seconds per frame
+# Screen transitions
+fade_duration = 0.5
+battle_swirl_duration = 1.0
+# UI settings
+show_fps = false
+show_grid = false
+
+[controls]
+# Keyboard mappings (can be customized)
+# Format: action = ["key1", "key2", ...]
+move_up = ["w", "up"]
+move_down = ["s", "down"]
+move_left = ["a", "left"]
+move_right = ["d", "right"]
+confirm = ["e", "return", "space"]
+cancel = ["q", "escape"]
+run = ["lshift", "rshift"]
+pause = ["escape", "p"]
+debug = ["tab"]
+grid = ["g"]
+
+[gameplay]
+# Difficulty settings
+difficulty = "normal"  # "easy", "normal", "hard"
+enemy_level_scaling = 1.0
+exp_multiplier = 1.0
+money_multiplier = 1.0
+
+# Encounter rates (probability per step)
+grass_encounter_rate = 0.1
+cave_encounter_rate = 0.15
+water_encounter_rate = 0.2
+
+# Battle settings
+battle_animations = true
+show_damage_numbers = true
+auto_save_before_boss = true
+
+[debug]
+# Debug mode settings (for development)
+debug_mode = false
+show_fps = false
+show_collision = false
+show_coordinates = false
+show_entity_info = false
+log_level = "INFO"  # "DEBUG", "INFO", "WARNING", "ERROR"
+log_to_file = true
+log_to_console = true
+
+# Cheats (only work in debug mode)
+infinite_money = false
+infinite_hp = false
+one_hit_kill = false
+no_random_encounters = false
+fast_text = false
+unlock_all_areas = false
+all_monsters_catchable = false
+
+[save]
+# Save system settings
+max_save_slots = 3
+max_backups = 3
+auto_save = true
+auto_save_interval = 300  # Seconds (5 minutes)
+confirm_overwrite = true
+
+[network]
+# Multiplayer settings (for future use)
+enable_multiplayer = false
+default_port = 25565
+max_players = 4
+timeout = 30.0
+
+[paths]
+# Custom paths (leave empty for defaults)
+save_directory = ""
+screenshot_directory = ""
+log_directory = ""
+
+[performance]
+# Performance optimization
+sprite_cache_size = 100
+sound_cache_size = 50
+map_cache_size = 10
+entity_cull_distance = 20  # Tiles
+sound_cull_distance = 15   # Tiles
+
+[localization]
+# Language settings
+language = "de_DE"
+# Text encoding
+encoding = "utf-8"
+# Date and time format
+date_format = "%d.%m.%Y"
+time_format = "%H:%M"
+# Use Ruhrpott dialect for NPCs
+use_dialect = true
+
+[accessibility]
+# Accessibility options
+colorblind_mode = "off"  # "off", "protanopia", "deuteranopia", "tritanopia"
+screen_shake = true
+flashing_effects = true
+subtitle_size = "normal"  # "small", "normal", "large"
+high_contrast_ui = false
+
+[balancing]
+# Game balance tweaks
+starting_money = 1000
+starter_level = 5
+wild_level_variance = 2  # +/- levels for wild monsters
+
+# Item prices multiplier
+shop_price_multiplier = 1.0
+sell_price_ratio = 0.5
+
+# Taming rates
+base_taming_rate = 0.25
+status_bonus_multiplier = 2.0
+
+# Synthesis
+min_synthesis_level = 10
+synthesis_plus_cap = 99
+
+# Type effectiveness
+type_effectiveness_multiplier = 1.0
+stab_multiplier = 1.2
+critical_multiplier = 1.5
+
+[experimental]
+# Experimental features (may be unstable)
+enable_mod_support = false
+enable_custom_monsters = false
+enable_map_editor = false
+enable_battle_replay = false
