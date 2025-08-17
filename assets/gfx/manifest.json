@@ -1,0 +1,735 @@
+{
+  "meta": {
+    "tile_size": 16,
+    "palettes": [
+      [
+        "#DEFFDE",
+        "#ADADAD",
+        "#6B6B6B",
+        "#3A3A3A"
+      ],
+      [
+        "#DEFFDE",
+        "#FF9CC5",
+        "#F75231",
+        "#3A3A3A"
+      ],
+      [
+        "#B5FF52",
+        "#63CE08",
+        "#297300",
+        "#3A3A3A"
+      ],
+      [
+        "#FFFFFF",
+        "#4263FF",
+        "#0821FF",
+        "#3A3A3A"
+      ],
+      [
+        "#DEFFDE",
+        "#FFFF3A",
+        "#FF8408",
+        "#3A3A3A"
+      ],
+      [
+        "#DEFFDE",
+        "#C5943A",
+        "#A57B19",
+        "#3A3A3A"
+      ],
+      [
+        "#DEFFDE",
+        "#7BFFFF",
+        "#298CFF",
+        "#3A3A3A"
+      ],
+      [
+        "#FFFF84",
+        "#FFFF84",
+        "#734A00",
+        "#000000"
+      ]
+    ]
+  },
+  "tiles": [
+    {
+      "name": "grass",
+      "category": "ground",
+      "palette": 2,
+      "transparent": false,
+      "solid": false,
+      "file": "tiles/grass_1.png"
+    },
+    {
+      "name": "grass",
+      "category": "ground",
+      "palette": 2,
+      "transparent": false,
+      "solid": false,
+      "file": "tiles/grass_2.png"
+    },
+    {
+      "name": "grass",
+      "category": "ground",
+      "palette": 2,
+      "transparent": false,
+      "solid": false,
+      "file": "tiles/grass_3.png"
+    },
+    {
+      "name": "grass",
+      "category": "ground",
+      "palette": 2,
+      "transparent": false,
+      "solid": false,
+      "file": "tiles/grass_4.png"
+    },
+    {
+      "name": "grass",
+      "category": "ground",
+      "palette": 2,
+      "transparent": false,
+      "solid": false,
+      "file": "tiles/grass.png"
+    },
+    {
+      "name": "tall_grass",
+      "category": "ground",
+      "palette": 2,
+      "transparent": false,
+      "solid": true,
+      "file": "tiles/tall_grass_1.png"
+    },
+    {
+      "name": "tall_grass",
+      "category": "ground",
+      "palette": 2,
+      "transparent": false,
+      "solid": true,
+      "file": "tiles/tall_grass_2.png"
+    },
+    {
+      "name": "tall_grass",
+      "category": "ground",
+      "palette": 2,
+      "transparent": false,
+      "solid": true,
+      "file": "tiles/tall_grass.png"
+    },
+    {
+      "name": "dirt",
+      "category": "ground",
+      "palette": 5,
+      "transparent": false,
+      "solid": false,
+      "file": "tiles/dirt_1.png"
+    },
+    {
+      "name": "dirt",
+      "category": "ground",
+      "palette": 5,
+      "transparent": false,
+      "solid": false,
+      "file": "tiles/dirt_2.png"
+    },
+    {
+      "name": "path",
+      "category": "ground",
+      "palette": 4,
+      "transparent": false,
+      "solid": false,
+      "file": "tiles/path_1.png"
+    },
+    {
+      "name": "path",
+      "category": "ground",
+      "palette": 4,
+      "transparent": false,
+      "solid": false,
+      "file": "tiles/path_2.png"
+    },
+    {
+      "name": "path",
+      "category": "ground",
+      "palette": 4,
+      "transparent": false,
+      "solid": false,
+      "file": "tiles/path.png"
+    },
+    {
+      "name": "gravel",
+      "category": "ground",
+      "palette": 0,
+      "transparent": false,
+      "solid": false,
+      "file": "tiles/gravel_1.png"
+    },
+    {
+      "name": "gravel",
+      "category": "ground",
+      "palette": 0,
+      "transparent": false,
+      "solid": false,
+      "file": "tiles/gravel_2.png"
+    },
+    {
+      "name": "gravel",
+      "category": "ground",
+      "palette": 0,
+      "transparent": false,
+      "solid": false,
+      "file": "tiles/gravel.png"
+    },
+    {
+      "name": "sand",
+      "category": "ground",
+      "palette": 4,
+      "transparent": false,
+      "solid": false,
+      "file": "tiles/sand_1.png"
+    },
+    {
+      "name": "sand",
+      "category": "ground",
+      "palette": 4,
+      "transparent": false,
+      "solid": false,
+      "file": "tiles/sand_2.png"
+    },
+    {
+      "name": "snow",
+      "category": "ground",
+      "palette": 0,
+      "transparent": false,
+      "solid": false,
+      "file": "tiles/snow.png"
+    },
+    {
+      "name": "wood_floor",
+      "category": "interior",
+      "palette": 5,
+      "transparent": false,
+      "solid": false,
+      "file": "tiles/wood_floor.png"
+    },
+    {
+      "name": "stone_floor",
+      "category": "interior",
+      "palette": 0,
+      "transparent": false,
+      "solid": false,
+      "file": "tiles/stone_floor.png"
+    },
+    {
+      "name": "carpet",
+      "category": "interior",
+      "palette": 3,
+      "transparent": false,
+      "solid": false,
+      "file": "tiles/carpet.png"
+    },
+    {
+      "name": "bush",
+      "category": "terrain",
+      "palette": 2,
+      "transparent": false,
+      "solid": true,
+      "file": "tiles/bush_1.png"
+    },
+    {
+      "name": "bush",
+      "category": "terrain",
+      "palette": 2,
+      "transparent": false,
+      "solid": true,
+      "file": "tiles/bush_2.png"
+    },
+    {
+      "name": "bush",
+      "category": "terrain",
+      "palette": 2,
+      "transparent": false,
+      "solid": true,
+      "file": "tiles/bush.png"
+    },
+    {
+      "name": "rock",
+      "category": "terrain",
+      "palette": 0,
+      "transparent": false,
+      "solid": true,
+      "file": "tiles/rock_1.png"
+    },
+    {
+      "name": "rock",
+      "category": "terrain",
+      "palette": 0,
+      "transparent": false,
+      "solid": true,
+      "file": "tiles/rock_2.png"
+    },
+    {
+      "name": "rock",
+      "category": "terrain",
+      "palette": 0,
+      "transparent": false,
+      "solid": true,
+      "file": "tiles/rock.png"
+    },
+    {
+      "name": "flower_red",
+      "category": "terrain",
+      "palette": 2,
+      "transparent": false,
+      "solid": false,
+      "file": "tiles/flower_red.png"
+    },
+    {
+      "name": "flower_blue",
+      "category": "terrain",
+      "palette": 3,
+      "transparent": false,
+      "solid": false,
+      "file": "tiles/flower_blue.png"
+    },
+    {
+      "name": "stump",
+      "category": "terrain",
+      "palette": 5,
+      "transparent": false,
+      "solid": true,
+      "file": "tiles/stump.png"
+    },
+    {
+      "name": "ledge",
+      "category": "terrain",
+      "palette": 5,
+      "transparent": false,
+      "solid": true,
+      "file": "tiles/ledge.png"
+    },
+    {
+      "name": "cliff_face",
+      "category": "terrain",
+      "palette": 5,
+      "transparent": false,
+      "solid": true,
+      "file": "tiles/cliff_face.png"
+    },
+    {
+      "name": "stairs_h",
+      "category": "terrain",
+      "palette": 5,
+      "transparent": false,
+      "solid": false,
+      "file": "tiles/stairs_h.png"
+    },
+    {
+      "name": "stairs_v",
+      "category": "terrain",
+      "palette": 5,
+      "transparent": false,
+      "solid": false,
+      "file": "tiles/stairs_v.png"
+    },
+    {
+      "name": "stairs",
+      "category": "terrain",
+      "palette": 5,
+      "transparent": false,
+      "solid": false,
+      "file": "tiles/stairs.png"
+    },
+    {
+      "name": "fence_h",
+      "category": "terrain",
+      "palette": 5,
+      "transparent": true,
+      "solid": true,
+      "file": "objects/fence_h.png"
+    },
+    {
+      "name": "fence_v",
+      "category": "terrain",
+      "palette": 5,
+      "transparent": true,
+      "solid": true,
+      "file": "objects/fence_v.png"
+    },
+    {
+      "name": "water",
+      "category": "water",
+      "palette": 3,
+      "transparent": false,
+      "solid": true,
+      "file": "tiles/water_1.png"
+    },
+    {
+      "name": "water",
+      "category": "water",
+      "palette": 3,
+      "transparent": false,
+      "solid": true,
+      "file": "tiles/water_2.png"
+    },
+    {
+      "name": "water_edge_n",
+      "category": "water",
+      "palette": 3,
+      "transparent": false,
+      "solid": true,
+      "file": "tiles/water_edge_n.png"
+    },
+    {
+      "name": "water_edge_s",
+      "category": "water",
+      "palette": 3,
+      "transparent": false,
+      "solid": true,
+      "file": "tiles/water_edge_s.png"
+    },
+    {
+      "name": "water_edge_w",
+      "category": "water",
+      "palette": 3,
+      "transparent": false,
+      "solid": true,
+      "file": "tiles/water_edge_w.png"
+    },
+    {
+      "name": "water_edge_e",
+      "category": "water",
+      "palette": 3,
+      "transparent": false,
+      "solid": true,
+      "file": "tiles/water_edge_e.png"
+    },
+    {
+      "name": "water_corner_ne",
+      "category": "water",
+      "palette": 3,
+      "transparent": false,
+      "solid": true,
+      "file": "tiles/water_corner_ne.png"
+    },
+    {
+      "name": "water_corner_nw",
+      "category": "water",
+      "palette": 3,
+      "transparent": false,
+      "solid": true,
+      "file": "tiles/water_corner_nw.png"
+    },
+    {
+      "name": "water_corner_se",
+      "category": "water",
+      "palette": 3,
+      "transparent": false,
+      "solid": true,
+      "file": "tiles/water_corner_se.png"
+    },
+    {
+      "name": "water_corner_sw",
+      "category": "water",
+      "palette": 3,
+      "transparent": false,
+      "solid": true,
+      "file": "tiles/water_corner_sw.png"
+    },
+    {
+      "name": "wall_brick",
+      "category": "building",
+      "palette": 1,
+      "transparent": false,
+      "solid": true,
+      "file": "tiles/wall_brick.png"
+    },
+    {
+      "name": "wall_plaster",
+      "category": "building",
+      "palette": 0,
+      "transparent": false,
+      "solid": true,
+      "file": "tiles/wall_plaster.png"
+    },
+    {
+      "name": "wall",
+      "category": "building",
+      "palette": 0,
+      "transparent": false,
+      "solid": true,
+      "file": "tiles/wall.png"
+    },
+    {
+      "name": "roof_red",
+      "category": "building",
+      "palette": 1,
+      "transparent": false,
+      "solid": true,
+      "file": "tiles/roof_red.png"
+    },
+    {
+      "name": "roof_blue",
+      "category": "building",
+      "palette": 3,
+      "transparent": false,
+      "solid": true,
+      "file": "tiles/roof_blue.png"
+    },
+    {
+      "name": "roof_ridge",
+      "category": "building",
+      "palette": 7,
+      "transparent": false,
+      "solid": true,
+      "file": "tiles/roof_ridge.png"
+    },
+    {
+      "name": "roof",
+      "category": "building",
+      "palette": 5,
+      "transparent": false,
+      "solid": true,
+      "file": "tiles/roof.png"
+    },
+    {
+      "name": "window",
+      "category": "building",
+      "palette": 0,
+      "transparent": true,
+      "solid": false,
+      "file": "objects/window.png"
+    },
+    {
+      "name": "door",
+      "category": "building",
+      "palette": 5,
+      "transparent": true,
+      "solid": false,
+      "file": "objects/door.png"
+    },
+    {
+      "name": "sign",
+      "category": "building",
+      "palette": 0,
+      "transparent": true,
+      "solid": false,
+      "file": "objects/sign.png"
+    },
+    {
+      "name": "warp_carpet",
+      "category": "building",
+      "palette": 3,
+      "transparent": false,
+      "solid": false,
+      "file": "tiles/warp_carpet.png"
+    },
+    {
+      "name": "table",
+      "category": "interior",
+      "palette": 5,
+      "transparent": true,
+      "solid": true,
+      "file": "objects/table.png"
+    },
+    {
+      "name": "chair",
+      "category": "interior",
+      "palette": 5,
+      "transparent": true,
+      "solid": true,
+      "file": "objects/chair.png"
+    },
+    {
+      "name": "bed",
+      "category": "interior",
+      "palette": 6,
+      "transparent": true,
+      "solid": true,
+      "file": "objects/bed.png"
+    },
+    {
+      "name": "bookshelf",
+      "category": "interior",
+      "palette": 5,
+      "transparent": true,
+      "solid": true,
+      "file": "objects/bookshelf.png"
+    },
+    {
+      "name": "tv",
+      "category": "interior",
+      "palette": 0,
+      "transparent": true,
+      "solid": true,
+      "file": "objects/tv.png"
+    },
+    {
+      "name": "potted_plant",
+      "category": "interior",
+      "palette": 2,
+      "transparent": true,
+      "solid": true,
+      "file": "objects/potted_plant.png"
+    },
+    {
+      "name": "crate",
+      "category": "objects",
+      "palette": 5,
+      "transparent": true,
+      "solid": true,
+      "file": "objects/crate.png"
+    },
+    {
+      "name": "barrel",
+      "category": "objects",
+      "palette": 5,
+      "transparent": true,
+      "solid": true,
+      "file": "objects/barrel.png"
+    },
+    {
+      "name": "lamp_post",
+      "category": "objects",
+      "palette": 0,
+      "transparent": true,
+      "solid": true,
+      "file": "objects/lamp_post.png"
+    },
+    {
+      "name": "mailbox",
+      "category": "objects",
+      "palette": 1,
+      "transparent": true,
+      "solid": true,
+      "file": "objects/mailbox.png"
+    },
+    {
+      "name": "well",
+      "category": "objects",
+      "palette": 0,
+      "transparent": true,
+      "solid": true,
+      "file": "objects/well.png"
+    },
+    {
+      "name": "gravestone",
+      "category": "objects",
+      "palette": 0,
+      "transparent": true,
+      "solid": true,
+      "file": "objects/gravestone.png"
+    },
+    {
+      "name": "boulder",
+      "category": "objects",
+      "palette": 0,
+      "transparent": true,
+      "solid": true,
+      "file": "objects/boulder.png"
+    },
+    {
+      "name": "tree_small",
+      "category": "objects",
+      "palette": 2,
+      "transparent": true,
+      "solid": true,
+      "file": "tiles/tree_small.png"
+    }
+  ],
+  "sprites": {
+    "player": {
+      "down": "player/player_down.png",
+      "up": "player/player_up.png",
+      "left": "player/player_left.png",
+      "right": "player/player_right.png"
+    },
+    "npcs": {
+      "villager_m": {
+        "down": "npc/villager_m_down.png",
+        "up": "npc/villager_m_up.png",
+        "left": "npc/villager_m_left.png",
+        "right": "npc/villager_m_right.png"
+      },
+      "villager_f": {
+        "down": "npc/villager_f_down.png",
+        "up": "npc/villager_f_up.png",
+        "left": "npc/villager_f_left.png",
+        "right": "npc/villager_f_right.png"
+      },
+      "guard": {
+        "down": "npc/guard_down.png",
+        "up": "npc/guard_up.png",
+        "left": "npc/guard_left.png",
+        "right": "npc/guard_right.png"
+      },
+      "scientist": {
+        "down": "npc/scientist_down.png",
+        "up": "npc/scientist_up.png",
+        "left": "npc/scientist_left.png",
+        "right": "npc/scientist_right.png"
+      },
+      "nurse": {
+        "down": "npc/nurse_down.png",
+        "up": "npc/nurse_up.png",
+        "left": "npc/nurse_left.png",
+        "right": "npc/nurse_right.png"
+      },
+      "merchant": {
+        "down": "npc/merchant_down.png",
+        "up": "npc/merchant_up.png",
+        "left": "npc/merchant_left.png",
+        "right": "npc/merchant_right.png"
+      },
+      "fisher": {
+        "down": "npc/fisher_down.png",
+        "up": "npc/fisher_up.png",
+        "left": "npc/fisher_left.png",
+        "right": "npc/fisher_right.png"
+      },
+      "biker": {
+        "down": "npc/biker_down.png",
+        "up": "npc/biker_up.png",
+        "left": "npc/biker_left.png",
+        "right": "npc/biker_right.png"
+      },
+      "ranger": {
+        "down": "npc/ranger_down.png",
+        "up": "npc/ranger_up.png",
+        "left": "npc/ranger_left.png",
+        "right": "npc/ranger_right.png"
+      },
+      "miner": {
+        "down": "npc/miner_down.png",
+        "up": "npc/miner_up.png",
+        "left": "npc/miner_left.png",
+        "right": "npc/miner_right.png"
+      },
+      "monk": {
+        "down": "npc/monk_down.png",
+        "up": "npc/monk_up.png",
+        "left": "npc/monk_left.png",
+        "right": "npc/monk_right.png"
+      },
+      "kid": {
+        "down": "npc/kid_down.png",
+        "up": "npc/kid_up.png",
+        "left": "npc/kid_left.png",
+        "right": "npc/kid_right.png"
+      },
+      "npcA": {
+        "down": "npc/npcA_down.png",
+        "up": "npc/npcA_up.png",
+        "left": "npc/npcA_left.png",
+        "right": "npc/npcA_right.png"
+      },
+      "npcB": {
+        "down": "npc/npcB_down.png",
+        "up": "npc/npcB_up.png",
+        "left": "npc/npcB_left.png",
+        "right": "npc/npcB_right.png"
+      }
+    }
+  }
+}

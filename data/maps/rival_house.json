@@ -1,0 +1,211 @@
+{
+  "id": "rival_house",
+  "name": "Kevins Haus",
+  "size": {
+    "w": 10,
+    "h": 8,
+    "tile": 16
+  },
+  "layers": {
+    "ground": [
+      [9,9,9,9,9,9,9,9,9,9],
+      [9,9,9,9,9,9,9,9,9,9],
+      [9,9,9,9,9,9,9,9,9,9],
+      [9,9,9,9,9,9,9,9,9,9],
+      [9,9,9,9,9,9,9,9,9,9],
+      [9,9,9,9,9,9,9,9,9,9],
+      [9,9,9,9,9,9,9,9,9,9],
+      [9,9,9,9,6,6,9,9,9,9]
+    ],
+    "decor": [
+      [5,5,5,5,5,5,5,5,5,5],
+      [5,20,20,0,0,0,0,6,0,5],
+      [5,0,0,0,0,0,0,0,0,5],
+      [5,0,0,0,0,0,0,0,0,5],
+      [5,0,0,0,0,0,0,0,0,5],
+      [5,0,0,0,0,0,0,0,0,5],
+      [5,0,0,0,0,0,0,0,0,5],
+      [5,5,5,5,0,0,5,5,5,5]
+    ],
+    "collision": [
+      [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      [
+        1,
+        1,
+        1,
+        1,
+        0,
+        0,
+        1,
+        1,
+        1,
+        1
+      ],
+      [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      [
+        1,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1
+      ],
+      [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      [
+        1,
+        1,
+        1,
+        1,
+        0,
+        0,
+        1,
+        1,
+        1,
+        1
+      ]
+    ]
+  },
+  "warps": [
+    {
+      "x": 4,
+      "y": 7,
+      "to": "kohlenstadt",
+      "tx": 25,
+      "ty": 16,
+      "direction": "down"
+    },
+    {
+      "x": 5,
+      "y": 7,
+      "to": "kohlenstadt",
+      "tx": 25,
+      "ty": 16,
+      "direction": "down"
+    }
+  ],
+  "triggers": [
+    {
+      "x": 1,
+      "y": 1,
+      "event": "sign",
+      "args": {
+        "text": "Kevin guckt immer Schalke. Kein Wunder dat er immer verliert!"
+      }
+    },
+    {
+      "x": 7,
+      "y": 1,
+      "event": "sign",
+      "args": {
+        "text": "Kevins PC. Er spielt nur Monster-Spiele..."
+      }
+    },
+    {
+      "x": 4,
+      "y": 2,
+      "event": "dialogue",
+      "args": {
+        "pages": [
+          {
+            "text": "Oh, Kevin is' grad nicht da!",
+            "speaker": "Kevins Mutter"
+          },
+          {
+            "text": "Der is' bestimmt wieder beim Professor im Museum.",
+            "speaker": "Kevins Mutter"
+          },
+          {
+            "text": "Die beiden hängen ständig zusammen rum!",
+            "speaker": "Kevins Mutter"
+          }
+        ]
+      }
+    }
+  ],
+  "npcs": [
+    {
+      "id": "rival_mother",
+      "name": "Kevins Mutter",
+      "x": 4,
+      "y": 2,
+      "sprite": "woman",
+      "movement": "wander",
+      "dialogue": {
+        "default": "Kevin will unbedingt der beste Trainer im Pott werden!",
+        "after_league": "Mein Kevin hat's echt weit gebracht, ne?"
+      }
+    }
+  ],
+  "properties": {
+    "music": "home.ogg",
+    "encounters": null,
+    "spawns": {
+      "default": {
+        "x": 4,
+        "y": 6,
+        "direction": "up"
+      }
+    }
+  }
+}

@@ -1,0 +1,50 @@
+# Untold Story - 2D RPG Development Rules
+
+## Project Context
+- 2D RPG in Python with pygame-ce
+- Monster taming/battling system (DQM + Pokemon inspired)
+- Ruhrpott setting with German dialogue using local slang
+- Turn-based combat with 12 types, 9 ranks (F-X)
+
+## Code Standards
+- Python 3.13.5 with pygame-ce 2.5+
+- Use type hints everywhere
+- Dataclasses for data structures
+- All code/comments in English
+- All in-game text in German (Ruhrpott dialect)
+
+## Key Systems
+- Grid-based movement (16x16 tiles)
+- Battle system with phases: Intro → Input → Execution → Aftermath → End
+- Taming system (DQM-style, not pokeballs)
+- Party max 6, Storage boxes for extras
+- Synthesis system for monster fusion
+- Save/Load with JSON→ZIP
+
+## Important Reminders
+- Use 'attacker/defender/multiplier' not 'atk/def/x'
+- Logical resolution 320×180, scale to 1280×720
+- No DQM size system - all monsters take 1 slot
+- Resources should be cached
+- Fail gracefully when assets missing
+
+## File Structure
+- engine/core/ - Game loop, scenes, resources
+- engine/systems/ - Game mechanics
+- engine/ui/ - UI components  
+- engine/world/ - Maps, entities, camera
+- data/ - JSON data files
+- assets/ - Graphics, audio
+
+## When making changes
+- Keep modules focused and split large systems
+- Add debug features behind TAB key
+- Make systems data-driven via JSON
+- Use deterministic RNG for testing
+- Always handle edge cases
+
+## Dialogue Examples
+- "Ey, wat machste denn da?"
+- "Läuft bei dir, Kollege!"
+- "Dat kannste knicken!"
+- "Scheiße gelaufen, wa?"

@@ -1,0 +1,631 @@
+{
+  "id": "bergmannsheil",
+  "name": "Bergmannsheil Heilungszentrum",
+  "size": {
+    "w": 12,
+    "h": 10,
+    "tile": 16
+  },
+  "layers": {
+    "ground": [
+      [8,8,8,8,8,8,8,8,8,8,8,8],
+      [8,8,8,8,8,8,8,8,8,8,8,8],
+      [8,8,8,8,8,8,8,8,8,8,8,8],
+      [8,8,8,8,8,8,8,8,8,8,8,8],
+      [8,8,8,8,8,8,8,8,8,8,8,8],
+      [8,8,8,8,8,8,8,8,8,8,8,8],
+      [8,8,8,8,8,8,8,8,8,8,8,8],
+      [8,8,8,8,8,8,8,8,8,8,8,8],
+      [8,8,8,8,8,8,8,8,8,8,8,8],
+      [8,8,8,8,8,8,8,8,8,8,8,8]
+    ],
+    "decor": [
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    ],
+    "furniture": [
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    ],
+    "collision": [
+      [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      [
+        1,
+        1,
+        1,
+        1,
+        0,
+        0,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      [
+        1,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1
+      ],
+      [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      [
+        1,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1
+      ],
+      [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      [
+        1,
+        1,
+        1,
+        1,
+        0,
+        0,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ]
+    ]
+  },
+  "warps": [
+    {
+      "x": 5,
+      "y": 9,
+      "to": "kohlenstadt",
+      "tx": 25,
+      "ty": 6,
+      "direction": "down"
+    },
+    {
+      "x": 6,
+      "y": 9,
+      "to": "kohlenstadt",
+      "tx": 25,
+      "ty": 6,
+      "direction": "down"
+    }
+  ],
+  "triggers": [
+    {
+      "x": 5,
+      "y": 1,
+      "event": "heal",
+      "args": {
+        "text": "Willkommen im Bergmannsheil! Lass mich deine Monster heilen!",
+        "speaker": "Schwester Ingrid"
+      }
+    },
+    {
+      "x": 2,
+      "y": 2,
+      "event": "pc_storage",
+      "args": {
+        "text": "Monster-Lager PC. Hier kannste deine gefangenen Monster verwalten."
+      }
+    },
+    {
+      "x": 9,
+      "y": 2,
+      "event": "pc_storage",
+      "args": {
+        "text": "Kommunikations-PC. Tausche Monster mit anderen Trainern! (Noch nicht aktiv)"
+      }
+    }
+  ],
+  "npcs": [
+    {
+      "id": "nurse",
+      "name": "Schwester Ingrid",
+      "x": 5,
+      "y": 1,
+      "sprite": "nurse",
+      "movement": "standing",
+      "dialogue": {
+        "default": "Deine Monster sehen müde aus. Soll ich sie heilen?"
+      }
+    },
+    {
+      "id": "waiting_trainer",
+      "name": "Wartender Trainer",
+      "x": 2,
+      "y": 3,
+      "sprite": "npc_01",
+      "movement": "standing",
+      "dialogue": {
+        "default": "Ey, wat machste denn da? Bin hier um meine Monster heilen zu lassen."
+      }
+    }
+  ],
+  "furniture_placement": [
+    {
+      "type": "bed",
+      "x": 3,
+      "y": 4,
+      "tile_id": 0,
+      "description": "Krankenbett für Patienten"
+    },
+    {
+      "type": "bed",
+      "x": 4,
+      "y": 4,
+      "tile_id": 0,
+      "description": "Krankenbett für Patienten"
+    },
+    {
+      "type": "bed",
+      "x": 5,
+      "y": 4,
+      "tile_id": 0,
+      "description": "Krankenbett für Patienten"
+    },
+    {
+      "type": "bed",
+      "x": 6,
+      "y": 4,
+      "tile_id": 0,
+      "description": "Krankenbett für Patienten"
+    },
+    {
+      "type": "bed",
+      "x": 7,
+      "y": 4,
+      "tile_id": 0,
+      "description": "Krankenbett für Patienten"
+    },
+    {
+      "type": "bed",
+      "x": 8,
+      "y": 4,
+      "tile_id": 0,
+      "description": "Krankenbett für Patienten"
+    },
+    {
+      "type": "pc",
+      "x": 2,
+      "y": 2,
+      "tile_id": 20,
+      "description": "Monster-Lager PC"
+    },
+    {
+      "type": "pc",
+      "x": 9,
+      "y": 2,
+      "tile_id": 20,
+      "description": "Kommunikations-PC"
+    },
+    {
+      "type": "plant",
+      "x": 1,
+      "y": 6,
+      "tile_id": 0,
+      "description": "Zimmerpflanze für bessere Luft"
+    },
+    {
+      "type": "plant",
+      "x": 10,
+      "y": 6,
+      "tile_id": 0,
+      "description": "Zimmerpflanze für bessere Luft"
+    },
+    {
+      "type": "bookshelf",
+      "x": 1,
+      "y": 1,
+      "tile_id": 0,
+      "description": "Medizinische Fachliteratur"
+    },
+    {
+      "type": "bookshelf",
+      "x": 10,
+      "y": 1,
+      "tile_id": 0,
+      "description": "Medizinische Fachliteratur"
+    }
+  ],
+  "decoration": [
+    {
+      "type": "art",
+      "x": 5,
+      "y": 0,
+      "tile_id": 0,
+      "description": "Wandbild über dem Empfang"
+    },
+    {
+      "type": "art",
+      "x": 6,
+      "y": 0,
+      "tile_id": 0,
+      "description": "Wandbild über dem Empfang"
+    }
+  ],
+  "properties": {
+    "music": "healing.ogg",
+    "encounters": null,
+    "spawns": {
+      "default": {
+        "x": 4,
+        "y": 6,
+        "direction": "up"
+      }
+    }
+  }
+}

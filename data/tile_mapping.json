@@ -1,0 +1,533 @@
+{
+  "tile_mappings": {
+    "0": {
+      "name": "Grass_1",
+      "tileset_id": 0,
+      "sprite_file": "grass_1.png",
+      "description": "Gras Variante 1 - begehbar",
+      "category": "ground"
+    },
+    "1": {
+      "name": "Grass_2",
+      "tileset_id": 1,
+      "sprite_file": "grass_2.png",
+      "description": "Gras Variante 2 - begehbar",
+      "category": "ground"
+    },
+    "2": {
+      "name": "Grass_3",
+      "tileset_id": 2,
+      "sprite_file": "grass_3.png",
+      "description": "Gras Variante 3 - begehbar",
+      "category": "ground"
+    },
+    "3": {
+      "name": "Grass_4",
+      "tileset_id": 3,
+      "sprite_file": "grass_4.png",
+      "description": "Gras Variante 4 - begehbar",
+      "category": "ground"
+    },
+    "4": {
+      "name": "Grass",
+      "tileset_id": 4,
+      "sprite_file": "grass.png",
+      "description": "Gras - begehbar",
+      "category": "ground"
+    },
+    "5": {
+      "name": "Tall_Grass_1",
+      "tileset_id": 5,
+      "sprite_file": "tall_grass_1.png",
+      "description": "Hohes Gras Variante 1 - nicht begehbar",
+      "category": "ground"
+    },
+    "6": {
+      "name": "Tall_Grass_2",
+      "tileset_id": 6,
+      "sprite_file": "tall_grass_2.png",
+      "description": "Hohes Gras Variante 2 - nicht begehbar",
+      "category": "ground"
+    },
+    "7": {
+      "name": "Tall_Grass",
+      "tileset_id": 7,
+      "sprite_file": "tall_grass.png",
+      "description": "Hohes Gras - nicht begehbar",
+      "category": "ground"
+    },
+    "8": {
+      "name": "Dirt_1",
+      "tileset_id": 8,
+      "sprite_file": "dirt_1.png",
+      "description": "Erde Variante 1 - begehbar",
+      "category": "ground"
+    },
+    "9": {
+      "name": "Dirt_2",
+      "tileset_id": 9,
+      "sprite_file": "dirt_2.png",
+      "description": "Erde Variante 2 - begehbar",
+      "category": "ground"
+    },
+    "10": {
+      "name": "Path_1",
+      "tileset_id": 10,
+      "sprite_file": "path_1.png",
+      "description": "Weg Variante 1 - begehbar",
+      "category": "ground"
+    },
+    "11": {
+      "name": "Path_2",
+      "tileset_id": 11,
+      "sprite_file": "path_2.png",
+      "description": "Weg Variante 2 - begehbar",
+      "category": "ground"
+    },
+    "12": {
+      "name": "Path",
+      "tileset_id": 12,
+      "sprite_file": "path.png",
+      "description": "Weg - begehbar",
+      "category": "ground"
+    },
+    "13": {
+      "name": "Gravel_1",
+      "tileset_id": 13,
+      "sprite_file": "gravel_1.png",
+      "description": "Kies Variante 1 - begehbar",
+      "category": "ground"
+    },
+    "14": {
+      "name": "Gravel_2",
+      "tileset_id": 14,
+      "sprite_file": "gravel_2.png",
+      "description": "Kies Variante 2 - begehbar",
+      "category": "ground"
+    },
+    "15": {
+      "name": "Gravel",
+      "tileset_id": 15,
+      "sprite_file": "gravel.png",
+      "description": "Kies - begehbar",
+      "category": "ground"
+    },
+    "16": {
+      "name": "Sand_1",
+      "tileset_id": 16,
+      "sprite_file": "sand_1.png",
+      "description": "Sand Variante 1 - begehbar",
+      "category": "ground"
+    },
+    "17": {
+      "name": "Sand_2",
+      "tileset_id": 17,
+      "sprite_file": "sand_2.png",
+      "description": "Sand Variante 2 - begehbar",
+      "category": "ground"
+    },
+    "18": {
+      "name": "Snow",
+      "tileset_id": 18,
+      "sprite_file": "snow.png",
+      "description": "Schnee - begehbar",
+      "category": "ground"
+    },
+    "19": {
+      "name": "Wood_Floor",
+      "tileset_id": 19,
+      "sprite_file": "wood_floor.png",
+      "description": "Holzboden - begehbar",
+      "category": "interior"
+    },
+    "20": {
+      "name": "Stone_Floor",
+      "tileset_id": 20,
+      "sprite_file": "stone_floor.png",
+      "description": "Steinboden - begehbar",
+      "category": "interior"
+    },
+    "21": {
+      "name": "Carpet",
+      "tileset_id": 21,
+      "sprite_file": "carpet.png",
+      "description": "Teppich - begehbar",
+      "category": "interior"
+    },
+    "22": {
+      "name": "Bush_1",
+      "tileset_id": 22,
+      "sprite_file": "bush_1.png",
+      "description": "Busch Variante 1 - nicht begehbar",
+      "category": "terrain"
+    },
+    "23": {
+      "name": "Bush_2",
+      "tileset_id": 23,
+      "sprite_file": "bush_2.png",
+      "description": "Busch Variante 2 - nicht begehbar",
+      "category": "terrain"
+    },
+    "24": {
+      "name": "Bush",
+      "tileset_id": 24,
+      "sprite_file": "bush.png",
+      "description": "Busch - nicht begehbar",
+      "category": "terrain"
+    },
+    "25": {
+      "name": "Rock_1",
+      "tileset_id": 25,
+      "sprite_file": "rock_1.png",
+      "description": "Fels Variante 1 - nicht begehbar",
+      "category": "terrain"
+    },
+    "26": {
+      "name": "Rock_2",
+      "tileset_id": 26,
+      "sprite_file": "rock_2.png",
+      "description": "Fels Variante 2 - nicht begehbar",
+      "category": "terrain"
+    },
+    "27": {
+      "name": "Rock",
+      "tileset_id": 27,
+      "sprite_file": "rock.png",
+      "description": "Fels - nicht begehbar",
+      "category": "terrain"
+    },
+    "28": {
+      "name": "Flower_Red",
+      "tileset_id": 28,
+      "sprite_file": "flower_red.png",
+      "description": "Rote Blume - begehbar",
+      "category": "terrain"
+    },
+    "29": {
+      "name": "Flower_Blue",
+      "tileset_id": 29,
+      "sprite_file": "flower_blue.png",
+      "description": "Blaue Blume - begehbar",
+      "category": "terrain"
+    },
+    "30": {
+      "name": "Stump",
+      "tileset_id": 30,
+      "sprite_file": "stump.png",
+      "description": "Baumstumpf - nicht begehbar",
+      "category": "terrain"
+    },
+    "31": {
+      "name": "Ledge",
+      "tileset_id": 31,
+      "sprite_file": "ledge.png",
+      "description": "Klippe - nicht begehbar (außer Sprung)",
+      "category": "terrain"
+    },
+    "32": {
+      "name": "Cliff_Face",
+      "tileset_id": 32,
+      "sprite_file": "cliff_face.png",
+      "description": "Klippenwand - nicht begehbar",
+      "category": "terrain"
+    },
+    "33": {
+      "name": "Stairs_H",
+      "tileset_id": 33,
+      "sprite_file": "stairs_h.png",
+      "description": "Treppe horizontal - begehbar",
+      "category": "terrain"
+    },
+    "34": {
+      "name": "Stairs_V",
+      "tileset_id": 34,
+      "sprite_file": "stairs_v.png",
+      "description": "Treppe vertikal - begehbar",
+      "category": "terrain"
+    },
+    "35": {
+      "name": "Stairs",
+      "tileset_id": 35,
+      "sprite_file": "stairs.png",
+      "description": "Treppe - begehbar",
+      "category": "terrain"
+    },
+    "36": {
+      "name": "Water_1",
+      "tileset_id": 36,
+      "sprite_file": "water_1.png",
+      "description": "Wasser Variante 1 - nicht begehbar",
+      "category": "water"
+    },
+    "37": {
+      "name": "Water_2",
+      "tileset_id": 37,
+      "sprite_file": "water_2.png",
+      "description": "Wasser Variante 2 - nicht begehbar",
+      "category": "water"
+    },
+    "38": {
+      "name": "Water_Edge_N",
+      "tileset_id": 38,
+      "sprite_file": "water_edge_n.png",
+      "description": "Wasserrand Nord - nicht begehbar",
+      "category": "water"
+    },
+    "39": {
+      "name": "Water_Edge_S",
+      "tileset_id": 39,
+      "sprite_file": "water_edge_s.png",
+      "description": "Wasserrand Süd - nicht begehbar",
+      "category": "water"
+    },
+    "40": {
+      "name": "Water_Edge_W",
+      "tileset_id": 40,
+      "sprite_file": "water_edge_w.png",
+      "description": "Wasserrand West - nicht begehbar",
+      "category": "water"
+    },
+    "41": {
+      "name": "Water_Edge_E",
+      "tileset_id": 41,
+      "sprite_file": "water_edge_e.png",
+      "description": "Wasserrand Ost - nicht begehbar",
+      "category": "water"
+    },
+    "42": {
+      "name": "Water_Corner_NE",
+      "tileset_id": 42,
+      "sprite_file": "water_corner_ne.png",
+      "description": "Wasserecke Nordost - nicht begehbar",
+      "category": "water"
+    },
+    "43": {
+      "name": "Water_Corner_NW",
+      "tileset_id": 43,
+      "sprite_file": "water_corner_nw.png",
+      "description": "Wasserecke Nordwest - nicht begehbar",
+      "category": "water"
+    },
+    "44": {
+      "name": "Water_Corner_SE",
+      "tileset_id": 44,
+      "sprite_file": "water_corner_se.png",
+      "description": "Wasserecke Südost - nicht begehbar",
+      "category": "water"
+    },
+    "45": {
+      "name": "Water_Corner_SW",
+      "tileset_id": 45,
+      "sprite_file": "water_corner_sw.png",
+      "description": "Wasserecke Südwest - nicht begehbar",
+      "category": "water"
+    },
+    "46": {
+      "name": "Wall_Brick",
+      "tileset_id": 46,
+      "sprite_file": "wall_brick.png",
+      "description": "Ziegelwand - nicht begehbar",
+      "category": "building"
+    },
+    "47": {
+      "name": "Wall_Plaster",
+      "tileset_id": 47,
+      "sprite_file": "wall_plaster.png",
+      "description": "Putzwand - nicht begehbar",
+      "category": "building"
+    },
+    "48": {
+      "name": "Wall",
+      "tileset_id": 48,
+      "sprite_file": "wall.png",
+      "description": "Wand - nicht begehbar",
+      "category": "building"
+    },
+    "49": {
+      "name": "Roof_Red",
+      "tileset_id": 49,
+      "sprite_file": "roof_red.png",
+      "description": "Rotes Dach - nicht begehbar",
+      "category": "building"
+    },
+    "50": {
+      "name": "Roof_Blue",
+      "tileset_id": 50,
+      "sprite_file": "roof_blue.png",
+      "description": "Blaues Dach - nicht begehbar",
+      "category": "building"
+    },
+    "51": {
+      "name": "Roof_Ridge",
+      "tileset_id": 51,
+      "sprite_file": "roof_ridge.png",
+      "description": "Dachfirst - nicht begehbar",
+      "category": "building"
+    },
+    "52": {
+      "name": "Roof",
+      "tileset_id": 52,
+      "sprite_file": "roof.png",
+      "description": "Dach - nicht begehbar",
+      "category": "building"
+    },
+    "53": {
+      "name": "Warp_Carpet",
+      "tileset_id": 53,
+      "sprite_file": "warp_carpet.png",
+      "description": "Warp-Teppich - begehbar",
+      "category": "building"
+    },
+    "100": {
+      "name": "Fence_H",
+      "tileset_id": 100,
+      "sprite_file": "fence_h.png",
+      "description": "Zaun horizontal - nicht begehbar, transparent",
+      "category": "terrain"
+    },
+    "101": {
+      "name": "Fence_V",
+      "tileset_id": 101,
+      "sprite_file": "fence_v.png",
+      "description": "Zaun vertikal - nicht begehbar, transparent",
+      "category": "terrain"
+    },
+    "102": {
+      "name": "Window",
+      "tileset_id": 102,
+      "sprite_file": "window.png",
+      "description": "Fenster - begehbar, transparent",
+      "category": "building"
+    },
+    "103": {
+      "name": "Door",
+      "tileset_id": 103,
+      "sprite_file": "door.png",
+      "description": "Tür - begehbar, transparent",
+      "category": "building"
+    },
+    "104": {
+      "name": "Sign",
+      "tileset_id": 104,
+      "sprite_file": "sign.png",
+      "description": "Schild - begehbar, transparent",
+      "category": "building"
+    },
+    "105": {
+      "name": "Table",
+      "tileset_id": 105,
+      "sprite_file": "table.png",
+      "description": "Tisch - nicht begehbar, transparent",
+      "category": "interior"
+    },
+    "106": {
+      "name": "Chair",
+      "tileset_id": 106,
+      "sprite_file": "chair.png",
+      "description": "Stuhl - nicht begehbar, transparent",
+      "category": "interior"
+    },
+    "107": {
+      "name": "Bed",
+      "tileset_id": 107,
+      "sprite_file": "bed.png",
+      "description": "Bett - nicht begehbar, transparent",
+      "category": "interior"
+    },
+    "108": {
+      "name": "Bookshelf",
+      "tileset_id": 108,
+      "sprite_file": "bookshelf.png",
+      "description": "Bücherregal - nicht begehbar, transparent",
+      "category": "interior"
+    },
+    "109": {
+      "name": "TV",
+      "tileset_id": 109,
+      "sprite_file": "tv.png",
+      "description": "Fernseher - nicht begehbar, transparent",
+      "category": "interior"
+    },
+    "110": {
+      "name": "Potted_Plant",
+      "tileset_id": 110,
+      "sprite_file": "potted_plant.png",
+      "description": "Topfpflanze - nicht begehbar, transparent",
+      "category": "interior"
+    },
+    "111": {
+      "name": "Crate",
+      "tileset_id": 111,
+      "sprite_file": "crate.png",
+      "description": "Kiste - nicht begehbar, transparent",
+      "category": "objects"
+    },
+    "112": {
+      "name": "Barrel",
+      "tileset_id": 112,
+      "sprite_file": "barrel.png",
+      "description": "Fass - nicht begehbar, transparent",
+      "category": "objects"
+    },
+    "113": {
+      "name": "Lamp_Post",
+      "tileset_id": 113,
+      "sprite_file": "lamp_post.png",
+      "description": "Laternenpfahl - nicht begehbar, transparent",
+      "category": "objects"
+    },
+    "114": {
+      "name": "Mailbox",
+      "tileset_id": 114,
+      "sprite_file": "mailbox.png",
+      "description": "Briefkasten - nicht begehbar, transparent",
+      "category": "objects"
+    },
+    "115": {
+      "name": "Well",
+      "tileset_id": 115,
+      "sprite_file": "well.png",
+      "description": "Brunnen - nicht begehbar, transparent",
+      "category": "objects"
+    },
+    "116": {
+      "name": "Gravestone",
+      "tileset_id": 116,
+      "sprite_file": "gravestone.png",
+      "description": "Grabstein - nicht begehbar, transparent",
+      "category": "objects"
+    },
+    "117": {
+      "name": "Boulder",
+      "tileset_id": 117,
+      "sprite_file": "boulder.png",
+      "description": "Felsbrocken - nicht begehbar, transparent",
+      "category": "objects"
+    },
+    "118": {
+      "name": "Tree_Small",
+      "tileset_id": 118,
+      "sprite_file": "tree_small.png",
+      "description": "Kleiner Baum - nicht begehbar, transparent",
+      "category": "objects"
+    }
+  },
+  "tileset_info": {
+    "tile_size": 16,
+    "use_individual_sprites": true
+  },
+  "layer_types": {
+    "ground": "Bodenebene - wird zuerst gerendert",
+    "decor": "Dekoration - wird über dem Boden gerendert",
+    "collision": "Kollision - bestimmt, wo der Spieler laufen kann",
+    "overhang": "Überhang - wird über allem anderen gerendert"
+  },
+  "categories": {
+    "ground": "Bodenbeläge (Gras, Erde, Wege, etc.)",
+    "interior": "Innenraum-Bodenbeläge",
+    "terrain": "Gelände und Landschaft",
+    "water": "Wasser und Gewässer",
+    "building": "Gebäude und Architektur",
+    "objects": "Interaktive und dekorative Objekte"
+  }
+}

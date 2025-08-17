@@ -1,0 +1,265 @@
+{
+  "id": "museum",
+  "name": "Bergbau- und Fossil-Museum Kohlenstadt",
+  "size": {
+    "w": 12,
+    "h": 10,
+    "tile": 16
+  },
+  "layers": {
+    "ground": [
+      [8,8,8,8,8,8,8,8,8,8,8,8],
+      [8,9,9,9,9,9,9,9,9,9,9,8],
+      [8,9,9,9,9,9,9,9,9,9,9,8],
+      [8,9,9,9,9,9,9,9,9,9,9,8],
+      [8,8,8,8,8,8,8,8,8,8,8,8],
+      [8,9,9,9,9,9,9,9,9,9,9,8],
+      [8,9,9,9,9,9,9,9,9,9,9,8],
+      [8,9,9,9,9,9,9,9,9,9,9,8],
+      [8,8,8,8,8,9,9,8,8,8,8,8],
+      [2,2,2,2,2,6,6,2,2,2,2,2]
+    ],
+    "decor": [
+      [5,5,5,5,5,5,5,5,5,5,5,5],
+      [5,23,0,0,0,21,21,0,0,0,23,5],
+      [5,0,0,0,0,0,0,0,0,0,0,5],
+      [5,0,0,0,0,0,0,0,0,0,0,5],
+      [5,5,5,5,13,0,0,13,5,5,5,5],
+      [5,23,0,0,0,0,0,0,0,0,23,5],
+      [5,0,0,0,0,0,0,0,0,0,0,5],
+      [5,23,0,0,0,0,0,0,0,0,23,5],
+      [5,22,22,0,0,0,0,0,0,22,22,5],
+      [5,5,5,5,5,0,0,5,5,5,5,5]
+    ],
+    "collision": [
+      [1,1,1,1,1,1,1,1,1,1,1,1],
+      [1,1,0,0,0,1,1,0,0,0,1,1],
+      [1,0,0,0,0,0,0,0,0,0,0,1],
+      [1,0,0,0,0,0,0,0,0,0,0,1],
+      [1,1,1,1,0,0,0,0,1,1,1,1],
+      [1,1,0,0,0,0,0,0,0,0,1,1],
+      [1,0,0,0,0,0,0,0,0,0,0,1],
+      [1,1,0,0,0,0,0,0,0,0,1,1],
+      [1,1,1,0,0,0,0,0,0,1,1,1],
+      [1,1,1,1,1,0,0,1,1,1,1,1]
+    ],
+    "overhang": [
+      [0,0,0,0,0,0,0,0,0,0,0,0],
+      [0,0,0,0,0,0,0,0,0,0,0,0],
+      [0,0,0,0,0,0,0,0,0,0,0,0],
+      [0,0,0,0,0,0,0,0,0,0,0,0],
+      [0,0,0,0,0,0,0,0,0,0,0,0],
+      [0,0,0,0,0,0,0,0,0,0,0,0],
+      [0,0,0,0,0,0,0,0,0,0,0,0],
+      [0,0,0,0,0,0,0,0,0,0,0,0],
+      [0,0,0,0,0,0,0,0,0,0,0,0],
+      [0,0,0,0,0,0,0,0,0,0,0,0]
+    ]
+  },
+  "npcs": [
+    {
+      "id": "museum_director",
+      "x": 5,
+      "y": 2,
+      "sprite": "npc_scientist",
+      "direction": "down",
+      "movement": "static",
+      "dialog": [
+        "Tach! Willkommen im Bergbau- und Fossil-Museum von Kohlenstadt!",
+        "Wir ham hier Fossilien ausm ganzen Ruhrgebiet. Alles aus den alten Schächten!",
+        "Die Monster von heute stammen alle von diesen uralten Viechern ab.",
+        "Prof. Budde kommt oft vorbei und studiert die Fossilien für seine Forschung."
+      ]
+    },
+    {
+      "id": "fossil_expert",
+      "x": 2,
+      "y": 6,
+      "sprite": "npc_cooltrainer_f",
+      "direction": "right",
+      "movement": "static",
+      "dialog": [
+        "Diese Fossilien hier sind über 300 Millionen Jahre alt!",
+        "Damals war dat Ruhrgebiet noch'n tropischer Sumpf, kannze dir dat vorstellen?",
+        "Mit der richtigen Technologie könnte man die sogar wiederbeleben...",
+        "Prof. Budde arbeitet genau daran! Revolutionär, sach ich dir!"
+      ]
+    },
+    {
+      "id": "miner_veteran",
+      "x": 9,
+      "y": 6,
+      "sprite": "npc_old_man",
+      "direction": "left",
+      "movement": "static",
+      "dialog": [
+        "Ich hab 40 Jahre unter Tage gearbeitet, Junge!",
+        "Manchmal ham wa komische Sachen gefunden... Knochen, so groß wie'n Förderturm!",
+        "Die Wissenschaftler sagen, dat waren ma Monster. Größer als alles wat heute lebt.",
+        "Aber wer weiß... vielleicht schlummern noch welche tief unten..."
+      ]
+    },
+    {
+      "id": "school_kid",
+      "x": 5,
+      "y": 7,
+      "sprite": "npc_youngster",
+      "direction": "up",
+      "movement": "wander",
+      "dialog": [
+        "Boah, guck ma die ganzen Fossilien! Voll krass!",
+        "Unsere Lehrerin sacht, früher gab's hier überall Monster.",
+        "Die sind dann alle ausgestorben, als die Menschen angefangen haben zu graben.",
+        "Aber jetzt kommen neue Monster aus den alten Minen!"
+      ]
+    }
+  ],
+  "warps": [
+    {
+      "x": 5,
+      "y": 9,
+      "to": "kohlenstadt",
+      "tx": 20,
+      "ty": 9,
+      "direction": "down"
+    },
+    {
+      "x": 6,
+      "y": 9,
+      "to": "kohlenstadt",
+      "tx": 21,
+      "ty": 9,
+      "direction": "down"
+    },
+    {
+      "x": 4,
+      "y": 4,
+      "to": "museum_basement",
+      "tx": 4,
+      "ty": 1,
+      "direction": "down"
+    },
+    {
+      "x": 7,
+      "y": 4,
+      "to": "museum_basement",
+      "tx": 7,
+      "ty": 1,
+      "direction": "down"
+    }
+  ],
+  "triggers": [
+    {
+      "x": 1,
+      "y": 1,
+      "event": "interact",
+      "args": {
+        "text": "Fossil eines Ur-Monsters\n'Carbosaurus Rex - Apex-Räuber des Karbon-Zeitalters'",
+        "type": "examine"
+      }
+    },
+    {
+      "x": 10,
+      "y": 1,
+      "event": "interact",
+      "args": {
+        "text": "Versteinerter Monster-Schädel\n'Gefunden in 800m Tiefe, Zeche Zollverein'",
+        "type": "examine"
+      }
+    },
+    {
+      "x": 5,
+      "y": 1,
+      "event": "interact",
+      "args": {
+        "text": "Infotafel: Die Evolution der Monster\n'Von prähistorischen Giganten zu den heutigen Arten'",
+        "type": "sign"
+      }
+    },
+    {
+      "x": 6,
+      "y": 1,
+      "event": "interact",
+      "args": {
+        "text": "Infotafel: Prof. Buddes Theorie\n'Wiederbelebung durch Rekombination fossiler DNA'",
+        "type": "sign"
+      }
+    },
+    {
+      "x": 1,
+      "y": 5,
+      "event": "interact",
+      "args": {
+        "text": "Bergbau-Ausstellung\n'Werkzeuge und Funde aus 150 Jahren Steinkohleabbau'",
+        "type": "examine"
+      }
+    },
+    {
+      "x": 10,
+      "y": 5,
+      "event": "interact",
+      "args": {
+        "text": "Monster-Ei Fossil\n'Perfekt erhalten - könnte theoretisch noch schlüpfen'",
+        "type": "examine"
+      }
+    },
+    {
+      "x": 1,
+      "y": 7,
+      "event": "interact",
+      "args": {
+        "text": "Vitrine mit seltenen Mineralien\n'Kristalle aus den tiefsten Schächten des Ruhrgebiets'",
+        "type": "examine"
+      }
+    },
+    {
+      "x": 10,
+      "y": 7,
+      "event": "interact",
+      "args": {
+        "text": "Foto-Ausstellung\n'Das Ruhrgebiet - Von der Wildnis zur Industrieregion'",
+        "type": "examine"
+      }
+    },
+    {
+      "x": 1,
+      "y": 8,
+      "event": "interact",
+      "args": {
+        "text": "Besucherbuch\n'Letzter Eintrag: Prof. Budde - Faszinierende neue Entdeckung!'",
+        "type": "examine"
+      }
+    },
+    {
+      "x": 10,
+      "y": 8,
+      "event": "interact",
+      "args": {
+        "text": "Spendenbox\n'Unterstützen Sie die Fossilienforschung!'",
+        "type": "examine"
+      }
+    }
+  ],
+  "properties": {
+    "music": "museum.ogg",
+    "ambient": "quiet_indoor",
+    "lighting": "indoor_bright",
+    "spawns": {
+      "default": {
+        "x": 5,
+        "y": 8,
+        "direction": "up"
+      },
+      "from_kohlenstadt": {
+        "x": 5,
+        "y": 8,
+        "direction": "up"
+      },
+      "from_basement": {
+        "x": 5,
+        "y": 5,
+        "direction": "down"
+      }
+    }
+  }
+}

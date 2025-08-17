@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="9" height="6" tilewidth="16" tileheight="16" infinite="0" nextlayerid="5" nextobjectid="7">
+ <tileset firstgid="1" source="tiles_building1.tsx"/>
+ <tileset firstgid="13" source="tiles_interior1.tsx"/>
+ <layer id="1" name="Tile Layer 1" width="9" height="6">
+  <data encoding="csv">
+14,14,14,14,14,14,14,14,14,
+14,13,13,13,13,13,13,13,14,
+14,13,13,13,13,13,13,13,14,
+14,13,13,13,13,13,13,13,14,
+14,13,13,13,13,13,13,13,14,
+14,14,14,14,15,15,14,14,14
+</data>
+ </layer>
+ <layer id="4" name="Tile Layer 2" width="9" height="6">
+  <data encoding="csv">
+0,0,6,0,0,0,6,0,0,
+0,18,0,0,0,17,16,21,0,
+0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,
+0,21,19,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0
+</data>
+ </layer>
+</map>
