@@ -171,29 +171,29 @@ class StatStages:
 
 
 class Experience:
-    """Handles experience points and level calculation."""
+    """Experience and leveling system."""
     
     MAX_LEVEL = 100
+    MIN_LEVEL = 1
     
     @staticmethod
     def get_exp_for_level(level: int, curve: GrowthCurve) -> int:
         """
-        Calculate total experience needed to reach a level.
+        Calculate total experience needed for a specific level.
         
         Args:
-            level: Target level (1-100)
+            level: Target level
             curve: Growth curve type
             
         Returns:
             Total experience points needed
         """
-        if level <= 1:
+        if level < 1:
             return 0
-        if level > Experience.MAX_LEVEL:
-            level = Experience.MAX_LEVEL
+        elif level == 1:
+            return 0
         
         n = level
-        
         if curve == GrowthCurve.FAST:
             return int(0.8 * (n ** 3))
         elif curve == GrowthCurve.MEDIUM_FAST:
@@ -206,7 +206,7 @@ class Experience:
             return int(n ** 3)
     
     @staticmethod
-    def get_level_from_exp(exp: int, curve: GrowthCurve) -> int:
+    def get_level_for_exp(exp: int, curve: GrowthCurve) -> int:
         """
         Calculate level from total experience.
         
@@ -274,15 +274,6 @@ class Experience:
             exp *= 1.0 + (level_diff * 0.02)  # Small penalty for beating weaker
         
         return max(1, int(exp))
-
-
-class Experience:
-    """Experience and leveling system."""
-    
-    MAX_LEVEL = 100
-    MIN_LEVEL = 1
-    
-
 
 
 class StatCalculator:

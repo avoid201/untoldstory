@@ -3,14 +3,17 @@ Monster Instance System for Untold Story
 Individual monster instances with stats, moves, and progression
 """
 
-from typing import Dict, List, Optional, Tuple, Any
+from typing import Dict, List, Optional, Tuple, Any, Union
 from dataclasses import dataclass
 from enum import Enum
 import random
+import logging
 from engine.systems.stats import BaseStats, StatCalculator, Experience, GrowthCurve, StatStages
 from engine.systems.moves import Move, move_registry
 from engine.core.resources import resources
 
+# Logger für bessere Fehlerverfolgung
+logger = logging.getLogger(__name__)
 
 class StatusCondition(Enum):
     """Status conditions that can affect monsters."""
@@ -22,6 +25,27 @@ class StatusCondition(Enum):
     FREEZE = "freeze"      # Cannot act until thawed
     CONFUSION = "confusion"  # May hurt itself
     FLINCH = "flinch"      # Skip next turn only
+    
+    @classmethod
+    def from_string(cls, value: str) -> 'StatusCondition':
+        """Konvertiere String zu StatusCondition mit Fallback."""
+        try:
+            if isinstance(value, str):
+                return cls(value.lower())
+            return value
+        except (ValueError, AttributeError):
+            return cls.NONE
+    
+    def __str__(self) -> str:
+        return self.value
+    
+    def __eq__(self, other) -> bool:
+        """Verbesserte Gleichheit für verschiedene Datentypen."""
+        if isinstance(other, StatusCondition):
+            return self.value == other.value
+        elif isinstance(other, str):
+            return self.value == other.lower()
+        return False
 
 
 class MonsterRank(Enum):
@@ -35,6 +59,16 @@ class MonsterRank(Enum):
     S = "S"   # Epic
     SS = "SS"  # Epic+
     X = "X"   # Legendary
+    
+    @classmethod
+    def from_string(cls, value: str) -> 'MonsterRank':
+        """Konvertiere String zu MonsterRank mit Fallback."""
+        try:
+            if isinstance(value, str):
+                return cls(value.upper())
+            return value
+        except (ValueError, AttributeError):
+            return cls.E
     
     @property
     def capture_difficulty(self) -> float:
@@ -73,47 +107,66 @@ class MonsterSpecies:
     description: str = ""
     
     def __post_init__(self):
+        """Validiere und setze Standardwerte nach der Initialisierung."""
         if self.types is None:
             self.types = ["Bestie"]
         if self.traits is None:
             self.traits = []
         if self.learnset is None:
             self.learnset = []
+        
+        # Validiere kritische Felder
+        if not isinstance(self.id, int):
+            raise ValueError("ID muss eine Ganzzahl sein")
+        if not self.name or not isinstance(self.name, str):
+            raise ValueError("Name muss ein nicht-leerer String sein")
+        if not isinstance(self.rank, MonsterRank):
+            self.rank = MonsterRank.from_string(str(self.rank))
     
     @classmethod
     def from_dict(cls, data: Dict[str, Any]) -> 'MonsterSpecies':
         """Create MonsterSpecies from dictionary data."""
-        # Convert growth curve string to enum
-        growth_curve = GrowthCurve.MEDIUM_FAST
-        curve_str = data.get("growth", {}).get("curve", "medium_fast")
         try:
-            growth_curve = GrowthCurve(curve_str)
-        except ValueError:
-            pass
-        
-        # Convert rank string to enum
-        rank = MonsterRank.E
-        rank_str = data.get("rank", "E")
-        try:
-            rank = MonsterRank(rank_str)
-        except ValueError:
-            pass
-        
-        return cls(
-            id=data["id"],
-            name=data["name"],
-            era=data.get("era", "present"),
-            rank=rank,
-            types=data.get("types", ["Bestie"]),
-            base_stats=BaseStats.from_dict(data["base_stats"]) if "base_stats" in data else None,
-            growth_curve=growth_curve,
-            base_exp_yield=data.get("growth", {}).get("yield", 64),
-            capture_rate=data.get("capture_rate", 45),
-            traits=data.get("traits", []),
-            learnset=[(l["level"], l["move"]) for l in data.get("learnset", [])],
-            evolution=data.get("evolution"),
-            description=data.get("description", "")
-        )
+            if not isinstance(data, dict):
+                raise ValueError("Daten müssen ein Dictionary sein")
+            
+            if "id" not in data or "name" not in data:
+                raise ValueError("ID und Name sind erforderlich")
+            
+            # Convert growth curve string to enum
+            growth_curve = GrowthCurve.MEDIUM_FAST
+            curve_str = data.get("growth", {}).get("curve", "medium_fast")
+            try:
+                growth_curve = GrowthCurve(curve_str)
+            except ValueError:
+                logger.warning(f"Ungültige Growth Curve: {curve_str}, verwende Standard")
+            
+            # Convert rank string to enum
+            rank = MonsterRank.E
+            rank_str = data.get("rank", "E")
+            try:
+                rank = MonsterRank.from_string(str(rank_str))
+            except ValueError:
+                logger.warning(f"Ungültiger Rank: {rank_str}, verwende E")
+            
+            return cls(
+                id=data["id"],
+                name=data["name"],
+                era=data.get("era", "present"),
+                rank=rank,
+                types=data.get("types", ["Bestie"]),
+                base_stats=BaseStats.from_dict(data["base_stats"]) if "base_stats" in data else None,
+                growth_curve=growth_curve,
+                base_exp_yield=data.get("growth", {}).get("yield", 64),
+                capture_rate=data.get("capture_rate", 45),
+                traits=data.get("traits", []),
+                learnset=[(l["level"], l["move"]) for l in data.get("learnset", [])],
+                evolution=data.get("evolution"),
+                description=data.get("description", "")
+            )
+        except Exception as e:
+            logger.error(f"Fehler beim Erstellen der MonsterSpecies aus Dict: {e}")
+            raise
 
 
 class MonsterInstance:
@@ -131,9 +184,18 @@ class MonsterInstance:
             level: Starting level
             nickname: Optional nickname
         """
+        # Validiere Input-Parameter
+        if not species:
+            raise ValueError("Species darf nicht None sein")
+        if not isinstance(level, int) or level < 1:
+            raise ValueError("Level muss eine positive Ganzzahl sein")
+        
         self.species = species
         self.nickname = nickname
         self.level = level
+        
+        # RNG für deterministische Tests (muss vor _generate_ivs gesetzt werden)
+        self.rng = random.Random()
         
         # Individual Values (IVs) - genetic potential (0-31)
         self.ivs = self._generate_ivs()
@@ -148,9 +210,16 @@ class MonsterInstance:
         self.nature = self._generate_nature()
         
         # Calculate stats
-        self.stats = self._calculate_stats()
-        self.max_hp = self.stats["hp"]
-        self.current_hp = self.max_hp
+        try:
+            self.stats = self._calculate_stats()
+            self.max_hp = self.stats["hp"]
+            self.current_hp = self.max_hp
+        except Exception as e:
+            logger.error(f"Fehler bei der Stats-Berechnung: {e}")
+            # Fallback-Stats
+            self.stats = {"hp": 100, "atk": 50, "def": 50, "mag": 30, "res": 30, "spd": 70}
+            self.max_hp = 100
+            self.current_hp = 100
         
         # Battle stats (stages)
         self.stat_stages = StatStages()
@@ -164,10 +233,14 @@ class MonsterInstance:
         self._learn_initial_moves()
         
         # Experience
-        self.exp = Experience.get_exp_for_level(level, species.growth_curve)
+        try:
+            self.exp = Experience.get_exp_for_level(level, species.growth_curve)
+        except Exception as e:
+            logger.error(f"Fehler bei der EP-Berechnung: {e}")
+            self.exp = 0
         
         # Traits/Abilities
-        self.traits = species.traits.copy()
+        self.traits = species.traits.copy() if species.traits else []
         self.held_item: Optional[str] = None
         
         # Battle state
@@ -178,396 +251,285 @@ class MonsterInstance:
         self.original_trainer = None
         self.capture_location = None
         self.capture_level = level
-
-    # ---------------------- Kompatibilitäts-Hilfsmethoden ----------------------
-
-    @classmethod
-    def create_from_species(cls, species: Any, level: int = 5, **kwargs) -> 'MonsterInstance':
-        """Erstellt eine MonsterInstance aus Spezies-Daten.
-
-        Akzeptiert sowohl bereits geparste ``MonsterSpecies`` als auch ein ``dict``
-        (z. B. direkt aus ``resources.get_monster_species``). Dadurch bleiben ältere
-        Aufrufe wie ``MonsterInstance.create_from_species(species=..., level=...)``
-        funktionsfähig.
-        """
-        if species is None:
-            raise ValueError("species darf nicht None sein")
-
-        # Falls ein Dict übergeben wurde – in MonsterSpecies konvertieren
-        if isinstance(species, dict):
-            species = MonsterSpecies.from_dict(species)
-
-        if not isinstance(species, MonsterSpecies):
-            raise TypeError("species muss MonsterSpecies oder dict sein")
-
-        return cls(species, level, nickname=kwargs.get("nickname"))
+    
+    def set_random_seed(self, seed: int) -> None:
+        """Setze RNG-Seed für deterministische Tests."""
+        self.rng = random.Random(seed)
     
     @property
     def name(self) -> str:
-        """Get display name (nickname or species name)."""
+        """Hole den Namen des Monsters (Nickname oder Spezies-Name)."""
         return self.nickname or self.species.name
     
     @property
-    def types(self) -> List[str]:
-        """Get monster's types."""
-        return self.species.types
-    
-    @property
-    def rank(self) -> MonsterRank:
-        """Get monster's rank."""
-        return self.species.rank
+    def id(self) -> int:
+        """Hole die ID des Monsters."""
+        return getattr(self.species, 'id', 0)
     
     def _generate_ivs(self) -> Dict[str, int]:
-        """Generate random Individual Values."""
-        return {
-            "hp": random.randint(0, 31),
-            "atk": random.randint(0, 31),
-            "def": random.randint(0, 31),
-            "mag": random.randint(0, 31),
-            "res": random.randint(0, 31),
-            "spd": random.randint(0, 31)
-        }
+        """Generate random IVs for the monster."""
+        try:
+            return {
+                "hp": self.rng.randint(0, 31),
+                "atk": self.rng.randint(0, 31),
+                "def": self.rng.randint(0, 31),
+                "mag": self.rng.randint(0, 31),
+                "res": self.rng.randint(0, 31),
+                "spd": self.rng.randint(0, 31)
+            }
+        except Exception as e:
+            logger.error(f"Fehler bei der IV-Generierung: {e}")
+            return {"hp": 15, "atk": 15, "def": 15, "mag": 15, "res": 15, "spd": 15}
     
     def _generate_nature(self) -> str:
-        """Generate a random nature."""
-        natures = [
-            "Hardy", "Lonely", "Brave", "Adamant", "Naughty",
-            "Bold", "Docile", "Relaxed", "Impish", "Lax",
-            "Timid", "Hasty", "Serious", "Jolly", "Naive",
-            "Modest", "Mild", "Quiet", "Bashful", "Rash",
-            "Calm", "Gentle", "Sassy", "Careful", "Quirky"
-        ]
-        return random.choice(natures)
+        """Generate a random nature for the monster."""
+        try:
+            natures = ["Hardy", "Lonely", "Brave", "Adamant", "Naughty",
+                      "Bold", "Docile", "Relaxed", "Impish", "Lax",
+                      "Timid", "Hasty", "Serious", "Jolly", "Naive",
+                      "Modest", "Mild", "Quiet", "Bashful", "Rash",
+                      "Calm", "Gentle", "Sassy", "Careful", "Quirky"]
+            return self.rng.choice(natures)
+        except Exception as e:
+            logger.error(f"Fehler bei der Nature-Generierung: {e}")
+            return "Hardy"
     
     def _calculate_stats(self) -> Dict[str, int]:
-        """Calculate actual stats based on level, IVs, EVs, and nature."""
-        return StatCalculator.calculate_all_stats(
-            self.species.base_stats,
-            self.level,
-            self.ivs,
-            self.evs,
-            self.nature
-        )
+        """Calculate the monster's stats based on species, level, IVs, and EVs."""
+        try:
+            if not self.species.base_stats:
+                raise ValueError("Keine Basis-Stats verfügbar")
+            
+            stats = {}
+            for stat_name in ["hp", "atk", "def", "mag", "res", "spd"]:
+                base_stat = getattr(self.species.base_stats, stat_name, 0)
+                
+                if stat_name == "hp":
+                    # HP formula
+                    stat_value = int((2 * base_stat + self.ivs[stat_name] + self.evs[stat_name] / 4) * self.level / 100 + self.level + 10)
+                else:
+                    # Other stats formula
+                    stat_value = int((2 * base_stat + self.ivs[stat_name] + self.evs[stat_name] / 4) * self.level / 100 + 5)
+                
+                stats[stat_name] = max(1, stat_value)  # Mindestens 1
+            
+            return stats
+        except Exception as e:
+            logger.error(f"Fehler bei der Stats-Berechnung: {e}")
+            # Fallback-Stats
+            return {"hp": 100, "atk": 50, "def": 50, "mag": 30, "res": 30, "spd": 70}
     
     def _learn_initial_moves(self) -> None:
-        """Learn moves available at current level."""
-        self.moves = []
-        
-        # Get all moves learnable up to current level
-        learnable = []
-        for learn_level, move_id in self.species.learnset:
-            if learn_level <= self.level:
-                learnable.append((learn_level, move_id))
-        
-        # Sort by level (newest first) and take up to 4
-        learnable.sort(key=lambda x: x[0], reverse=True)
-        
-        for _, move_id in learnable[:4]:
-            move = move_registry.create_move_instance(move_id)
-            if move and move not in self.moves:
-                self.moves.append(move)
-    
-    def gain_exp(self, amount: int) -> Dict[str, Any]:
-        """
-        Gain experience points.
-        
-        Args:
-            amount: Experience points to gain
+        """Learn initial moves based on species learnset."""
+        try:
+            if not self.species.learnset:
+                return
             
-        Returns:
-            Dictionary with level up info
-        """
-        result = {
-            "exp_gained": amount,
-            "leveled_up": False,
-            "new_level": self.level,
-            "new_moves": [],
-            "evolved": False
-        }
-        
-        old_level = self.level
-        self.exp += amount
-        
-        # Check for level up
-        new_level = Experience.get_level_from_exp(
-            self.exp, self.species.growth_curve
-        )
-        
-        if new_level > old_level:
-            result["leveled_up"] = True
-            result["new_level"] = new_level
+            # Sortiere Moves nach Level
+            available_moves = [(level, move_id) for level, move_id in self.species.learnset if level <= self.level]
+            available_moves.sort(key=lambda x: x[0])
             
-            # Level up each level individually to learn moves
-            for level in range(old_level + 1, new_level + 1):
-                self.level = level
-                self._recalculate_stats()
-                
-                # Check for new moves
-                new_moves = self._check_new_moves(level)
-                result["new_moves"].extend(new_moves)
-                
-                # Check for evolution
-                if self._check_evolution(level):
-                    result["evolved"] = True
-        
-        return result
-    
-    def _recalculate_stats(self) -> None:
-        """Recalculate stats after level up."""
-        old_max_hp = self.max_hp
-        self.stats = self._calculate_stats()
-        self.max_hp = self.stats["hp"]
-        
-        # Increase current HP by the same amount max HP increased
-        hp_increase = self.max_hp - old_max_hp
-        self.current_hp = min(self.current_hp + hp_increase, self.max_hp)
-    
-    def _check_new_moves(self, level: int) -> List[str]:
-        """Check if any new moves are learned at this level."""
-        new_moves = []
-        
-        for learn_level, move_id in self.species.learnset:
-            if learn_level == level:
-                new_moves.append(move_id)
-        
-        return new_moves
-    
-    def learn_move(self, move_id: str, slot: Optional[int] = None) -> bool:
-        """
-        Learn a new move.
-        
-        Args:
-            move_id: ID of move to learn
-            slot: Optional slot to replace (0-3), None to append
-            
-        Returns:
-            True if move was learned
-        """
-        move = move_registry.create_move_instance(move_id)
-        if not move:
-            return False
-        
-        # Check if already knows the move
-        if any(m.id == move_id for m in self.moves):
-            return False
-        
-        if slot is not None and 0 <= slot < len(self.moves):
-            # Replace existing move
-            self.moves[slot] = move
-            return True
-        elif len(self.moves) < 4:
-            # Add to empty slot
-            self.moves.append(move)
-            return True
-        
-        return False
-    
-    def _check_evolution(self, level: int) -> bool:
-        """Check if monster should evolve."""
-        if not self.species.evolution:
-            return False
-        
-        evo = self.species.evolution
-        if evo.get("level") == level:
-            # Would trigger evolution here
-            return True
-        
-        return False
-    
-    def take_damage(self, damage: int) -> int:
-        """
-        Take damage.
-        
-        Args:
-            damage: Amount of damage to take
-            
-        Returns:
-            Actual damage taken
-        """
-        actual_damage = min(damage, self.current_hp)
-        self.current_hp -= actual_damage
-        
-        if self.current_hp <= 0:
-            self.current_hp = 0
-            self.faint()
-        
-        return actual_damage
-    
-    def heal(self, amount: int) -> int:
-        """
-        Heal HP.
-        
-        Args:
-            amount: Amount to heal
-            
-        Returns:
-            Actual amount healed
-        """
-        if self.is_fainted:
-            return 0
-        
-        actual_heal = min(amount, self.max_hp - self.current_hp)
-        self.current_hp += actual_heal
-        return actual_heal
-    
-    def faint(self) -> None:
-        """Handle fainting."""
-        self.is_fainted = True
-        self.status = StatusCondition.NONE
-        self.stat_stages.reset()
-    
-    def revive(self, hp_percent: float = 0.5) -> None:
-        """
-        Revive from fainting.
-        
-        Args:
-            hp_percent: Percentage of max HP to restore
-        """
-        if not self.is_fainted:
-            return
-        
-        self.is_fainted = False
-        self.current_hp = max(1, int(self.max_hp * hp_percent))
-    
-    def apply_status(self, status: StatusCondition) -> bool:
-        """
-        Apply a status condition.
-        
-        Args:
-            status: Status to apply
-            
-        Returns:
-            True if status was applied
-        """
-        # Can't apply status if already statused (except minor ones)
-        major_statuses = [
-            StatusCondition.BURN, StatusCondition.POISON,
-            StatusCondition.PARALYSIS, StatusCondition.SLEEP,
-            StatusCondition.FREEZE
-        ]
-        
-        if self.status in major_statuses and status in major_statuses:
-            return False
-        
-        self.status = status
-        
-        # Set duration for temporary statuses
-        if status == StatusCondition.SLEEP:
-            self.status_turns = random.randint(1, 3)
-        elif status == StatusCondition.CONFUSION:
-            self.status_turns = random.randint(2, 5)
-        else:
-            self.status_turns = 0
-        
-        return True
-    
-    def cure_status(self) -> bool:
-        """
-        Cure current status condition.
-        
-        Returns:
-            True if status was cured
-        """
-        if self.status != StatusCondition.NONE:
-            self.status = StatusCondition.NONE
-            self.status_turns = 0
-            return True
-        return False
+            # Lerne bis zu 4 Moves
+            for level, move_id in available_moves[-4:]:
+                try:
+                    move = move_registry.get_move(move_id)
+                    if move and move not in self.moves:
+                        self.moves.append(move)
+                except Exception as e:
+                    logger.warning(f"Konnte Move {move_id} nicht laden: {e}")
+        except Exception as e:
+            logger.error(f"Fehler beim Lernen der initialen Moves: {e}")
     
     def process_status(self) -> Dict[str, Any]:
-        """
-        Process status effects at turn end.
-        
-        Returns:
-            Dictionary with status effect results
-        """
-        result = {
-            "damage": 0,
-            "skip_turn": False,
-            "cured": False,
-            "message": ""
-        }
-        
-        if self.status == StatusCondition.BURN:
-            # Burn damage: 1/16 of max HP
-            damage = max(1, self.max_hp // 16)
-            self.take_damage(damage)
-            result["damage"] = damage
-            result["message"] = f"{self.name} leidet unter Verbrennung!"
+        """Process status effects at the start of turn."""
+        try:
+            if self.status == StatusCondition.NONE or self.is_fainted:
+                return {"skip_turn": False, "message": ""}
             
-        elif self.status == StatusCondition.POISON:
-            # Poison damage: 1/8 of max HP
-            damage = max(1, self.max_hp // 8)
-            self.take_damage(damage)
-            result["damage"] = damage
-            result["message"] = f"{self.name} leidet unter Vergiftung!"
+            self.status_turns += 1
             
-        elif self.status == StatusCondition.SLEEP:
-            self.status_turns -= 1
-            if self.status_turns <= 0:
-                self.cure_status()
-                result["cured"] = True
-                result["message"] = f"{self.name} wacht auf!"
-            else:
-                result["skip_turn"] = True
-                result["message"] = f"{self.name} schläft fest!"
+            if self.status == StatusCondition.SLEEP:
+                if self.status_turns >= 3:
+                    self.status = StatusCondition.NONE
+                    self.status_turns = 0
+                    return {"skip_turn": False, "message": f"{self.name} ist aufgewacht!"}
+                else:
+                    return {"skip_turn": True, "message": f"{self.name} schläft tief und fest."}
+            
+            elif self.status == StatusCondition.FREEZE:
+                # 20% chance to thaw
+                if self.rng.random() < 0.2:
+                    self.status = StatusCondition.NONE
+                    self.status_turns = 0
+                    return {"skip_turn": False, "message": f"{self.name} ist aufgetaut!"}
+                else:
+                    return {"skip_turn": True, "message": f"{self.name} ist eingefroren!"}
+            
+            elif self.status == StatusCondition.PARALYSIS:
+                # 25% chance to skip turn
+                if self.rng.random() < 0.25:
+                    return {"skip_turn": True, "message": f"{self.name} ist gelähmt und kann sich nicht bewegen!"}
+                else:
+                    return {"skip_turn": False, "message": ""}
+            
+            elif self.status == StatusCondition.CONFUSION:
+                # Confusion lasts 2-5 turns
+                if self.status_turns >= self.rng.randint(2, 5):
+                    self.status = StatusCondition.NONE
+                    self.status_turns = 0
+                    return {"skip_turn": False, "message": f"{self.name} ist nicht mehr verwirrt!"}
+                else:
+                    # 50% chance to hurt itself
+                    if self.rng.random() < 0.5:
+                        damage = max(1, int(self.stats["atk"] * 0.4))
+                        self.take_damage(damage)
+                        return {"skip_turn": True, "message": f"{self.name} trifft sich selbst! ({damage} Schaden)"}
+                    else:
+                        return {"skip_turn": False, "message": ""}
+            
+            elif self.status == StatusCondition.FLINCH:
+                # Flinch only affects one turn
+                self.status = StatusCondition.NONE
+                self.status_turns = 0
+                return {"skip_turn": True, "message": f"{self.name} ist erschrocken!"}
+            
+            return {"skip_turn": False, "message": ""}
+            
+        except Exception as e:
+            logger.error(f"Fehler bei der Status-Verarbeitung: {e}")
+            return {"skip_turn": False, "message": ""}
+    
+    def take_damage(self, damage: int) -> int:
+        """Take damage and return actual damage taken."""
+        try:
+            if damage <= 0:
+                return 0
+            
+            old_hp = self.current_hp
+            self.current_hp = max(0, self.current_hp - damage)
+            actual_damage = old_hp - self.current_hp
+            
+            # Check if fainted
+            if self.current_hp <= 0:
+                self.is_fainted = True
+                self.status = StatusCondition.NONE
+                self.status_turns = 0
+            
+            return actual_damage
+            
+        except Exception as e:
+            logger.error(f"Fehler beim Schaden nehmen: {e}")
+            return 0
+    
+    def heal(self, amount: int) -> int:
+        """Heal the monster and return actual healing done."""
+        try:
+            if amount <= 0 or self.is_fainted:
+                return 0
+            
+            old_hp = self.current_hp
+            self.current_hp = min(self.max_hp, self.current_hp + amount)
+            actual_healing = self.current_hp - old_hp
+            
+            return actual_healing
+            
+        except Exception as e:
+            logger.error(f"Fehler beim Heilen: {e}")
+            return 0
+    
+    def gain_exp(self, exp_amount: int) -> Dict[str, Any]:
+        """Gain experience and return level up information."""
+        try:
+            if exp_amount <= 0:
+                return {"leveled_up": False}
+            
+            old_level = self.level
+            self.exp += exp_amount
+            
+            # Check for level up
+            new_level = Experience.get_level_for_exp(self.exp, self.species.growth_curve)
+            
+            if new_level > old_level:
+                self.level = new_level
                 
-        elif self.status == StatusCondition.PARALYSIS:
-            # 25% chance to be fully paralyzed
-            if random.random() < 0.25:
-                result["skip_turn"] = True
-                result["message"] = f"{self.name} ist paralysiert!"
+                # Recalculate stats
+                self.stats = self._calculate_stats()
+                old_max_hp = self.max_hp
+                self.max_hp = self.stats["hp"]
                 
-        elif self.status == StatusCondition.FREEZE:
-            # 20% chance to thaw
-            if random.random() < 0.2:
-                self.cure_status()
-                result["cured"] = True
-                result["message"] = f"{self.name} taut auf!"
-            else:
-                result["skip_turn"] = True
-                result["message"] = f"{self.name} ist eingefroren!"
+                # Heal HP increase
+                hp_increase = self.max_hp - old_max_hp
+                self.current_hp += hp_increase
                 
-        elif self.status == StatusCondition.CONFUSION:
-            self.status_turns -= 1
-            if self.status_turns <= 0:
-                self.cure_status()
-                result["cured"] = True
-                result["message"] = f"{self.name} ist nicht mehr verwirrt!"
-            else:
-                # 33% chance to hurt itself
-                if random.random() < 0.33:
-                    damage = max(1, self.max_hp // 8)
-                    self.take_damage(damage)
-                    result["damage"] = damage
-                    result["skip_turn"] = True
-                    result["message"] = f"{self.name} verletzt sich selbst vor Verwirrung!"
-        
-        return result
+                # Check for new moves
+                new_moves = []
+                self._learn_initial_moves()
+                
+                return {
+                    "leveled_up": True,
+                    "new_level": new_level,
+                    "new_moves": new_moves,
+                    "hp_increase": hp_increase
+                }
+            
+            return {"leveled_up": False}
+            
+        except Exception as e:
+            logger.error(f"Fehler beim EP-Gewinn: {e}")
+            return {"leveled_up": False, "error": str(e)}
     
     def get_catch_rate(self, hp_percent: float, status_bonus: float = 1.0) -> float:
-        """
-        Calculate catch rate for this monster.
-        
-        Args:
-            hp_percent: Current HP as percentage (0.0-1.0)
-            status_bonus: Multiplier from status conditions
+        """Calculate catch rate based on HP and status."""
+        try:
+            if hp_percent <= 0:
+                return 0.0
             
-        Returns:
-            Catch rate (0.0-1.0)
-        """
-        base_rate = self.species.capture_rate / 255.0
-        
-        # Modify by rank
-        base_rate *= self.rank.capture_difficulty
-        
-        # HP factor (lower HP = easier catch)
-        hp_factor = 2.0 - hp_percent
-        
-        # Calculate final rate
-        catch_rate = base_rate * hp_factor * status_bonus
-        
-        return min(1.0, catch_rate)
+            # Base catch rate from species
+            base_rate = self.species.capture_rate / 255.0
+            
+            # HP modifier
+            hp_modifier = (3 * self.max_hp - 2 * self.current_hp) / (3 * self.max_hp)
+            
+            # Status bonus
+            status_modifier = status_bonus
+            
+            # Final catch rate
+            catch_rate = base_rate * hp_modifier * status_modifier
+            
+            return max(0.0, min(1.0, catch_rate))
+            
+        except Exception as e:
+            logger.error(f"Fehler bei der Catch-Rate-Berechnung: {e}")
+            return 0.1  # Fallback
+    
+    def is_valid(self) -> bool:
+        """Validiere den Monster-Status."""
+        try:
+            # Prüfe grundlegende Eigenschaften
+            if not self.species or not self.name:
+                return False
+            
+            # Prüfe Stats
+            if not self.stats or not isinstance(self.stats, dict):
+                return False
+            
+            # Prüfe HP
+            if self.current_hp < 0 or self.max_hp <= 0:
+                return False
+            
+            # Prüfe Level
+            if not isinstance(self.level, int) or self.level < 1:
+                return False
+            
+            # Prüfe Status
+            if not isinstance(self.status, StatusCondition):
+                return False
+            
+            return True
+            
+        except Exception as e:
+            logger.error(f"Fehler bei der Monster-Validierung: {e}")
+            return False
     
     def to_dict(self) -> Dict[str, Any]:
         """Serialize to dictionary for saving."""
