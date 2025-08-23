@@ -472,3 +472,73 @@ class QuestManager:
         manager.quest_counters = data.get('counters', {}).copy()
         
         return manager
+
+
+class QuestManager:
+    """Manages all quests in the game."""
+    
+    def __init__(self):
+        """Initialize quest manager."""
+        self.quests: Dict[str, Quest] = {}
+        self.active_quests: List[str] = []
+        self.completed_quests: set[str] = set()
+        self.quest_counters: Dict[str, int] = {}
+        
+        # Initialize quests
+        self._init_quests()
+    
+    def _init_quests(self):
+        """Initialize all quests."""
+        # Main story quests
+        self.quests['main_story'] = Quest(
+            id='main_story',
+            name='Die Reise beginnt',
+            description='Beginne deine Reise als Monster-Trainer im Ruhrgebiet!',
+            objectives=[
+                'Verlasse dein Haus',
+                'Besuche Professor Budde im Museum',
+                'Wähle dein Starter-Monster',
+                'Besiege deinen Rivalen Klaus'
+            ]
+        )
+        
+        # Side quests
+        self.quests['first_catch'] = Quest(
+            id='first_catch',
+            name='Erster Fang',
+            description='Fange dein erstes wildes Monster!',
+            objectives=[
+                'Fange ein wildes Monster'
+            ]
+        )
+        
+        self.quests['explore_route1'] = Quest(
+            id='explore_route1',
+            name='Route 1 erkunden',
+            description='Erkunde die Route zwischen Kohlenstadt und Bergmannsheil',
+            objectives=[
+                'Besuche Route 1',
+                'Finde 3 verschiedene Monster'
+            ]
+        )
+    
+    def start_quest(self, quest_id: str) -> bool:
+        """Start a quest."""
+        if quest_id in self.quests and quest_id not in self.active_quests:
+            self.active_quests.append(quest_id)
+            return True
+        return False
+    
+    def complete_quest(self, quest_id: str) -> bool:
+        """Complete a quest."""
+        if quest_id in self.active_quests:
+            self.active_quests.remove(quest_id)
+            self.completed_quests.add(quest_id)
+            return True
+        return False
+    
+    def get_quest(self, quest_id: str) -> Optional[Quest]:
+        """Get a quest by ID."""
+        return self.quests.get(quest_id)
+    
+

@@ -276,6 +276,15 @@ class Experience:
         return max(1, int(exp))
 
 
+class Experience:
+    """Experience and leveling system."""
+    
+    MAX_LEVEL = 100
+    MIN_LEVEL = 1
+    
+
+
+
 class StatCalculator:
     """Calculates actual stats from base stats, level, and IVs."""
     

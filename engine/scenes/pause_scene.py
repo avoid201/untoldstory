@@ -196,8 +196,7 @@ class PauseScene(Scene):
     def _confirm_quit(self) -> None:
         """Confirm quit to main menu."""
         from engine.scenes.main_menu_scene import MainMenuScene
-        main_menu = MainMenuScene(self.game)
-        self.game.scene_manager.set_scene(main_menu)
+        self.game.change_scene(MainMenuScene)
     
     def _close_submenu(self) -> None:
         """Close current submenu."""

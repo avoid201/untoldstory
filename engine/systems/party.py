@@ -9,6 +9,7 @@ import json
 
 if TYPE_CHECKING:
     from engine.systems.monster_instance import MonsterInstance
+    from engine.systems.monsters import MonsterSpecies
 
 
 @dataclass
@@ -653,3 +654,15 @@ class PartyManager:
         manager.party = Party.from_dict(data['party'])
         manager.storage = StorageSystem.from_dict(data['storage'])
         return manager
+
+
+class PartyManager:
+    """Manages both active party and storage system."""
+    
+    def __init__(self, game=None):
+        """Initialize party manager."""
+        self.game = game
+        self.party = Party()
+        self.storage = StorageSystem()
+    
+

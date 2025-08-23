@@ -4,11 +4,14 @@ Handles the capture/recruitment of wild monsters with DQM-style mechanics.
 """
 
 import random
-from typing import Optional, List, Tuple
+from typing import Optional, List, Tuple, Dict, Any, TYPE_CHECKING
 from dataclasses import dataclass
 from enum import Enum
 
 from engine.systems.monster_instance import MonsterInstance
+
+if TYPE_CHECKING:
+    from engine.systems.monsters import MonsterSpecies
 
 
 class TameResult(Enum):
@@ -126,11 +129,11 @@ def calculate_offensive_pressure(player_team: List[MonsterInstance], target: Mon
         return 0.0
     
     # Calculate average offensive stats vs target's defenses
-    avg_attack = sum(m.stats['attacker'] for m in active_team) / len(active_team)
+    avg_attack = sum(m.stats['atk'] for m in active_team) / len(active_team)
     avg_magic = sum(m.stats['mag'] for m in active_team) / len(active_team)
     
     # Compare to target's defenses
-    phys_advantage = (avg_attack - target.stats['defender']) / 100.0
+    phys_advantage = (avg_attack - target.stats['def']) / 100.0
     mag_advantage = (avg_magic - target.stats['res']) / 100.0
     
     # Best advantage counts

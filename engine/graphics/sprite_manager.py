@@ -57,6 +57,10 @@ class SpriteManager:
         
         # Lazy Loading
         self._loaded = False
+        
+        # GID-zu-Surface Mapping für TMX-Support
+        self.gid_to_surface: Dict[int, pygame.Surface] = {}
+        self._loaded_tilesets = set()  # Track loaded tilesets to avoid duplicates
 
     # ---------- Public API ----------
 
@@ -72,6 +76,15 @@ class SpriteManager:
             self._load_monsters()
             self._update_sprite_cache()
             self._loaded = True
+    
+    def _ensure_display(self) -> None:
+        """Stellt sicher, dass pygame.display initialisiert ist."""
+        try:
+            pygame.display.get_surface()
+        except pygame.error:
+            # Display nicht initialisiert, erstelle einen temporären
+            pygame.display.set_mode((320, 180))
+            print("[SpriteManager] WARN: Created temporary display for sprite loading")
     
     def _update_sprite_cache(self) -> None:
         """Aktualisiert das globale sprite_cache mit allen geladenen Sprites."""
@@ -128,16 +141,69 @@ class SpriteManager:
         self._ensure_loaded()
         return self.sprite_cache.get(sprite_id)
     
+    def get_tile_by_gid(self, gid: int) -> Optional[pygame.Surface]:
+        """Hole ein Tile direkt über seine GID (für TMX-Support)."""
+        self._ensure_loaded()
+        
+        # Entferne Flip-Flags von der GID
+        FLIPPED_HORIZONTALLY = 0x80000000
+        FLIPPED_VERTICALLY = 0x40000000
+        FLIPPED_DIAGONALLY = 0x20000000
+        clean_gid = gid & ~(FLIPPED_HORIZONTALLY | FLIPPED_VERTICALLY | FLIPPED_DIAGONALLY)
+        
+        # Versuche zuerst das GID-Mapping
+        if clean_gid in self.gid_to_surface:
+            return self.gid_to_surface[clean_gid]
+        
+        # Fallback auf normales Tile-Loading
+        return self.get_tile_sprite(clean_gid)
+    
+    def load_tmx_tilesets(self, tmx_path: Path) -> None:
+        """Lade alle Tilesets aus einer TMX-Datei."""
+        try:
+            import xml.etree.ElementTree as ET
+            
+            tree = ET.parse(tmx_path)
+            root = tree.getroot()
+            
+            # Lade alle Tilesets
+            for tileset_elem in root.findall('tileset'):
+                firstgid = int(tileset_elem.get('firstgid', 1))
+                source = tileset_elem.get('source', '')
+                
+                if source and source not in self._loaded_tilesets:
+                    # Finde TSX-Datei
+                    tsx_path = Path("assets/gfx/tiles") / source
+                    if not tsx_path.exists():
+                        tsx_path = Path("data/maps") / source
+                    
+                    if tsx_path.exists():
+                        self.load_tileset_with_gids(tsx_path, firstgid)
+                        self._loaded_tilesets.add(source)
+        except Exception as e:
+            print(f"[SpriteManager] ERR loading TMX tilesets: {e}")
+    
     def get_tile_sprite(self, tile_id) -> Optional[pygame.Surface]:
         """Holt ein Tile-Sprite nach Tile-ID oder -Name.
 
         Unterstützt:
-        - int: wird via data/tile_mapping_new.json (oder tile_mapping.json) auf Sprite-Dateien gemappt
+        - int: GID aus TMX-Maps oder Legacy-ID
         - str: Name ohne .png (direkter Zugriff)
         """
         self._ensure_loaded()
 
-        # Direkter Zugriff per Name
+        # Für Integer-IDs: Versuche zuerst GID-Mapping
+        if isinstance(tile_id, int):
+            # Versuche GID-basiertes Loading
+            if hasattr(self, 'gid_to_surface') and tile_id in self.gid_to_surface:
+                return self.gid_to_surface[tile_id]
+            
+            # Fallback auf get_tile_by_gid
+            gid_result = self.get_tile_by_gid(tile_id)
+            if gid_result is not None:
+                return gid_result
+        
+        # String-basierter Zugriff
         if isinstance(tile_id, str):
             sprite = self.get_tile(tile_id)
             if sprite is not None:
@@ -146,7 +212,7 @@ class SpriteManager:
             if sprite is not None:
                 return sprite
         else:
-            # Numerische ID über Mapping auflösen
+            # Legacy: Numerische ID über Mapping auflösen
             key = str(int(tile_id))
             mapping = self._tile_mappings.get(key)
             if mapping:
@@ -237,18 +303,84 @@ class SpriteManager:
 
     def _load_tiles(self) -> None:
         """Lädt Tiles aus den .tsx Tileset-Dateien."""
-        # Lade Tiles aus den .tsx Tileset-Dateien
-        tiles_dir = self.project_root / "assets" / "gfx" / "tiles"
-        if tiles_dir.exists():
-            # Lade alle .tsx Dateien
-            for tsx_file in tiles_dir.glob("*.tsx"):
-                try:
-                    self._load_tileset_from_tsx(tsx_file)
-                except Exception as e:
-                    print(f"[SpriteManager] ERR loading tileset {tsx_file.name}: {e}")
-        
+        # DEAKTIVIERT - Wir laden Tilesets jetzt über load_tmx_tilesets()
+        # Die alte Methode würde die GID-Mappings überschreiben
         print(f"[SpriteManager] Tiles: {len(self._tiles)}")
 
+    def load_tileset_with_gids(self, tsx_path: Path, firstgid: int) -> None:
+        """Lädt ein Tileset mit korrektem GID-Mapping für TMX-Support."""
+        try:
+            import xml.etree.ElementTree as ET
+            
+            # Parse .tsx Datei
+            tree = ET.parse(tsx_path)
+            root = tree.getroot()
+            
+            # Extrahiere Tileset-Informationen
+            tile_width = int(root.get('tilewidth', 16))
+            tile_height = int(root.get('tileheight', 16))
+            tile_count = int(root.get('tilecount', 0))
+            columns = int(root.get('columns', 1))
+            tileset_name = root.get('name', '').lower()
+            
+            # Finde das Bild-Element
+            image_elem = root.find('image')
+            if image_elem is None:
+                print(f"[SpriteManager] WARN: No image found in {tsx_path.name}")
+                return
+            
+            # Lade das Tileset-Bild
+            image_source = image_elem.get('source', '')
+            if not image_source:
+                print(f"[SpriteManager] WARN: No image source in {tsx_path.name}")
+                return
+            
+            # Konstruiere den Pfad zum Tileset-Bild
+            if image_source.startswith("../../"):
+                # Relativer Pfad von data/maps aus
+                tileset_image_path = Path(image_source.replace("../../", ""))
+            else:
+                tileset_image_path = tsx_path.parent / image_source
+            
+            if not tileset_image_path.exists():
+                print(f"[SpriteManager] WARN: Tileset image not found: {tileset_image_path}")
+                return
+            
+            # Lade das Tileset-Bild
+            tileset_surface = pygame.image.load(str(tileset_image_path)).convert_alpha()
+            
+            # Extrahiere einzelne Tiles und mappe sie zu GIDs
+            for tile_id in range(tile_count):
+                # Berechne Position im Tileset
+                col = tile_id % columns
+                row = tile_id // columns
+                
+                # Berechne Pixel-Koordinaten
+                x = col * tile_width
+                y = row * tile_height
+                
+                # Extrahiere das einzelne Tile
+                tile_surface = pygame.Surface((tile_width, tile_height), pygame.SRCALPHA)
+                tile_surface.blit(tileset_surface, (0, 0), (x, y, tile_width, tile_height))
+                
+                # Skaliere auf TILE_SIZE falls nötig
+                if tile_width != TILE_SIZE or tile_height != TILE_SIZE:
+                    tile_surface = pygame.transform.scale(tile_surface, (TILE_SIZE, TILE_SIZE))
+                
+                # Speichere mit GID
+                gid = firstgid + tile_id
+                self.gid_to_surface[gid] = tile_surface
+                
+                # Speichere auch mit generiertem Namen für Kompatibilität
+                tile_name = f"gid_{gid}"
+                self._tiles[tile_name] = tile_surface
+                self.sprite_cache[tile_name] = tile_surface
+            
+            print(f"[SpriteManager] Loaded tileset {tsx_path.name}: {tile_count} tiles (firstgid={firstgid})")
+            
+        except Exception as e:
+            print(f"[SpriteManager] ERR loading tileset with GIDs {tsx_path.name}: {e}")
+    
     def _load_tileset_from_tsx(self, tsx_path: Path) -> None:
         """Lädt ein Tileset aus einer .tsx Datei und extrahiert die einzelnen Tiles."""
         try:
@@ -364,6 +496,61 @@ class SpriteManager:
         else:
             # Fallback: use generic name
             return f"tile_{tile_id}"
+    
+    def _create_placeholder_sprite(self, name: str, category: str) -> pygame.Surface:
+        """Erstellt einen Platzhalter-Sprite für fehlende Assets."""
+        placeholder = pygame.Surface((TILE_SIZE, TILE_SIZE), pygame.SRCALPHA)
+        
+        # Fülle mit einer auffälligen Farbe je nach Kategorie
+        colors = {
+            'player': (255, 0, 0),      # Rot für Player
+            'npc': (0, 255, 0),         # Grün für NPCs
+            'monster': (0, 0, 255),     # Blau für Monster
+            'tile': (255, 255, 0),      # Gelb für Tiles
+            'object': (255, 0, 255),    # Magenta für Objects
+            'default': (128, 128, 128)  # Grau für alles andere
+        }
+        
+        color = colors.get(category, colors['default'])
+        placeholder.fill(color)
+        
+        # Zeichne einen schwarzen Rahmen
+        pygame.draw.rect(placeholder, (0, 0, 0), (0, 0, TILE_SIZE, TILE_SIZE), 2)
+        
+        # Zeichne den Namen als Text (falls möglich)
+        try:
+            font = pygame.font.Font(None, 12)
+            text_surf = font.render(name[:8], True, (0, 0, 0))
+            text_rect = text_surf.get_rect(center=(TILE_SIZE//2, TILE_SIZE//2))
+            placeholder.blit(text_surf, text_rect)
+        except:
+            pass  # Ignore font errors
+        
+        return placeholder
+    
+    def _load_dir_16px(self, directory: Path) -> Dict[str, pygame.Surface]:
+        """Lädt alle 16x16 Sprites aus einem Verzeichnis."""
+        sprites = {}
+        
+        if not directory.exists():
+            return sprites
+        
+        for p in directory.glob("*.png"):
+            try:
+                surf = pygame.image.load(str(p)).convert_alpha()
+                
+                # Auto-skaliere falls nötig
+                if surf.get_size() != (TILE_SIZE, TILE_SIZE):
+                    surf = pygame.transform.scale(surf, (TILE_SIZE, TILE_SIZE))
+                
+                sprites[p.stem] = surf
+                
+            except Exception as e:
+                print(f"[SpriteManager] ERR loading {p.name}: {e}")
+                # Erstelle Platzhalter für fehlgeschlagene Sprites
+                sprites[p.stem] = self._create_placeholder_sprite(p.stem, 'default')
+        
+        return sprites
 
     def _load_objects(self) -> None:
         self._objects = self._load_dir_16px(self.objects_dir)
@@ -476,6 +663,88 @@ class SpriteManager:
         self._ensure_loaded()
         key = str(tile_id)
         return self._tile_mappings.get(key)
+    
+    def get_tile_sprite(self, tile_id: int | str) -> Optional[pygame.Surface]:
+        """Get a tile sprite by ID or name."""
+        self._ensure_loaded()
+        
+        # Try to get from tile mappings first
+        tile_info = self.get_tile_info(tile_id)
+        if tile_info and 'sprite_name' in tile_id:
+            sprite_name = tile_info['sprite_name']
+            return self.sprite_cache.get(f"tile_{sprite_name}")
+        
+        # Try direct sprite cache lookup
+        if isinstance(tile_id, str):
+            return self.sprite_cache.get(f"tile_{tile_id}")
+        
+        # Try numeric ID lookup
+        return self.sprite_cache.get(f"tile_{tile_id}")
+    
+    def get_npc_sprite(self, npc_id: str) -> Optional[pygame.Surface]:
+        """Get an NPC sprite by ID."""
+        self._ensure_loaded()
+        
+        # Try to get from sprite cache first
+        if npc_id in self.sprite_cache:
+            return self.sprite_cache[npc_id]
+        
+        # Try to get from NPC direction map
+        for (npc_key, direction), sprite in self._npc_dir_map.items():
+            if npc_key == npc_id:
+                return sprite
+        
+        return None
+    
+    def get_monster_sprite(self, monster_id: str | int) -> Optional[pygame.Surface]:
+        """Get a monster sprite by ID."""
+        self._ensure_loaded()
+        
+        # Try to get from sprite cache first
+        monster_key = f"monster_{monster_id}"
+        if monster_key in self.sprite_cache:
+            return self.sprite_cache[monster_key]
+        
+        # Try to get from monster map
+        if str(monster_id) in self._monster:
+            return self._monster[str(monster_id)]
+        
+        return None
+    
+    def get_player_sprite(self, direction: str) -> Optional[pygame.Surface]:
+        """Get a player sprite by direction."""
+        self._ensure_loaded()
+        
+        # Try to get from sprite cache first
+        player_key = f"player_{direction}"
+        if player_key in self.sprite_cache:
+            return self.sprite_cache[player_key]
+        
+        # Try to get from player direction map
+        if direction in self._player_dir_map:
+            return self._player_dir_map[direction]
+        
+        return None
+    
+    def get_object_sprite(self, object_id: str) -> Optional[pygame.Surface]:
+        """Get an object sprite by ID."""
+        self._ensure_loaded()
+        
+        # Try to get from sprite cache first
+        object_key = f"object_{object_id}"
+        if object_key in self.sprite_cache:
+            return self.sprite_cache[object_key]
+        
+        # Try to get from objects map
+        if object_id in self._objects:
+            return self._objects[object_id]
+        
+        return None
+    
+    def get_sprite(self, sprite_name: str) -> Optional[pygame.Surface]:
+        """Get a sprite by name (generic method)."""
+        self._ensure_loaded()
+        return self.sprite_cache.get(sprite_name)
 
     def get_cache_info(self) -> Dict[str, Any]:
         """Gibt Statistiken zum Cache und den Mappings zurück."""
@@ -502,3 +771,84 @@ class SpriteManager:
         stellt aber sicher, dass tile_images verfügbar ist."""
         self._ensure_loaded()
         self.tile_images = self._tiles
+    
+    def load_tmx_tilesets(self, tmx_path: Path) -> None:
+        """Lädt alle Tilesets aus einer TMX-Datei"""
+        try:
+            import xml.etree.ElementTree as ET
+            
+            tree = ET.parse(tmx_path)
+            root = tree.getroot()
+            
+            for tileset_elem in root.findall('tileset'):
+                firstgid = int(tileset_elem.get('firstgid', 1))
+                source = tileset_elem.get('source', '')
+                
+                if source:
+                    tsx_path = tmx_path.parent / source
+                    if tsx_path.exists():
+                        self._load_tmx_tileset(tsx_path, firstgid)
+                        
+        except Exception as e:
+            print(f"[SpriteManager] Error loading TMX tilesets: {e}")
+    
+    def _load_tmx_tileset(self, tsx_path: Path, firstgid: int) -> None:
+        """Lädt ein Tileset und extrahiert Tiles"""
+        try:
+            import xml.etree.ElementTree as ET
+            
+            tree = ET.parse(tsx_path)
+            root = tree.getroot()
+            
+            tilewidth = int(root.get('tilewidth', 16))
+            tileheight = int(root.get('tileheight', 16))
+            tilecount = int(root.get('tilecount', 0))
+            columns = int(root.get('columns', 1))
+            
+            # Finde Bild-Pfad
+            image_elem = root.find('image')
+            if image_elem is None:
+                return
+            
+            image_source = image_elem.get('source', '')
+            if image_source.startswith('../../'):
+                # Relativer Pfad von data/maps aus
+                image_path = self.project_root / image_source.replace('../../', '')
+            else:
+                image_path = tsx_path.parent / image_source
+            
+            if not image_path.exists():
+                print(f"[SpriteManager] Tileset image not found: {image_path}")
+                return
+            
+            # Lade Tileset-Bild
+            tileset_surface = pygame.image.load(str(image_path)).convert_alpha()
+            
+            # Extrahiere einzelne Tiles
+            for tile_id in range(tilecount):
+                col = tile_id % columns
+                row = tile_id // columns
+                
+                x = col * tilewidth
+                y = row * tileheight
+                
+                # Extrahiere Tile
+                tile_surf = pygame.Surface((tilewidth, tileheight), pygame.SRCALPHA)
+                tile_surf.blit(tileset_surface, (0, 0), (x, y, tilewidth, tileheight))
+                
+                # Skaliere auf TILE_SIZE falls nötig
+                if tilewidth != TILE_SIZE or tileheight != TILE_SIZE:
+                    tile_surf = pygame.transform.scale(tile_surf, (TILE_SIZE, TILE_SIZE))
+                
+                # Speichere mit GID
+                gid = firstgid + tile_id
+                self.gid_to_surface[gid] = tile_surf
+            
+            print(f"[SpriteManager] Loaded TMX tileset: {tsx_path.name} - {tilecount} tiles (firstgid={firstgid})")
+            
+        except Exception as e:
+            print(f"[SpriteManager] Error loading TMX tileset {tsx_path}: {e}")
+    
+    def get_tile_by_gid(self, gid: int) -> Optional[pygame.Surface]:
+        """Get a tile surface by GID (Global ID from TMX)."""
+        return self.gid_to_surface.get(gid)

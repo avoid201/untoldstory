@@ -57,34 +57,58 @@ class MonsterRank(Enum):
 
 @dataclass
 class MonsterSpecies:
-    """Static data for a monster species."""
+    """Monster species data - shared across all instances."""
     id: int
     name: str
-    era: str  # past, present, future
-    rank: MonsterRank
-    types: List[str]
-    base_stats: BaseStats
-    growth_curve: GrowthCurve
-    base_exp_yield: int
-    capture_rate: int  # 0-255, higher = easier
-    traits: List[str]
-    learnset: List[Tuple[int, str]]  # [(level, move_id), ...]
-    evolution: Optional[Dict[str, Any]]  # level, item, trade, etc.
-    description: str
+    era: str = "present"
+    rank: MonsterRank = MonsterRank.E
+    types: List[str] = None
+    base_stats: BaseStats = None
+    growth_curve: GrowthCurve = GrowthCurve.MEDIUM_FAST
+    base_exp_yield: int = 64
+    capture_rate: int = 45
+    traits: List[str] = None
+    learnset: List[Tuple[int, str]] = None
+    evolution: Optional[Dict[str, Any]] = None
+    description: str = ""
+    
+    def __post_init__(self):
+        if self.types is None:
+            self.types = ["Bestie"]
+        if self.traits is None:
+            self.traits = []
+        if self.learnset is None:
+            self.learnset = []
     
     @classmethod
     def from_dict(cls, data: Dict[str, Any]) -> 'MonsterSpecies':
-        """Create from dictionary data."""
+        """Create MonsterSpecies from dictionary data."""
+        # Convert growth curve string to enum
+        growth_curve = GrowthCurve.MEDIUM_FAST
+        curve_str = data.get("growth", {}).get("curve", "medium_fast")
+        try:
+            growth_curve = GrowthCurve(curve_str)
+        except ValueError:
+            pass
+        
+        # Convert rank string to enum
+        rank = MonsterRank.E
+        rank_str = data.get("rank", "E")
+        try:
+            rank = MonsterRank(rank_str)
+        except ValueError:
+            pass
+        
         return cls(
             id=data["id"],
             name=data["name"],
-            era=data["era"],
-            rank=MonsterRank(data["rank"]),
-            types=data["types"],
-            base_stats=BaseStats.from_dict(data["base_stats"]),
-            growth_curve=GrowthCurve(data["growth"]["curve"]),
-            base_exp_yield=data["growth"]["yield"],
-            capture_rate=data["capture_rate"],
+            era=data.get("era", "present"),
+            rank=rank,
+            types=data.get("types", ["Bestie"]),
+            base_stats=BaseStats.from_dict(data["base_stats"]) if "base_stats" in data else None,
+            growth_curve=growth_curve,
+            base_exp_yield=data.get("growth", {}).get("yield", 64),
+            capture_rate=data.get("capture_rate", 45),
             traits=data.get("traits", []),
             learnset=[(l["level"], l["move"]) for l in data.get("learnset", [])],
             evolution=data.get("evolution"),
@@ -97,7 +121,7 @@ class MonsterInstance:
     An individual monster with its own stats, moves, and state.
     """
     
-    def __init__(self, species: MonsterSpecies, level: int = 5,
+    def __init__(self, species: 'MonsterSpecies', level: int = 5,
                  nickname: Optional[str] = None):
         """
         Create a monster instance.

@@ -81,18 +81,13 @@ class Game:
             print("Warning: Could not load debug font")
         
         # Initialize managers
-        from engine.systems.story_manager import StoryManager
+        from engine.systems.story import StoryManager
         from engine.systems.party import PartyManager
         from engine.core.resources import ResourceManager
         from engine.systems.cutscene import CutsceneManager
         from engine.ui.transitions import TransitionManager
         # AudioManager is optional; provide a no-op fallback if missing
-        try:
-            from engine.audio.audio_manager import AudioManager  # type: ignore
-        except Exception:
-            class AudioManager:  # type: ignore
-                def update(self) -> None:
-                    pass
+        from engine.audio.audio_manager import AudioManager
         
         self.resources = ResourceManager()
         self.story_manager = StoryManager()

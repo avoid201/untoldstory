@@ -10,6 +10,7 @@ import random
 
 if TYPE_CHECKING:
     from engine.systems.monster_instance import MonsterInstance
+    from engine.systems.monsters import MonsterSpecies
 
 
 class ConditionType(Enum):

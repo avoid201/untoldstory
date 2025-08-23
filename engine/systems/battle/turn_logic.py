@@ -18,9 +18,10 @@ class ActionType(Enum):
     FLEE = auto()      # Priority 6
     SWITCH = auto()    # Priority 5
     ITEM = auto()      # Priority 4
-    MOVE = auto()      # Priority varies by move
+    ATTACK = auto()    # Priority varies by move
     TAME = auto()      # Priority 3
     PASS = auto()      # Priority 0
+    AUTO = auto()      # Priority 0
 
 
 @dataclass
@@ -44,7 +45,7 @@ class BattleAction:
             return 4
         elif self.action_type == ActionType.TAME:
             return 3
-        elif self.action_type == ActionType.MOVE and self.move:
+        elif self.action_type == ActionType.ATTACK and self.move:
             return self.move.priority
         else:  # PASS or invalid
             return 0
@@ -314,3 +315,51 @@ def determine_move_order(actions: List[BattleAction],
         turn_order.add_action(action)
     
     return turn_order.sort_actions()
+
+
+class TurnManager:
+    """Manages turn flow and state in battle scenes."""
+    
+    def __init__(self, game):
+        """
+        Initialize turn manager.
+        
+        Args:
+            game: Game instance for accessing systems
+        """
+        self.game = game
+        self.current_phase = "input"
+        self.turn_order = TurnOrder()
+        self.actions_this_turn: List[BattleAction] = []
+        self.turn_count = 0
+        
+    def start_new_turn(self) -> None:
+        """Begin a new turn."""
+        self.turn_count += 1
+        self.current_phase = "input"
+        self.turn_order.clear()
+        self.actions_this_turn.clear()
+        
+    def add_action(self, action: BattleAction) -> None:
+        """Add an action for the current turn."""
+        self.actions_this_turn.append(action)
+        self.turn_order.add_action(action)
+        
+    def resolve_turn(self) -> List[BattleAction]:
+        """Resolve the current turn and return action order."""
+        sorted_actions = self.turn_order.sort_actions()
+        self.current_phase = "execution"
+        return sorted_actions
+        
+    def get_current_phase(self) -> str:
+        """Get the current battle phase."""
+        return self.current_phase
+        
+    def set_phase(self, phase: str) -> None:
+        """Set the current battle phase."""
+        self.current_phase = phase
+        
+    def is_turn_complete(self) -> bool:
+        """Check if all actions for this turn have been added."""
+        # This is a simplified check - in practice you'd check against expected action count
+        return len(self.actions_this_turn) > 0

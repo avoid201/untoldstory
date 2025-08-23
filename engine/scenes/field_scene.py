@@ -21,6 +21,8 @@ from engine.ui.transitions import TransitionType
 from engine.graphics.sprite_manager import SpriteManager
 from engine.graphics.tile_renderer import TileRenderer
 from engine.world.area import Area
+from engine.world.enhanced_map_manager import EnhancedMapManager
+from engine.world.npc_improved import RivalKlaus
 import os
 
 
@@ -44,7 +46,14 @@ def add_warp_methods_to_area(area):
         return None
     
     def get_tile_type(tile_x: int, tile_y: int) -> int:
-        if "ground" in area.layers:
+        # Für neue Area-Klasse
+        if hasattr(area, 'map_data') and hasattr(area.map_data, 'layers'):
+            if "ground" in area.map_data.layers:
+                layer = area.map_data.layers["ground"]
+                if 0 <= tile_y < len(layer) and 0 <= tile_x < len(layer[tile_y]):
+                    return layer[tile_y][tile_x]
+        # Fallback für alte Area-Klasse
+        elif hasattr(area, 'layers') and "ground" in area.layers:
             layer = area.layers["ground"]
             if 0 <= tile_y < len(layer) and 0 <= tile_x < len(layer[tile_y]):
                 return layer[tile_y][tile_x]
@@ -56,10 +65,15 @@ def add_warp_methods_to_area(area):
     area.get_tile_type = get_tile_type
     
     # Debug: Zeige dass Methoden hinzugefügt wurden
-    print(f"Added warp methods to area: {area.name}")
+    area_name = getattr(area, 'name', getattr(area, 'map_id', 'unknown'))
+    print(f"Added warp methods to area: {area_name}")
     print(f"  - get_warp_at: {hasattr(area, 'get_warp_at')}")
     print(f"  - get_trigger_at: {hasattr(area, 'get_trigger_at')}")
     print(f"  - get_tile_type: {hasattr(area, 'get_tile_type')}")
+    print(f"  - has map_data: {hasattr(area, 'map_data')}")
+    print(f"  - has layers: {hasattr(area, 'layers')}")
+    print(f"  - has layer_surfaces: {hasattr(area, 'layer_surfaces')}")
+    print(f"  - TMX mode: {hasattr(area, 'tmx_path') and area.tmx_path is not None}")
     
     return area
 
@@ -127,6 +141,17 @@ class FieldScene(Scene):
         # Load graphics resources
         self._load_graphics()
         
+        
+        # NEW: Enhanced Map Manager for TMX/JSON separation
+        self.use_enhanced_manager = True  # Set to False to use old system
+        if self.use_enhanced_manager:
+            try:
+                self.map_manager = EnhancedMapManager(game)
+                print("✅ Using Enhanced Map Manager with TMX/JSON separation")
+            except Exception as e:
+                print(f"⚠️ Enhanced Map Manager failed, using old system: {e}")
+                self.use_enhanced_manager = False
+
         # Check if starter scene should be shown
         self._check_starter_requirement()
     
@@ -257,18 +282,69 @@ class FieldScene(Scene):
         self.in_battle = False
         
         # Start area music if specified
-        if self.current_area and self.current_area.map_data.properties.get('music'):
-            try:
-                music_file = self.current_area.map_data.properties['music']
-                resources.load_music(music_file, loops=-1, fade_ms=1000)
-            except:
-                pass
+        if self.current_area:
+            music_file = None
+            if hasattr(self.current_area, 'map_data') and self.current_area.map_data:
+                music_file = self.current_area.map_data.properties.get('music')
+            elif hasattr(self.current_area, 'properties'):
+                music_file = self.current_area.properties.get('music')
+            
+            if music_file:
+                try:
+                    resources.load_music(music_file, loops=-1, fade_ms=1000)
+                except:
+                    pass
     
     def load_map(self, map_name: str, spawn_x: int = 5, spawn_y: int = 5):
         """Lädt eine neue Map und positioniert Spieler"""
+        print(f"Loading map: {map_name}")
+        
+        # NEW: Try to use Enhanced Map Manager if available
+        if hasattr(self, 'use_enhanced_manager') and self.use_enhanced_manager and hasattr(self, 'map_manager'):
+            try:
+                print(f"[EnhancedMode] Loading map with new system: {map_name}")
+                self.current_area = self.map_manager.load_map(map_name, spawn_x, spawn_y)
+                self.map_id = map_name
+                
+                # Setup camera
+                if not self.camera:
+                    from engine.world.camera import Camera, CameraConfig
+                    self.camera = Camera(
+                        viewport_width=self.game.logical_size[0],
+                        viewport_height=self.game.logical_size[1],
+                        world_width=self.current_area.width * TILE_SIZE,
+                        world_height=self.current_area.height * TILE_SIZE,
+                        config=self.camera_config
+                    )
+                else:
+                    self.camera.set_world_size(
+                        self.current_area.width * TILE_SIZE,
+                        self.current_area.height * TILE_SIZE
+                    )
+                
+                # Create player if needed
+                if not self.player:
+                    self._initialize_player()
+                
+                # Set player position
+                self.player.set_tile_position(spawn_x, spawn_y)
+                
+                # Center camera
+                self.camera.center_on(
+                    self.player.x + self.player.width // 2,
+                    self.player.y + self.player.height // 2,
+                    immediate=True
+                )
+                self.camera.set_follow_target(self.player)
+                
+                print(f"[EnhancedMode] Map loaded successfully!")
+                return
+                
+            except Exception as e:
+                print(f"[EnhancedMode] Failed to load with new system: {e}")
+                print("[EnhancedMode] Falling back to old system...")
+        
         try:
-            print(f"Loading map: {map_name}")
-            
             # Load map data
             from engine.world.map_loader import MapLoader
             map_data = MapLoader.load_map(map_name)
@@ -281,30 +357,26 @@ class FieldScene(Scene):
             
             # Create area - Verwende die normale Area-Klasse aus area.py
             from engine.world.area import Area
-            self.current_area = Area(
-                id=map_data.id,
-                name=map_data.name,
-                width=map_data.width,
-                height=map_data.height,
-                layers=map_data.layers,
-                properties=map_data.properties or {}
-            )
+            # Die neue Area-Klasse lädt die Map selbst über map_id
+            self.current_area = Area(map_name)
             self.map_id = map_name
             
-            # Füge zusätzliche Attribute hinzu die ExtendedArea hatte
-            self.current_area.map_data = map_data
-            self.current_area.entities = []
-            self.current_area.npcs = []
-            self.current_area.encounter_rate = 0.1
-            self.current_area.encounter_table = []
+            # Setze map_data falls Area sie nicht hat
+            if not hasattr(self.current_area, 'map_data'):
+                self.current_area.map_data = map_data
             
-            # Füge Warp/Trigger-Methoden zur Area hinzu
-            self.current_area = add_warp_methods_to_area(self.current_area)
+            # Map_data ist bereits in Area gesetzt, keine zusätzlichen Attribute nötig
             
             # Debug: Zeige Map-Informationen
-            print(f"Map loaded: {self.current_area.name}")
-            print(f"Map size: {self.current_area.width}x{self.current_area.height}")
-            print(f"Layers: {list(self.current_area.layers.keys())}")
+            area_name = getattr(self.current_area, 'name', getattr(self.current_area, 'map_id', map_name))
+            area_width = getattr(self.current_area, 'width', 20)
+            area_height = getattr(self.current_area, 'height', 15)
+            print(f"Map loaded: {area_name}")
+            print(f"Map size: {area_width}x{area_height}")
+            if hasattr(self.current_area, 'layer_surfaces'):
+                print(f"Layers: {list(self.current_area.layer_surfaces.keys())}")
+            elif hasattr(self.current_area, 'layers'):
+                print(f"Layers: {list(self.current_area.layers.keys())}")
             
             # Load encounter data for this area
             self._load_encounter_data()
@@ -322,8 +394,8 @@ class FieldScene(Scene):
                 )
             else:
                 # Aktualisiere Kamera-Weltgröße
-                world_width = self.current_area.width * TILE_SIZE
-                world_height = self.current_area.height * TILE_SIZE
+                world_width = getattr(self.current_area, 'width', 20) * TILE_SIZE
+                world_height = getattr(self.current_area, 'height', 15) * TILE_SIZE
                 self.camera.set_world_size(world_width, world_height)
             
             # Create player if doesn't exist
@@ -418,14 +490,8 @@ class FieldScene(Scene):
         )
         
         from engine.world.area import Area
-        self.current_area = Area(
-            id=empty_map.id,
-            name=empty_map.name,
-            width=empty_map.width,
-            height=empty_map.height,
-            layers=empty_map.layers,
-            properties=empty_map.properties or {}
-        )
+        # Die neue Area erstellt eine leere Map als Fallback
+        self.current_area = Area("empty")
         
         # Füge zusätzliche Attribute hinzu
         self.current_area.map_data = empty_map
@@ -476,24 +542,30 @@ class FieldScene(Scene):
             return
         
         # Check for named spawn points in map properties
-        spawn_data = self.current_area.map_data.properties.get('spawns', {})
-        
-        if spawn_point in spawn_data:
-            spawn = spawn_data[spawn_point]
-            self.player.set_tile_position(spawn['x'], spawn['y'])
-            if 'direction' in spawn:
-                # Set facing direction
-                from engine.world.entity import Direction
-                self.player.direction = Direction[spawn['direction'].upper()]
+        if hasattr(self.current_area, 'map_data') and self.current_area.map_data:
+            spawn_data = self.current_area.map_data.properties.get('spawns', {})
+            
+            if spawn_point in spawn_data:
+                spawn = spawn_data[spawn_point]
+                self.player.set_tile_position(spawn['x'], spawn['y'])
+                if 'direction' in spawn:
+                    # Set facing direction
+                    from engine.world.entity import Direction
+                    self.player.direction = Direction[spawn['direction'].upper()]
+                return
         elif spawn_point == "door":
             # Default door position
             self.player.set_tile_position(10, 10)
         else:
-            # Default center position
-            self.player.set_tile_position(
-                self.current_area.map_data.width // 2,
-                self.current_area.map_data.height // 2
-            )
+            # Default center position - verwende Area-Dimensionen
+            if hasattr(self.current_area, 'width') and hasattr(self.current_area, 'height'):
+                self.player.set_tile_position(
+                    self.current_area.width // 2,
+                    self.current_area.height // 2
+                )
+            else:
+                # Fallback
+                self.player.set_tile_position(10, 10)
     
     def handle_event(self, event: pygame.event.Event) -> bool:
         """
@@ -846,7 +918,6 @@ class FieldScene(Scene):
         story.set_flag('met_rival', True)
 
         # Create rival NPC
-        from engine.world.npc import RivalKlaus
         rival = RivalKlaus(20 * 16, 8 * 16)  # In front of the museum
         self.current_area.entities.append(rival)
 
@@ -924,7 +995,6 @@ class FieldScene(Scene):
 
     def _remove_rival_npc(self):
         """Removes the rival NPC from the current area."""
-        from engine.world.npc import RivalKlaus
         self.current_area.entities = [
             e for e in self.current_area.entities
             if not isinstance(e, RivalKlaus)
@@ -987,6 +1057,13 @@ class FieldScene(Scene):
             tile_pos: (tile_x, tile_y) position to interact with
         """
         tile_x, tile_y = tile_pos
+
+
+        # NEW: Try enhanced interaction manager first
+        if hasattr(self, 'use_enhanced_manager') and self.use_enhanced_manager and hasattr(self, 'map_manager'):
+            if self.map_manager.check_interaction(tile_x, tile_y):
+                return
+        
         
         # Check for NPCs
         for entity in self.current_area.entities:
@@ -1003,8 +1080,15 @@ class FieldScene(Scene):
                 return
         
         # Check for triggers
-        for trigger in self.current_area.map_data.triggers:
-            if trigger.x == tile_x and trigger.y == tile_y:
+        if hasattr(self.current_area, 'map_data') and self.current_area.map_data:
+            for trigger in self.current_area.map_data.triggers:
+                if trigger.x == tile_x and trigger.y == tile_y:
+                    self._execute_trigger(trigger)
+                    return
+        else:
+            # Fallback für TMX-basierte Areas
+            trigger = self.current_area.get_trigger_at(tile_x * 16, tile_y * 16)
+            if trigger:
                 self._execute_trigger(trigger)
                 return
         
@@ -1017,20 +1101,32 @@ class FieldScene(Scene):
             return
         
         # Check for warp at this position
-        for warp in self.current_area.map_data.warps:
-            if warp.x == tile_x and warp.y == tile_y:
+        if hasattr(self.current_area, 'map_data') and self.current_area.map_data:
+            for warp in self.current_area.map_data.warps:
+                if warp.x == tile_x and warp.y == tile_y:
+                    self._execute_warp(warp)
+                    break
+        else:
+            # Fallback für TMX-basierte Areas
+            warp = self.current_area.get_warp_at(tile_x * 16, tile_y * 16)
+            if warp:
                 self._execute_warp(warp)
-                break
     
     def _handle_collision_event(self, tile_x: int, tile_y: int):
         """Handle collision with solid tile"""
         # Check if it's a sign or interactable solid object
-        for trigger in self.current_area.map_data.triggers:
-            if trigger.x == tile_x and trigger.y == tile_y:
-                # Auto-interact with signs when walking into them
-                if trigger.event == "sign":
-                    self._execute_trigger(trigger)
-                    break
+        if hasattr(self.current_area, 'map_data') and self.current_area.map_data:
+            for trigger in self.current_area.map_data.triggers:
+                if trigger.x == tile_x and trigger.y == tile_y:
+                    # Auto-interact with signs when walking into them
+                    if trigger.event == "sign":
+                        self._execute_trigger(trigger)
+                        break
+        else:
+            # Fallback für TMX-basierte Areas
+            trigger = self.current_area.get_trigger_at(tile_x * 16, tile_y * 16)
+            if trigger:
+                self._execute_trigger(trigger)
     
     def _check_hidden_item(self, tile_x: int, tile_y: int):
         """Check for hidden items at position"""

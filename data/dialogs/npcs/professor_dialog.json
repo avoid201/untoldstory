@@ -1,0 +1,69 @@
+{
+  "id": "professor_dialog",
+  "default": [
+    {
+      "text": "Welcome to the Kohlenstadt Fossil Museum!",
+      "speaker": "Prof. Budde"
+    },
+    {
+      "text": "I'm Professor Budde, the leading fossil researcher in the Ruhr region!",
+      "speaker": "Prof. Budde"
+    },
+    {
+      "text": "Did you know that many monster fossils were found in our coal mines?",
+      "speaker": "Prof. Budde"
+    }
+  ],
+  "branches": [
+    {
+      "conditions": {
+        "flag": "!has_starter"
+      },
+      "pages": [
+        {
+          "text": "Ach, you must be the young trainer from down the street!",
+          "speaker": "Prof. Budde"
+        },
+        {
+          "text": "Your mother told me you're planning to go on an adventure!",
+          "speaker": "Prof. Budde"
+        },
+        {
+          "text": "You'll need a monster partner for that journey, wat?",
+          "speaker": "Prof. Budde"
+        },
+        {
+          "text": "Come! I have three specially revived fossil monsters for you to choose from!",
+          "speaker": "Prof. Budde"
+        },
+        {
+          "text": "Speak to me again when you're ready to choose your partner!",
+          "speaker": "Prof. Budde"
+        }
+      ]
+    },
+    {
+      "conditions": {
+        "flag": "has_starter"
+      },
+      "pages": [
+        {
+          "text": "How's your adventure going?",
+          "speaker": "Prof. Budde"
+        },
+        {
+          "text": "Take good care of your monster partner!",
+          "speaker": "Prof. Budde"
+        },
+        {
+          "text": "Remember, the bond between trainer and monster is sacred!",
+          "speaker": "Prof. Budde"
+        },
+        {
+          "text": "If you find any rare fossils, bring them to me!",
+          "speaker": "Prof. Budde"
+        }
+      ]
+    }
+  ]
+}

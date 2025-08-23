@@ -1,113 +1,602 @@
 """
-Area/Map Rendering System for Untold Story
-Handles rendering of map layers with tile graphics and camera culling
+Area - Repräsentiert eine spielbare Map-Region
+Mit verbessertem TMX-Support und korrektem Tile-Rendering
 """
 
 import pygame
-from typing import Dict, List, Optional, Tuple, Any
+import xml.etree.ElementTree as ET
+from pathlib import Path
+from typing import Dict, List, Optional, Tuple
 from dataclasses import dataclass
-from ..graphics.sprite_manager import SpriteManager
+
+from engine.world.tiles import TILE_SIZE, TileType
+from engine.world.map_loader import MapLoader, MapData
+from engine.graphics.sprite_manager import SpriteManager
+from engine.world.entity import Entity
+from engine.world.npc_improved import ImprovedNPC as NPC
+from engine.core.resources import resources
+from engine.world.tile_manager import tile_manager
 
 @dataclass
+class AreaConfig:
+    """Konfiguration für eine Area"""
+    map_id: str
+    name: str = ""
+    music: Optional[str] = None
+    encounter_rate: float = 0.0
+    weather: Optional[str] = None
+
 class Area:
-    """Represents a game area with multiple layers and rendering capabilities."""
+    """Eine spielbare Map-Region mit TMX-Support"""
     
-    id: str
-    name: str
-    width: int = None  # In tiles
-    height: int = None  # In tiles
-    size: Dict[str, int] = None  # Legacy format: {"w": 10, "h": 8, "tile": 64}
-    layers: Dict[str, List[List[int]]] = None  # Layer name -> 2D tile array
-    warps: List[Dict[str, Any]] = None  # Warp points
-    triggers: List[Dict[str, Any]] = None  # Event triggers
-    properties: Dict[str, Any] = None
-    
-    def __post_init__(self):
-        if self.properties is None:
-            self.properties = {}
-        if self.warps is None:
-            self.warps = []
-        if self.triggers is None:
-            self.triggers = []
+    def __init__(self, map_id: str):
+        """
+        Initialisiert eine Area aus einer Map-ID.
         
-        # Konvertiere legacy size-Format zu width/height
-        if self.size and (self.width is None or self.height is None):
-            self.width = self.size.get("w", 10)
-            self.height = self.size.get("h", 8)
+        Args:
+            map_id: ID der zu ladenden Map (ohne Dateiendung)
+        """
+        self.map_id = map_id
+        self.name = map_id.replace('_', ' ').title()  # Konvertiere map_id zu lesbarem Namen
+        self.map_data: Optional[MapData] = None
+        self.sprite_manager = SpriteManager.get()
         
-        # Fallback-Werte
-        if self.width is None:
-            self.width = 10
-        if self.height is None:
-            self.height = 8
+        # Standard-Größe falls TMX-Loading fehlschlägt
+        self.width = 32
+        self.height = 32
+        self.tile_width = TILE_SIZE
+        self.tile_height = TILE_SIZE
         
-        # Initialisiere nur den SpriteManager
-        self.sprite_manager = SpriteManager()
+        # Surfaces für jede Layer
+        self.layer_surfaces: Dict[str, pygame.Surface] = {}
         
-        # RenderManager wird bei Bedarf geladen
-        self._render_manager = None
+        # Entities und NPCs
+        self.entities: List[Entity] = []
+        self.npcs: List[NPC] = []
         
-        # Entities-Liste initialisieren
-        if not hasattr(self, 'entities'):
-            self.entities = []
-    
-    @property
-    def render_manager(self):
-        """Lazy loading des RenderManagers"""
-        if self._render_manager is None:
-            from ..graphics.render_manager import RenderManager
-            self._render_manager = RenderManager()
-        return self._render_manager
-    
-    def render(self, surface: pygame.Surface, camera_x: int = 0, camera_y: int = 0):
-        """Rendert alle sichtbaren Layer der Area mit dem neuen RenderManager."""
-        # Erstelle eine temporäre Camera-Instanz für den RenderManager
-        from .camera import Camera
-        temp_camera = Camera()
-        temp_camera.x = camera_x
-        temp_camera.y = camera_y
-        temp_camera.viewport_width = surface.get_width()
-        temp_camera.viewport_height = surface.get_height()
+        # Encounter-System (für FieldScene Kompatibilität)
+        self.encounter_rate = 0.1
+        self.encounter_table = []
         
-        # Verwende den RenderManager für das Rendering
-        self.render_manager.render_scene(surface, self, temp_camera)
-    
-    def _render_layer(self, surface: pygame.Surface, layer_name: str, 
-                      camera_x: int = 0, camera_y: int = 0):
-        """Veraltete Methode - wird durch RenderManager ersetzt"""
-        print(f"Warnung: _render_layer wird nicht mehr verwendet. Verwende RenderManager.")
-    
-    def get_tile_at(self, x: int, y: int, layer_name: str = "collision") -> int:
-        """Gibt die Tile-ID an einer bestimmten Position zurück."""
-        if layer_name not in self.layers:
-            return 0
+        # TMX-spezifische Daten
+        self.tmx_path: Optional[Path] = None
+        self.gid_to_surface: Dict[int, pygame.Surface] = {}
         
-        if 0 <= x < self.width and 0 <= y < self.height:
-            return self.layers[layer_name][y][x]
-        return 0
+        # Lade die Map
+        self._load_map()
+        
+    def _load_map(self):
+        """Lädt die Map-Daten"""
+        try:
+            # Versuche TMX direkt zu laden
+            tmx_path = Path("data/maps") / f"{self.map_id}.tmx"
+            if tmx_path.exists():
+                self.tmx_path = tmx_path
+                self._load_tmx_direct()
+            else:
+                # Fallback auf MapLoader
+                self.map_data = MapLoader.load_map(self.map_id)
+                # Setze Attribute aus MapData
+                if self.map_data:
+                    self.width = self.map_data.width
+                    self.height = self.map_data.height
+                    self.name = self.map_data.name or self.name
+                    self.tile_width = self.map_data.tile_size
+                    self.tile_height = self.map_data.tile_size
+                self._render_layers()
+                
+        except Exception as e:
+            print(f"[Area] Fehler beim Laden der Map {self.map_id}: {e}")
+            # Erstelle leere Map als Fallback
+            self._create_empty_map()
     
-    def add_entity(self, entity) -> None:
-        """Fügt eine Entity zur Area hinzu"""
-        if entity not in self.entities:
-            self.entities.append(entity)
+    def _load_tmx_direct(self):
+        """Lädt TMX-Map direkt mit korrektem Tile-Rendering"""
+        print(f"[Area] Lade TMX direkt: {self.tmx_path}")
+        
+        # Parse TMX
+        tree = ET.parse(self.tmx_path)
+        root = tree.getroot()
+        
+        # Map-Eigenschaften
+        self.width = int(root.get('width', 32))
+        self.height = int(root.get('height', 32))
+        self.tile_width = int(root.get('tilewidth', 16))
+        self.tile_height = int(root.get('tileheight', 16))
+        
+        # Lade alle Tilesets und erstelle GID-Mapping
+        self._load_tmx_tilesets(root)
+        
+        # Lade und rendere Layer
+        self._load_tmx_layers(root)
+        
+        # Lade Objekte (Warps, NPCs, etc.)
+        self._load_tmx_objects(root)
     
-    def remove_entity(self, entity) -> None:
-        """Entfernt eine Entity aus der Area"""
-        if entity in self.entities:
-            self.entities.remove(entity)
+    def _load_tmx_tilesets(self, root):
+        """Lädt alle Tilesets aus der TMX"""
+        for tileset_elem in root.findall('tileset'):
+            firstgid = int(tileset_elem.get('firstgid', 1))
+            source = tileset_elem.get('source', '')
+            
+            if source:
+                tsx_path = self.tmx_path.parent / source
+                if tsx_path.exists():
+                    self._load_tsx_tileset(tsx_path, firstgid)
+    
+    def _load_tsx_tileset(self, tsx_path: Path, firstgid: int):
+        """Lädt ein einzelnes Tileset aus einer TSX-Datei"""
+        try:
+            tree = ET.parse(tsx_path)
+            root = tree.getroot()
+            
+            tile_width = int(root.get('tilewidth', 16))
+            tile_height = int(root.get('tileheight', 16))
+            tile_count = int(root.get('tilecount', 0))
+            columns = int(root.get('columns', 1))
+            
+            # Finde Bild
+            image_elem = root.find('image')
+            if image_elem is None:
+                return
+            
+            # Konstruiere Bildpfad
+            image_source = image_elem.get('source', '')
+            if image_source.startswith('../../'):
+                image_path = Path(image_source.replace('../../', ''))
+            else:
+                image_path = tsx_path.parent / image_source
+            
+            if not image_path.exists():
+                print(f"[Area] Tileset-Bild nicht gefunden: {image_path}")
+                return
+            
+            # Lade Tileset-Bild
+            tileset_surface = pygame.image.load(str(image_path)).convert_alpha()
+            
+            # Extrahiere einzelne Tiles
+            for tile_id in range(tile_count):
+                col = tile_id % columns
+                row = tile_id // columns
+                
+                x = col * tile_width
+                y = row * tile_height
+                
+                # Extrahiere Tile
+                tile_surf = pygame.Surface((tile_width, tile_height), pygame.SRCALPHA)
+                tile_surf.blit(tileset_surface, (0, 0), (x, y, tile_width, tile_height))
+                
+                # Skaliere auf TILE_SIZE falls nötig
+                if tile_width != TILE_SIZE or tile_height != TILE_SIZE:
+                    tile_surf = pygame.transform.scale(tile_surf, (TILE_SIZE, TILE_SIZE))
+                
+                # Speichere mit GID
+                gid = firstgid + tile_id
+                self.gid_to_surface[gid] = tile_surf
+            
+            print(f"[Area] Geladen: {tsx_path.name} - {tile_count} Tiles (firstgid={firstgid})")
+            
+        except Exception as e:
+            print(f"[Area] Fehler beim Laden von Tileset {tsx_path}: {e}")
+    
+    def _load_tmx_layers(self, root):
+        """Lädt und rendert alle Layer aus der TMX"""
+        for layer_elem in root.findall('layer'):
+            layer_name = layer_elem.get('name', 'default')
+            layer_width = int(layer_elem.get('width', self.width))
+            layer_height = int(layer_elem.get('height', self.height))
+            
+            # Erstelle Surface für diesen Layer
+            layer_surface = pygame.Surface(
+                (layer_width * TILE_SIZE, layer_height * TILE_SIZE),
+                pygame.SRCALPHA
+            )
+            
+            # Parse Tile-Daten
+            data_elem = layer_elem.find('data')
+            if data_elem is not None:
+                encoding = data_elem.get('encoding', 'csv')
+                
+                if encoding == 'csv':
+                    # Parse CSV-Daten
+                    csv_text = data_elem.text.strip()
+                    y = 0
+                    for line in csv_text.split('\n'):
+                        if not line.strip():
+                            continue
+                        
+                        x = 0
+                        for gid_str in line.split(','):
+                            if not gid_str.strip():
+                                continue
+                            
+                            gid = int(gid_str.strip())
+                            
+                            # Entferne Flip-Flags
+                            FLIP_FLAGS = 0x80000000 | 0x40000000 | 0x20000000
+                            clean_gid = gid & ~FLIP_FLAGS
+                            
+                            # Hole Tile-Surface
+                            if clean_gid > 0 and clean_gid in self.gid_to_surface:
+                                tile_surf = self.gid_to_surface[clean_gid]
+                                layer_surface.blit(tile_surf, (x * TILE_SIZE, y * TILE_SIZE))
+                            
+                            x += 1
+                        y += 1
+            
+            # Speichere gerenderten Layer
+            self.layer_surfaces[layer_name] = layer_surface
+            print(f"[Area] Layer gerendert: {layer_name}")
+    
+    def _load_tmx_objects(self, root):
+        """Lädt Objekte (Warps, NPCs, etc.) aus der TMX"""
+        for objectgroup_elem in root.findall('objectgroup'):
+            group_name = objectgroup_elem.get('name', '')
+            
+            for obj_elem in objectgroup_elem.findall('object'):
+                obj_type = obj_elem.get('type', '').lower()
+                obj_name = obj_elem.get('name', '')
+                obj_x = float(obj_elem.get('x', 0))
+                obj_y = float(obj_elem.get('y', 0))
+                
+                # Konvertiere zu Tile-Koordinaten
+                tile_x = int(obj_x // TILE_SIZE)
+                tile_y = int(obj_y // TILE_SIZE)
+                
+                # Verarbeite nach Typ
+                if obj_type == 'npc':
+                    # Erstelle NPC
+                    self._create_npc(tile_x, tile_y, obj_name)
+                elif obj_type == 'warp':
+                    # Speichere Warp-Info (wird vom MapLoader verarbeitet)
+                    pass
+    
+    def _create_npc(self, tile_x: int, tile_y: int, npc_id: str):
+        """Erstellt einen NPC"""
+        try:
+            npc = NPC(
+                x=tile_x * TILE_SIZE,
+                y=tile_y * TILE_SIZE,
+                npc_id=npc_id
+            )
+            self.npcs.append(npc)
+        except Exception as e:
+            print(f"[Area] Fehler beim Erstellen von NPC {npc_id}: {e}")
+    
+    def _render_layers(self):
+        """Rendert Layer aus MapData (Fallback für nicht-TMX)"""
+        if not self.map_data:
+            return
+        
+        for layer_name, layer_data in self.map_data.layers.items():
+            if layer_name == "collision":
+                continue  # Collision wird nicht gerendert
+            
+            # Erstelle Surface für Layer
+            surface = pygame.Surface(
+                (self.map_data.width * TILE_SIZE, 
+                 self.map_data.height * TILE_SIZE),
+                pygame.SRCALPHA
+            )
+            
+            # Rendere jeden Tile
+            for y, row in enumerate(layer_data):
+                for x, tile in enumerate(row):
+                    if tile:
+                        # Hole Sprite
+                        sprite = self._get_tile_sprite(tile)
+                        if sprite:
+                            surface.blit(sprite, (x * TILE_SIZE, y * TILE_SIZE))
+            
+            self.layer_surfaces[layer_name] = surface
+    
+    def _get_tile_sprite(self, tile_id) -> Optional[pygame.Surface]:
+        """Holt ein Tile-Sprite"""
+        # Versuche verschiedene Methoden
+        sprite = self.sprite_manager.get_tile_sprite(tile_id)
+        if sprite:
+            return sprite
+        
+        # Fallback auf direktes Tile
+        if isinstance(tile_id, str):
+            sprite = self.sprite_manager.get_tile(tile_id)
+            if sprite:
+                return sprite
+        
+        # Fallback: Erstelle farbiges Rechteck basierend auf ID
+        surface = pygame.Surface((TILE_SIZE, TILE_SIZE))
+        
+        # Verschiedene Farben für verschiedene Tile-Typen
+        if isinstance(tile_id, str):
+            if 'grass' in tile_id:
+                surface.fill((34, 139, 34))
+            elif 'dirt' in tile_id or 'path' in tile_id:
+                surface.fill((139, 90, 43))
+            elif 'water' in tile_id:
+                surface.fill((64, 164, 223))
+            elif 'wall' in tile_id:
+                surface.fill((105, 105, 105))
+            else:
+                surface.fill((128, 128, 128))
+        else:
+            # Numerische ID: Verwende Farbpalette
+            colors = [
+                (34, 139, 34),   # Grün (Gras)
+                (139, 90, 43),   # Braun (Erde)
+                (64, 164, 223),  # Blau (Wasser)
+                (105, 105, 105), # Grau (Stein)
+                (255, 215, 0),   # Gold (Sand)
+            ]
+            color = colors[tile_id % len(colors)]
+            surface.fill(color)
+        
+        return surface
+    
+    def _create_empty_map(self):
+        """Erstellt eine leere Fallback-Map"""
+        self.width = 20
+        self.height = 15
+        
+        # Erstelle einfachen Gras-Hintergrund
+        surface = pygame.Surface(
+            (self.width * TILE_SIZE, self.height * TILE_SIZE)
+        )
+        surface.fill((34, 139, 34))  # Grün
+        
+        self.layer_surfaces["ground"] = surface
+    
+    def draw(self, screen: pygame.Surface, camera_x: int = 0, camera_y: int = 0):
+        """
+        Zeichnet die Area auf den Bildschirm.
+        
+        Args:
+            screen: Ziel-Surface
+            camera_x: Kamera X-Offset
+            camera_y: Kamera Y-Offset
+        """
+        # Zeichne Layer in korrekter Reihenfolge
+        layer_order = ["ground", "decor", "Tile Layer 1", "Tile Layer 2", 
+                      "objects", "Tile Layer 3", "overlay", "Tile Layer 4"]
+        
+        for layer_name in layer_order:
+            if layer_name in self.layer_surfaces:
+                screen.blit(self.layer_surfaces[layer_name], 
+                          (-camera_x, -camera_y))
+    
+    def update(self, dt: float):
+        """
+        Aktualisiert die Area.
+        
+        Args:
+            dt: Delta-Zeit in Sekunden
+        """
+        # Update NPCs
+        for npc in self.npcs:
+            npc.update(dt)
+        
+        # Update Entities  
+        for entity in self.entities:
+            entity.update(dt)
+    
+    def get_collision_at(self, x: int, y: int) -> bool:
+        """
+        Prüft Kollision an einer Position.
+        
+        Args:
+            x: X-Position in Pixeln
+            y: Y-Position in Pixeln
+            
+        Returns:
+            True wenn Kollision, sonst False
+        """
+        # Konvertiere zu Tile-Koordinaten
+        tile_x = x // TILE_SIZE
+        tile_y = y // TILE_SIZE
+        
+        # Prüfe Map-Grenzen
+        if self.map_data:
+            if tile_x < 0 or tile_x >= self.map_data.width:
+                return True
+            if tile_y < 0 or tile_y >= self.map_data.height:
+                return True
+            
+            # Prüfe Collision-Layer
+            if "collision" in self.map_data.layers:
+                collision_layer = self.map_data.layers["collision"]
+                if collision_layer[tile_y][tile_x]:
+                    return True
+        else:
+            # TMX-basierte Kollision
+            if hasattr(self, 'width') and hasattr(self, 'height'):
+                if tile_x < 0 or tile_x >= self.width:
+                    return True
+                if tile_y < 0 or tile_y >= self.height:
+                    return True
+        
+        # Prüfe NPC-Kollisionen
+        for npc in self.npcs:
+            npc_tile_x = npc.x // TILE_SIZE
+            npc_tile_y = npc.y // TILE_SIZE
+            if npc_tile_x == tile_x and npc_tile_y == tile_y:
+                return True
+        
+        return False
     
     def is_tile_solid(self, x: int, y: int) -> bool:
-        """Prüft, ob ein Tile an der Position solid (undurchlässig) ist."""
-        # Verwende den TileRenderer für die Kollisionsprüfung
-        tile_id = self.get_tile_at(x, y, "collision")
-        if tile_id > 0:
-            return not self.render_manager.tile_renderer.is_tile_walkable(tile_id)
-        return False  # 0 = durchlässig
+        """
+        Prüft, ob ein Tile an der Position solid (undurchlässig) ist.
+        Wird vom Pathfinding-System verwendet.
+        
+        Args:
+            x: X-Position in Tiles
+            y: Y-Position in Tiles
+            
+        Returns:
+            True wenn solid, sonst False
+        """
+        # Prüfe Map-Grenzen
+        if x < 0 or y < 0:
+            return True
+        
+        if self.map_data:
+            if x >= self.map_data.width or y >= self.map_data.height:
+                return True
+            
+            # Prüfe Collision-Layer
+            if "collision" in self.map_data.layers:
+                collision_layer = self.map_data.layers["collision"]
+                if 0 <= y < len(collision_layer) and 0 <= x < len(collision_layer[y]):
+                    return bool(collision_layer[y][x])
+        else:
+            # TMX-basierte Kollision
+            if hasattr(self, 'width') and hasattr(self, 'height'):
+                if x >= self.width or y >= self.height:
+                    return True
+        
+        # Standardmäßig nicht solid
+        return False
+    
+    def get_warp_at(self, x: int, y: int):
+        """
+        Holt Warp-Informationen an einer Position.
+        
+        Args:
+            x: X-Position in Pixeln
+            y: Y-Position in Pixeln
+            
+        Returns:
+            Warp-Objekt oder None
+        """
+        if not self.map_data:
+            return None
+        
+        tile_x = x // TILE_SIZE
+        tile_y = y // TILE_SIZE
+        
+        for warp in self.map_data.warps:
+            if warp.x == tile_x and warp.y == tile_y:
+                return warp
+        
+        return None
+    
+    def get_trigger_at(self, x: int, y: int):
+        """
+        Holt Trigger-Informationen an einer Position.
+        
+        Args:
+            x: X-Position in Pixeln
+            y: Y-Position in Pixeln
+            
+        Returns:
+            Trigger-Objekt oder None
+        """
+        if not self.map_data:
+            return None
+        
+        tile_x = x // TILE_SIZE
+        tile_y = y // TILE_SIZE
+        
+        for trigger in self.map_data.triggers:
+            if trigger.x == tile_x and trigger.y == tile_y:
+                return trigger
+        
+        return None
+    
+    def get_tile_type(self, tile_x: int, tile_y: int) -> int:
+        """
+        Holt den Tile-Typ an einer Position.
+        
+        Args:
+            tile_x: X-Position in Tiles
+            tile_y: Y-Position in Tiles
+            
+        Returns:
+            Tile-ID oder 0
+        """
+        if self.map_data and "ground" in self.map_data.layers:
+            layer = self.map_data.layers["ground"]
+            if 0 <= tile_y < len(layer) and 0 <= tile_x < len(layer[tile_y]):
+                return layer[tile_y][tile_x]
+        return 0
+    
+    def add_entity(self, entity: Entity):
+        """
+        Fügt eine Entity zur Area hinzu.
+        
+        Args:
+            entity: Die hinzuzufügende Entity
+        """
+        self.entities.append(entity)
+    
+    @property
+    def layers(self):
+        """Kompatibilitäts-Property für alten Code"""
+        if self.map_data:
+            return self.map_data.layers
+        return {}
+    
+    # --- Pathfinding helpers ---
+    def find_path(self, start: Tuple[int, int], goal: Tuple[int, int]) -> List[Tuple[int, int]]:
+        """Finde einen Pfad (A*) von `start` nach `goal` in Tile-Koordinaten.
+
+        Gibt eine Liste von Tile-Positionen inkl. Start/Goal zurück. Leere Liste, wenn kein Pfad existiert.
+        """
+        from .pathfinding import find_path as a_star_find_path
+        return a_star_find_path(self, start, goal)
+    
+    def find_path_with_tile_manager(self, start: Tuple[int, int], goal: Tuple[int, int]) -> List[Tuple[int, int]]:
+        """
+        Verwendet den TileManager für Pathfinding.
+        
+        Args:
+            start: Start-Position (x, y) in Tiles
+            goal: Ziel-Position (x, y) in Tiles
+            
+        Returns:
+            Liste von Positionen oder leere Liste wenn kein Pfad
+        """
+        from engine.world.tile_manager import TileManager
+        
+        # Stelle sicher, dass TileManager die aktuelle Map kennt
+        tile_manager = TileManager.get_instance()
+        if not tile_manager.collision_map or            len(tile_manager.collision_map) != self.height or            (tile_manager.collision_map and len(tile_manager.collision_map[0]) != self.width):
+            # Baue Collision-Map aus Area-Daten
+            tile_manager.map_width = self.width
+            tile_manager.map_height = self.height
+            tile_manager.collision_map = []
+            
+            for y in range(self.height):
+                row = []
+                for x in range(self.width):
+                    # Verwende Area's is_tile_solid Methode
+                    row.append(self.is_tile_solid(x, y))
+                tile_manager.collision_map.append(row)
+        
+        # Verwende TileManager's Pathfinding
+        return tile_manager.find_path(start, goal)
+    
+    def find_diagonal_path(self, start: Tuple[int, int], goal: Tuple[int, int]) -> List[Tuple[int, int]]:
+        """
+        Findet einen Pfad mit diagonaler Bewegung.
+        
+        Args:
+            start: Start-Position (x, y) in Tiles
+            goal: Ziel-Position (x, y) in Tiles
+            
+        Returns:
+            Liste von Positionen oder leere Liste wenn kein Pfad
+        """
+        from engine.world.tile_manager import TileManager
+        
+        # Synchronisiere Collision-Map
+        self.find_path_with_tile_manager(start, goal)  # Aktualisiert collision_map
+        
+        tile_manager = TileManager.get_instance()
+        return tile_manager.find_path_diagonal(start, goal)
     
     def get_visible_tiles(self, camera_x: int, camera_y: int, 
                           surface_width: int, surface_height: int) -> List[Tuple[int, int]]:
         """Gibt alle sichtbaren Tile-Koordinaten zurück."""
-        from engine.world.tiles import TILE_SIZE
         start_x = max(0, camera_x // TILE_SIZE)
         start_y = max(0, camera_y // TILE_SIZE)
         end_x = min(self.width, (camera_x + surface_width) // TILE_SIZE + 1)
@@ -120,59 +609,3 @@ class Area:
                     visible_tiles.append((x, y))
         
         return visible_tiles
-
-    # --- Pathfinding helpers ---
-    def find_path(self, start: Tuple[int, int], goal: Tuple[int, int]) -> List[Tuple[int, int]]:
-        """Finde einen Pfad (A*) von `start` nach `goal` in Tile-Koordinaten.
-
-        Gibt eine Liste von Tile-Positionen inkl. Start/Goal zurück. Leere Liste, wenn kein Pfad existiert.
-        """
-        from .pathfinding import find_path as a_star_find_path
-
-        return a_star_find_path(self, start, goal)
-    
-    def render_debug_info(self, surface: pygame.Surface, camera_x: int, camera_y: int):
-        """Rendert Debug-Informationen über die Area."""
-        font = pygame.font.Font(None, 24)
-        
-        # Area-Info
-        info_text = f"Area: {self.name} ({self.width}x{self.height})"
-        text_surface = font.render(info_text, True, (255, 255, 255))
-        surface.blit(text_surface, (10, 10))
-        
-        # Camera-Info
-        camera_text = f"Camera: ({camera_x}, {camera_y})"
-        text_surface = font.render(camera_text, True, (255, 255, 255))
-        surface.blit(text_surface, (10, 35))
-        
-        # Sichtbare Tiles
-        visible_count = len(self.get_visible_tiles(camera_x, camera_y, 
-                                                  surface.get_width(), surface.get_height()))
-        visible_text = f"Visible Tiles: {visible_count}"
-        text_surface = font.render(visible_text, True, (255, 255, 255))
-        surface.blit(text_surface, (10, 60))
-        
-        # Sprite-Cache-Info
-        cache_info = self.sprite_manager.get_cache_info()
-        cache_text = f"Sprites: {cache_info['total_sprites']}"
-        text_surface = font.render(cache_text, True, (255, 255, 255))
-        surface.blit(text_surface, (10, 85))
-        
-        # Tile-Mapping-Info
-        mapping_text = f"Tile-Mappings: {cache_info['tile_mappings']}"
-        text_surface = font.render(mapping_text, True, (255, 255, 255))
-        surface.blit(text_surface, (10, 110))
-    
-    def get_tile_info(self, x: int, y: int, layer_name: str = "ground") -> Optional[Dict]:
-        """Gibt Informationen über eine Tile an einer bestimmten Position zurück."""
-        tile_id = self.get_tile_at(x, y, layer_name)
-        if tile_id > 0:
-            return self.sprite_manager.get_tile_info(tile_id)
-        return None
-    
-    def is_tile_walkable(self, x: int, y: int, layer_name: str = "ground") -> bool:
-        """Prüft, ob eine Tile an der Position begehbar ist."""
-        tile_id = self.get_tile_at(x, y, layer_name)
-        if tile_id > 0:
-            return self.render_manager.tile_renderer.is_tile_walkable(tile_id)
-        return True  # Leere Tiles sind begehbar

@@ -61,7 +61,11 @@ class TileRenderer:
                 screen_y = y * self.tile_size - int(camera_y)
                 
                 # Hole den Sprite für diese Tile-ID oder Tile-Name
-                tile_sprite = self.sprite_manager.get_tile_sprite(tile_data)
+                # Versuche zuerst GID-basiertes Loading für TMX-Maps
+                if isinstance(tile_data, int) and tile_data > 0:
+                    tile_sprite = self.sprite_manager.get_tile_by_gid(tile_data)
+                else:
+                    tile_sprite = self.sprite_manager.get_tile_sprite(tile_data)
                 
                 if tile_sprite:
                     # Zeichne den Tile-Sprite

@@ -5,12 +5,12 @@ import pygame
 import sys
 import os
 
-# Füge den graphics-Ordner zum Python-Pfad hinzu
-current_dir = os.path.dirname(os.path.abspath(__file__))
-sys.path.insert(0, current_dir)
+# Füge die Projektwurzel zum Python-Pfad hinzu, damit `engine.*` importierbar ist
+project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, project_root)
 
 try:
-    from sprite_manager import SpriteManager
+    from engine.graphics.sprite_manager import SpriteManager
 except ImportError:
     print("❌ Konnte SpriteManager nicht importieren. Überprüfe den Pfad.")
     sys.exit(1)

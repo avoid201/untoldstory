@@ -68,8 +68,7 @@ class MainMenuScene(Scene):
         self.disabled_color = (80, 80, 80)
         
         # Transition
-        self.transition = FadeTransition(fade_in=True, duration=0.5)
-        self.transition.start()
+        self.transition = None  # Wird bei Bedarf erstellt
         
         # Background animation
         self.bg_offset = 0
@@ -217,16 +216,9 @@ class MainMenuScene(Scene):
     
     def _start_new_game(self) -> None:
         """Start a new game."""
-        # Transition to start scene
-        self.transition = FadeTransition(fade_in=False, duration=0.5)
-        self.transition.start()
-        
-        # Create start scene
-        from engine.scenes.start_scene import StartScene
-        start_scene = StartScene(self.game)
-        
-        # After fade completes, switch scene
-        self.game.scene_manager.set_scene(start_scene)
+        # Transition directly to field scene
+        from engine.scenes.field_scene import FieldScene
+        self.game.change_scene(FieldScene)
     
     def _continue_game(self) -> None:
         """Continue from most recent save."""
@@ -258,8 +250,7 @@ class MainMenuScene(Scene):
             
             # Transition to field scene
             from engine.scenes.field_scene import FieldScene
-            field_scene = FieldScene(self.game)
-            self.game.scene_manager.set_scene(field_scene)
+            self.game.change_scene(FieldScene)
     
     def update(self, dt: float) -> None:
         """Update main menu."""
@@ -301,7 +292,7 @@ class MainMenuScene(Scene):
         # Version info
         version_text = "v1.0.0"
         version_surf = self.small_font.render(version_text, True, self.disabled_color)
-        surface.blit(version_surf, (5, self.game.logical_height - 15))
+        surface.blit(version_surf, (5, self.game.logical_size[1] - 15))
         
         # Draw transition
         if self.transition and self.transition.active:
@@ -478,10 +469,10 @@ class MainMenuScene(Scene):
         """Draw animated background pattern."""
         # Simple moving grid pattern
         grid_color = (25, 30, 45)
-        for x in range(0, self.game.logical_width, 20):
+        for x in range(0, self.game.logical_size[0], 20):
             x_pos = x + (self.bg_offset % 20)
-            pygame.draw.line(surface, grid_color, (x_pos, 0), (x_pos, self.game.logical_height), 1)
+            pygame.draw.line(surface, grid_color, (x_pos, 0), (x_pos, self.game.logical_size[1]), 1)
         
-        for y in range(0, self.game.logical_height, 20):
+        for y in range(0, self.game.logical_size[1], 20):
             y_pos = y + (self.bg_offset % 20)
-            pygame.draw.line(surface, grid_color, (0, y_pos), (self.game.logical_width, y_pos), 1)
+            pygame.draw.line(surface, grid_color, (0, y_pos), (self.game.logical_size[0], y_pos), 1)

@@ -1,0 +1,42 @@
+{
+  "id": "karl_dialog",
+  "default": [
+    {
+      "text": "Ey, wat willze denn, Jung?",
+      "speaker": "Ruhrpott Karl"
+    },
+    {
+      "text": "Pass auf im hohen Gras! Da lauern wilde Monster!",
+      "speaker": "Ruhrpott Karl"
+    },
+    {
+      "text": "Wenn de eins fängst, kannze damit kämpfen!",
+      "speaker": "Ruhrpott Karl"
+    },
+    {
+      "text": "Aber brauchst Monsterbälle dafür. Gibt's im Laden zu kaufen!",
+      "speaker": "Ruhrpott Karl"
+    }
+  ],
+  "branches": [
+    {
+      "conditions": {
+        "flag": "has_starter"
+      },
+      "pages": [
+        {
+          "text": "Oh, du hast ja schon ein Monster!",
+          "speaker": "Ruhrpott Karl"
+        },
+        {
+          "text": "Dann ab mit dir ins hohe Gras!",
+          "speaker": "Ruhrpott Karl"
+        },
+        {
+          "text": "Trainier fleißig, dann wirst du stark wie die Kumpel im Bergwerk!",
+          "speaker": "Ruhrpott Karl"
+        }
+      ]
+    }
+  ]
+}

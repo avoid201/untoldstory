@@ -1,0 +1,156 @@
+{
+  "player_house": {
+    "exit_door": {
+      "position": [5, 10],
+      "destination_map": "kohlenstadt",
+      "destination_position": [20, 25],
+      "type": "door",
+      "sound": "door_open"
+    },
+    "upstairs": {
+      "position": [8, 2],
+      "destination_map": "player_house_2f",
+      "destination_position": [8, 9],
+      "type": "stairs",
+      "sound": "stairs"
+    }
+  },
+  "rival_house": {
+    "exit_door": {
+      "position": [5, 10],
+      "destination_map": "kohlenstadt",
+      "destination_position": [22, 25],
+      "type": "door",
+      "sound": "door_open"
+    }
+  },
+  "kohlenstadt": {
+    "player_house_entrance": {
+      "position": [20, 24],
+      "destination_map": "player_house",
+      "destination_position": [5, 9],
+      "type": "door",
+      "sound": "door_open"
+    },
+    "rival_house_entrance": {
+      "position": [22, 24],
+      "destination_map": "rival_house",
+      "destination_position": [5, 9],
+      "type": "door",
+      "sound": "door_open"
+    },
+    "museum_entrance": {
+      "position": [15, 10],
+      "destination_map": "museum",
+      "destination_position": [10, 15],
+      "type": "door",
+      "sound": "door_open"
+    },
+    "hospital_entrance": {
+      "position": [30, 15],
+      "destination_map": "bergmannsheil",
+      "destination_position": [8, 12],
+      "type": "door",
+      "sound": "door_open"
+    },
+    "penny_entrance": {
+      "position": [25, 30],
+      "destination_map": "penny",
+      "destination_position": [5, 10],
+      "type": "door",
+      "sound": "door_open"
+    },
+    "route1_north": {
+      "position": [15, 0],
+      "destination_map": "route1",
+      "destination_position": [15, 48],
+      "type": "route",
+      "sound": null
+    },
+    "route1_east": {
+      "position": [49, 20],
+      "destination_map": "route1",
+      "destination_position": [1, 20],
+      "type": "route",
+      "sound": null
+    }
+  },
+  "museum": {
+    "exit_door": {
+      "position": [10, 16],
+      "destination_map": "kohlenstadt",
+      "destination_position": [15, 11],
+      "type": "door",
+      "sound": "door_open"
+    },
+    "basement_stairs": {
+      "position": [5, 5],
+      "destination_map": "museum_basement",
+      "destination_position": [5, 2],
+      "type": "stairs",
+      "sound": "stairs"
+    }
+  },
+  "bergmannsheil": {
+    "exit_door": {
+      "position": [8, 13],
+      "destination_map": "kohlenstadt",
+      "destination_position": [30, 16],
+      "type": "door",
+      "sound": "door_open"
+    },
+    "emergency_room": {
+      "position": [15, 5],
+      "destination_map": "bergmannsheil_emergency",
+      "destination_position": [2, 5],
+      "type": "door",
+      "sound": "door_open"
+    }
+  },
+  "penny": {
+    "exit_door": {
+      "position": [5, 11],
+      "destination_map": "kohlenstadt",
+      "destination_position": [25, 31],
+      "type": "door",
+      "sound": "door_open"
+    },
+    "storage_room": {
+      "position": [15, 3],
+      "destination_map": "penny_storage",
+      "destination_position": [2, 5],
+      "type": "door",
+      "sound": "door_open"
+    }
+  },
+  "route1": {
+    "kohlenstadt_south": {
+      "position": [15, 49],
+      "destination_map": "kohlenstadt",
+      "destination_position": [15, 1],
+      "type": "route",
+      "sound": null
+    },
+    "kohlenstadt_west": {
+      "position": [0, 20],
+      "destination_map": "kohlenstadt",
+      "destination_position": [48, 20],
+      "type": "route",
+      "sound": null
+    },
+    "cave_entrance": {
+      "position": [30, 10],
+      "destination_map": "coal_cave",
+      "destination_position": [5, 15],
+      "type": "cave",
+      "sound": "cave_enter"
+    },
+    "route2_north": {
+      "position": [25, 0],
+      "destination_map": "route2",
+      "destination_position": [25, 48],
+      "type": "route",
+      "sound": null
+    }
+  }
+}

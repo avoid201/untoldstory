@@ -10,6 +10,7 @@ import json
 if TYPE_CHECKING:
     from engine.systems.monster_instance import MonsterInstance
     from engine.systems.party import Party
+    from engine.systems.monsters import MonsterSpecies
 
 
 class ItemType(Enum):
@@ -694,3 +695,46 @@ class Inventory:
         inventory.key_items = data.get('key_items', []).copy()
         inventory.money = data.get('money', 1000)
         return inventory
+
+
+class ItemDatabase:
+    """Database of all items in the game."""
+    
+    def __init__(self):
+        """Initialize item database."""
+        self.items: Dict[str, Item] = {}
+        self._load_items()
+    
+    def _load_items(self):
+        """Load all items."""
+
+    
+    def get_item(self, item_id: str) -> Optional[Item]:
+        """Get an item by ID."""
+        return self.items.get(item_id)
+    
+    def get_all_items(self) -> Dict[str, Item]:
+        """Get all items."""
+        return self.items.copy()
+    
+    def get_items_by_type(self, item_type: ItemType) -> List[Item]:
+        """Get all items of a specific type."""
+        return [item for item in self.items.values() if item.item_type == item_type]
+    
+    def get_items_by_target(self, target: ItemTarget) -> List[Item]:
+        """Get all items with a specific target."""
+        return [item for item in self.items.values() if item.target == target]
+    
+    def search_items(self, query: str) -> List[Item]:
+        """Search items by name or description."""
+        query = query.lower()
+        results = []
+        
+        for item in self.items.values():
+            if (query in item.name.lower() or 
+                query in item.description.lower()):
+                results.append(item)
+        
+        return results
+
+

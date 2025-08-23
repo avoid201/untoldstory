@@ -19,17 +19,31 @@ from engine.core.game import Game
 def initialize_sprite_system():
     """Initialisiert das Sprite-System"""
     from engine.graphics.sprite_manager import SpriteManager
+    from engine.world.tmx_init import initialize_tmx_support
     
     print("Initializing sprite system...")
     
-    # Create sprite manager
+    # Create sprite manager (aber NICHT _ensure_loaded aufrufen!)
     sprite_manager = SpriteManager.get()
+    
+    # WICHTIG: Zuerst TMX-Support initialisieren
+    print("Initializing TMX support FIRST...")
+    initialize_tmx_support()
+    
+    # Dann erst den Rest laden
+    sprite_manager._ensure_loaded()
     
     # Count loaded sprites
     total_sprites = (len(sprite_manager._tiles) + len(sprite_manager._objects) + 
                     len(sprite_manager._player_dir_map) + len(sprite_manager._npc_dir_map) + 
                     len(sprite_manager._monster))
-    print(f"Sprite system initialized with {total_sprites} sprites")
+    
+    # Add GID count if available
+    if hasattr(sprite_manager, 'gid_to_surface'):
+        gid_count = len(sprite_manager.gid_to_surface)
+        print(f"Sprite system initialized with {total_sprites} sprites and {gid_count} TMX GIDs")
+    else:
+        print(f"Sprite system initialized with {total_sprites} sprites")
     
     return sprite_manager
 

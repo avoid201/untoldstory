@@ -1,0 +1,78 @@
+{
+  "map_id": "kohlenstadt",
+  "name": "Kohlenstadt",
+  
+  "npcs": [
+    {
+      "id": "karl",
+      "name": "Ruhrpott Karl",
+      "position": [12, 8],
+      "sprite": "npc_man",
+      "facing": "down",
+      "movement": "random",
+      "movement_radius": 2,
+      "dialog": "karl_dialog",
+      "conditions": {}
+    },
+    {
+      "id": "professor",
+      "name": "Professor Budde",
+      "position": [8, 10],
+      "sprite": "npc_professor",
+      "facing": "down",
+      "movement": "static",
+      "dialog": "professor_dialog",
+      "conditions": {
+        "flag": "!has_starter"
+      }
+    }
+  ],
+  
+  "warps": [
+    {
+      "id": "to_player_house",
+      "position": [10, 15],
+      "destination": {
+        "map": "player_house",
+        "position": [4, 4],
+        "facing": "up"
+      },
+      "type": "door",
+      "sound": "door_open"
+    },
+    {
+      "id": "to_museum",
+      "position": [8, 5],
+      "destination": {
+        "map": "museum",
+        "position": [5, 8],
+        "facing": "up"
+      },
+      "type": "door",
+      "sound": "door_open"
+    }
+  ],
+  
+  "objects": [
+    {
+      "id": "sign_town",
+      "position": [10, 10],
+      "type": "sign",
+      "interaction": {
+        "type": "dialog",
+        "text": "Kohlenstadt - Wo die Vergangenheit lebt!"
+      }
+    },
+    {
+      "id": "sign_museum",
+      "position": [7, 6],
+      "type": "sign",
+      "interaction": {
+        "type": "dialog",
+        "text": "Fossil-Museum - Prof. Buddes Labor"
+      }
+    }
+  ],
+  
+  "triggers": []
+}

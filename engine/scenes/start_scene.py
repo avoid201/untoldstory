@@ -39,7 +39,7 @@ class StartScene(Scene):
         # Text content
         self.title_text = "UNTOLD STORY"
         self.subtitle_text = "Eine Reise durch die Zeit"  # "A Journey Through Time" in German
-        self.prompt_text = "Press ENTER to Start"
+        self.prompt_text = "Drücke ENTER für Hauptmenü"
         self.version_text = "v0.1.0 Alpha"
         
         # Animation state
@@ -309,7 +309,7 @@ class StartScene(Scene):
             pygame.draw.lines(surface, frame_color, True, points, frame_width)
     
     def _start_game(self) -> None:
-        """Transition to the main game."""
+        """Transition to the main menu."""
         if self.transitioning:
             return
         
@@ -322,25 +322,14 @@ class StartScene(Scene):
         except:
             pass
         
-        # Transition to field scene
-        from engine.scenes.field_scene import FieldScene
+        # Transition to main menu scene
+        from engine.scenes.main_menu_scene import MainMenuScene
         
-        # Create Field Scene and switch
-        field_scene = FieldScene(self.game)
-        self.game.replace_scene(field_scene)
+        # Create Main Menu Scene and switch
+        main_menu_scene = MainMenuScene(self.game)
+        self.game.replace_scene(main_menu_scene)
         
-        # Load player house and spawn at bed (fails gracefully via MapLoader)
-        try:
-            field_scene.enter(map_id="player_house", spawn_point="bed")
-        except Exception as e:
-            print(f"Warning: Could not enter player_house: {e}")
-        
-        # DEAKTIVIERT: Starte awakening-Cutscene - blockiert Player-Bewegung
-        # if hasattr(self.game, 'cutscene_manager'):
-        #     self.game.cutscene_manager.play('awakening', on_complete=self._on_awakening_complete)
-        # else:
-        #     # Fallback: Direkt zum Spiel
-        print("Cutscene übersprungen - Player kann sich sofort bewegen")
+        print(f"[StartScene] Wechsel zum Hauptmenü - Spieler kann 'Neues Spiel' wählen (Transition: {self.transitioning})")
     
     def _on_awakening_complete(self):
         """Callback wenn awakening-Cutscene beendet ist"""

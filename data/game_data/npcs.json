@@ -1,0 +1,153 @@
+{
+  "player_house": {
+    "mom": {
+      "position": [7, 5],
+      "sprite": "npc_mom",
+      "dialogue_id": "mom_morning",
+      "movement_pattern": "static",
+      "facing": "down"
+    }
+  },
+  "rival_house": {
+    "rival": {
+      "position": [5, 7],
+      "sprite": "npc_rival",
+      "dialogue_id": "rival_intro",
+      "movement_pattern": "static",
+      "facing": "up"
+    },
+    "rival_mom": {
+      "position": [8, 4],
+      "sprite": "npc_woman_1",
+      "dialogue_id": "rival_mom_greeting",
+      "movement_pattern": "random",
+      "movement_radius": 2
+    }
+  },
+  "kohlenstadt": {
+    "old_miner": {
+      "position": [15, 20],
+      "sprite": "npc_oldman_1",
+      "dialogue_id": "miner_stories",
+      "movement_pattern": "patrol",
+      "patrol_path": [[15, 20], [18, 20], [18, 23], [15, 23]]
+    },
+    "shopkeeper": {
+      "position": [25, 15],
+      "sprite": "npc_shopkeeper",
+      "dialogue_id": "shop_greeting",
+      "movement_pattern": "static",
+      "facing": "down"
+    },
+    "youngster_1": {
+      "position": [10, 30],
+      "sprite": "npc_youngster",
+      "dialogue_id": "youngster_battle_talk",
+      "movement_pattern": "random",
+      "movement_radius": 3
+    },
+    "punk_girl": {
+      "position": [30, 25],
+      "sprite": "npc_punk_girl",
+      "dialogue_id": "punk_attitude",
+      "movement_pattern": "static",
+      "facing": "left"
+    }
+  },
+  "museum": {
+    "curator": {
+      "position": [10, 5],
+      "sprite": "npc_scientist",
+      "dialogue_id": "museum_intro",
+      "movement_pattern": "static",
+      "facing": "down"
+    },
+    "fossil_expert": {
+      "position": [15, 10],
+      "sprite": "npc_scientist_2",
+      "dialogue_id": "fossil_explanation",
+      "movement_pattern": "patrol",
+      "patrol_path": [[15, 10], [20, 10], [20, 15], [15, 15]]
+    },
+    "school_kid": {
+      "position": [5, 12],
+      "sprite": "npc_schoolkid",
+      "dialogue_id": "school_trip",
+      "movement_pattern": "random",
+      "movement_radius": 2
+    }
+  },
+  "bergmannsheil": {
+    "nurse": {
+      "position": [8, 6],
+      "sprite": "npc_nurse",
+      "dialogue_id": "heal_offer",
+      "movement_pattern": "static",
+      "facing": "down"
+    },
+    "doctor": {
+      "position": [12, 8],
+      "sprite": "npc_doctor",
+      "dialogue_id": "medical_advice",
+      "movement_pattern": "patrol",
+      "patrol_path": [[12, 8], [12, 12], [16, 12], [16, 8]]
+    },
+    "injured_miner": {
+      "position": [5, 10],
+      "sprite": "npc_injured",
+      "dialogue_id": "accident_story",
+      "movement_pattern": "static",
+      "facing": "right"
+    }
+  },
+  "penny": {
+    "cashier": {
+      "position": [5, 3],
+      "sprite": "npc_cashier",
+      "dialogue_id": "penny_greeting",
+      "movement_pattern": "static",
+      "facing": "down"
+    },
+    "customer_1": {
+      "position": [8, 7],
+      "sprite": "npc_woman_2",
+      "dialogue_id": "shopping_talk",
+      "movement_pattern": "random",
+      "movement_radius": 2
+    },
+    "stock_boy": {
+      "position": [12, 10],
+      "sprite": "npc_youngster_2",
+      "dialogue_id": "stocking_shelves",
+      "movement_pattern": "patrol",
+      "patrol_path": [[12, 10], [12, 5], [15, 5], [15, 10]]
+    }
+  },
+  "route1": {
+    "bug_catcher": {
+      "position": [10, 15],
+      "sprite": "npc_bugcatcher",
+      "dialogue_id": "bug_enthusiasm",
+      "movement_pattern": "random",
+      "movement_radius": 4,
+      "trainer": true,
+      "sight_range": 3
+    },
+    "hiker": {
+      "position": [25, 20],
+      "sprite": "npc_hiker",
+      "dialogue_id": "hiking_tips",
+      "movement_pattern": "static",
+      "facing": "left",
+      "trainer": true,
+      "sight_range": 4
+    },
+    "picnicker": {
+      "position": [18, 30],
+      "sprite": "npc_picnicker",
+      "dialogue_id": "picnic_chat",
+      "movement_pattern": "static",
+      "facing": "up"
+    }
+  }
+}

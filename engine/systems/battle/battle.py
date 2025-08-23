@@ -8,6 +8,7 @@ from enum import Enum
 from dataclasses import dataclass
 from engine.systems.monster_instance import MonsterInstance, StatusCondition
 from engine.systems.moves import Move, MoveExecutor
+from engine.systems.battle.turn_logic import BattleAction, ActionType
 
 
 class BattleType(Enum):
@@ -36,38 +37,7 @@ class BattlePhase(Enum):
     COMPLETE = "complete"     # Battle complete
 
 
-class ActionType(Enum):
-    """Types of battle actions."""
-    ATTACK = "attack"
-    TAME = "tame"
-    ITEM = "item"
-    SWITCH = "switch"
-    FLEE = "flee"
-    AUTO = "auto"
 
-
-@dataclass
-class BattleAction:
-    """A queued battle action."""
-    actor: MonsterInstance
-    action_type: ActionType
-    priority: int = 0
-    
-    # Action-specific data
-    move: Optional[Move] = None
-    target: Optional[MonsterInstance] = None
-    item: Optional[str] = None
-    switch_to: Optional[MonsterInstance] = None
-    
-    def get_speed(self) -> int:
-        """Get effective speed for turn order."""
-        base_speed = self.actor.stats["spd"]
-        
-        # Apply status modifiers
-        if self.actor.status == StatusCondition.PARALYSIS:
-            base_speed = base_speed // 2
-        
-        return base_speed
 
 
 class BattleState:

@@ -1,0 +1,53 @@
+{
+  "id": "mom_dialog",
+  "default": [
+    {
+      "text": "Good morning, honey! Are you heading out today?",
+      "speaker": "Mom"
+    },
+    {
+      "text": "Be careful out there! The tall grass is full of wild monsters.",
+      "speaker": "Mom"
+    },
+    {
+      "text": "Don't forget to visit Professor Budde at the museum!",
+      "speaker": "Mom"
+    }
+  ],
+  "branches": [
+    {
+      "conditions": {
+        "flag": "has_starter"
+      },
+      "pages": [
+        {
+          "text": "Oh, you got your first monster! How exciting!",
+          "speaker": "Mom"
+        },
+        {
+          "text": "Your father would be so proud of you.",
+          "speaker": "Mom"
+        },
+        {
+          "text": "Remember to come home if you need to rest!",
+          "speaker": "Mom"
+        }
+      ]
+    },
+    {
+      "conditions": {
+        "flag": "became_champion"
+      },
+      "pages": [
+        {
+          "text": "My child, the Champion! I always knew you were special!",
+          "speaker": "Mom"
+        },
+        {
+          "text": "I've been telling all the neighbors about your achievement!",
+          "speaker": "Mom"
+        }
+      ]
+    }
+  ]
+}

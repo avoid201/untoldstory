@@ -4,7 +4,7 @@ Hier wählt der Spieler sein erstes Monster
 """
 
 import pygame
-from engine.core.scene import Scene
+from engine.core.scene_base import Scene
 from engine.ui.dialogue import DialogueBox, DialoguePage
 from engine.systems.monster_instance import MonsterInstance
 from engine.systems.party import Party

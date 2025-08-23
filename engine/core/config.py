@@ -437,6 +437,65 @@ CAMERA_DEADZONE_HEIGHT = 30  # Deadzone für 16x16 Tiles
 CAMERA_FOLLOW_SPEED = 8.0    # Kamera-Geschwindigkeit für 16x16 Tiles
 
 
+# Font Configuration
+class Fonts:
+    """Font configuration for the game."""
+    # Default font sizes
+    TINY = 8
+    SMALL = 12
+    NORMAL = 16
+    LARGE = 20
+    HUGE = 24
+    TITLE = 32
+    
+    # Font families
+    DEFAULT = None  # pygame default
+    MONOSPACE = "monospace"
+    
+    # Font weights (if supported)
+    NORMAL_WEIGHT = "normal"
+    BOLD = "bold"
+    ITALIC = "italic"
+
+
+# UI Configuration
+class UI:
+    """UI configuration constants."""
+    # Colors
+    BACKGROUND = (20, 20, 30)
+    BORDER = (100, 100, 120)
+    SELECTED = (255, 255, 255)
+    UNSELECTED = (150, 150, 150)
+    DISABLED = (80, 80, 80)
+    
+    # Dimensions
+    DIALOGUE_BOX_HEIGHT = 48
+    MENU_PADDING = 10
+    MENU_BORDER_WIDTH = 2
+    BUTTON_HEIGHT = 24
+    BUTTON_PADDING = 8
+    
+    # Animation
+    FADE_DURATION = 0.3
+    MENU_SLIDE_DURATION = 0.2
+    BUTTON_HOVER_DURATION = 0.1
+
+
+# Game State Enum
+class GameState(Enum):
+    """Game state enumeration."""
+    MAIN_MENU = "main_menu"
+    PLAYING = "playing"
+    PAUSED = "paused"
+    BATTLE = "battle"
+    DIALOGUE = "dialogue"
+    MENU = "menu"
+    TRANSITION = "transition"
+    CUTSCENE = "cutscene"
+    SAVE_LOAD = "save_load"
+    QUIT = "quit"
+
+
 def get_config_value(section: str, key: str, default: Any = None) -> Any:
     """
     Get a configuration value dynamically.

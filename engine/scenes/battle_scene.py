@@ -11,9 +11,9 @@ from enum import Enum, auto
 from engine.core.scene_base import Scene
 from engine.core.config import Colors, GameState
 from engine.ui.battle_ui import BattleUI, BattleMenuState
-from engine.systems.battle.battle import BattleState, BattlePhase
+from engine.systems.battle.battle import BattleState, BattlePhase, BattleType
 from engine.systems.battle.turn_logic import TurnManager
-from engine.systems.battle.ai import BattleAI
+from engine.systems.battle.battle_ai import BattleAI
 from engine.systems.monster_instance import MonsterInstance
 # from engine.ui.transitions import TransitionType  # Temporarily disabled
 
@@ -46,7 +46,7 @@ class BattleScene(Scene):
         self.battle_bg = None  # Background type
         
         # Turn state
-        self.current_phase = BattlePhase.INTRO
+        self.current_phase = BattlePhase.INIT
         self.action_queue: List[Dict] = []
         self.pending_actions: Dict[str, Dict] = {}
         self.turn_count = 0
@@ -98,12 +98,13 @@ class BattleScene(Scene):
         self.trainer_sprite = kwargs.get('trainer_sprite', None)
         
         # Initialize battle state with actual party
+        battle_type = BattleType.WILD if self.is_wild else BattleType.TRAINER
         self.battle_state = BattleState(
             player_team=player_team,
             enemy_team=enemy_team,
-            is_wild=self.is_wild,
-            weather=kwargs.get('weather', None),
-            terrain=kwargs.get('terrain', None)
+            battle_type=battle_type,
+            can_flee=self.can_flee,
+            can_catch=self.is_wild
         )
         
         # Initialize turn manager
@@ -123,7 +124,7 @@ class BattleScene(Scene):
         self.caught_monster = None
         
         # Start intro phase
-        self.current_phase = BattlePhase.INTRO
+        self.current_phase = BattlePhase.INIT
         self.phase_timer = 0
         
         # Show intro message
@@ -359,14 +360,14 @@ class BattleScene(Scene):
             self.animation_timer -= dt
         
         # Handle current phase
-        if self.current_phase == BattlePhase.INTRO:
+        if self.current_phase == BattlePhase.INIT:
             self._update_intro_phase(dt)
             
         elif self.current_phase == BattlePhase.INPUT:
             self._update_input_phase(dt)
             
-        elif self.current_phase == BattlePhase.EXECUTION:
-            self._update_execution_phase(dt)
+        elif self.current_phase == BattlePhase.RESOLVE:
+            self._update_resolve_phase(dt)
             
         elif self.current_phase == BattlePhase.AFTERMATH:
             self._update_aftermath_phase(dt)
@@ -410,7 +411,7 @@ class BattleScene(Scene):
             if not self.waiting_for_input and self._all_actions_ready():
                 self._execute_turn()
     
-    def _update_execution_phase(self, dt: float):
+    def _update_resolve_phase(self, dt: float):
         """Execute queued actions."""
         # Process action queue
         if self.action_queue:
@@ -531,8 +532,8 @@ class BattleScene(Scene):
     
     def _execute_turn(self):
         """Process all pending actions for this turn."""
-        # Move to execution phase
-        self.current_phase = BattlePhase.EXECUTION
+        # Move to resolve phase
+        self.current_phase = BattlePhase.RESOLVE
         self.phase_timer = 0
         
         # Sort actions by priority and speed

@@ -1,0 +1,185 @@
+{
+  "mom_morning": {
+    "text": [
+      "Ey, mein Schatz! Endlich bisse wach!",
+      "Dat Professor Eiche wollte dich schon seit Stunden sprechen.",
+      "Der is' im Labor, direkt anne Zeche Zollverein.",
+      "Pass auf dich auf, wa? Und vergiss nich zu essen!"
+    ],
+    "responses": null,
+    "actions": ["give_item:potion", "set_flag:talked_to_mom"]
+  },
+  "rival_intro": {
+    "text": [
+      "Na, Schlafmütze! Ich hab schon mein erstes Monster!",
+      "Während du noch gepennt has', war ich schon beim Professor.",
+      "Komma, lass uns kämpfen! Ich zeig dir ma', wat ne Harke is'!"
+    ],
+    "responses": ["Lass uns kämpfen!", "Später vielleicht..."],
+    "actions": ["start_battle:rival_1", null]
+  },
+  "rival_mom_greeting": {
+    "text": [
+      "Hömma, kleiner! Suchsse meinen Jungen?",
+      "Der is' bestimmt wieder draußen und macht Blödsinn.",
+      "Typisch, ne? Genau wie sein Vater damals..."
+    ],
+    "responses": null,
+    "actions": null
+  },
+  "miner_stories": {
+    "text": [
+      "Tach auch! Weisse wat?",
+      "Ich hab 40 Jahre inner Zeche malocht!",
+      "Damals gab's hier noch richtige Monster untertage.",
+      "Kohlenbeißer, Grubengeister... die ganze Palette!",
+      "Heute is' alles anders. Aber die Monster sind immer noch da unten."
+    ],
+    "responses": ["Erzählen Sie mehr!", "Interessant..."],
+    "actions": null
+  },
+  "shop_greeting": {
+    "text": [
+      "Willkommen bei Kiosk Schmitz!",
+      "Wir ham alles wat de brauchst - von Pokébällen bis Pommes!",
+      "Heute im Angebot: Tränke für nur 200 Taler!"
+    ],
+    "responses": ["Zeigen Sie mir Ihre Waren", "Nur gucken, danke"],
+    "actions": ["open_shop:general_store", null]
+  },
+  "youngster_battle_talk": {
+    "text": [
+      "Ey, Alter! Du siehst aus wie'n Trainer!",
+      "Ich wette, meine Ruhrkröte macht deine Monster alle!",
+      "Komm, lass uns battlen!"
+    ],
+    "responses": ["Klar, zeig was du drauf hast!", "Nee, kein Bock"],
+    "actions": ["start_battle:youngster_1", null]
+  },
+  "punk_attitude": {
+    "text": [
+      "Wat gucksse so?",
+      "Meine Monster sind genauso tough wie ich!",
+      "Schrauber, Rostling... alles Stahl-Monster ausser Pott!",
+      "Die machen deine Viecher platt, Kollege!"
+    ],
+    "responses": ["Beweisen Sie es!", "Schon gut..."],
+    "actions": ["start_battle:punk_girl_1", null]
+  },
+  "museum_intro": {
+    "text": [
+      "Willkommen im Ruhrmuseum!",
+      "Hier können Sie die Geschichte unserer Region erleben.",
+      "Von der Kohle-Ära bis zu den mysteriösen Monstern der Unterzeit.",
+      "Wussten Sie, dass Fossilien hier unten noch leben können?",
+      "Die Energie der alten Zechen erweckt sie zum Leben!"
+    ],
+    "responses": ["Faszinierend!", "Kann ich mir die Fossilien ansehen?"],
+    "actions": [null, "start_quest:fossil_quest"]
+  },
+  "fossil_explanation": {
+    "text": [
+      "Diese Fossilien sind über 300 Millionen Jahre alt!",
+      "Aus der Zeit, als das Ruhrgebiet noch ein tropischer Sumpf war.",
+      "Mit der richtigen Technologie können wir sie wiederbeleben.",
+      "Stellen Sie sich vor - echte Urzeit-Monster aus'm Pott!"
+    ],
+    "responses": null,
+    "actions": null
+  },
+  "school_trip": {
+    "text": [
+      "Boah ey, is' das langweilig hier!",
+      "Unsere Lehrerin meint, wir sollen wat über Geschichte lernen.",
+      "Aber ich will lieber Monster fangen!",
+      "Hasse schon welche? Zeig ma'!"
+    ],
+    "responses": ["Klar, schau mal!", "Musst noch warten, Kleiner"],
+    "actions": ["show_party", null]
+  },
+  "heal_offer": {
+    "text": [
+      "Guten Tag! Sie sehen erschöpft aus.",
+      "Soll ich Ihre Monster versorgen?",
+      "Das geht aufs Haus - Bergmannsheil kümmert sich um alle!"
+    ],
+    "responses": ["Ja, bitte!", "Nein danke, geht schon"],
+    "actions": ["heal_party", null]
+  },
+  "medical_advice": {
+    "text": [
+      "Als Arzt rate ich Ihnen:",
+      "Immer genug Tränke dabei haben!",
+      "Die Zechen sind gefährlich, und die wilden Monster erst recht.",
+      "Kommen Sie jederzeit vorbei, wenn Sie Hilfe brauchen."
+    ],
+    "responses": null,
+    "actions": ["give_item:super_potion"]
+  },
+  "accident_story": {
+    "text": [
+      "Aua... mein Rücken...",
+      "Bin inner Zeche von'm Grubenmonster erwischt worden.",
+      "Dat Viech war riesig! Mindestens drei Meter!",
+      "Pass bloß auf, wenn de da unten rumläufst..."
+    ],
+    "responses": ["Gute Besserung!", "Wo war das genau?"],
+    "actions": [null, "add_map_marker:dangerous_cave"]
+  },
+  "penny_greeting": {
+    "text": [
+      "Moin! Willkommen bei Penny!",
+      "Heut' im Angebot: Pokébälle - nimm 10, zahl 9!",
+      "Und unsere berühmte Currywurst gibt's auch!"
+    ],
+    "responses": ["Was haben Sie im Angebot?", "Nur schauen"],
+    "actions": ["open_shop:penny_market", null]
+  },
+  "shopping_talk": {
+    "text": [
+      "Ey, die Preise hier werden auch immer teurer!",
+      "Früher hat'n Trank nur 100 Taler gekostet.",
+      "Aber wat willse machen, ne? Muss ja sein."
+    ],
+    "responses": null,
+    "actions": null
+  },
+  "stocking_shelves": {
+    "text": [
+      "Mann, is' das anstrengend!",
+      "Den ganzen Tag Regale einräumen...",
+      "Aber wenigstens krieg ich Mitarbeiterrabatt!",
+      "20% auf alle Monster-Items!"
+    ],
+    "responses": null,
+    "actions": null
+  },
+  "bug_enthusiasm": {
+    "text": [
+      "Käfer-Monster sind die besten!",
+      "Klein, aber oho! Mein Kohlewurm macht dich fertig!",
+      "Los geht's! Kampf der Giganten!"
+    ],
+    "responses": ["Bring it on!", "Lieber nicht..."],
+    "actions": ["start_battle:bug_catcher_1", null]
+  },
+  "hiking_tips": {
+    "text": [
+      "Wandern im Ruhrgebiet is' was Feines!",
+      "Von der Halde bis zum Baldeneysee - alles wunderschön!",
+      "Aber pass auf die wilden Monster auf!",
+      "Hier, nimm das für den Notfall."
+    ],
+    "responses": ["Danke für den Tipp!"],
+    "actions": ["give_item:escape_rope"]
+  },
+  "picnic_chat": {
+    "text": [
+      "So'n schönes Wetter heute!",
+      "Perfekt für'n Picknick mit meinen Monstern.",
+      "Die lieben Mettbrötchen! Typisch Ruhrpott, wa?"
+    ],
+    "responses": null,
+    "actions": null
+  }
+}

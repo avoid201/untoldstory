@@ -550,10 +550,12 @@ class GameStateSerializer:
         Returns:
             Serialized game state dictionary
         """
+        # Import managers
         from engine.systems.party import PartyManager
         from engine.systems.story import StoryManager
         from engine.systems.quests import QuestManager
         from engine.systems.items import Inventory
+        from engine.systems.monsters import MonsterSpecies
         
         state = {
             'version': SaveSystem.SAVE_VERSION,
@@ -597,10 +599,12 @@ class GameStateSerializer:
             game: Game instance to load into
             state: Serialized state dictionary
         """
+        # Import managers
         from engine.systems.party import PartyManager
         from engine.systems.story import StoryManager
         from engine.systems.quests import QuestManager
         from engine.systems.items import Inventory
+        from engine.systems.monsters import MonsterSpecies
         
         # Restore player data
         player_data = state.get('player', {})

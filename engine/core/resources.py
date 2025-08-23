@@ -601,6 +601,31 @@ class ResourceManager:
             print(f"Error loading monster species {species_id}: {e}")
             return None
 
+    def get_move(self, move_id: str) -> Optional[Dict[str, Any]]:
+        """
+        Get move data by ID.
+        
+        Args:
+            move_id: The ID of the move to get
+            
+        Returns:
+            Dictionary with move data, or None if not found
+        """
+        try:
+            moves_data = self.load_json("moves.json")
+            
+            # Search for move by ID
+            for move in moves_data:
+                if move.get('id') == move_id:
+                    return move
+            
+            print(f"Warning: Move {move_id} not found")
+            return None
+            
+        except Exception as e:
+            print(f"Error loading move {move_id}: {e}")
+            return None
+
     def _load_essential_assets(self) -> None:
         """Load essential assets that should always be available."""
         # UI-Elemente
