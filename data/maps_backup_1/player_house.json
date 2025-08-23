@@ -1,0 +1,181 @@
+{
+  "id": "player_house",
+  "name": "Dein Zuhause",
+  "size": {
+    "w": 10,
+    "h": 8,
+    "tile": 16
+  },
+  "layers": {
+    "ground": [
+      [19,19,19,19,19,19,19,19,19,19],
+      [19,19,19,19,19,19,19,19,19,19],
+      [19,19,21,21,21,21,21,21,19,19],
+      [19,19,21,21,21,21,21,21,19,19],
+      [19,19,21,21,21,21,21,21,19,19],
+      [19,19,19,19,19,19,19,19,19,19],
+      [19,19,19,19,19,19,19,19,19,19],
+      [0,0,0,0,0,0,0,0,0,0]
+    ],
+    "decor": [
+      [48,48,48,48,48,48,48,48,48,48],
+      [48,109,0,0,102,102,0,0,108,48],
+      [48,0,107,0,0,0,0,105,106,48],
+      [48,0,0,0,0,0,0,0,0,48],
+      [48,110,0,0,0,0,0,0,110,48],
+      [48,35,0,0,0,0,0,0,0,48],
+      [48,0,0,0,0,0,0,0,0,48],
+      [48,48,48,48,53,53,48,48,48,48]
+    ],
+    "collision": [
+      [1,1,1,1,1,1,1,1,1,1],
+      [1,1,0,0,1,1,0,0,1,1],
+      [1,0,1,0,0,0,0,1,1,1],
+      [1,0,0,0,0,0,0,0,0,1],
+      [1,1,0,0,0,0,0,0,1,1],
+      [1,0,0,0,0,0,0,0,0,1],
+      [1,0,0,0,0,0,0,0,0,1],
+      [1,1,1,1,0,0,1,1,1,1]
+    ],
+    "overhang": [
+      [0,0,0,0,0,0,0,0,0,0],
+      [0,0,0,0,0,0,0,0,0,0],
+      [0,0,0,0,0,0,0,0,0,0],
+      [0,0,0,0,0,0,0,0,0,0],
+      [0,0,0,0,0,0,0,0,0,0],
+      [0,0,0,0,0,0,0,0,0,0],
+      [0,0,0,0,0,0,0,0,0,0],
+      [0,0,0,0,0,0,0,0,0,0]
+    ]
+  },
+  "npcs": [
+    {
+      "id": "mom",
+      "x": 5,
+      "y": 4,
+      "sprite": "villager_f",
+      "direction": "down",
+      "movement": "wander",
+      "dialog": [
+        "Na Schätzchen, endlich wach wa?",
+        "Hasse schon gehört? Professor Budde sucht dich!",
+        "Der will dir wat über Monster erzählen oder so.",
+        "Aber erstma sollste wat essen, ne? Hab Stulle gemacht!"
+      ]
+    },
+    {
+      "id": "pet_monster",
+      "x": 3,
+      "y": 5,
+      "sprite": "npcA",
+      "direction": "right",
+      "movement": "static",
+      "dialog": [
+        "*schnurr* *schnurr*",
+        "Dat is unser Haus-Monster. Voll zahm, der Kleine!",
+        "Beißt nur wenn er Hunger hat, hehe."
+      ]
+    }
+  ],
+  "warps": [
+    {
+      "x": 4,
+      "y": 7,
+      "to": "kohlenstadt",
+      "tx": 15,
+      "ty": 11,
+      "direction": "down"
+    },
+    {
+      "x": 5,
+      "y": 7,
+      "to": "kohlenstadt",
+      "tx": 16,
+      "ty": 11,
+      "direction": "down"
+    },
+    {
+      "x": 1,
+      "y": 5,
+      "to": "player_house_upper",
+      "tx": 1,
+      "ty": 1,
+      "direction": "up"
+    }
+  ],
+  "triggers": [
+    {
+      "x": 2,
+      "y": 2,
+      "event": "interact",
+      "args": {
+        "text": "Dein gemütliches Bett.\nHier hasse immer gut gepennt!",
+        "type": "examine"
+      }
+    },
+    {
+      "x": 7,
+      "y": 2,
+      "event": "interact",
+      "args": {
+        "text": "Der alte Schreibtisch.\nVoller Monster-Sammelkarten und Comics!",
+        "type": "examine"
+      }
+    },
+    {
+      "x": 1,
+      "y": 1,
+      "event": "interact",
+      "args": {
+        "text": "Deine Lieblingssendung läuft!\n'Monster-Liga Ruhrpott' - voll spannend!",
+        "type": "examine"
+      }
+    },
+    {
+      "x": 8,
+      "y": 1,
+      "event": "interact",
+      "args": {
+        "text": "Das Bücherregal von Muttern.\nAlles über Kochen und Monster-Pflege.",
+        "type": "examine"
+      }
+    },
+    {
+      "x": 1,
+      "y": 4,
+      "event": "interact",
+      "args": {
+        "text": "Eine robuste Topfpflanze.\nDie überlebt sogar im Ruhrpott!",
+        "type": "examine"
+      }
+    }
+  ],
+  "properties": {
+    "music": "home.ogg",
+    "ambient": "cozy_indoor",
+    "lighting": "indoor_warm",
+    "encounters": null,
+    "spawns": {
+      "default": {
+        "x": 2,
+        "y": 3,
+        "direction": "down"
+      },
+      "from_kohlenstadt": {
+        "x": 4,
+        "y": 6,
+        "direction": "up"
+      },
+      "from_player_house_upper": {
+        "x": 1,
+        "y": 4,
+        "direction": "down"
+      },
+      "bed": {
+        "x": 2,
+        "y": 3,
+        "direction": "down"
+      }
+    }
+  }
+}

@@ -1,0 +1,42 @@
+# --- Python Cache ---
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.egg-info/
+*.eggs/
+*.manifest
+*.spec
+
+# --- Virtual Environments ---
+.venv/
+env/
+ENV/
+*.env
+.env.*
+
+# --- Logs & Temp ---
+*.log
+*.tmp
+*.bak
+
+# --- macOS ---
+.DS_Store
+
+# --- IDE ---
+.vscode/
+.idea/
+
+# --- Build/Dist ---
+dist/
+build/
+
+# --- Game: optional ---
+# Wenn du große ZIPs oder generierte Assets nicht versionieren willst:
+*.zip
+assets/generated/
+
+# --- Tiled ---
+# Wenn du nur JSON nutzen willst (nicht die .tmx/.tsx Dateien):
+# *.tmx
+# *.tsx

@@ -25,16 +25,23 @@ class TileRenderer:
         # Set zum Nachverfolgen fehlender Tiles, um doppelte Log-Ausgaben zu vermeiden
         self.missing_tiles: set[int] = set()
     
-    def render_layer(self, screen: pygame.Surface, layer_data: List[List[int]], 
-                    camera_offset: Tuple[int, int], layer_name: str = "default") -> None:
-        """Rendert eine Map-Layer mit dem neuen Sprite-System"""
-        if not layer_data:
+    def render_layer(self, screen: pygame.Surface, layer_data: List[List], 
+                     camera_offset: Tuple[int, int], layer_name: str = "unknown") -> None:
+        """
+        Rendert eine Tile-Layer mit Kamera-Offset.
+        
+        Args:
+            screen: Pygame-Surface zum Rendern
+            layer_data: 2D-Array mit Tile-IDs oder Tile-Namen
+            camera_offset: Kamera-Offset (x, y)
+            layer_name: Name des Layers für Debug-Zwecke
+        """
+        if not layer_data or not layer_data[0]:
             return
-            
-        # Hole die Kamera-Position
+        
         camera_x, camera_y = camera_offset
         
-        # Berechne die sichtbaren Tile-Bereiche
+        # Berechne den sichtbaren Bereich
         start_tile_x = max(0, int(camera_x // self.tile_size))
         start_tile_y = max(0, int(camera_y // self.tile_size))
         end_tile_x = min(len(layer_data[0]), start_tile_x + (screen.get_width() // self.tile_size) + 2)
@@ -43,30 +50,34 @@ class TileRenderer:
         # Rendere nur sichtbare Tiles
         for y in range(start_tile_y, end_tile_y):
             for x in range(start_tile_x, end_tile_x):
-                tile_id = layer_data[y][x]
+                tile_data = layer_data[y][x]
                 
-                # Überspringe leere Tiles
-                if tile_id <= 0:
+                # Überspringe leere Tiles (0 oder "grass" für leere Bereiche)
+                if self._is_empty_tile(tile_data):
                     continue
                 
                 # Berechne die Bildschirm-Position
                 screen_x = x * self.tile_size - int(camera_x)
                 screen_y = y * self.tile_size - int(camera_y)
                 
-                # Hole den Sprite für diese Tile-ID
-                tile_sprite = self.sprite_manager.get_tile_sprite(tile_id)
+                # Hole den Sprite für diese Tile-ID oder Tile-Name
+                tile_sprite = self.sprite_manager.get_tile_sprite(tile_data)
                 
                 if tile_sprite:
                     # Zeichne den Tile-Sprite
                     screen.blit(tile_sprite, (screen_x, screen_y))
                 else:
                     # Erstelle einen Platzhalter für fehlende Tiles
-                    placeholder = self._create_placeholder_tile(tile_id)
+                    placeholder = self._create_placeholder_tile(tile_data)
                     if placeholder:
                         screen.blit(placeholder, (screen_x, screen_y))
-                        print(f"⚠️  Platzhalter für Tile-ID {tile_id} erstellt")
-    
-    def _create_placeholder_tile(self, tile_id: int) -> Optional[pygame.Surface]:
+                        print(f"⚠️  Platzhalter für Tile {tile_data} erstellt")
+        
+        # Debug-Informationen rendern
+        if self.debug_mode:
+            self._render_debug_info(screen, layer_name, start_tile_x, start_tile_y, end_tile_x, end_tile_y)
+
+    def _create_placeholder_tile(self, tile_data) -> Optional[pygame.Surface]:
         """Erstellt einen Platzhalter-Tile für fehlende Sprites"""
         try:
             placeholder = pygame.Surface((self.tile_size, self.tile_size))
@@ -76,17 +87,24 @@ class TileRenderer:
             pygame.draw.rect(placeholder, (0, 0, 0), 
                            (0, 0, self.tile_size, self.tile_size), 2)
             
-            # Zeichne die Tile-ID als Text
+            # Zeichne die Tile-ID oder den Tile-Namen als Text
             try:
                 font = pygame.font.Font(None, 20)
-                text = font.render(str(tile_id), True, (255, 255, 255))
+                if isinstance(tile_data, str):
+                    # Für Tile-Namen: Zeige den ersten Buchstaben
+                    display_text = tile_data[:3] if len(tile_data) > 3 else tile_data
+                else:
+                    # Für Tile-IDs: Zeige die ID
+                    display_text = str(tile_data)
+                
+                text = font.render(display_text, True, (255, 255, 255))
                 text_rect = text.get_rect(center=(self.tile_size // 2, self.tile_size // 2))
                 placeholder.blit(text, text_rect)
             except:
                 pass  # Ignoriere Font-Fehler
 
-            # Tile-ID im Set der fehlenden Tiles vermerken
-            self.missing_tiles.add(tile_id)
+            # Tile-ID oder Tile-Name im Set der fehlenden Tiles vermerken
+            self.missing_tiles.add(tile_data)
             
             return placeholder
         except Exception as e:
@@ -303,3 +321,21 @@ class TileRenderer:
             else:
                 # Fallback: Zeichne einen Platzhalter
                 self._draw_placeholder_tile(screen, screen_x, screen_y, tile_size, tile_id)
+
+    def _is_empty_tile(self, tile_data) -> bool:
+        """
+        Prüft, ob ein Tile als leer betrachtet werden soll.
+        
+        Args:
+            tile_data: Tile-ID (int) oder Tile-Name (str)
+            
+        Returns:
+            True wenn das Tile leer ist
+        """
+        if isinstance(tile_data, int):
+            return tile_data <= 0
+        elif isinstance(tile_data, str):
+            # Leere Tiles sind "grass" oder leere Strings
+            return not tile_data or tile_data.lower() in ['grass', 'empty', '']
+        else:
+            return False

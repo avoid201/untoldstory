@@ -31,37 +31,32 @@ class SpriteManager:
             cls._instance = super().__new__(cls)
         return cls._instance
 
-    def __init__(self) -> None:
-        # Nur initialisieren, wenn noch nicht initialisiert
-        if hasattr(self, '_initialized'):
-            return
-        self._initialized = True
+    def __init__(self, project_root: Path = None):
+        """Initialisiert den SpriteManager mit dem angegebenen Projektpfad."""
+        self.project_root = project_root or Path.cwd()
         
-        # Pfade
-        self.project_root = Path(__file__).resolve().parents[2]  # .../untold_story
-        self.gfx_root     = self.project_root / "assets" / "gfx"
-        self.tiles_dir    = self.gfx_root / "tiles"
-        self.objects_dir  = self.gfx_root / "objects"
-        self.player_dir   = self.gfx_root / "player"
-        self.npc_dir      = self.gfx_root / "npc"
-        self.monster_dir  = self.gfx_root / "monster"
-
-        # Caches
+        # Pfade zu den Asset-Ordnern
+        self.tiles_dir = self.project_root / "assets" / "gfx" / "tiles" / "tilesets"  # Korrigiert: tilesets Ordner
+        self.objects_dir = self.project_root / "assets" / "gfx" / "objects"
+        self.player_dir = self.project_root / "assets" / "gfx" / "player"
+        self.npc_dir = self.project_root / "assets" / "gfx" / "npc"
+        self.monster_dir = self.project_root / "assets" / "gfx" / "monster"
+        
+        # Sprite-Caches
         self._tiles: Dict[str, pygame.Surface] = {}
         self._objects: Dict[str, pygame.Surface] = {}
         self._player_dir_map: Dict[str, pygame.Surface] = {}
-        self._npc_dir_map: Dict[Tuple[str, str], pygame.Surface] = {}  # (npc_id, dir) -> surf
+        self._npc_dir_map: Dict[Tuple[str, str], pygame.Surface] = {}
         self._monster: Dict[str, pygame.Surface] = {}
-        self._misc: Dict[str, pygame.Surface] = {}
-        self._tile_mappings: Dict[str, Dict[str, Any]] = {}
-        # Kompatibilitäts-Attribut für legacy-Code, wird nach dem Laden gefüllt
-        self.tile_images: Dict[str, pygame.Surface] = {}
         
-        # Lazy loading - Sprites werden erst geladen, wenn sie gebraucht werden
-        self._loaded = False
+        # Tile-Mappings
+        self._tile_mappings: Dict[str, Any] = {}
         
-        # Für Kompatibilität mit anderen Teilen des Codes
+        # Sprite-Cache für alle Sprites
         self.sprite_cache: Dict[str, pygame.Surface] = {}
+        
+        # Lazy Loading
+        self._loaded = False
 
     # ---------- Public API ----------
 
@@ -241,8 +236,134 @@ class SpriteManager:
         return placeholder
 
     def _load_tiles(self) -> None:
-        self._tiles = self._load_dir_16px(self.tiles_dir)
+        """Lädt Tiles aus den .tsx Tileset-Dateien."""
+        # Lade Tiles aus den .tsx Tileset-Dateien
+        tiles_dir = self.project_root / "assets" / "gfx" / "tiles"
+        if tiles_dir.exists():
+            # Lade alle .tsx Dateien
+            for tsx_file in tiles_dir.glob("*.tsx"):
+                try:
+                    self._load_tileset_from_tsx(tsx_file)
+                except Exception as e:
+                    print(f"[SpriteManager] ERR loading tileset {tsx_file.name}: {e}")
+        
         print(f"[SpriteManager] Tiles: {len(self._tiles)}")
+
+    def _load_tileset_from_tsx(self, tsx_path: Path) -> None:
+        """Lädt ein Tileset aus einer .tsx Datei und extrahiert die einzelnen Tiles."""
+        try:
+            import xml.etree.ElementTree as ET
+            
+            # Parse .tsx Datei
+            tree = ET.parse(tsx_path)
+            root = tree.getroot()
+            
+            # Extrahiere Tileset-Informationen
+            tile_width = int(root.get('tilewidth', 16))
+            tile_height = int(root.get('tileheight', 16))
+            tile_count = int(root.get('tilecount', 0))
+            columns = int(root.get('columns', 1))
+            tileset_name = root.get('name', '').lower()
+            
+            # Finde das Bild-Element
+            image_elem = root.find('image')
+            if image_elem is None:
+                print(f"[SpriteManager] WARN: No image found in {tsx_path.name}")
+                return
+            
+            # Lade das Tileset-Bild
+            image_source = image_elem.get('source', '')
+            if not image_source:
+                print(f"[SpriteManager] WARN: No image source in {tsx_path.name}")
+                return
+            
+            # Konstruiere den Pfad zum Tileset-Bild
+            tileset_image_path = tsx_path.parent / image_source
+            if not tileset_image_path.exists():
+                print(f"[SpriteManager] WARN: Tileset image not found: {tileset_image_path}")
+                return
+            
+            # Lade das Tileset-Bild
+            tileset_surface = pygame.image.load(str(tileset_image_path)).convert_alpha()
+            tileset_width, tileset_height = tileset_surface.get_size()
+            
+            # Extrahiere einzelne Tiles aus dem Tileset
+            rows = (tile_count + columns - 1) // columns  # Berechne Anzahl der Reihen
+            
+            for tile_id in range(tile_count):
+                # Berechne Position im Tileset
+                col = tile_id % columns
+                row = tile_id // columns
+                
+                # Berechne Pixel-Koordinaten
+                x = col * tile_width
+                y = row * tile_height
+                
+                # Extrahiere das einzelne Tile
+                tile_surface = pygame.Surface((tile_width, tile_height), pygame.SRCALPHA)
+                tile_surface.blit(tileset_surface, (0, 0), (x, y, tile_width, tile_height))
+                
+                # Skaliere auf TILE_SIZE falls nötig
+                if tile_width != TILE_SIZE or tile_height != TILE_SIZE:
+                    tile_surface = pygame.transform.scale(tile_surface, (TILE_SIZE, TILE_SIZE))
+                
+                # Generiere Tile-Namen basierend auf Tileset-Typ und Position
+                tile_name = self._generate_tile_name_from_tileset(tile_id, tileset_name)
+                
+                # Speichere das Tile
+                self._tiles[tile_name] = tile_surface
+                self.sprite_cache[tile_name] = tile_surface
+                
+                print(f"[SpriteManager] Loaded tile: {tile_name} from {tsx_path.name}")
+                
+        except Exception as e:
+            print(f"[SpriteManager] ERR loading tileset {tsx_path.name}: {e}")
+
+    def _generate_tile_name_from_tileset(self, tile_id: int, tileset_name: str) -> str:
+        """Generiert einen Tile-Namen basierend auf Tileset-Typ und Position."""
+        # Map tileset names to tile categories
+        if 'tiles1' in tileset_name or 'tiles' in tileset_name:
+            # Ground tiles
+            ground_tiles = [
+                'grass_1', 'grass_2', 'grass_3', 'grass_4', 'grass',  # 0-4
+                'dirt_1', 'dirt_2', 'dirt', 'path_1', 'path_2', 'path',  # 5-10
+                'gravel_1', 'gravel_2', 'gravel', 'sand_1', 'sand_2', 'sand',  # 11-15
+                'water_1', 'water_2', 'water', 'stone_1', 'stone_2', 'stone',  # 16-20
+                'tree_small', 'bush', 'bush_1', 'bush_2'  # 21-23
+            ]
+            return ground_tiles[tile_id] if tile_id < len(ground_tiles) else f"tile_{tile_id}"
+            
+        elif 'objects1' in tileset_name or 'objects' in tileset_name:
+            # Object tiles
+            object_tiles = [
+                'barrel', 'bed', 'bookshelf', 'boulder', 'chair', 'crate',  # 0-5
+                'door', 'fence_h', 'fence_v', 'gravestone', 'lamp_post', 'mailbox',  # 6-11
+                'potted_plant', 'sign', 'table', 'tv', 'well', 'window'  # 12-17
+            ]
+            return object_tiles[tile_id] if tile_id < len(object_tiles) else f"tile_{tile_id}"
+            
+        elif 'terrain' in tileset_name:
+            # Terrain tiles
+            terrain_tiles = [
+                'cliff_face', 'flower_blue', 'flower_red', 'ledge', 'rock_1', 'rock_2',  # 0-5
+                'rock', 'roof_blue', 'roof_red', 'roof_ridge', 'roof', 'stairs_h',  # 6-11
+                'stairs_v', 'stairs', 'stone_floor', 'stump', 'tall_grass_1',  # 12-16
+                'tall_grass_2', 'tall_grass', 'wall_brick', 'wall_plaster', 'wall',  # 17-21
+                'warp_carpet', 'wood_floor'  # 22-23
+            ]
+            return terrain_tiles[tile_id] if tile_id < len(terrain_tiles) else f"tile_{tile_id}"
+            
+        elif 'building' in tileset_name or 'interior' in tileset_name:
+            # Building tiles
+            building_tiles = [
+                'carpet', 'wall', 'window', 'door', 'stairs', 'roof',  # 0-5
+                'floor', 'ceiling', 'pillar', 'arch', 'gate', 'bridge'  # 6-11
+            ]
+            return building_tiles[tile_id] if tile_id < len(building_tiles) else f"tile_{tile_id}"
+            
+        else:
+            # Fallback: use generic name
+            return f"tile_{tile_id}"
 
     def _load_objects(self) -> None:
         self._objects = self._load_dir_16px(self.objects_dir)
