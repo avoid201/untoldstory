@@ -3,13 +3,18 @@ Battle System for Untold Story
 Core battle state machine and management
 """
 
-from typing import List, Optional, Dict, Any, Tuple
+from typing import List, Optional, Dict, Any, Tuple, Union
 from enum import Enum
 from dataclasses import dataclass
+import random
+import logging
+
 from engine.systems.monster_instance import MonsterInstance, StatusCondition
 from engine.systems.moves import Move, MoveExecutor
 from engine.systems.battle.turn_logic import BattleAction, ActionType
 
+# Logger für bessere Fehlerverfolgung
+logger = logging.getLogger(__name__)
 
 class BattleType(Enum):
     """Types of battles."""
@@ -32,12 +37,10 @@ class BattlePhase(Enum):
     RESOLVE = "resolve"        # Executing actions
     AFTERMATH = "aftermath"    # Processing end-of-turn effects
     SWITCH = "switch"          # Monster switching
+    MESSAGE = "message"        # Display battle messages
     END = "end"               # Battle ending
     REWARD = "reward"         # Giving rewards
     COMPLETE = "complete"     # Battle complete
-
-
-
 
 
 class BattleState:
@@ -61,8 +64,15 @@ class BattleState:
             can_flee: Whether fleeing is allowed
             can_catch: Whether catching is allowed
         """
-        self.player_team = player_team
-        self.enemy_team = enemy_team
+        # Validiere Input-Parameter
+        if not player_team or not enemy_team:
+            raise ValueError("Beide Teams müssen Monster enthalten")
+        
+        if not isinstance(battle_type, BattleType):
+            raise ValueError("battle_type muss ein BattleType Enum sein")
+        
+        self.player_team = player_team.copy()  # Kopie um externe Änderungen zu verhindern
+        self.enemy_team = enemy_team.copy()
         self.battle_type = battle_type
         self.can_flee = can_flee and battle_type == BattleType.WILD
         self.can_catch = can_catch and battle_type == BattleType.WILD
@@ -73,14 +83,20 @@ class BattleState:
         
         # Set first non-fainted monsters as active
         for monster in player_team:
-            if not monster.is_fainted:
+            if monster and not monster.is_fainted:
                 self.player_active = monster
                 break
         
         for monster in enemy_team:
-            if not monster.is_fainted:
+            if monster and not monster.is_fainted:
                 self.enemy_active = monster
                 break
+        
+        # Validiere, dass aktive Monster gefunden wurden
+        if not self.player_active:
+            raise ValueError("Kein aktives Spieler-Monster gefunden")
+        if not self.enemy_active:
+            raise ValueError("Kein aktiver Gegner gefunden")
         
         # Battle state
         self.phase = BattlePhase.INIT
@@ -101,20 +117,63 @@ class BattleState:
         
         # Escape attempts
         self.escape_attempts = 0
+        
+        # RNG für deterministische Tests
+        self.rng = random.Random()
+    
+    def set_random_seed(self, seed: int) -> None:
+        """Setze RNG-Seed für deterministische Tests."""
+        self.rng = random.Random(seed)
     
     def is_valid(self) -> bool:
         """Check if battle can continue."""
-        return (self.has_able_monsters(self.player_team) and 
-                self.has_able_monsters(self.enemy_team))
+        try:
+            return (self.has_able_monsters(self.player_team) and 
+                    self.has_able_monsters(self.enemy_team) and
+                    self.player_active and not self.player_active.is_fainted and
+                    self.enemy_active and not self.enemy_active.is_fainted)
+        except Exception as e:
+            logger.error(f"Fehler bei Battle-Validierung: {e}")
+            return False
     
     def has_able_monsters(self, team: List[MonsterInstance]) -> bool:
         """Check if team has any non-fainted monsters."""
-        return any(not m.is_fainted for m in team)
+        try:
+            return any(m and not m.is_fainted for m in team if m is not None)
+        except Exception as e:
+            logger.error(f"Fehler beim Prüfen der Team-Fähigkeit: {e}")
+            return False
     
     def add_log(self, message: str) -> None:
         """Add message to battle log."""
-        self.battle_log.append(message)
-        print(f"[Battle] {message}")  # Debug output
+        if message:
+            self.battle_log.append(message)
+            logger.info(f"[Battle] {message}")
+            print(f"[Battle] {message}")  # Debug output
+    
+    def validate_battle_state(self) -> bool:
+        """Validiere den aktuellen Battle-Status."""
+        try:
+            # Prüfe Teams
+            if not self.player_team or not self.enemy_team:
+                return False
+            
+            # Prüfe aktive Monster
+            if not self.player_active or not self.enemy_active:
+                return False
+            
+            # Prüfe Phase
+            if not isinstance(self.phase, BattlePhase):
+                return False
+            
+            # Prüfe Action-Queue
+            if not isinstance(self.action_queue, list):
+                return False
+            
+            return True
+        except Exception as e:
+            logger.error(f"Battle-Status-Validierung fehlgeschlagen: {e}")
+            return False
     
     def start_battle(self) -> Dict[str, Any]:
         """
@@ -123,83 +182,165 @@ class BattleState:
         Returns:
             Battle start information
         """
-        self.phase = BattlePhase.START
-        
-        # Reset battle state for all monsters
-        for monster in self.player_team + self.enemy_team:
-            monster.stat_stages.reset()
-            monster.turns_in_battle = 0
-        
-        # Battle start message
-        if self.battle_type == BattleType.WILD:
-            self.add_log(f"Ein wildes {self.enemy_active.name} erscheint!")
-        elif self.battle_type == BattleType.TRAINER:
-            self.add_log(f"Trainer möchte kämpfen!")
-        
-        self.add_log(f"Los, {self.player_active.name}!")
-        
-        self.phase = BattlePhase.INPUT
-        
-        return {
-            "player_active": self.player_active,
-            "enemy_active": self.enemy_active,
-            "can_flee": self.can_flee,
-            "can_catch": self.can_catch
-        }
+        try:
+            self.phase = BattlePhase.START
+            
+            # Reset battle state for all monsters
+            for monster in self.player_team + self.enemy_team:
+                if monster:
+                    monster.stat_stages.reset()
+                    monster.turns_in_battle = 0
+            
+            # Battle start message
+            if self.battle_type == BattleType.WILD:
+                self.add_log(f"Ein wildes {self.enemy_active.name} erscheint!")
+            elif self.battle_type == BattleType.TRAINER:
+                self.add_log(f"Trainer möchte kämpfen!")
+            
+            self.add_log(f"Los, {self.player_active.name}!")
+            
+            self.phase = BattlePhase.INPUT
+            
+            return {
+                "player_active": self.player_active,
+                "enemy_active": self.enemy_active,
+                "can_flee": self.can_flee,
+                "can_catch": self.can_catch
+            }
+        except Exception as e:
+            logger.error(f"Fehler beim Starten des Kampfes: {e}")
+            self.phase = BattlePhase.END
+            return {"error": str(e)}
     
-    def queue_player_action(self, action: BattleAction) -> bool:
+    def queue_player_action(self, action: Union[Dict[str, Any], BattleAction]) -> bool:
         """
         Queue player's action for the turn.
         
         Args:
-            action: Player's chosen action
+            action: Player's chosen action (dict or BattleAction)
             
         Returns:
             True if action was queued successfully
         """
-        if self.phase != BattlePhase.INPUT:
+        try:
+            if self.phase != BattlePhase.INPUT:
+                return False
+            
+            # Konvertiere dict zu BattleAction falls nötig
+            if isinstance(action, dict):
+                action = self._dict_to_battle_action(action)
+            
+            if not action:
+                return False
+            
+            # Validate action
+            if not self._validate_action(action):
+                return False
+            
+            self.action_queue.append(action)
+            
+            # Queue enemy action (AI)
+            self._queue_enemy_action()
+            
+            # Move to order phase
+            self.phase = BattlePhase.ORDER
+            return True
+            
+        except Exception as e:
+            logger.error(f"Fehler beim Hinzufügen der Player-Action: {e}")
             return False
-        
-        # Validate action
-        if action.action_type == ActionType.ATTACK:
-            if not action.move or not action.move.can_use():
+    
+    def _dict_to_battle_action(self, action_dict: Dict[str, Any]) -> Optional[BattleAction]:
+        """Konvertiere ein Action-Dict zu einem BattleAction-Objekt."""
+        try:
+            if 'action_type' not in action_dict:
+                return None
+            
+            # Konvertiere action_type string zu Enum
+            action_type_str = action_dict['action_type']
+            if isinstance(action_type_str, str):
+                try:
+                    action_type = ActionType[action_type_str.upper()]
+                except KeyError:
+                    # Fallback für verschiedene Schreibweisen
+                    action_type_map = {
+                        'attack': ActionType.ATTACK,
+                        'switch': ActionType.SWITCH,
+                        'item': ActionType.ITEM,
+                        'flee': ActionType.FLEE,
+                        'tame': ActionType.TAME,
+                        'pass': ActionType.PASS
+                    }
+                    action_type = action_type_map.get(action_type_str.lower(), ActionType.PASS)
+            else:
+                action_type = action_dict['action_type']
+            
+            return BattleAction(
+                actor=action_dict.get('actor'),
+                action_type=action_type,
+                target=action_dict.get('target'),
+                move=action_dict.get('move'),
+                item_id=action_dict.get('item_id'),
+                switch_to=action_dict.get('switch_to')
+            )
+        except Exception as e:
+            logger.error(f"Fehler bei Action-Dict-Konvertierung: {e}")
+            return None
+    
+    def _validate_action(self, action: BattleAction) -> bool:
+        """Validiere eine Battle-Action."""
+        try:
+            if not action or not action.actor:
                 return False
-        elif action.action_type == ActionType.SWITCH:
-            if not action.switch_to or action.switch_to.is_fainted:
-                return False
-        
-        self.action_queue.append(action)
-        
-        # Queue enemy action (AI)
-        self._queue_enemy_action()
-        
-        # Move to order phase
-        self.phase = BattlePhase.ORDER
-        return True
+            
+            if action.action_type == ActionType.ATTACK:
+                if not action.move or not action.move.can_use():
+                    return False
+                if not action.target or action.target.is_fainted:
+                    return False
+            elif action.action_type == ActionType.SWITCH:
+                if not action.switch_to or action.switch_to.is_fainted:
+                    return False
+                if action.switch_to not in self.player_team:
+                    return False
+            elif action.action_type == ActionType.ITEM:
+                if not action.item_id:
+                    return False
+            elif action.action_type == ActionType.TAME:
+                if not self.can_catch:
+                    return False
+                if not action.target:
+                    return False
+            
+            return True
+        except Exception as e:
+            logger.error(f"Action-Validierung fehlgeschlagen: {e}")
+            return False
     
     def _queue_enemy_action(self) -> None:
         """Queue AI action for enemy."""
-        if not self.enemy_active or self.enemy_active.is_fainted:
-            return
-        
-        # Simple AI: pick random usable move
-        usable_moves = [m for m in self.enemy_active.moves if m.can_use()]
-        
-        if usable_moves:
-            import random
-            move = random.choice(usable_moves)
+        try:
+            if not self.enemy_active or self.enemy_active.is_fainted:
+                return
             
-            action = BattleAction(
-                actor=self.enemy_active,
-                action_type=ActionType.ATTACK,
-                move=move,
-                target=self.player_active,
-                priority=move.priority
-            )
-            self.action_queue.append(action)
-        else:
-            # Struggle if no moves available
-            self.add_log(f"{self.enemy_active.name} hat keine Attacken mehr!")
+            # Simple AI: pick random usable move
+            usable_moves = [m for m in self.enemy_active.moves if m and m.can_use()]
+            
+            if usable_moves:
+                move = self.rng.choice(usable_moves)
+                
+                action = BattleAction(
+                    actor=self.enemy_active,
+                    action_type=ActionType.ATTACK,
+                    move=move,
+                    target=self.player_active
+                )
+                self.action_queue.append(action)
+            else:
+                # Struggle if no moves available
+                self.add_log(f"{self.enemy_active.name} hat keine Attacken mehr!")
+        except Exception as e:
+            logger.error(f"Fehler beim Hinzufügen der Enemy-Action: {e}")
     
     def resolve_turn(self) -> Dict[str, Any]:
         """
@@ -208,56 +349,77 @@ class BattleState:
         Returns:
             Turn results
         """
-        if self.phase != BattlePhase.ORDER:
-            return {}
-        
-        self.phase = BattlePhase.RESOLVE
-        self.turn_count += 1
-        turn_results = {
-            "turn": self.turn_count,
-            "actions": []
-        }
-        
-        # Sort actions by priority and speed
-        self.action_queue.sort(
-            key=lambda a: (a.priority, a.get_speed()),
-            reverse=True
-        )
-        
-        # Execute each action
-        for action in self.action_queue:
-            # Skip if actor fainted
-            if action.actor.is_fainted:
-                continue
+        try:
+            if self.phase != BattlePhase.ORDER:
+                return {"error": "Falsche Phase für Turn-Auflösung"}
             
-            # Check status effects that prevent action
-            status_result = action.actor.process_status()
-            if status_result["skip_turn"]:
-                self.add_log(status_result["message"])
-                continue
+            self.phase = BattlePhase.RESOLVE
+            self.turn_count += 1
+            turn_results = {
+                "turn_count": self.turn_count,
+                "turn_results": []
+            }
             
-            # Execute action
-            action_result = self._execute_action(action)
-            turn_results["actions"].append(action_result)
+            # Sort actions by priority and speed
+            try:
+                self.action_queue.sort(
+                    key=lambda a: (a.priority, a.speed),
+                    reverse=True
+                )
+            except Exception as e:
+                logger.error(f"Fehler beim Sortieren der Actions: {e}")
+                # Fallback: einfache Sortierung
+                self.action_queue.sort(key=lambda a: a.priority, reverse=True)
             
-            # Check for battle end
-            if not self.is_valid():
-                self.phase = BattlePhase.END
-                break
-        
-        # Clear action queue
-        self.action_queue.clear()
-        
-        # Process end-of-turn effects
-        if self.phase != BattlePhase.END:
-            self.phase = BattlePhase.AFTERMATH
-            self._process_aftermath()
-        
-        # Return to input phase if battle continues
-        if self.phase == BattlePhase.AFTERMATH and self.is_valid():
-            self.phase = BattlePhase.INPUT
-        
-        return turn_results
+            # Execute each action
+            for action in self.action_queue:
+                # Skip if actor fainted
+                if not action.actor or action.actor.is_fainted:
+                    continue
+                
+                # Check status effects that prevent action
+                try:
+                    status_result = action.actor.process_status()
+                    if status_result.get("skip_turn", False):
+                        self.add_log(status_result.get("message", "Status verhindert Aktion"))
+                        continue
+                except Exception as e:
+                    logger.error(f"Fehler bei Status-Verarbeitung: {e}")
+                    continue
+                
+                # Execute action
+                try:
+                    action_result = self._execute_action(action)
+                    turn_results["turn_results"].append(action_result)
+                except Exception as e:
+                    logger.error(f"Fehler bei Action-Ausführung: {e}")
+                    turn_results["turn_results"].append({
+                        "type": "error",
+                        "message": f"Action fehlgeschlagen: {str(e)}"
+                    })
+                
+                # Check for battle end
+                if not self.is_valid():
+                    self.phase = BattlePhase.END
+                    break
+            
+            # Clear action queue
+            self.action_queue.clear()
+            
+            # Process end-of-turn effects
+            if self.phase != BattlePhase.END:
+                self.phase = BattlePhase.AFTERMATH
+                self._process_aftermath()
+            
+            # Return to input phase if battle continues
+            if self.phase == BattlePhase.AFTERMATH and self.is_valid():
+                self.phase = BattlePhase.INPUT
+            
+            return turn_results
+            
+        except Exception as e:
+            logger.error(f"Fehler bei Turn-Auflösung: {e}")
+            return {"error": str(e)}
     
     def _execute_action(self, action: BattleAction) -> Dict[str, Any]:
         """Execute a single action."""
@@ -353,8 +515,7 @@ class BattleState:
             catch_rate *= 1.5
         
         # Attempt capture
-        import random
-        success = random.random() < catch_rate
+        success = self.rng.random() < catch_rate
         
         if success:
             self.add_log(f"Gotcha! {action.target.name} wurde gefangen!")
@@ -404,10 +565,9 @@ class BattleState:
             player_speed = max(1, self.player_active.stats["spd"])  # Mindestens 1
             enemy_speed = max(1, self.enemy_active.stats["spd"])    # Mindestens 1
             
-            import random
             flee_chance = min(1.0, (player_speed * 32 / enemy_speed + 30 * self.escape_attempts) / 256)
             
-            if random.random() < flee_chance:
+            if self.rng.random() < flee_chance:
                 self.add_log("Du bist entkommen!")
                 self.phase = BattlePhase.END
                 return {"success": True, "fled": True}
@@ -517,3 +677,47 @@ class BattleState:
             self.add_log("Du rennst zum Bergmannsheil...")
         
         return result
+
+    def get_battle_status(self) -> Dict[str, Any]:
+        """Hole den aktuellen Battle-Status."""
+        try:
+            return {
+                "phase": self.phase.value,
+                "turn_count": self.turn_count,
+                "player_active": {
+                    "name": self.player_active.name if self.player_active else "Kein Monster",
+                    "current_hp": self.player_active.current_hp if self.player_active else 0,
+                    "max_hp": self.player_active.max_hp if self.player_active else 0,
+                    "status": self.player_active.status.value if self.player_active else "none"
+                },
+                "enemy_active": {
+                    "name": self.enemy_active.name if self.enemy_active else "Kein Monster",
+                    "current_hp": self.enemy_active.current_hp if self.enemy_active else 0,
+                    "max_hp": self.enemy_active.max_hp if self.enemy_active else 0,
+                    "status": self.enemy_active.status.value if self.enemy_active else "none"
+                },
+                "can_flee": self.can_flee,
+                "can_catch": self.can_catch
+            }
+        except Exception as e:
+            logger.error(f"Fehler beim Abrufen des Battle-Status: {e}")
+            return {"error": str(e)}
+    
+    def get_available_moves(self, monster: MonsterInstance) -> List[Move]:
+        """Hole verfügbare Moves für ein Monster."""
+        try:
+            if not monster or monster.is_fainted:
+                return []
+            return [move for move in monster.moves if move and move.can_use()]
+        except Exception as e:
+            logger.error(f"Fehler beim Abrufen der verfügbaren Moves: {e}")
+            return []
+    
+    def get_available_switches(self) -> List[MonsterInstance]:
+        """Hole verfügbare Wechsel-Monster."""
+        try:
+            return [monster for monster in self.player_team 
+                   if monster and not monster.is_fainted and monster != self.player_active]
+        except Exception as e:
+            logger.error(f"Fehler beim Abrufen der verfügbaren Wechsel: {e}")
+            return []
