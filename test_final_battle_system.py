@@ -12,7 +12,11 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 # Konfiguriere Logging für bessere Fehlerverfolgung
 logging.basicConfig(level=logging.INFO, format='%(levelname)s: %(message)s')
 
+<<<<<<< HEAD
 from engine.systems.battle.battle_system import BattleState, BattleType, BattlePhase
+=======
+from engine.systems.battle.battle import BattleState, BattleType, BattlePhase
+>>>>>>> 7ecd4982cbdea3a309c5b8eeb21d18deda1810fc
 from engine.systems.battle.turn_logic import BattleAction, ActionType
 from engine.systems.monster_instance import MonsterInstance, StatusCondition, MonsterSpecies, MonsterRank
 from engine.systems.moves import Move, EffectKind, MoveCategory, MoveTarget, MoveEffect
@@ -455,4 +459,8 @@ if __name__ == "__main__":
     else:
         print("❌ EINIGE TESTS SIND FEHLGESCHLAGEN!")
         print("Bitte überprüfe die Fehler und behebe sie.")
+<<<<<<< HEAD
     print("="*50)
+=======
+    print("="*50)
+>>>>>>> 7ecd4982cbdea3a309c5b8eeb21d18deda1810fc

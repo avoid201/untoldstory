@@ -564,6 +564,7 @@ class MoveRegistry:
         except Exception as e:
             logger.error(f"Fehler beim Abrufen aller Moves: {e}")
             return []
+<<<<<<< HEAD
     
     def create_move_instance_by_name(self, move_name: str) -> Optional[Move]:
         """Create a move instance by name."""
@@ -633,6 +634,8 @@ class MoveRegistry:
         except Exception as e:
             logger.error(f"Fehler beim Erstellen des Move-Instanz für ID '{move_id}': {e}")
             return None
+=======
+>>>>>>> 7ecd4982cbdea3a309c5b8eeb21d18deda1810fc
 
 
 # Global move registry instance

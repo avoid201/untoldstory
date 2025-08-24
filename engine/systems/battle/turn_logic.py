@@ -3,22 +3,31 @@ Turn order and priority system for battles.
 Handles initiative, speed calculations, and action resolution order.
 """
 
+<<<<<<< HEAD
 import logging
 from typing import List, Tuple, Optional, TYPE_CHECKING
+=======
+from typing import List, Tuple, Optional, TYPE_CHECKING, Union
+>>>>>>> 7ecd4982cbdea3a309c5b8eeb21d18deda1810fc
 from dataclasses import dataclass
 from enum import Enum, auto
 import random
+import logging
 
 if TYPE_CHECKING:
     from engine.systems.monster_instance import MonsterInstance
     from engine.systems.moves import Move
 
+<<<<<<< HEAD
 # Import Formation System
 from engine.systems.battle.battle_formation import (
     BattleFormation, FormationManager, FormationType, MonsterSlot
 )
 
 # Logger für das Turn-Logic-System
+=======
+# Logger für bessere Fehlerverfolgung
+>>>>>>> 7ecd4982cbdea3a309c5b8eeb21d18deda1810fc
 logger = logging.getLogger(__name__)
 
 class ActionType(Enum):
@@ -30,6 +39,24 @@ class ActionType(Enum):
     TAME = auto()      # Priority 3
     PASS = auto()      # Priority 0
     AUTO = auto()      # Priority 0
+    
+    @classmethod
+    def from_string(cls, value: str) -> 'ActionType':
+        """Konvertiere String zu ActionType mit Fallback."""
+        try:
+            return cls[value.upper()]
+        except KeyError:
+            # Fallback für verschiedene Schreibweisen
+            action_type_map = {
+                'attack': cls.ATTACK,
+                'switch': cls.SWITCH,
+                'item': cls.ITEM,
+                'flee': cls.FLEE,
+                'tame': cls.TAME,
+                'pass': cls.PASS,
+                'auto': cls.AUTO
+            }
+            return action_type_map.get(value.lower(), cls.PASS)
 
     @classmethod
     def from_string(cls, value: str) -> 'ActionType':
@@ -63,6 +90,13 @@ class BattleAction:
     is_multi_target: bool = False  # Multi-target flag
     formation_slot: Optional[MonsterSlot] = None  # Formation slot reference
     
+    def __post_init__(self):
+        """Validiere die Action nach der Initialisierung."""
+        if not self.actor:
+            raise ValueError("Actor muss angegeben werden")
+        if not isinstance(self.action_type, ActionType):
+            raise ValueError("action_type muss ein ActionType Enum sein")
+    
     @property
     def priority(self) -> int:
         """Get the priority of this action."""
@@ -76,6 +110,7 @@ class BattleAction:
             elif self.action_type == ActionType.TAME:
                 return 3
             elif self.action_type == ActionType.ATTACK and self.move:
+<<<<<<< HEAD
                 return self.move.priority
             elif self.action_type == ActionType.SKILL and self.move:
                 # Skills have similar priority to attacks
@@ -84,6 +119,13 @@ class BattleAction:
                 return 0
         except Exception as e:
             logger.error(f"Fehler bei der Prioritätsberechnung: {str(e)}")
+=======
+                return getattr(self.move, 'priority', 0)
+            else:  # PASS or invalid
+                return 0
+        except Exception as e:
+            logger.error(f"Fehler bei Priority-Berechnung: {e}")
+>>>>>>> 7ecd4982cbdea3a309c5b8eeb21d18deda1810fc
             return 0
     
     @property
@@ -91,6 +133,7 @@ class BattleAction:
         """Get the effective speed of the actor."""
         try:
             if not self.actor:
+<<<<<<< HEAD
                 logger.warning("Actor ist None bei Geschwindigkeitsberechnung!")
                 return 0
             
@@ -116,10 +159,45 @@ class BattleAction:
             if hasattr(self.actor, 'stat_stages') and self.actor.stat_stages:
                 try:
                     stage = self.actor.stat_stages.get('spd', 0)
+=======
+                return 0
+                
+            # Hole Basis-Speed
+            if hasattr(self.actor, 'stats') and isinstance(self.actor.stats, dict):
+                base_speed = self.actor.stats.get('spd', 0)
+            elif hasattr(self.actor, 'stats') and hasattr(self.actor.stats, 'spd'):
+                base_speed = self.actor.stats.spd
+            else:
+                base_speed = 0
+            
+            if not isinstance(base_speed, (int, float)) or base_speed <= 0:
+                base_speed = 1  # Fallback
+            
+            # Apply paralysis speed reduction
+            if hasattr(self.actor, 'status'):
+                status = self.actor.status
+                if isinstance(status, str) and status.lower() == 'paralysis':
+                    base_speed = int(base_speed * 0.5)
+                elif hasattr(status, 'value') and status.value == 'paralysis':
+                    base_speed = int(base_speed * 0.5)
+            
+            # Apply stat stage multipliers
+            if hasattr(self.actor, 'stat_stages'):
+                stat_stages = self.actor.stat_stages
+                if hasattr(stat_stages, 'get'):
+                    stage = stat_stages.get('spd', 0)
+                elif hasattr(stat_stages, 'spd'):
+                    stage = stat_stages.spd
+                else:
+                    stage = 0
+                
+                if isinstance(stage, (int, float)):
+>>>>>>> 7ecd4982cbdea3a309c5b8eeb21d18deda1810fc
                     if stage >= 0:
                         multiplier = (2 + stage) / 2
                     else:
                         multiplier = 2 / (2 - stage)
+<<<<<<< HEAD
                     
                     base_speed = int(base_speed * multiplier)
                 except Exception as e:
@@ -164,6 +242,59 @@ class BattleAction:
             logger.error(f"Fehler bei der effektiven Prioritätsberechnung: {str(e)}")
             return self.priority
     SPECIAL = auto()  # Special commands like psyche up
+=======
+                    base_speed = int(base_speed * multiplier)
+            
+            return max(1, int(base_speed))  # Mindestens 1
+            
+        except Exception as e:
+            logger.error(f"Fehler bei Speed-Berechnung: {e}")
+            return 1  # Fallback
+    
+    def is_valid(self) -> bool:
+        """Validiere die Action."""
+        try:
+            if not self.actor:
+                return False
+            
+            if self.action_type == ActionType.ATTACK:
+                if not self.move:
+                    return False
+                if not self.target:
+                    return False
+            elif self.action_type == ActionType.SWITCH:
+                if not self.switch_to:
+                    return False
+            elif self.action_type == ActionType.ITEM:
+                if not self.item_id:
+                    return False
+            elif self.action_type == ActionType.TAME:
+                if not self.target:
+                    return False
+            
+            return True
+        except Exception as e:
+            logger.error(f"Fehler bei Action-Validierung: {e}")
+            return False
+    
+    def to_dict(self) -> dict:
+        """Konvertiere Action zu Dict für Serialisierung."""
+        try:
+            return {
+                'actor_id': getattr(self.actor, 'id', None),
+                'actor_name': getattr(self.actor, 'name', 'Unknown'),
+                'action_type': self.action_type.name,
+                'target_id': getattr(self.target, 'id', None) if self.target else None,
+                'move_id': getattr(self.move, 'id', None) if self.move else None,
+                'item_id': self.item_id,
+                'switch_to_id': getattr(self.switch_to, 'id', None) if self.switch_to else None,
+                'priority': self.priority,
+                'speed': self.speed
+            }
+        except Exception as e:
+            logger.error(f"Fehler bei Action-zu-Dict-Konvertierung: {e}")
+            return {'error': str(e)}
+>>>>>>> 7ecd4982cbdea3a309c5b8eeb21d18deda1810fc
 
 
 class TurnOrder:
@@ -233,17 +364,26 @@ class FormationTurnOrder(TurnOrder):
         action.formation_slot = slot
         self.add_action(action)
     
+    def set_seed(self, seed: int) -> None:
+        """Setze RNG-Seed für deterministische Tests."""
+        self.rng = random.Random(seed)
+    
     def clear(self) -> None:
         """Clear all actions for a new turn."""
         try:
             self.actions.clear()
             self.resolved_actions.clear()
         except Exception as e:
+<<<<<<< HEAD
             logger.error(f"Fehler beim Löschen der Aktionen: {str(e)}")
+=======
+            logger.error(f"Fehler beim Löschen der Actions: {e}")
+>>>>>>> 7ecd4982cbdea3a309c5b8eeb21d18deda1810fc
     
-    def add_action(self, action: BattleAction) -> None:
+    def add_action(self, action: BattleAction) -> bool:
         """Add an action to the current turn."""
         try:
+<<<<<<< HEAD
             if not action:
                 logger.warning("Versuch, None-Aktion hinzuzufügen!")
                 return
@@ -256,6 +396,21 @@ class FormationTurnOrder(TurnOrder):
             
         except Exception as e:
             logger.error(f"Fehler beim Hinzufügen der Aktion: {str(e)}")
+=======
+            if not action or not isinstance(action, BattleAction):
+                logger.warning("Ungültige Action hinzugefügt")
+                return False
+            
+            if not action.is_valid():
+                logger.warning("Ungültige Action kann nicht hinzugefügt werden")
+                return False
+            
+            self.actions.append(action)
+            return True
+        except Exception as e:
+            logger.error(f"Fehler beim Hinzufügen der Action: {e}")
+            return False
+>>>>>>> 7ecd4982cbdea3a309c5b8eeb21d18deda1810fc
     
     def sort_actions(self, use_dqm_formula: bool = True) -> List[BattleAction]:
         """
@@ -265,9 +420,10 @@ class FormationTurnOrder(TurnOrder):
             use_dqm_formula: Whether to use DQM turn order formula
         
         Returns:
-            Sorted list of actions in execution order
+            Sorted list of actions
         """
         try:
+<<<<<<< HEAD
             if use_dqm_formula:
                 # Use DQM turn order formula: Agility + Random(0-255)
                 def sort_key(action: BattleAction) -> Tuple[int, int, float]:
@@ -320,10 +476,40 @@ class FormationTurnOrder(TurnOrder):
         Returns:
             Next action or None if no actions remain
         """
+=======
+            # Validiere alle Actions vor dem Sortieren
+            valid_actions = [action for action in self.actions if action and action.is_valid()]
+            
+            # Sortiere nach Priority (höher = zuerst) und dann nach Speed (höher = zuerst)
+            sorted_actions = sorted(
+                valid_actions,
+                key=lambda a: (a.priority, a.speed),
+                reverse=True
+            )
+            
+            return sorted_actions
+            
+        except Exception as e:
+            logger.error(f"Fehler beim Sortieren der Actions: {e}")
+            # Fallback: einfache Sortierung nach Priority
+            try:
+                return sorted(
+                    [a for a in self.actions if a],
+                    key=lambda a: getattr(a, 'priority', 0),
+                    reverse=True
+                )
+            except Exception as e2:
+                logger.error(f"Fallback-Sortierung fehlgeschlagen: {e2}")
+                return self.actions.copy()  # Rückgabe der ursprünglichen Liste
+    
+    def get_next_action(self) -> Optional[BattleAction]:
+        """Get the next action to execute."""
+>>>>>>> 7ecd4982cbdea3a309c5b8eeb21d18deda1810fc
         try:
             if not self.actions:
                 return None
             
+<<<<<<< HEAD
             action = self.actions.pop(0)
             if action:
                 self.resolved_actions.append(action)
@@ -534,16 +720,53 @@ class TrickRoom:
             
         except Exception as e:
             logger.error(f"Fehler beim Tick von Trick Room: {str(e)}")
+=======
+            # Sortiere Actions falls noch nicht geschehen
+            sorted_actions = self.sort_actions()
+            
+            if sorted_actions:
+                return sorted_actions[0]
+            return None
+            
+        except Exception as e:
+            logger.error(f"Fehler beim Abrufen der nächsten Action: {e}")
+            return None
+    
+    def execute_action(self, action: BattleAction) -> bool:
+        """Mark an action as executed."""
+        try:
+            if action in self.actions:
+                self.actions.remove(action)
+                self.resolved_actions.append(action)
+                return True
+            return False
+        except Exception as e:
+            logger.error(f"Fehler beim Ausführen der Action: {e}")
+>>>>>>> 7ecd4982cbdea3a309c5b8eeb21d18deda1810fc
             return False
     
-    def modify_speed(self, speed: int, max_speed: int = 999) -> int:
-        """
-        Modify speed value under Trick Room.
-        
-        Args:
-            speed: Original speed value
-            max_speed: Maximum possible speed for inversion
+    def get_turn_summary(self) -> dict:
+        """Hole eine Zusammenfassung des aktuellen Turns."""
+        try:
+            return {
+                'total_actions': len(self.actions),
+                'resolved_actions': len(self.resolved_actions),
+                'next_action': self.get_next_action().to_dict() if self.get_next_action() else None,
+                'all_actions': [action.to_dict() for action in self.actions]
+            }
+        except Exception as e:
+            logger.error(f"Fehler beim Erstellen der Turn-Zusammenfassung: {e}")
+            return {'error': str(e)}
+    
+    def validate_turn_state(self) -> bool:
+        """Validiere den aktuellen Turn-Status."""
+        try:
+            # Prüfe, dass alle Actions gültig sind
+            for action in self.actions:
+                if not action or not action.is_valid():
+                    return False
             
+<<<<<<< HEAD
         Returns:
             Modified speed (inverted if Trick Room active)
         """
@@ -595,19 +818,51 @@ def determine_move_order(actions: List[BattleAction],
                         trick_room: Optional[TrickRoom] = None,
                         seed: Optional[int] = None,
                         use_dqm_formula: bool = True) -> List[BattleAction]:
+=======
+            # Prüfe, dass keine doppelten Actions existieren
+            action_ids = []
+            for action in self.actions:
+                if hasattr(action, 'actor') and hasattr(action.actor, 'id'):
+                    action_ids.append(action.actor.id)
+            
+            if len(action_ids) != len(set(action_ids)):
+                return False
+            
+            return True
+        except Exception as e:
+            logger.error(f"Fehler bei Turn-Status-Validierung: {e}")
+            return False
+
+
+def create_action_from_dict(action_data: dict, 
+                           actor: 'MonsterInstance',
+                           target: Optional['MonsterInstance'] = None,
+                           move: Optional['Move'] = None,
+                           switch_to: Optional['MonsterInstance'] = None) -> Optional[BattleAction]:
+>>>>>>> 7ecd4982cbdea3a309c5b8eeb21d18deda1810fc
     """
-    Convenience function to determine move order.
+    Erstelle eine BattleAction aus einem Dictionary.
     
     Args:
+<<<<<<< HEAD
         actions: List of actions to sort
         trick_room: Optional Trick Room effect
         seed: Random seed for tiebreakers
         use_dqm_formula: Whether to use DQM turn order formula
         
+=======
+        action_data: Dictionary mit Action-Daten
+        actor: Das ausführende Monster
+        target: Ziel-Monster (optional)
+        move: Zu verwendender Move (optional)
+        switch_to: Wechsel-Monster (optional)
+    
+>>>>>>> 7ecd4982cbdea3a309c5b8eeb21d18deda1810fc
     Returns:
-        Sorted list of actions
+        BattleAction oder None bei Fehlern
     """
     try:
+<<<<<<< HEAD
         turn_order = TurnOrder(seed)
         
         # Filtere ungültige Aktionen heraus
@@ -635,24 +890,63 @@ def determine_move_order(actions: List[BattleAction],
     except Exception as e:
         logger.error(f"Fehler bei der Zugreihenfolge-Bestimmung: {str(e)}")
         return []
+=======
+        if not action_data or 'action_type' not in action_data:
+            return None
+        
+        # Konvertiere action_type
+        action_type_str = action_data['action_type']
+        if isinstance(action_type_str, str):
+            action_type = ActionType.from_string(action_type_str)
+        else:
+            action_type = action_type_str
+        
+        return BattleAction(
+            actor=actor,
+            action_type=action_type,
+            target=target,
+            move=move,
+            item_id=action_data.get('item_id'),
+            switch_to=switch_to
+        )
+        
+    except Exception as e:
+        logger.error(f"Fehler beim Erstellen der Action aus Dict: {e}")
+        return None
+>>>>>>> 7ecd4982cbdea3a309c5b8eeb21d18deda1810fc
 
 
-class TurnManager:
-    """Manages turn flow and state in battle scenes."""
+def validate_action_sequence(actions: List[BattleAction]) -> Tuple[bool, List[str]]:
+    """
+    Validiere eine Sequenz von Actions.
     
-    def __init__(self, game):
-        """
-        Initialize turn manager.
+    Args:
+        actions: Liste von BattleActions
+    
+    Returns:
+        Tuple aus (is_valid, error_messages)
+    """
+    errors = []
+    
+    try:
+        for i, action in enumerate(actions):
+            if not action:
+                errors.append(f"Action {i}: Action ist None")
+                continue
+            
+            if not action.is_valid():
+                errors.append(f"Action {i}: Ungültige Action")
+                continue
+            
+            # Prüfe auf doppelte Actor-Actions
+            for j, other_action in enumerate(actions[i+1:], i+1):
+                if (action.actor and other_action.actor and 
+                    action.actor == other_action.actor):
+                    errors.append(f"Action {i} und {j}: Doppelter Actor")
         
-        Args:
-            game: Game instance for accessing systems
-        """
-        self.game = game
-        self.current_phase = "input"
-        self.turn_order = TurnOrder()
-        self.actions_this_turn: List[BattleAction] = []
-        self.turn_count = 0
+        return len(errors) == 0, errors
         
+<<<<<<< HEAD
     def start_new_turn(self) -> None:
         """Begin a new turn."""
         try:
@@ -713,3 +1007,8 @@ class TurnManager:
         except Exception as e:
             logger.error(f"Fehler bei der Runden-Vollständigkeits-Überprüfung: {str(e)}")
             return False
+=======
+    except Exception as e:
+        errors.append(f"Fehler bei der Action-Sequenz-Validierung: {e}")
+        return False, errors
+>>>>>>> 7ecd4982cbdea3a309c5b8eeb21d18deda1810fc
