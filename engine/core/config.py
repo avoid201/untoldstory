@@ -23,7 +23,7 @@ TARGET_FPS = 60
 VSYNC = True
 
 # Tile Settings
-TILE_SIZE = 16  # Einheitliche 16x16 Pixel Tiles
+from engine.world.tiles import TILE_SIZE  # Import from central location
 HALF_TILE = TILE_SIZE // 2
 PLAYER_COLLISION_SIZE = 14  # Player collision box size within tile (16x16)
 
@@ -77,6 +77,14 @@ class Colors:
     HP_HIGH = (0, 200, 0)
     HP_MED = (200, 200, 0)
     HP_LOW = (200, 0, 0)
+    
+    # Additional Colors
+    LIGHT_GREEN = (150, 255, 150)
+    LIGHT_BLUE = (150, 150, 255)
+    LIGHT_RED = (255, 150, 150)
+    LIGHT_YELLOW = (255, 255, 150)
+    LIGHT_CYAN = (150, 255, 255)
+    LIGHT_MAGENTA = (255, 150, 255)
     
     # Status Colors
     STATUS_BURN = (200, 50, 0)

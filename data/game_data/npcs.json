@@ -1,151 +1,156 @@
 {
   "player_house": {
     "mom": {
-      "position": [7, 5],
-      "sprite": "npc_mom",
+      "position": [1, 2],
+      "sprite": "villager_f",
       "dialogue_id": "mom_morning",
       "movement_pattern": "static",
       "facing": "down"
     }
   },
   "rival_house": {
-    "rival": {
-      "position": [5, 7],
-      "sprite": "npc_rival",
-      "dialogue_id": "rival_intro",
-      "movement_pattern": "static",
-      "facing": "up"
-    },
     "rival_mom": {
-      "position": [8, 4],
-      "sprite": "npc_woman_1",
+      "position": [1, 2],
+      "sprite": "villager_f",
       "dialogue_id": "rival_mom_greeting",
       "movement_pattern": "random",
       "movement_radius": 2
     }
   },
   "kohlenstadt": {
-    "old_miner": {
+    "old_miner_fritz": {
       "position": [15, 20],
-      "sprite": "npc_oldman_1",
+      "sprite": "miner",
       "dialogue_id": "miner_stories",
-      "movement_pattern": "patrol",
-      "patrol_path": [[15, 20], [18, 20], [18, 23], [15, 23]]
+      "movement_pattern": "wander",
+      "movement_radius": 4
     },
-    "shopkeeper": {
-      "position": [25, 15],
-      "sprite": "npc_shopkeeper",
-      "dialogue_id": "shop_greeting",
+    "biker_rudi": {
+      "position": [12, 15],
+      "sprite": "biker",
+      "dialogue_id": "biker_stories",
       "movement_pattern": "static",
       "facing": "down"
     },
-    "youngster_1": {
+    "youngster_kevin": {
       "position": [10, 30],
-      "sprite": "npc_youngster",
+      "sprite": "kid",
       "dialogue_id": "youngster_battle_talk",
-      "movement_pattern": "random",
+      "movement_pattern": "follow",
       "movement_radius": 3
     },
-    "punk_girl": {
-      "position": [30, 25],
-      "sprite": "npc_punk_girl",
-      "dialogue_id": "punk_attitude",
+    "security_guard": {
+      "position": [18, 12],
+      "sprite": "guard",
+      "dialogue_id": "security_patrol",
+      "movement_pattern": "patrol",
+      "patrol_path": [[18, 12], [22, 12], [22, 16], [18, 16]]
+    },
+    "village_lady": {
+      "position": [25, 25],
+      "sprite": "villager_f",
+      "dialogue_id": "gossip_talk",
       "movement_pattern": "static",
       "facing": "left"
+    },
+    "merchant_hans": {
+      "position": [14, 8],
+      "sprite": "merchant",
+      "dialogue_id": "shop_greeting", 
+      "movement_pattern": "flee",
+      "facing": "down"
+    },
+    "village_man": {
+      "position": [20, 30],
+      "sprite": "villager_m",
+      "dialogue_id": "weather_talk",
+      "movement_pattern": "random",
+      "movement_radius": 2
     }
   },
   "museum": {
-    "curator": {
-      "position": [10, 5],
-      "sprite": "npc_scientist",
-      "dialogue_id": "museum_intro",
+    "professor_budde": {
+      "position": [6, 3],
+      "sprite": "scientist",
+      "dialogue_id": "professor_intro",
       "movement_pattern": "static",
       "facing": "down"
     },
-    "fossil_expert": {
-      "position": [15, 10],
-      "sprite": "npc_scientist_2",
-      "dialogue_id": "fossil_explanation",
-      "movement_pattern": "patrol",
-      "patrol_path": [[15, 10], [20, 10], [20, 15], [15, 15]]
+    "museum_guard": {
+      "position": [2, 2],
+      "sprite": "guard",
+      "dialogue_id": "museum_rules",
+      "movement_pattern": "static",
+      "facing": "right"
     },
     "school_kid": {
-      "position": [5, 12],
-      "sprite": "npc_schoolkid",
+      "position": [8, 4],
+      "sprite": "kid",
       "dialogue_id": "school_trip",
       "movement_pattern": "random",
       "movement_radius": 2
     }
   },
   "bergmannsheil": {
-    "nurse": {
-      "position": [8, 6],
-      "sprite": "npc_nurse",
+    "nurse_petra": {
+      "position": [3, 3],
+      "sprite": "nurse",
       "dialogue_id": "heal_offer",
       "movement_pattern": "static",
       "facing": "down"
     },
-    "doctor": {
-      "position": [12, 8],
-      "sprite": "npc_doctor",
-      "dialogue_id": "medical_advice",
-      "movement_pattern": "patrol",
-      "patrol_path": [[12, 8], [12, 12], [16, 12], [16, 8]]
-    },
     "injured_miner": {
-      "position": [5, 10],
-      "sprite": "npc_injured",
+      "position": [5, 4],
+      "sprite": "miner",
       "dialogue_id": "accident_story",
       "movement_pattern": "static",
       "facing": "right"
     }
   },
   "penny": {
-    "cashier": {
-      "position": [5, 3],
-      "sprite": "npc_cashier",
+    "cashier_anna": {
+      "position": [3, 2],
+      "sprite": "merchant",
       "dialogue_id": "penny_greeting",
       "movement_pattern": "static",
       "facing": "down"
     },
-    "customer_1": {
-      "position": [8, 7],
-      "sprite": "npc_woman_2",
+    "customer_oma": {
+      "position": [5, 5],
+      "sprite": "villager_f",
       "dialogue_id": "shopping_talk",
       "movement_pattern": "random",
       "movement_radius": 2
-    },
-    "stock_boy": {
-      "position": [12, 10],
-      "sprite": "npc_youngster_2",
-      "dialogue_id": "stocking_shelves",
-      "movement_pattern": "patrol",
-      "patrol_path": [[12, 10], [12, 5], [15, 5], [15, 10]]
+    }
+  },
+  "doenerbude": {
+    "doenerbude_owner": {
+      "position": [3, 2],
+      "sprite": "merchant",
+      "dialogue_id": "doener_greeting",
+      "movement_pattern": "static",
+      "facing": "down"
     }
   },
   "route1": {
-    "bug_catcher": {
+    "ranger_tom": {
       "position": [10, 15],
-      "sprite": "npc_bugcatcher",
-      "dialogue_id": "bug_enthusiasm",
-      "movement_pattern": "random",
-      "movement_radius": 4,
-      "trainer": true,
-      "sight_range": 3
+      "sprite": "ranger",
+      "dialogue_id": "nature_talk",
+      "movement_pattern": "patrol",
+      "patrol_path": [[10, 15], [15, 15], [15, 20], [10, 20]]
     },
-    "hiker": {
-      "position": [25, 20],
-      "sprite": "npc_hiker",
-      "dialogue_id": "hiking_tips",
+    "fisher_klaus": {
+      "position": [20, 25],
+      "sprite": "fisher",
+      "dialogue_id": "fishing_tips",
       "movement_pattern": "static",
-      "facing": "left",
-      "trainer": true,
-      "sight_range": 4
+      "facing": "left"
     },
-    "picnicker": {
-      "position": [18, 30],
-      "sprite": "npc_picnicker",
-      "dialogue_id": "picnic_chat",
+    "hiker_bernd": {
+      "position": [5, 30],
+      "sprite": "villager_m",
+      "dialogue_id": "hiking_tips",
       "movement_pattern": "static",
       "facing": "up"
     }

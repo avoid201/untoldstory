@@ -494,11 +494,13 @@ class QuestManager:
             id='main_story',
             name='Die Reise beginnt',
             description='Beginne deine Reise als Monster-Trainer im Ruhrgebiet!',
+            quest_type=QuestType.MAIN,
+            giver='Professor Budde',
             objectives=[
-                'Verlasse dein Haus',
-                'Besuche Professor Budde im Museum',
-                'Wähle dein Starter-Monster',
-                'Besiege deinen Rivalen Klaus'
+                QuestObjective('leave_house', 'Verlasse dein Haus'),
+                QuestObjective('visit_professor', 'Besuche Professor Budde im Museum'),
+                QuestObjective('choose_starter', 'Wähle dein Starter-Monster'),
+                QuestObjective('defeat_rival', 'Besiege deinen Rivalen Klaus')
             ]
         )
         
@@ -507,8 +509,10 @@ class QuestManager:
             id='first_catch',
             name='Erster Fang',
             description='Fange dein erstes wildes Monster!',
+            quest_type=QuestType.SIDE,
+            giver='Professor Budde',
             objectives=[
-                'Fange ein wildes Monster'
+                QuestObjective('catch_monster', 'Fange ein wildes Monster')
             ]
         )
         
@@ -516,9 +520,11 @@ class QuestManager:
             id='explore_route1',
             name='Route 1 erkunden',
             description='Erkunde die Route zwischen Kohlenstadt und Bergmannsheil',
+            quest_type=QuestType.SIDE,
+            giver='Professor Budde',
             objectives=[
-                'Besuche Route 1',
-                'Finde 3 verschiedene Monster'
+                QuestObjective('visit_route1', 'Besuche Route 1'),
+                QuestObjective('find_monsters', 'Finde 3 verschiedene Monster', target=3)
             ]
         )
     
@@ -540,5 +546,38 @@ class QuestManager:
     def get_quest(self, quest_id: str) -> Optional[Quest]:
         """Get a quest by ID."""
         return self.quests.get(quest_id)
+    
+    def to_dict(self) -> Dict[str, Any]:
+        """Serialize to dictionary for saving."""
+        return {
+            'quests': {},
+            'active': self.active_quests.copy(),
+            'completed': list(self.completed_quests),
+            'counters': self.quest_counters.copy()
+        }
+    
+    @classmethod
+    def from_dict(cls, data: Dict) -> 'QuestManager':
+        """Create from dictionary."""
+        manager = cls()
+        
+        # Restore quest states
+        quest_data = data.get('quests', {})
+        for quest_id, qdata in quest_data.items():
+            if quest_id in manager.quests:
+                quest = manager.quests[quest_id]
+                quest.status = QuestStatus[qdata['status']]
+                
+                # Restore objective progress
+                for obj_data in qdata.get('objectives', []):
+                    for obj in quest.objectives:
+                        if obj.id == obj_data['id']:
+                            obj.current = obj_data['current']
+        
+        manager.active_quests = data.get('active', []).copy()
+        manager.completed_quests = set(data.get('completed', []))
+        manager.quest_counters = data.get('counters', {}).copy()
+        
+        return manager
     
 

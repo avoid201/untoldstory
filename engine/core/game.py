@@ -1,5 +1,5 @@
 """
-Main Game Loop and Scene Management for Untold Story
+Main Game Loop and Scene Management for Untold Story - REFACTORED VERSION
 Handles the core game loop, input processing, scene stack, and rendering pipeline
 """
 
@@ -8,10 +8,15 @@ from collections import deque
 import pygame
 import time
 
+# Import refactored components
+from engine.core.event_processor import EventProcessor
+from engine.core.debug_overlay import DebugOverlayManager
+
 
 class Game:
     """
     Core game class that manages the main loop, scene stack, input, and rendering.
+    Refactored to use EventProcessor and DebugOverlayManager.
     """
     
     @property
@@ -63,6 +68,10 @@ class Game:
         # Initialize input system  
         self.init_input_system()
         
+        # Initialize refactored components
+        self.event_processor = EventProcessor(self)
+        self.debug_overlay_manager = DebugOverlayManager(self)
+        
         # Debug flags
         self.debug_overlay_enabled = False
         self.show_grid = False
@@ -73,7 +82,7 @@ class Game:
         self.running = False
         self.paused = False
         
-        # Font for debug overlay
+        # Font for debug overlay (legacy, wird durch DebugOverlayManager ersetzt)
         self.debug_font: Optional[pygame.font.Font] = None
         try:
             self.debug_font = pygame.font.Font(None, 16)
@@ -116,6 +125,23 @@ class Game:
                 except Exception as e:
                     print(f"Warning: Could not start transition: {e}")
 
+            def create_transition(self, transition_type, game: 'Game', from_scene: Optional['Scene'], 
+                                to_scene: 'Scene', duration: float = 0.5, **kwargs) -> Optional['TransitionScene']:
+                """Create a transition using the TransitionManager factory."""
+                try:
+                    from engine.ui.transitions import TransitionManager as _TM
+                    return _TM.create_transition(
+                        transition_type=transition_type,
+                        game=game,
+                        from_scene=from_scene,
+                        to_scene=to_scene,
+                        duration=duration,
+                        **kwargs
+                    )
+                except Exception as e:
+                    print(f"Warning: Could not create transition: {e}")
+                    return None
+        
         self.transition_manager = _SimpleTransitionManager(self)
         self.audio_manager = AudioManager()
         
@@ -139,6 +165,15 @@ class Game:
         
         # Create input manager with default config
         self.input_manager = InputManager(InputConfig())
+        
+        # Initialize extended input debugger
+        try:
+            from engine.devtools.input_debug import get_input_debugger
+            self.input_debugger = get_input_debugger()
+            print("🔍 INPUT DEBUGGER: Erweiterte Debug-Funktionen geladen")
+        except ImportError as e:
+            print(f"⚠️  WARNING: Erweiterte Input-Debug-Funktionen nicht verfügbar: {e}")
+            self.input_debugger = None
         
         # Create helper methods for scenes - THESE ARE OVERRIDDEN BELOW!
         # self.is_key_pressed = self.input_manager.is_pressed
@@ -207,44 +242,8 @@ class Game:
     
     def _process_events(self) -> None:
         """Process all pygame events and update input state."""
-        # Store previous key state
-        prev_keys = self.keys_pressed
-        self.keys_just_pressed.clear()
-        self.keys_just_released.clear()
-        
-        # Process events
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                self.quit()
-                continue
-            
-            # Update key state tracking
-            if event.type == pygame.KEYDOWN:
-                self.keys_just_pressed.add(event.key)
-                
-                # Global debug toggle
-                if event.key == pygame.K_TAB:
-                    self.debug_overlay_enabled = not self.debug_overlay_enabled
-                elif event.key == pygame.K_g and self.debug_overlay_enabled:
-                    self.show_grid = not self.show_grid
-            
-            elif event.type == pygame.KEYUP:
-                self.keys_just_released.add(event.key)
-            
-            # Convert mouse position to logical coordinates
-            elif event.type == pygame.MOUSEMOTION:
-                self.mouse_pos = self._screen_to_logical(event.pos)
-            
-            # Pass event to active scene
-            if self.scene_stack:
-                # Process from top to bottom until handled
-                for scene in reversed(self.scene_stack):
-                    if scene.is_active and scene.handle_event(event):
-                        break
-        
-        # Update current key state
-        self.keys_pressed = pygame.key.get_pressed()
-        self.mouse_buttons = pygame.mouse.get_pressed()
+        # Delegate to EventProcessor
+        self.event_processor.process_events()
     
     def _update(self, dt: float) -> None:
         """
@@ -300,15 +299,13 @@ class Game:
             if scene.is_visible:
                 scene.draw(self.logical_surface)
         
-        # Draw debug overlay
+        # Draw debug overlay using DebugOverlayManager
         if self.debug_overlay_enabled:
-            self._draw_debug_overlay()
+            self.debug_overlay_manager.draw_debug_overlay(self.logical_surface)
         
-        # Draw FPS counter
-        if self.show_fps and self.debug_font:
-            fps_text = f"FPS: {self.clock.get_fps():.1f}"
-            fps_surface = self.debug_font.render(fps_text, True, (255, 255, 0))
-            self.logical_surface.blit(fps_surface, (2, 2))
+        # Draw FPS counter using DebugOverlayManager
+        if self.show_fps:
+            self.debug_overlay_manager.draw_fps_counter(self.logical_surface)
     
     def _present(self) -> None:
         """Scale and present the logical surface to the screen."""
@@ -339,79 +336,6 @@ class Game:
         # Flip the display
         pygame.display.flip()
     
-    def _draw_debug_overlay(self) -> None:
-        """Draw debug information overlay."""
-        if not self.debug_font:
-            return
-        
-        # Debug info
-        debug_lines = [
-            f"Scene: {self.scene_stack[-1].__class__.__name__ if self.scene_stack else 'None'}",
-            f"Stack: {len(self.scene_stack)}",
-            f"Time: {self.total_time:.1f}s",
-            f"Frame: {self.frame_count}",
-            f"Mouse: {self.mouse_pos}",
-        ]
-        
-        # Draw debug text
-        y = 20
-        for line in debug_lines:
-            text_surface = self.debug_font.render(line, True, (0, 255, 0))
-            self.logical_surface.blit(text_surface, (2, y))
-            y += 12
-        
-        # Draw grid if enabled
-        if self.show_grid:
-            self._draw_grid()
-    
-    def _draw_grid(self) -> None:
-        """Draw a tile grid overlay."""
-        TILE_SIZE = 16
-        color = (255, 255, 255, 64)  # Semi-transparent white
-        
-        # Vertical lines
-        for x in range(0, self.logical_size[0] + 1, TILE_SIZE):
-            pygame.draw.line(self.logical_surface, color, 
-                           (x, 0), (x, self.logical_size[1]), 1)
-        
-        # Horizontal lines
-        for y in range(0, self.logical_size[1] + 1, TILE_SIZE):
-            pygame.draw.line(self.logical_surface, color,
-                           (0, y), (self.logical_size[0], y), 1)
-    
-    def _screen_to_logical(self, screen_pos: Tuple[int, int]) -> Tuple[int, int]:
-        """
-        Convert screen coordinates to logical coordinates.
-        
-        Args:
-            screen_pos: Position in screen/window coordinates
-            
-        Returns:
-            Position in logical coordinates
-        """
-        window_w, window_h = self.screen.get_size()
-        logical_w, logical_h = self.logical_size
-        
-        scale_x = window_w / logical_w
-        scale_y = window_h / logical_h
-        scale = min(scale_x, scale_y)
-        int_scale = max(1, int(scale))
-        
-        dest_w = logical_w * int_scale
-        dest_h = logical_h * int_scale
-        dest_x = (window_w - dest_w) // 2
-        dest_y = (window_h - dest_h) // 2
-        
-        # Convert to logical coordinates
-        logical_x = (screen_pos[0] - dest_x) // int_scale
-        logical_y = (screen_pos[1] - dest_y) // int_scale
-        
-        # Clamp to logical bounds
-        logical_x = max(0, min(logical_w - 1, logical_x))
-        logical_y = max(0, min(logical_h - 1, logical_y))
-        
-        return (logical_x, logical_y)
-    
     # Scene Management Methods
     
     def push_scene(self, scene_class: Type['Scene'], **kwargs: Any) -> None:
@@ -433,6 +357,11 @@ class Game:
             # Create and initialize new scene
             new_scene = scene_class(self)
             new_scene.enter(**kwargs)
+            
+            # Call on_enter for specialized scenes like BattleScene
+            if hasattr(new_scene, 'on_enter'):
+                new_scene.on_enter(**kwargs)
+            
             self.scene_stack.append(new_scene)
         except Exception as e:
             # Restore previous scene if initialization fails

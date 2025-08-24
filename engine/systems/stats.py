@@ -171,29 +171,29 @@ class StatStages:
 
 
 class Experience:
-    """Handles experience points and level calculation."""
+    """Experience and leveling system."""
     
     MAX_LEVEL = 100
+    MIN_LEVEL = 1
     
     @staticmethod
     def get_exp_for_level(level: int, curve: GrowthCurve) -> int:
         """
-        Calculate total experience needed to reach a level.
+        Calculate total experience needed for a specific level.
         
         Args:
-            level: Target level (1-100)
+            level: Target level
             curve: Growth curve type
             
         Returns:
             Total experience points needed
         """
-        if level <= 1:
+        if level < 1:
             return 0
-        if level > Experience.MAX_LEVEL:
-            level = Experience.MAX_LEVEL
+        elif level == 1:
+            return 0
         
         n = level
-        
         if curve == GrowthCurve.FAST:
             return int(0.8 * (n ** 3))
         elif curve == GrowthCurve.MEDIUM_FAST:
@@ -206,7 +206,7 @@ class Experience:
             return int(n ** 3)
     
     @staticmethod
-    def get_level_from_exp(exp: int, curve: GrowthCurve) -> int:
+    def get_level_for_exp(exp: int, curve: GrowthCurve) -> int:
         """
         Calculate level from total experience.
         
@@ -276,15 +276,6 @@ class Experience:
         return max(1, int(exp))
 
 
-class Experience:
-    """Experience and leveling system."""
-    
-    MAX_LEVEL = 100
-    MIN_LEVEL = 1
-    
-
-
-
 class StatCalculator:
     """Calculates actual stats from base stats, level, and IVs."""
     
@@ -305,27 +296,42 @@ class StatCalculator:
         if base == 1:  # Special case for 1 HP monsters
             return 1
         
-        # Simplified Pokémon formula
-        return int(((2 * base + iv + ev // 4) * level) // 100) + level + 10
+        # Improved formula for better stats at low levels
+        if level <= 10:
+            # For low levels, use a more generous formula
+            return int(((2 * base + iv + ev // 4) * level) // 50) + level + 15
+        else:
+            # Standard formula for higher levels
+            return int(((2 * base + iv + ev // 4) * level) // 100) + level + 10
     
     @staticmethod
-    def calculate_stat(base: int, level: int, iv: int = 0, ev: int = 0,
-                       nature_mod: float = 1.0) -> int:
+    def calculate_stat(base: int, level: int, iv: int = 0, ev: int = 0, 
+                      nature_mod: float = 1.0) -> int:
         """
-        Calculate non-HP stat.
+        Calculate a non-HP stat.
         
         Args:
             base: Base stat value
             level: Monster level
             iv: Individual value (0-31)
             ev: Effort value (0-255)
-            nature_mod: Nature modifier (0.9, 1.0, or 1.1)
+            nature_mod: Nature modifier
             
         Returns:
             Calculated stat value
         """
-        # Simplified Pokémon formula
-        stat = int(((2 * base + iv + ev // 4) * level) // 100) + 5
+        if base == 1:  # Special case for 1 stat monsters
+            return 1
+        
+        # Improved formula for better stats at low levels
+        if level <= 10:
+            # For low levels, use a more generous formula
+            stat = int(((2 * base + iv + ev // 4) * level) // 50) + 5
+        else:
+            # Standard formula for higher levels
+            stat = int(((2 * base + iv + ev // 4) * level) // 100) + 5
+        
+        # Apply nature modifier
         return int(stat * nature_mod)
     
     @staticmethod

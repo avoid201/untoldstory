@@ -20,14 +20,16 @@ class RunningShoes:
         """Check if player can run"""
         # Require running shoes to run
         if hasattr(game, 'story_manager'):
-            return game.story_manager.get_flag('has_running_shoes', False)
+            flag_value = game.story_manager.get_flag('has_running_shoes')
+            return flag_value if flag_value is not None else False
         return False
     
     @staticmethod
     def check_running_shoes_obtained(game: 'Game') -> bool:
         """Check if player has obtained running shoes"""
         if hasattr(game, 'story_manager'):
-            return game.story_manager.get_flag('has_running_shoes', False)
+            flag_value = game.story_manager.get_flag('has_running_shoes')
+            return flag_value if flag_value is not None else False
         return False
     
     @staticmethod

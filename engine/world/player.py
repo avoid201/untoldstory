@@ -93,6 +93,9 @@ class Player(Entity):
         self.steps_taken = 0
         self.steps_since_encounter = 0
         
+        # Map tracking für Story-Events
+        self.last_map = None  # Vorherige Map für Story-Events
+        
         # Animation
         self.footstep_frame = 0
         self.animation_speed_multiplier = 1.0
@@ -154,9 +157,16 @@ class Player(Entity):
         # Check run button (über Input-Manager) - requires running shoes
         self.is_running = game.input_manager.is_pressed('run') and RunningShoes.can_run(game)
         
-        # Check interaction button (A or Space)
+        # Check interaction button (A or Space) - with cooldown check
         if game.input_manager.is_just_pressed('confirm'):
-            self._try_interact()
+            # Check if there's a dialog cooldown active in the current scene
+            if hasattr(game, 'current_scene') and hasattr(game.current_scene, 'dialog_input_cooldown'):
+                if game.current_scene.dialog_input_cooldown <= 0.0:
+                    self._try_interact()
+                # else: cooldown active, ignore input
+            else:
+                # No cooldown system, proceed normally
+                self._try_interact()
             return
         
         # Get movement input (Pokémon-Style: Tap = drehen, Hold = sofort laufen)

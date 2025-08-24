@@ -1,0 +1,8005 @@
+[
+  {
+    "id": 1,
+    "name": "Glutstummel",
+    "era": "present",
+    "rank": "F",
+    "types": [
+      "Feuer"
+    ],
+    "base_stats": {
+      "hp": 40,
+      "atk": 54,
+      "def": 38,
+      "mag": 24,
+      "res": 20,
+      "spd": 44
+    },
+    "growth": {
+      "curve": "fast",
+      "yield": 48
+    },
+    "capture_rate": 249,
+    "traits": [
+      "Entflammbar"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Kratzer"
+      },
+      {
+        "level": 5,
+        "move": "Funken"
+      },
+      {
+        "level": 10,
+        "move": "Feuerball"
+      }
+    ],
+    "evolution": null,
+    "description": "Ein kleiner, flackernder Feuerball mit Beinchen. Glutstummel hüpft durch die Gegend und hinterlässt überall kleine Brandflecken. Die Ruhrpottler haben sich längst dran gewöhnt - dat Vieh is halt 'n bisschen heißblütig, aber harmlos."
+  },
+  {
+    "id": 2,
+    "name": "Böllerling",
+    "era": "present",
+    "rank": "F",
+    "types": [
+      "Feuer"
+    ],
+    "base_stats": {
+      "hp": 42,
+      "atk": 37,
+      "def": 49,
+      "mag": 30,
+      "res": 21,
+      "spd": 46
+    },
+    "growth": {
+      "curve": "fast",
+      "yield": 49
+    },
+    "capture_rate": 204,
+    "traits": [
+      "Hitzkopf"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Rempler"
+      },
+      {
+        "level": 4,
+        "move": "Funken"
+      },
+      {
+        "level": 9,
+        "move": "Flammenwurf"
+      }
+    ],
+    "evolution": null,
+    "description": "Ein rundlicher Feuerball mit 'nem Temperament wie 'ne Dampflok. Böllerling explodiert bei jeder Kleinigkeit und schießt Funken in alle Richtungen. Trotz seiner defensiven Natur is er immer bereit für 'ne Rauferei."
+  },
+  {
+    "id": 3,
+    "name": "Urmolch",
+    "era": "past",
+    "rank": "F",
+    "types": [
+      "Wasser"
+    ],
+    "base_stats": {
+      "hp": 26,
+      "atk": 32,
+      "def": 31,
+      "mag": 39,
+      "res": 43,
+      "spd": 50
+    },
+    "growth": {
+      "curve": "fast",
+      "yield": 54
+    },
+    "capture_rate": 180,
+    "traits": [
+      "Glitschig"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Rempler"
+      },
+      {
+        "level": 5,
+        "move": "Blubber"
+      },
+      {
+        "level": 10,
+        "move": "Wasserstrahl"
+      }
+    ],
+    "evolution": null,
+    "description": "Ein prähistorischer Molch mit schuppiger Haut und großen Kiemen. Urmolch schwimmt elegant durch das Wasser und kann sogar an Land überleben. Seine magischen Fähigkeiten haben ihn in der Urzeit zu einem gefürchteten Raubtier gemacht."
+  },
+  {
+    "id": 4,
+    "name": "Bierlementar",
+    "era": "present",
+    "rank": "F",
+    "types": [
+      "Wasser"
+    ],
+    "base_stats": {
+      "hp": 51,
+      "atk": 23,
+      "def": 40,
+      "mag": 34,
+      "res": 37,
+      "spd": 27
+    },
+    "growth": {
+      "curve": "fast",
+      "yield": 52
+    },
+    "capture_rate": 201,
+    "traits": [
+      "Besoffen"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Rempler"
+      },
+      {
+        "level": 5,
+        "move": "Blubber"
+      },
+      {
+        "level": 7,
+        "move": "Giftwolke"
+      }
+    ],
+    "evolution": null,
+    "description": "Ein lebendiges Bierwesen, das aus dem Schaum der besten Ruhrpott-Brauereien entstanden is. Bierelementar torkelt durch die Kneipen und hinterlässt überall Pfützen aus Bier. Die Wirtinnen lieben ihn, weil er immer für Stimmung sorgt."
+  },
+  {
+    "id": 5,
+    "name": "Kohlekumpel",
+    "era": "present",
+    "rank": "F",
+    "types": [
+      "Erde"
+    ],
+    "base_stats": {
+      "hp": 44,
+      "atk": 33,
+      "def": 47,
+      "mag": 21,
+      "res": 45,
+      "spd": 29
+    },
+    "growth": {
+      "curve": "fast",
+      "yield": 48
+    },
+    "capture_rate": 212,
+    "traits": [
+      "Stur"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Rempler"
+      },
+      {
+        "level": 4,
+        "move": "Lehmschuss"
+      },
+      {
+        "level": 8,
+        "move": "Steinwurf"
+      }
+    ],
+    "evolution": null,
+    "description": "Ein kleiner Erdgeist, der aussieht wie 'n Klumpen Kohle mit Beinchen. Kohlekumpel buddelt sich durch den Boden und sammelt überall Steine und Mineralien. Die Bergleute haben ihn adoptiert - er is halt 'n bisschen stur, aber zuverlässig."
+  },
+  {
+    "id": 6,
+    "name": "Kieselkrabbler",
+    "era": "past",
+    "rank": "F",
+    "types": [
+      "Erde"
+    ],
+    "base_stats": {
+      "hp": 30,
+      "atk": 26,
+      "def": 50,
+      "mag": 22,
+      "res": 40,
+      "spd": 29
+    },
+    "growth": {
+      "curve": "fast",
+      "yield": 53
+    },
+    "capture_rate": 158,
+    "traits": [
+      "Robust"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Rempler"
+      },
+      {
+        "level": 5,
+        "move": "Härtner"
+      },
+      {
+        "level": 9,
+        "move": "Steinwurf"
+      }
+    ],
+    "evolution": null,
+    "description": "Ein prähistorischer Krebs mit einem Panzer aus purem Granit. Kieselkrabbler krabbelt langsam aber sicher durch die Gegend und kann jeden Angriff abprallen lassen. In der Urzeit war er der Tank der Dinosaurier-Herde."
+  },
+  {
+    "id": 7,
+    "name": "Flugratte",
+    "era": "present",
+    "rank": "F",
+    "types": [
+      "Luft"
+    ],
+    "base_stats": {
+      "hp": 31,
+      "atk": 27,
+      "def": 20,
+      "mag": 40,
+      "res": 38,
+      "spd": 52
+    },
+    "growth": {
+      "curve": "fast",
+      "yield": 53
+    },
+    "capture_rate": 199,
+    "traits": [
+      "Flatterhaft"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Kratzer"
+      },
+      {
+        "level": 5,
+        "move": "Windstoß"
+      },
+      {
+        "level": 9,
+        "move": "Wirbelwind"
+      }
+    ],
+    "evolution": null,
+    "description": "Eine Ratte mit kleinen Flügeln, die durch die Lüfte schwebt. Flugratte ist unberechenbar und wechselt ständig die Richtung. Die Ruhrpottler haben sich dran gewöhnt - sie is halt 'n bisschen nervös, aber harmlos."
+  },
+  {
+    "id": 8,
+    "name": "Wolkenfurz",
+    "era": "present",
+    "rank": "F",
+    "types": [
+      "Luft"
+    ],
+    "base_stats": {
+      "hp": 34,
+      "atk": 22,
+      "def": 35,
+      "mag": 36,
+      "res": 25,
+      "spd": 53
+    },
+    "growth": {
+      "curve": "fast",
+      "yield": 46
+    },
+    "capture_rate": 227,
+    "traits": [
+      "Flatterhaft"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Giftwolke"
+      },
+      {
+        "level": 3,
+        "move": "Windstoß"
+      },
+      {
+        "level": 7,
+        "move": "Wirbelwind"
+      }
+    ],
+    "evolution": null,
+    "description": "Ein klitzekleine Wolke, die nach ordentlich Gammel stinkt. Schwebt durch die Gegend und verteilt üblen Geruch – dat zieht dir die Schuh aus, ehrlich."
+  },
+  {
+    "id": 9,
+    "name": "Unkrautling",
+    "era": "present",
+    "rank": "F",
+    "types": [
+      "Pflanze"
+    ],
+    "base_stats": {
+      "hp": 33,
+      "atk": 27,
+      "def": 41,
+      "mag": 28,
+      "res": 37,
+      "spd": 37
+    },
+    "growth": {
+      "curve": "fast",
+      "yield": 47
+    },
+    "capture_rate": 207,
+    "traits": [
+      "Wuchernd"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Kratzer"
+      },
+      {
+        "level": 5,
+        "move": "Rankenhieb"
+      },
+      {
+        "level": 9,
+        "move": "Blattsturm"
+      }
+    ],
+    "evolution": null,
+    "description": "Ein kleines Unkraut-Monster, das überall wuchert wo es nicht hingehört. Unkrautling klettert an Wänden hoch und verstopft Regenrinnen. Die Gärtner fluchen über ihn, aber er is halt unverwüstlich."
+  },
+  {
+    "id": 10,
+    "name": "Pommespanzer",
+    "era": "present",
+    "rank": "F",
+    "types": [
+      "Pflanze"
+    ],
+    "base_stats": {
+      "hp": 35,
+      "atk": 40,
+      "def": 60,
+      "mag": 35,
+      "res": 45,
+      "spd": 20
+    },
+    "growth": {
+      "curve": "fast",
+      "yield": 52
+    },
+    "capture_rate": 255,
+    "traits": [
+      "Knusprig"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Rempler"
+      },
+      {
+        "level": 3,
+        "move": "Härtner"
+      },
+      {
+        "level": 7,
+        "move": "Rankenhieb"
+      }
+    ],
+    "evolution": null,
+    "description": "Ein Monster dat aussieht wie 'ne wandelnde Pommes-Schale. Findste oft anne Pommesbude oder inne Nähe von Dönerbuden."
+  },
+  {
+    "id": 11,
+    "name": "Imbissköter",
+    "era": "present",
+    "rank": "F",
+    "types": [
+      "Bestie"
+    ],
+    "base_stats": {
+      "hp": 38,
+      "atk": 41,
+      "def": 21,
+      "mag": 21,
+      "res": 28,
+      "spd": 51
+    },
+    "growth": {
+      "curve": "fast",
+      "yield": 49
+    },
+    "capture_rate": 223,
+    "traits": [
+      "Gefräßig"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Biss"
+      },
+      {
+        "level": 4,
+        "move": "Heulen"
+      },
+      {
+        "level": 8,
+        "move": "Kratzer"
+      }
+    ],
+    "evolution": null,
+    "description": "Ein struppiger Hund, der bei jeder Pommesbude bettelt. Klaut schon mal 'ne Currywurst vom Grill, wenn de nich aufpasst."
+  },
+  {
+    "id": 12,
+    "name": "Stubentiger",
+    "era": "present",
+    "rank": "F",
+    "types": [
+      "Bestie"
+    ],
+    "base_stats": {
+      "hp": 31,
+      "atk": 45,
+      "def": 24,
+      "mag": 22,
+      "res": 40,
+      "spd": 38
+    },
+    "growth": {
+      "curve": "fast",
+      "yield": 50
+    },
+    "capture_rate": 220,
+    "traits": [
+      "Eigensinnig"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Kratzer"
+      },
+      {
+        "level": 3,
+        "move": "Kopfnuss"
+      },
+      {
+        "level": 7,
+        "move": "Kratzfurie"
+      }
+    ],
+    "evolution": null,
+    "description": "Sieht aus wie 'ne dicke Hauskatze, liegt faul auffe Couch rum. Aber pass auf, dat Ding kratzt dir ruckzuck dat ganze Sofa kaputt, wenn et schlechte Laune hat."
+  },
+  {
+    "id": 13,
+    "name": "Kabelkriecher",
+    "era": "present",
+    "rank": "F",
+    "types": [
+      "Energie"
+    ],
+    "base_stats": {
+      "hp": 26,
+      "atk": 35,
+      "def": 22,
+      "mag": 46,
+      "res": 32,
+      "spd": 40
+    },
+    "growth": {
+      "curve": "fast",
+      "yield": 50
+    },
+    "capture_rate": 210,
+    "traits": [
+      "Unter Strom"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Rempler"
+      },
+      {
+        "level": 4,
+        "move": "Funkenschlag"
+      },
+      {
+        "level": 8,
+        "move": "Magnetfeld"
+      }
+    ],
+    "evolution": null,
+    "description": "Dit kleine Mistvieh wohnt in Stromleitungen und verursacht ständig Kurzschlüsse. Kommt aus jeder Steckdose gekrochen und legt die ganze Bude lahm, ehrlich."
+  },
+  {
+    "id": 14,
+    "name": "Wattwurm",
+    "era": "present",
+    "rank": "F",
+    "types": [
+      "Energie"
+    ],
+    "base_stats": {
+      "hp": 37,
+      "atk": 21,
+      "def": 35,
+      "mag": 38,
+      "res": 24,
+      "spd": 50
+    },
+    "growth": {
+      "curve": "fast",
+      "yield": 51
+    },
+    "capture_rate": 217,
+    "traits": [
+      "Unter Strom"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Rempler"
+      },
+      {
+        "level": 3,
+        "move": "Funken"
+      },
+      {
+        "level": 7,
+        "move": "Donnerblitz"
+      }
+    ],
+    "evolution": null,
+    "description": "Ein elektrischer Wurm, der sich durch Stromleitungen schlängelt. Wattwurm saugt Energie aus Steckdosen und hinterlässt überall kleine Stromschläge. Die Elektriker haben ihn adoptiert - er is halt 'n bisschen aufgeladen, aber nützlich."
+  },
+  {
+    "id": 15,
+    "name": "Wabbelpudding",
+    "era": "present",
+    "rank": "F",
+    "types": [
+      "Chaos"
+    ],
+    "base_stats": {
+      "hp": 49,
+      "atk": 30,
+      "def": 20,
+      "mag": 28,
+      "res": 25,
+      "spd": 51
+    },
+    "growth": {
+      "curve": "fast",
+      "yield": 49
+    },
+    "capture_rate": 232,
+    "traits": [
+      "Unberechenbar"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Rempler"
+      },
+      {
+        "level": 5,
+        "move": "Verwirrung"
+      },
+      {
+        "level": 9,
+        "move": "Chaosblitz"
+      }
+    ],
+    "evolution": null,
+    "description": "Ein wabbeliger Pudding, der sich in alle Richtungen verformt. Wabbelpudding springt chaotisch durch die Gegend und hinterlässt überall klebrige Flecken. Die Ruhrpottler haben sich dran gewöhnt - er is halt 'n bisschen unberechenbar, aber harmlos."
+  },
+  {
+    "id": 16,
+    "name": "Rabatzgnom",
+    "era": "present",
+    "rank": "F",
+    "types": [
+      "Chaos"
+    ],
+    "base_stats": {
+      "hp": 35,
+      "atk": 33,
+      "def": 20,
+      "mag": 27,
+      "res": 36,
+      "spd": 53
+    },
+    "growth": {
+      "curve": "fast",
+      "yield": 55
+    },
+    "capture_rate": 206,
+    "traits": [
+      "Durchgeknallt"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Kratzer"
+      },
+      {
+        "level": 4,
+        "move": "Heulen"
+      },
+      {
+        "level": 8,
+        "move": "Wahnsinn"
+      }
+    ],
+    "evolution": null,
+    "description": "Ein kleiner, verrückter Gnom, der ständig Radau macht. Rabatzgnom läuft durch die Gegend und verursacht Chaos wo er nur kann. Die Ruhrpottler haben ihn adoptiert - er is halt 'n bisschen durchgeknallt, aber unterhaltsam."
+  },
+  {
+    "id": 17,
+    "name": "Kakerlak",
+    "era": "present",
+    "rank": "F",
+    "types": [
+      "Seuche"
+    ],
+    "base_stats": {
+      "hp": 41,
+      "atk": 39,
+      "def": 27,
+      "mag": 22,
+      "res": 22,
+      "spd": 47
+    },
+    "growth": {
+      "curve": "fast",
+      "yield": 53
+    },
+    "capture_rate": 225,
+    "traits": [
+      "Unkaputtbar"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Kratzer"
+      },
+      {
+        "level": 5,
+        "move": "Giftstachel"
+      },
+      {
+        "level": 9,
+        "move": "Härtner"
+      }
+    ],
+    "evolution": null,
+    "description": "Ein überdimensionaler Kakerlak. Dat Ding überlebt alles – selbst 'nen Atombombe künnt ihn nich kleinkriegen. Läuft seelenruhig durch jede Küche und frisst den Bodenbelag weg."
+  },
+  {
+    "id": 18,
+    "name": "Bazillenschleuder",
+    "era": "present",
+    "rank": "F",
+    "types": [
+      "Seuche"
+    ],
+    "base_stats": {
+      "hp": 50,
+      "atk": 21,
+      "def": 25,
+      "mag": 32,
+      "res": 30,
+      "spd": 53
+    },
+    "growth": {
+      "curve": "fast",
+      "yield": 55
+    },
+    "capture_rate": 214,
+    "traits": [
+      "Ansteckend"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Giftwolke"
+      },
+      {
+        "level": 4,
+        "move": "Heulen"
+      },
+      {
+        "level": 7,
+        "move": "Pesthauch"
+      }
+    ],
+    "evolution": null,
+    "description": "Läuft rum und verteilt Rotz und Keime überall. Wenn dat Vieh niest, nimm besser Reißaus – sonst liegste morgen mit Fieber flach, ne."
+  },
+  {
+    "id": 19,
+    "name": "Kellergeist",
+    "era": "present",
+    "rank": "F",
+    "types": [
+      "Mystisch"
+    ],
+    "base_stats": {
+      "hp": 27,
+      "atk": 38,
+      "def": 22,
+      "mag": 53,
+      "res": 35,
+      "spd": 25
+    },
+    "growth": {
+      "curve": "fast",
+      "yield": 51
+    },
+    "capture_rate": 208,
+    "traits": [
+      "Unheimlich"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Spukball"
+      },
+      {
+        "level": 4,
+        "move": "Hypnose"
+      },
+      {
+        "level": 8,
+        "move": "Fluch"
+      }
+    ],
+    "evolution": null,
+    "description": "Ein kleiner, unheimlicher Geist, der in Kellern und dunklen Ecken haust. Kellergeist spukt durch alte Häuser und erschreckt die Bewohner mit seinen mystischen Kräften. Die Ruhrpottler haben sich dran gewöhnt - er is halt 'n bisschen gruselig, aber harmlos."
+  },
+  {
+    "id": 20,
+    "name": "Spukball",
+    "era": "past",
+    "rank": "F",
+    "types": [
+      "Mystisch"
+    ],
+    "base_stats": {
+      "hp": 29,
+      "atk": 21,
+      "def": 26,
+      "mag": 51,
+      "res": 47,
+      "spd": 26
+    },
+    "growth": {
+      "curve": "fast",
+      "yield": 50
+    },
+    "capture_rate": 177,
+    "traits": [
+      "Geisterhaft"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Spukball"
+      },
+      {
+        "level": 3,
+        "move": "Verwirrung"
+      },
+      {
+        "level": 7,
+        "move": "Schattenhieb"
+      }
+    ],
+    "evolution": null,
+    "description": "Ein prähistorischer Geist, der als schwebender Ball aus mystischer Energie erscheint. Spukball fliegt durch die Luft und verbreitet Angst und Schrecken. In der Urzeit war er der Bote der alten Götter."
+  },
+  {
+    "id": 21,
+    "name": "Flammimp",
+    "era": "present",
+    "rank": "E",
+    "types": [
+      "Feuer"
+    ],
+    "base_stats": {
+      "hp": 48,
+      "atk": 58,
+      "def": 30,
+      "mag": 26,
+      "res": 22,
+      "spd": 31
+    },
+    "growth": {
+      "curve": "medium",
+      "yield": 80
+    },
+    "capture_rate": 167,
+    "traits": [
+      "Hitzkopf"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Rempler"
+      },
+      {
+        "level": 5,
+        "move": "Funken"
+      },
+      {
+        "level": 10,
+        "move": "Feuerball"
+      },
+      {
+        "level": 15,
+        "move": "Flammenwurf"
+      }
+    ],
+    "evolution": null,
+    "description": "Ein kleiner Feuergeist mit spitzen Ohren und glühenden Augen. Flammimp tanzt durch die Gegend und hinterlässt überall kleine Feuerstellen. Die Ruhrpottler haben ihn adoptiert - er is halt 'n bisschen heißblütig, aber nützlich für's Grillen."
+  },
+  {
+    "id": 22,
+    "name": "Feuermolch",
+    "era": "present",
+    "rank": "E",
+    "types": [
+      "Feuer"
+    ],
+    "base_stats": {
+      "hp": 42,
+      "atk": 50,
+      "def": 34,
+      "mag": 29,
+      "res": 28,
+      "spd": 36
+    },
+    "growth": {
+      "curve": "medium",
+      "yield": 78
+    },
+    "capture_rate": 160,
+    "traits": [
+      "Hitzkopf"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Kratzer"
+      },
+      {
+        "level": 4,
+        "move": "Härtner"
+      },
+      {
+        "level": 8,
+        "move": "Feuerball"
+      },
+      {
+        "level": 12,
+        "move": "Hitzewelle"
+      }
+    ],
+    "evolution": null,
+    "description": "Ein Molch, dessen Haut permanent brennt und glüht. Feuermolch schwimmt durch heiße Quellen und hinterlässt überall kleine Brandflecken. Die Ruhrpottler haben ihn adoptiert - er is halt 'n bisschen heiß, aber nützlich für's Heizen."
+  },
+  {
+    "id": 23,
+    "name": "Kloakrake",
+    "era": "present",
+    "rank": "E",
+    "types": [
+      "Wasser"
+    ],
+    "base_stats": {
+      "hp": 49,
+      "atk": 39,
+      "def": 32,
+      "mag": 40,
+      "res": 24,
+      "spd": 25
+    },
+    "growth": {
+      "curve": "medium",
+      "yield": 70
+    },
+    "capture_rate": 153,
+    "traits": [
+      "Glitschig"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Rempler"
+      },
+      {
+        "level": 5,
+        "move": "Blubber"
+      },
+      {
+        "level": 10,
+        "move": "Wasserstrahl"
+      },
+      {
+        "level": 15,
+        "move": "Giftwolke"
+      }
+    ],
+    "evolution": null,
+    "description": "Dat Monster gehört hier zum Alltag. Dat schwimmt in unsren Kanälen rum, als wär et ganz normal. Die Leute im Revier gucken schon gar nich mehr hin, wenn dat Vieh vorbeikommt."
+  },
+  {
+    "id": 24,
+    "name": "Sumpfschrecke",
+    "era": "past",
+    "rank": "E",
+    "types": [
+      "Wasser"
+    ],
+    "base_stats": {
+      "hp": 45,
+      "atk": 28,
+      "def": 50,
+      "mag": 25,
+      "res": 33,
+      "spd": 30
+    },
+    "growth": {
+      "curve": "medium",
+      "yield": 82
+    },
+    "capture_rate": 146,
+    "traits": [
+      "Glitschig"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Rempler"
+      },
+      {
+        "level": 5,
+        "move": "Giftstachel"
+      },
+      {
+        "level": 10,
+        "move": "Blubber"
+      },
+      {
+        "level": 15,
+        "move": "Wellenritt"
+      }
+    ],
+    "evolution": null,
+    "description": "Dat urzeitliche Vieh galt lange als ausgestorben. Es kam wohl damals schon aus'm Ozean gekrochen und hat die Urzeit unsicher gemacht. Jetzt is dat wieder da und treibt hier sein Unwesen."
+  },
+  {
+    "id": 25,
+    "name": "Felsfresser",
+    "era": "present",
+    "rank": "E",
+    "types": [
+      "Erde"
+    ],
+    "base_stats": {
+      "hp": 56,
+      "atk": 32,
+      "def": 47,
+      "mag": 27,
+      "res": 34,
+      "spd": 20
+    },
+    "growth": {
+      "curve": "medium",
+      "yield": 77
+    },
+    "capture_rate": 151,
+    "traits": [
+      "Stur"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Rempler"
+      },
+      {
+        "level": 4,
+        "move": "Lehmschuss"
+      },
+      {
+        "level": 8,
+        "move": "Steinwurf"
+      },
+      {
+        "level": 12,
+        "move": "Erdbeben"
+      }
+    ],
+    "evolution": null,
+    "description": "Felsfresser hockt irgendwo im Dreck un kloppt sich durch den Tag. Die Ruhrpottler sagen: 'Dat Vieh is wie 'n Bergmann im Urlaub - buddelt sich durch alles durch!' Findste oft inne Nähe von Baustellen oder wo mal 'n Haus abgerissen wurde."
+  },
+  {
+    "id": 26,
+    "name": "Kraterkröte",
+    "era": "past",
+    "rank": "E",
+    "types": [
+      "Erde"
+    ],
+    "base_stats": {
+      "hp": 52,
+      "atk": 27,
+      "def": 51,
+      "mag": 29,
+      "res": 28,
+      "spd": 19
+    },
+    "growth": {
+      "curve": "medium",
+      "yield": 85
+    },
+    "capture_rate": 141,
+    "traits": [
+      "Robust"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Rempler"
+      },
+      {
+        "level": 5,
+        "move": "Härtner"
+      },
+      {
+        "level": 10,
+        "move": "Steinwurf"
+      },
+      {
+        "level": 15,
+        "move": "Erdbeben"
+      }
+    ],
+    "evolution": null,
+    "description": "Dat urzeitliche Vieh galt lange als ausgestorben. Schon zu Dino-Zeiten war dat ein echter Brocken von 'nem Vieh. Jetzt is dat wieder da und treibt hier sein Unwesen."
+  },
+  {
+    "id": 27,
+    "name": "Sturmkrähe",
+    "era": "present",
+    "rank": "E",
+    "types": [
+      "Luft"
+    ],
+    "base_stats": {
+      "hp": 36,
+      "atk": 45,
+      "def": 27,
+      "mag": 29,
+      "res": 25,
+      "spd": 49
+    },
+    "growth": {
+      "curve": "medium",
+      "yield": 75
+    },
+    "capture_rate": 150,
+    "traits": [
+      "Flatterhaft"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Biss"
+      },
+      {
+        "level": 5,
+        "move": "Windstoß"
+      },
+      {
+        "level": 10,
+        "move": "Wirbelwind"
+      },
+      {
+        "level": 15,
+        "move": "Orkan"
+      }
+    ],
+    "evolution": null,
+    "description": "Dat Monster gehört hier zum Alltag. Flattert überall in der Gegend rum, aber kein Mensch guckt mehr hin. Die Leute im Revier gucken schon gar nich mehr hin, wenn dat Vieh vorbeikommt."
+  },
+  {
+    "id": 28,
+    "name": "Segelfalter",
+    "era": "future",
+    "rank": "E",
+    "types": [
+      "Luft"
+    ],
+    "base_stats": {
+      "hp": 33,
+      "atk": 21,
+      "def": 23,
+      "mag": 44,
+      "res": 27,
+      "spd": 51
+    },
+    "growth": {
+      "curve": "medium",
+      "yield": 79
+    },
+    "capture_rate": 138,
+    "traits": [
+      "Verstrahlt"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Giftwolke"
+      },
+      {
+        "level": 5,
+        "move": "Windstoß"
+      },
+      {
+        "level": 10,
+        "move": "Wirbelwind"
+      },
+      {
+        "level": 15,
+        "move": "Orkan"
+      }
+    ],
+    "evolution": null,
+    "description": "Dit Vieh stammt aus 'ner kaputten Zukunft. Et ist durch 'nen Zeitriss in unsere Welt geplumst und keiner blickt so richtig, wat dat überhaupt is. Die Luft in seiner Zukunft muss total im Eimer sein, dat Biest is richtig zäh gegen Gestank und Staub. Man weiß kaum wat über dat Wesen, außer dass et verdammt zäh is."
+  },
+  {
+    "id": 29,
+    "name": "Schnappblume",
+    "era": "present",
+    "rank": "E",
+    "types": [
+      "Pflanze"
+    ],
+    "base_stats": {
+      "hp": 50,
+      "atk": 26,
+      "def": 49,
+      "mag": 25,
+      "res": 39,
+      "spd": 21
+    },
+    "growth": {
+      "curve": "medium",
+      "yield": 74
+    },
+    "capture_rate": 156,
+    "traits": [
+      "Dornig"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Rempler"
+      },
+      {
+        "level": 5,
+        "move": "Rankenhieb"
+      },
+      {
+        "level": 10,
+        "move": "Samenbombe"
+      },
+      {
+        "level": 15,
+        "move": "Blattsturm"
+      }
+    ],
+    "evolution": null,
+    "description": "Schnappblume wächst und wuchert in jedem zweiten Garten, aber keinen kratzt dat. Die Ruhrpottler sagen: 'Dat Vieh is wie Unkraut, nur dat et beißt und sich wehrt!' Findste oft inne Nähe von verwilderten Gärten oder wo keiner mehr mäht."
+  },
+  {
+    "id": 30,
+    "name": "Urfarn",
+    "era": "past",
+    "rank": "E",
+    "types": [
+      "Pflanze"
+    ],
+    "base_stats": {
+      "hp": 53,
+      "atk": 30,
+      "def": 53,
+      "mag": 21,
+      "res": 31,
+      "spd": 22
+    },
+    "growth": {
+      "curve": "medium",
+      "yield": 84
+    },
+    "capture_rate": 143,
+    "traits": [
+      "Wuchernd"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Rempler"
+      },
+      {
+        "level": 5,
+        "move": "Härtner"
+      },
+      {
+        "level": 10,
+        "move": "Rankenhieb"
+      },
+      {
+        "level": 15,
+        "move": "Blattsturm"
+      }
+    ],
+    "evolution": null,
+    "description": "Dat urzeitliche Vieh galt lange als ausgestorben. Dat Ding is quasi 'ne lebendige Fossilie von 'ner Pflanze aus der Urzeit. Jetzt is dat wieder da und treibt hier sein Unwesen."
+  },
+  {
+    "id": 31,
+    "name": "Straßenkeiler",
+    "era": "present",
+    "rank": "E",
+    "types": [
+      "Bestie"
+    ],
+    "base_stats": {
+      "hp": 52,
+      "atk": 49,
+      "def": 27,
+      "mag": 20,
+      "res": 25,
+      "spd": 29
+    },
+    "growth": {
+      "curve": "medium",
+      "yield": 77
+    },
+    "capture_rate": 147,
+    "traits": [
+      "Wild"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Rempler"
+      },
+      {
+        "level": 5,
+        "move": "Kopfnuss"
+      },
+      {
+        "level": 10,
+        "move": "Stampfer"
+      },
+      {
+        "level": 15,
+        "move": "Brüllen"
+      }
+    ],
+    "evolution": null,
+    "description": "Dat Monster gehört hier zum Alltag. Läuft frei rum zwischen all den Leuten, als wenn's 'n Haustier wär. Die Leute im Revier gucken schon gar nich mehr hin, wenn dat Vieh vorbeikommt."
+  },
+  {
+    "id": 32,
+    "name": "Säbelzahnkaninchen",
+    "era": "past",
+    "rank": "E",
+    "types": [
+      "Bestie"
+    ],
+    "base_stats": {
+      "hp": 48,
+      "atk": 54,
+      "def": 23,
+      "mag": 22,
+      "res": 26,
+      "spd": 36
+    },
+    "growth": {
+      "curve": "medium",
+      "yield": 85
+    },
+    "capture_rate": 139,
+    "traits": [
+      "Wild"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Biss"
+      },
+      {
+        "level": 5,
+        "move": "Kratzer"
+      },
+      {
+        "level": 10,
+        "move": "Krallenhieb"
+      },
+      {
+        "level": 15,
+        "move": "Raserei"
+      }
+    ],
+    "evolution": null,
+    "description": "Dat urzeitliche Vieh galt lange als ausgestorben. Schon damals war dat eine richtig wilde Bestie, sag ich dir. Jetzt is dat wieder da und treibt hier sein Unwesen."
+  },
+  {
+    "id": 33,
+    "name": "Batteriefresser",
+    "era": "present",
+    "rank": "E",
+    "types": [
+      "Energie"
+    ],
+    "base_stats": {
+      "hp": 30,
+      "atk": 37,
+      "def": 24,
+      "mag": 54,
+      "res": 28,
+      "spd": 31
+    },
+    "growth": {
+      "curve": "medium",
+      "yield": 72
+    },
+    "capture_rate": 157,
+    "traits": [
+      "Aufgeladen"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Rempler"
+      },
+      {
+        "level": 5,
+        "move": "Funkenschlag"
+      },
+      {
+        "level": 10,
+        "move": "Donnerblitz"
+      },
+      {
+        "level": 15,
+        "move": "Magnetfeld"
+      }
+    ],
+    "evolution": null,
+    "description": "Batteriefresser lädt sich an unsren Steckdosen auf und fällt kaum noch auf. Die Ruhrpottler sagen: 'Dat Vieh is wie 'ne Steckdose, nur dat et läuft und Funken spuckt!' Findste oft inne Nähe von Elektrogeräten oder wo's Strom gibt."
+  },
+  {
+    "id": 34,
+    "name": "Plasmakröte",
+    "era": "future",
+    "rank": "E",
+    "types": [
+      "Energie"
+    ],
+    "base_stats": {
+      "hp": 28,
+      "atk": 21,
+      "def": 36,
+      "mag": 52,
+      "res": 26,
+      "spd": 33
+    },
+    "growth": {
+      "curve": "medium",
+      "yield": 80
+    },
+    "capture_rate": 131,
+    "traits": [
+      "Verstrahlt"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Giftwolke"
+      },
+      {
+        "level": 5,
+        "move": "Funken"
+      },
+      {
+        "level": 10,
+        "move": "Donnerblitz"
+      },
+      {
+        "level": 15,
+        "move": "Magnetfeld"
+      }
+    ],
+    "evolution": null,
+    "description": "Dit Vieh stammt aus 'ner kaputten Zukunft. Et ist durch 'nen Zeitriss in unsere Welt geplumst und keiner blickt so richtig, wat dat überhaupt is. Dit Teil ist radioaktiv aufgeladen und funkt wie 'n kaputtes Atomkraftwerk. Man weiß kaum wat über dat Wesen, außer dass et verdammt zäh is."
+  },
+  {
+    "id": 35,
+    "name": "Flimmergeist",
+    "era": "present",
+    "rank": "E",
+    "types": [
+      "Chaos"
+    ],
+    "base_stats": {
+      "hp": 27,
+      "atk": 36,
+      "def": 29,
+      "mag": 40,
+      "res": 32,
+      "spd": 32
+    },
+    "growth": {
+      "curve": "medium",
+      "yield": 82
+    },
+    "capture_rate": 148,
+    "traits": [
+      "Unberechenbar"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Verwirrung"
+      },
+      {
+        "level": 5,
+        "move": "Windstoß"
+      },
+      {
+        "level": 10,
+        "move": "Wirbelwind"
+      },
+      {
+        "level": 15,
+        "move": "Wahnsinn"
+      }
+    ],
+    "evolution": null,
+    "description": "Flimmergeist macht zwar Radau, aber die Leute hier im Pott ham sich dran gewöhnt. Die Ruhrpottler sagen: 'Dat Vieh is wie 'ne kaputte Glühbirne, nur dat et spricht und verrückt is!' Findste oft inne Nähe von alten Häusern oder wo's spukt."
+  },
+  {
+    "id": 36,
+    "name": "Wirrwicht",
+    "era": "past",
+    "rank": "E",
+    "types": [
+      "Chaos"
+    ],
+    "base_stats": {
+      "hp": 32,
+      "atk": 34,
+      "def": 27,
+      "mag": 36,
+      "res": 38,
+      "spd": 33
+    },
+    "growth": {
+      "curve": "medium",
+      "yield": 84
+    },
+    "capture_rate": 144,
+    "traits": [
+      "Durchgeknallt"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Rempler"
+      },
+      {
+        "level": 5,
+        "move": "Verwirrung"
+      },
+      {
+        "level": 10,
+        "move": "Chaosblitz"
+      },
+      {
+        "level": 15,
+        "move": "Wahnsinn"
+      }
+    ],
+    "evolution": null,
+    "description": "Dat urzeitliche Vieh galt lange als ausgestorben. Schon in der Urzeit hat dat Ding nur für Chaos gesorgt. Jetzt is dat wieder da und treibt hier sein Unwesen."
+  },
+  {
+    "id": 37,
+    "name": "Eiterbeule",
+    "era": "present",
+    "rank": "E",
+    "types": [
+      "Seuche"
+    ],
+    "base_stats": {
+      "hp": 51,
+      "atk": 21,
+      "def": 34,
+      "mag": 31,
+      "res": 27,
+      "spd": 30
+    },
+    "growth": {
+      "curve": "medium",
+      "yield": 83
+    },
+    "capture_rate": 152,
+    "traits": [
+      "Eitrig"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Giftwolke"
+      },
+      {
+        "level": 5,
+        "move": "Giftstachel"
+      },
+      {
+        "level": 10,
+        "move": "Pesthauch"
+      },
+      {
+        "level": 15,
+        "move": "Seuchenschwall"
+      }
+    ],
+    "evolution": null,
+    "description": "Dat Monster gehört hier zum Alltag. Verteilt hier und da 'ne Rotznase, aber dat kratzt hier keine Sau mehr. Die Leute im Revier gucken schon gar nich mehr hin, wenn dat Vieh vorbeikommt."
+  },
+  {
+    "id": 38,
+    "name": "Rattenkönig",
+    "era": "present",
+    "rank": "E",
+    "types": [
+      "Seuche"
+    ],
+    "base_stats": {
+      "hp": 48,
+      "atk": 38,
+      "def": 24,
+      "mag": 26,
+      "res": 28,
+      "spd": 33
+    },
+    "growth": {
+      "curve": "medium",
+      "yield": 81
+    },
+    "capture_rate": 150,
+    "traits": [
+      "Ansteckend"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Biss"
+      },
+      {
+        "level": 5,
+        "move": "Giftwolke"
+      },
+      {
+        "level": 10,
+        "move": "Pesthauch"
+      },
+      {
+        "level": 15,
+        "move": "Seuchenschwall"
+      }
+    ],
+    "evolution": null,
+    "description": "Dat Monster gehört hier zum Alltag. Verteilt hier und da 'ne Rotznase, aber dat kratzt hier keine Sau mehr. Die Leute im Revier gucken schon gar nich mehr hin, wenn dat Vieh vorbeikommt."
+  },
+  {
+    "id": 39,
+    "name": "Spiegelpuppe",
+    "era": "present",
+    "rank": "E",
+    "types": [
+      "Mystisch"
+    ],
+    "base_stats": {
+      "hp": 34,
+      "atk": 24,
+      "def": 27,
+      "mag": 47,
+      "res": 32,
+      "spd": 32
+    },
+    "growth": {
+      "curve": "medium",
+      "yield": 79
+    },
+    "capture_rate": 154,
+    "traits": [
+      "Unheimlich"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Spukball"
+      },
+      {
+        "level": 5,
+        "move": "Hypnose"
+      },
+      {
+        "level": 10,
+        "move": "Fluch"
+      },
+      {
+        "level": 15,
+        "move": "Schattenhieb"
+      }
+    ],
+    "evolution": null,
+    "description": "Dat Monster gehört hier zum Alltag. Spukt in alten Häusern rum, aber dat juckt hier keinen mehr groß. Die Leute im Revier gucken schon gar nich mehr hin, wenn dat Vieh vorbeikommt."
+  },
+  {
+    "id": 40,
+    "name": "Irrlicht",
+    "era": "past",
+    "rank": "E",
+    "types": [
+      "Mystisch"
+    ],
+    "base_stats": {
+      "hp": 28,
+      "atk": 23,
+      "def": 33,
+      "mag": 46,
+      "res": 31,
+      "spd": 31
+    },
+    "growth": {
+      "curve": "medium",
+      "yield": 80
+    },
+    "capture_rate": 142,
+    "traits": [
+      "Geisterhaft"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Spukball"
+      },
+      {
+        "level": 5,
+        "move": "Verwirrung"
+      },
+      {
+        "level": 10,
+        "move": "Fluch"
+      },
+      {
+        "level": 15,
+        "move": "Hypnose"
+      }
+    ],
+    "evolution": null,
+    "description": "Dat urzeitliche Vieh galt lange als ausgestorben. Kommt aus 'ner alten Legende, war schon damals 'n Spuk. Jetzt is dat wieder da und treibt hier sein Unwesen."
+  },
+  {
+    "id": 41,
+    "name": "Vulkanodon",
+    "era": "past",
+    "rank": "D",
+    "types": [
+      "Feuer"
+    ],
+    "base_stats": {
+      "hp": 63,
+      "atk": 60,
+      "def": 38,
+      "mag": 35,
+      "res": 27,
+      "spd": 32
+    },
+    "growth": {
+      "curve": "medium",
+      "yield": 110
+    },
+    "capture_rate": 135,
+    "traits": [
+      "Hitzkopf"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Rempler"
+      },
+      {
+        "level": 5,
+        "move": "Funken"
+      },
+      {
+        "level": 10,
+        "move": "Feuerball"
+      },
+      {
+        "level": 15,
+        "move": "Hitzewelle"
+      },
+      {
+        "level": 20,
+        "move": "Flammenwurf"
+      }
+    ],
+    "evolution": null,
+    "description": "Dat urzeitliche Vieh galt lange als ausgestorben. Mit Lava und Glut kennt dat sich seit der Steinzeit bestens aus. Jetzt is dat wieder da und treibt hier sein Unwesen."
+  },
+  {
+    "id": 42,
+    "name": "Flammenwerwolf",
+    "era": "present",
+    "rank": "D",
+    "types": [
+      "Feuer"
+    ],
+    "base_stats": {
+      "hp": 55,
+      "atk": 53,
+      "def": 41,
+      "mag": 29,
+      "res": 30,
+      "spd": 36
+    },
+    "growth": {
+      "curve": "medium",
+      "yield": 118
+    },
+    "capture_rate": 129,
+    "traits": [
+      "Hitzkopf"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Biss"
+      },
+      {
+        "level": 5,
+        "move": "Funken"
+      },
+      {
+        "level": 10,
+        "move": "Feuerball"
+      },
+      {
+        "level": 15,
+        "move": "Flammenwurf"
+      },
+      {
+        "level": 20,
+        "move": "Hitzewelle"
+      }
+    ],
+    "evolution": null,
+    "description": "Flammenwerwolf spielt gern mit Feuer, aber die Leute hier juckt dat nich mehr. Die Ruhrpottler sagen: 'Dat Vieh is wie 'n Werwolf, nur dat et brennt und heiß is!' Findste oft inne Nähe von Feuerstellen oder wo's warm is."
+  },
+  {
+    "id": 43,
+    "name": "Teichschreck",
+    "era": "present",
+    "rank": "D",
+    "types": [
+      "Wasser"
+    ],
+    "base_stats": {
+      "hp": 58,
+      "atk": 32,
+      "def": 36,
+      "mag": 38,
+      "res": 30,
+      "spd": 34
+    },
+    "growth": {
+      "curve": "medium",
+      "yield": 100
+    },
+    "capture_rate": 134,
+    "traits": [
+      "Glitschig"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Rempler"
+      },
+      {
+        "level": 4,
+        "move": "Blubber"
+      },
+      {
+        "level": 8,
+        "move": "Wasserstrahl"
+      },
+      {
+        "level": 12,
+        "move": "Windstoß"
+      },
+      {
+        "level": 20,
+        "move": "Wellenritt"
+      }
+    ],
+    "evolution": null,
+    "description": "Teichschreck schwimmt in unsren Kanälen rum, als wär et ganz normal. Die Ruhrpottler sagen: 'Dat Vieh is wie 'ne Ente, nur dat et größer is und mehr Angst macht!' Findste oft inne Nähe von Teichen oder wo's nass is."
+  },
+  {
+    "id": 44,
+    "name": "Urhai",
+    "era": "past",
+    "rank": "D",
+    "types": [
+      "Wasser"
+    ],
+    "base_stats": {
+      "hp": 60,
+      "atk": 41,
+      "def": 31,
+      "mag": 27,
+      "res": 34,
+      "spd": 35
+    },
+    "growth": {
+      "curve": "medium",
+      "yield": 112
+    },
+    "capture_rate": 128,
+    "traits": [
+      "Glitschig"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Rempler"
+      },
+      {
+        "level": 5,
+        "move": "Blubber"
+      },
+      {
+        "level": 10,
+        "move": "Wasserstrahl"
+      },
+      {
+        "level": 15,
+        "move": "Pesthauch"
+      },
+      {
+        "level": 20,
+        "move": "Wellenritt"
+      }
+    ],
+    "evolution": null,
+    "description": "Dat urzeitliche Vieh galt lange als ausgestorben. Es kam wohl damals schon aus'm Ozean gekrochen und hat die Urzeit unsicher gemacht. Jetzt is dat wieder da und treibt hier sein Unwesen."
+  },
+  {
+    "id": 45,
+    "name": "Betonbrocken",
+    "era": "present",
+    "rank": "D",
+    "types": [
+      "Erde"
+    ],
+    "base_stats": {
+      "hp": 66,
+      "atk": 37,
+      "def": 55,
+      "mag": 23,
+      "res": 35,
+      "spd": 27
+    },
+    "growth": {
+      "curve": "medium",
+      "yield": 113
+    },
+    "capture_rate": 130,
+    "traits": [
+      "Stur"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Rempler"
+      },
+      {
+        "level": 5,
+        "move": "Lehmschuss"
+      },
+      {
+        "level": 10,
+        "move": "Steinwurf"
+      },
+      {
+        "level": 15,
+        "move": "Erdbeben"
+      },
+      {
+        "level": 20,
+        "move": "Panzerhaut"
+      }
+    ],
+    "evolution": null,
+    "description": "Betonbrocken hockt irgendwo im Dreck un kloppt sich durch den Tag. Die Ruhrpottler sagen: 'Dat Vieh is wie 'ne Betonwand, nur dat et läuft und sich wehrt!' Findste oft inne Nähe von Baustellen oder wo mal 'n Haus abgerissen wurde."
+  },
+  {
+    "id": 46,
+    "name": "Urochs",
+    "era": "past",
+    "rank": "D",
+    "types": [
+      "Erde"
+    ],
+    "base_stats": {
+      "hp": 70,
+      "atk": 35,
+      "def": 58,
+      "mag": 24,
+      "res": 29,
+      "spd": 23
+    },
+    "growth": {
+      "curve": "medium",
+      "yield": 118
+    },
+    "capture_rate": 124,
+    "traits": [
+      "Robust"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Rempler"
+      },
+      {
+        "level": 5,
+        "move": "Härtner"
+      },
+      {
+        "level": 10,
+        "move": "Steinwurf"
+      },
+      {
+        "level": 15,
+        "move": "Erdbeben"
+      },
+      {
+        "level": 20,
+        "move": "Panzerhaut"
+      }
+    ],
+    "evolution": null,
+    "description": "Dat urzeitliche Vieh galt lange als ausgestorben. Schon zu Dino-Zeiten war dat ein echter Brocken von 'nem Vieh. Jetzt is dat wieder da und treibt hier sein Unwesen."
+  },
+  {
+    "id": 47,
+    "name": "Sturmfalke",
+    "era": "present",
+    "rank": "D",
+    "types": [
+      "Luft"
+    ],
+    "base_stats": {
+      "hp": 40,
+      "atk": 58,
+      "def": 32,
+      "mag": 33,
+      "res": 27,
+      "spd": 50
+    },
+    "growth": {
+      "curve": "medium",
+      "yield": 114
+    },
+    "capture_rate": 131,
+    "traits": [
+      "Flatterhaft"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Kratzer"
+      },
+      {
+        "level": 5,
+        "move": "Windstoß"
+      },
+      {
+        "level": 10,
+        "move": "Wirbelwind"
+      },
+      {
+        "level": 15,
+        "move": "Orkan"
+      },
+      {
+        "level": 20,
+        "move": "Brüllen"
+      }
+    ],
+    "evolution": null,
+    "description": "Sturmfalke flattert überall in der Gegend rum, aber kein Mensch guckt mehr hin. Die Ruhrpottler sagen: 'Dat Vieh is wie 'n Falke, nur dat et bei jedem Wetter fliegt und nie müde wird!' Findste oft inne Nähe von Hochhäusern oder wo's windig is."
+  },
+  {
+    "id": 48,
+    "name": "Schrottgeier",
+    "era": "future",
+    "rank": "D",
+    "types": [
+      "Luft"
+    ],
+    "base_stats": {
+      "hp": 39,
+      "atk": 27,
+      "def": 37,
+      "mag": 29,
+      "res": 30,
+      "spd": 59
+    },
+    "growth": {
+      "curve": "medium",
+      "yield": 116
+    },
+    "capture_rate": 117,
+    "traits": [
+      "Verstrahlt"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Rempler"
+      },
+      {
+        "level": 5,
+        "move": "Windstoß"
+      },
+      {
+        "level": 10,
+        "move": "Wirbelwind"
+      },
+      {
+        "level": 15,
+        "move": "Orkan"
+      },
+      {
+        "level": 20,
+        "move": "Giftwolke"
+      }
+    ],
+    "evolution": null,
+    "description": "Kommt aus 'ner düsteren Zukunft und pickt in 'nem Haufen Schrott nach brauchbarem Metall. Sieht aus wie 'nen Klappergeier auf Meth, dat Vieh."
+  },
+  {
+    "id": 49,
+    "name": "Schlingwurzel",
+    "era": "present",
+    "rank": "D",
+    "types": [
+      "Pflanze"
+    ],
+    "base_stats": {
+      "hp": 64,
+      "atk": 33,
+      "def": 55,
+      "mag": 26,
+      "res": 35,
+      "spd": 24
+    },
+    "growth": {
+      "curve": "medium",
+      "yield": 109
+    },
+    "capture_rate": 126,
+    "traits": [
+      "Dornig"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Rempler"
+      },
+      {
+        "level": 4,
+        "move": "Rankenhieb"
+      },
+      {
+        "level": 8,
+        "move": "Samenbombe"
+      },
+      {
+        "level": 12,
+        "move": "Blattsturm"
+      },
+      {
+        "level": 20,
+        "move": "Giftstachel"
+      }
+    ],
+    "evolution": null,
+    "description": "Schlingwurzel wächst und wuchert in jedem zweiten Garten, aber keinen kratzt dat. Die Ruhrpottler sagen: 'Dat Vieh is wie Efeu, nur dat et beißt und sich wehrt!' Findste oft inne Nähe von verwilderten Gärten oder wo keiner mehr mäht."
+  },
+  {
+    "id": 50,
+    "name": "Urzeitbaum",
+    "era": "past",
+    "rank": "D",
+    "types": [
+      "Pflanze"
+    ],
+    "base_stats": {
+      "hp": 68,
+      "atk": 31,
+      "def": 57,
+      "mag": 23,
+      "res": 34,
+      "spd": 25
+    },
+    "growth": {
+      "curve": "medium",
+      "yield": 117
+    },
+    "capture_rate": 121,
+    "traits": [
+      "Wuchernd"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Rempler"
+      },
+      {
+        "level": 5,
+        "move": "Härtner"
+      },
+      {
+        "level": 10,
+        "move": "Rankenhieb"
+      },
+      {
+        "level": 15,
+        "move": "Samenbombe"
+      },
+      {
+        "level": 20,
+        "move": "Blattsturm"
+      }
+    ],
+    "evolution": null,
+    "description": "Dat urzeitliche Vieh galt lange als ausgestorben. Dat Ding is quasi 'ne lebendige Fossilie von 'ner Pflanze aus der Urzeit. Jetzt is dat wieder da und treibt hier sein Unwesen."
+  },
+  {
+    "id": 51,
+    "name": "Kanal-Kroko",
+    "era": "present",
+    "rank": "D",
+    "types": [
+      "Bestie"
+    ],
+    "base_stats": {
+      "hp": 57,
+      "atk": 60,
+      "def": 29,
+      "mag": 24,
+      "res": 27,
+      "spd": 31
+    },
+    "growth": {
+      "curve": "medium",
+      "yield": 111
+    },
+    "capture_rate": 123,
+    "traits": [
+      "Wild"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Rempler"
+      },
+      {
+        "level": 5,
+        "move": "Biss"
+      },
+      {
+        "level": 10,
+        "move": "Stampfer"
+      },
+      {
+        "level": 15,
+        "move": "Brüllen"
+      },
+      {
+        "level": 20,
+        "move": "Giftwolke"
+      }
+    ],
+    "evolution": null,
+    "description": "Kanal-Kroko läuft frei rum zwischen all den Leuten, als wenn's 'n Haustier wär. Die Ruhrpottler sagen: 'Dat Vieh is wie 'n Krokodil, nur dat et in Kanälen lebt und stinkt!' Findste oft inne Nähe von Abwasserkanälen oder wo's nass is."
+  },
+  {
+    "id": 52,
+    "name": "Urwolf",
+    "era": "past",
+    "rank": "D",
+    "types": [
+      "Bestie"
+    ],
+    "base_stats": {
+      "hp": 53,
+      "atk": 64,
+      "def": 26,
+      "mag": 20,
+      "res": 21,
+      "spd": 33
+    },
+    "growth": {
+      "curve": "medium",
+      "yield": 119
+    },
+    "capture_rate": 119,
+    "traits": [
+      "Wild"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Biss"
+      },
+      {
+        "level": 5,
+        "move": "Heulen"
+      },
+      {
+        "level": 10,
+        "move": "Stampfer"
+      },
+      {
+        "level": 15,
+        "move": "Krallenhieb"
+      },
+      {
+        "level": 20,
+        "move": "Raserei"
+      }
+    ],
+    "evolution": null,
+    "description": "Dat urzeitliche Vieh galt lange als ausgestorben. Schon damals war dat eine richtig wilde Bestie, sag ich dir. Jetzt is dat wieder da und treibt hier sein Unwesen."
+  },
+  {
+    "id": 53,
+    "name": "Stromschlange",
+    "era": "present",
+    "rank": "D",
+    "types": [
+      "Energie"
+    ],
+    "base_stats": {
+      "hp": 35,
+      "atk": 42,
+      "def": 28,
+      "mag": 62,
+      "res": 23,
+      "spd": 30
+    },
+    "growth": {
+      "curve": "medium",
+      "yield": 110
+    },
+    "capture_rate": 128,
+    "traits": [
+      "Aufgeladen"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Rempler"
+      },
+      {
+        "level": 5,
+        "move": "Funkenschlag"
+      },
+      {
+        "level": 10,
+        "move": "Donnerblitz"
+      },
+      {
+        "level": 15,
+        "move": "Magnetfeld"
+      },
+      {
+        "level": 20,
+        "move": "Wahnsinn"
+      }
+    ],
+    "evolution": null,
+    "description": "Stromschlange lädt sich an unsren Steckdosen auf und fällt kaum noch auf. Die Ruhrpottler sagen: 'Dat Vieh is wie 'ne Schlange, nur dat et Strom hat und Funken spuckt!' Findste oft inne Nähe von Elektrogeräten oder wo's Strom gibt."
+  },
+  {
+    "id": 54,
+    "name": "Laserauge",
+    "era": "future",
+    "rank": "D",
+    "types": [
+      "Energie"
+    ],
+    "base_stats": {
+      "hp": 32,
+      "atk": 27,
+      "def": 29,
+      "mag": 61,
+      "res": 37,
+      "spd": 34
+    },
+    "growth": {
+      "curve": "medium",
+      "yield": 115
+    },
+    "capture_rate": 113,
+    "traits": [
+      "Mechanisch"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Rempler"
+      },
+      {
+        "level": 5,
+        "move": "Funkenschlag"
+      },
+      {
+        "level": 10,
+        "move": "Donnerblitz"
+      },
+      {
+        "level": 15,
+        "move": "Lichtstrahl"
+      },
+      {
+        "level": 20,
+        "move": "Magnetfeld"
+      }
+    ],
+    "evolution": null,
+    "description": "Dit Vieh stammt aus 'ner kaputten Zukunft. Et ist durch 'nen Zeitriss in unsere Welt geplumst und keiner blickt so richtig, wat dat überhaupt is. Dit Teil ist radioaktiv aufgeladen und funkt wie 'n kaputtes Atomkraftwerk. Man weiß kaum wat über dat Wesen, außer dass et verdammt zäh is."
+  },
+  {
+    "id": 55,
+    "name": "Psychohuhn",
+    "era": "present",
+    "rank": "D",
+    "types": [
+      "Chaos"
+    ],
+    "base_stats": {
+      "hp": 46,
+      "atk": 41,
+      "def": 31,
+      "mag": 32,
+      "res": 28,
+      "spd": 49
+    },
+    "growth": {
+      "curve": "medium",
+      "yield": 107
+    },
+    "capture_rate": 139,
+    "traits": [
+      "Durchgeknallt"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Rempler"
+      },
+      {
+        "level": 5,
+        "move": "Verwirrung"
+      },
+      {
+        "level": 10,
+        "move": "Wahnsinn"
+      },
+      {
+        "level": 15,
+        "move": "Krallenhieb"
+      },
+      {
+        "level": 20,
+        "move": "Stampfer"
+      }
+    ],
+    "evolution": null,
+    "description": "Dat Monster gehört hier zum Alltag. Macht zwar Radau, aber die Leute hier im Pott ham sich dran gewöhnt. Die Leute im Revier gucken schon gar nich mehr hin, wenn dat Vieh vorbeikommt."
+  },
+  {
+    "id": 56,
+    "name": "Kuddelmuddel",
+    "era": "present",
+    "rank": "D",
+    "types": [
+      "Chaos"
+    ],
+    "base_stats": {
+      "hp": 50,
+      "atk": 40,
+      "def": 29,
+      "mag": 35,
+      "res": 30,
+      "spd": 41
+    },
+    "growth": {
+      "curve": "medium",
+      "yield": 115
+    },
+    "capture_rate": 131,
+    "traits": [
+      "Durchgeknallt"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Rempler"
+      },
+      {
+        "level": 5,
+        "move": "Verwirrung"
+      },
+      {
+        "level": 10,
+        "move": "Chaosblitz"
+      },
+      {
+        "level": 15,
+        "move": "Wahnsinn"
+      },
+      {
+        "level": 20,
+        "move": "Brüllen"
+      }
+    ],
+    "evolution": null,
+    "description": "Dat Monster gehört hier zum Alltag. Macht zwar Radau, aber die Leute hier im Pott ham sich dran gewöhnt. Die Leute im Revier gucken schon gar nich mehr hin, wenn dat Vieh vorbeikommt."
+  },
+  {
+    "id": 57,
+    "name": "Madenhaufen",
+    "era": "present",
+    "rank": "D",
+    "types": [
+      "Seuche"
+    ],
+    "base_stats": {
+      "hp": 69,
+      "atk": 22,
+      "def": 28,
+      "mag": 30,
+      "res": 32,
+      "spd": 41
+    },
+    "growth": {
+      "curve": "medium",
+      "yield": 109
+    },
+    "capture_rate": 136,
+    "traits": [
+      "Eitrig"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Giftwolke"
+      },
+      {
+        "level": 5,
+        "move": "Giftstachel"
+      },
+      {
+        "level": 10,
+        "move": "Pesthauch"
+      },
+      {
+        "level": 15,
+        "move": "Seuchenschwall"
+      },
+      {
+        "level": 20,
+        "move": "Auf die Fresse"
+      }
+    ],
+    "evolution": null,
+    "description": "Dat Monster gehört hier zum Alltag. Verteilt hier und da 'ne Rotznase, aber dat kratzt hier keine Sau mehr. Die Leute im Revier gucken schon gar nich mehr hin, wenn dat Vieh vorbeikommt."
+  },
+  {
+    "id": 58,
+    "name": "Seuchengeist",
+    "era": "past",
+    "rank": "D",
+    "types": [
+      "Seuche"
+    ],
+    "base_stats": {
+      "hp": 61,
+      "atk": 26,
+      "def": 34,
+      "mag": 28,
+      "res": 35,
+      "spd": 39
+    },
+    "growth": {
+      "curve": "medium",
+      "yield": 118
+    },
+    "capture_rate": 120,
+    "traits": [
+      "Ansteckend"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Giftwolke"
+      },
+      {
+        "level": 5,
+        "move": "Pesthauch"
+      },
+      {
+        "level": 10,
+        "move": "Seuchenschwall"
+      },
+      {
+        "level": 15,
+        "move": "Fluch"
+      },
+      {
+        "level": 20,
+        "move": "Hypnose"
+      }
+    ],
+    "evolution": null,
+    "description": "Dat urzeitliche Vieh galt lange als ausgestorben. Hat wohl schon die Dinos mit Seuchen geärgert damals. Jetzt is dat wieder da und treibt hier sein Unwesen."
+  },
+  {
+    "id": 59,
+    "name": "Dschinnling",
+    "era": "past",
+    "rank": "D",
+    "types": [
+      "Mystisch"
+    ],
+    "base_stats": {
+      "hp": 33,
+      "atk": 29,
+      "def": 30,
+      "mag": 63,
+      "res": 41,
+      "spd": 26
+    },
+    "growth": {
+      "curve": "medium",
+      "yield": 119
+    },
+    "capture_rate": 118,
+    "traits": [
+      "Unheimlich"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Spukball"
+      },
+      {
+        "level": 5,
+        "move": "Hypnose"
+      },
+      {
+        "level": 10,
+        "move": "Fluch"
+      },
+      {
+        "level": 15,
+        "move": "Schattenhieb"
+      },
+      {
+        "level": 20,
+        "move": "Lichtstrahl"
+      }
+    ],
+    "evolution": null,
+    "description": "Dat urzeitliche Vieh galt lange als ausgestorben. Kommt aus 'ner alten Legende, war schon damals 'n Spuk. Jetzt is dat wieder da und treibt hier sein Unwesen."
+  },
+  {
+    "id": 60,
+    "name": "Poltertopf",
+    "era": "present",
+    "rank": "D",
+    "types": [
+      "Mystisch"
+    ],
+    "base_stats": {
+      "hp": 34,
+      "atk": 32,
+      "def": 25,
+      "mag": 59,
+      "res": 38,
+      "spd": 26
+    },
+    "growth": {
+      "curve": "medium",
+      "yield": 115
+    },
+    "capture_rate": 126,
+    "traits": [
+      "Unheimlich"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Spukball"
+      },
+      {
+        "level": 5,
+        "move": "Kopfnuss"
+      },
+      {
+        "level": 10,
+        "move": "Fluch"
+      },
+      {
+        "level": 15,
+        "move": "Schattenhieb"
+      },
+      {
+        "level": 20,
+        "move": "Hypnose"
+      }
+    ],
+    "evolution": null,
+    "description": "Dat Monster gehört hier zum Alltag. Spukt in alten Häusern rum, aber dat juckt hier keinen mehr groß. Die Leute im Revier gucken schon gar nich mehr hin, wenn dat Vieh vorbeikommt."
+  },
+  {
+    "id": 61,
+    "name": "Glutdrache",
+    "era": "past",
+    "rank": "C",
+    "types": [
+      "Feuer"
+    ],
+    "base_stats": {
+      "hp": 72,
+      "atk": 64,
+      "def": 42,
+      "mag": 37,
+      "res": 30,
+      "spd": 35
+    },
+    "growth": {
+      "curve": "medium",
+      "yield": 140
+    },
+    "capture_rate": 120,
+    "traits": [
+      "Hitzkopf"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Rempler"
+      },
+      {
+        "level": 5,
+        "move": "Funken"
+      },
+      {
+        "level": 10,
+        "move": "Feuerball"
+      },
+      {
+        "level": 20,
+        "move": "Flammenwurf"
+      },
+      {
+        "level": 30,
+        "move": "Hitzewelle"
+      },
+      {
+        "level": 30,
+        "move": "Höllenfeuer"
+      }
+    ],
+    "evolution": null,
+    "description": "Dat urzeitliche Vieh galt lange als ausgestorben. Mit Lava und Glut kennt dat sich seit der Steinzeit bestens aus. Jetzt is dat wieder da und treibt hier sein Unwesen."
+  },
+  {
+    "id": 62,
+    "name": "Lavahund",
+    "era": "present",
+    "rank": "C",
+    "types": [
+      "Feuer"
+    ],
+    "base_stats": {
+      "hp": 65,
+      "atk": 59,
+      "def": 45,
+      "mag": 33,
+      "res": 35,
+      "spd": 39
+    },
+    "growth": {
+      "curve": "medium",
+      "yield": 145
+    },
+    "capture_rate": 112,
+    "traits": [
+      "Hitzkopf"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Biss"
+      },
+      {
+        "level": 5,
+        "move": "Funken"
+      },
+      {
+        "level": 10,
+        "move": "Feuerball"
+      },
+      {
+        "level": 20,
+        "move": "Flammenwurf"
+      },
+      {
+        "level": 30,
+        "move": "Hitzewelle"
+      }
+    ],
+    "evolution": null,
+    "description": "Ein Hund aus flüssiger Lava mit glühenden Augen. Lavahund bellt Funken und hinterlässt überall Brandflecken. Trotz seiner wilden Natur is er seinem Besitzer treu ergeben."
+  },
+  {
+    "id": 63,
+    "name": "Feuerdrache",
+    "era": "present",
+    "rank": "C",
+    "types": [
+      "Feuer"
+    ],
+    "base_stats": {
+      "hp": 75,
+      "atk": 67,
+      "def": 45,
+      "mag": 40,
+      "res": 33,
+      "spd": 38
+    },
+    "growth": {
+      "curve": "medium",
+      "yield": 142
+    },
+    "capture_rate": 115,
+    "traits": [
+      "Hitzkopf"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Rempler"
+      },
+      {
+        "level": 5,
+        "move": "Funken"
+      },
+      {
+        "level": 10,
+        "move": "Feuerball"
+      },
+      {
+        "level": 20,
+        "move": "Flammenwurf"
+      },
+      {
+        "level": 30,
+        "move": "Hitzewelle"
+      },
+      {
+        "level": 30,
+        "move": "Höllenfeuer"
+      }
+    ],
+    "evolution": null,
+    "description": "Ein mächtiger Feuerdrache, der über die Ruhrpott-Landschaft herrscht. Feuerdrache kann ganze Stadtteile in Brand setzen und ist bei Feuerwehrleuten gefürchtet."
+  },
+  {
+    "id": 64,
+    "name": "Wasserkönig",
+    "era": "present",
+    "rank": "C",
+    "types": [
+      "Wasser"
+    ],
+    "base_stats": {
+      "hp": 68,
+      "atk": 38,
+      "def": 42,
+      "mag": 45,
+      "res": 35,
+      "spd": 36
+    },
+    "growth": {
+      "curve": "medium",
+      "yield": 143
+    },
+    "capture_rate": 116,
+    "traits": [
+      "Glitschig"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Rempler"
+      },
+      {
+        "level": 5,
+        "move": "Blubber"
+      },
+      {
+        "level": 10,
+        "move": "Wasserstrahl"
+      },
+      {
+        "level": 20,
+        "move": "Windstoß"
+      },
+      {
+        "level": 30,
+        "move": "Wellenritt"
+      }
+    ],
+    "evolution": null,
+    "description": "Ein mächtiger Wasserkönig, der über alle Gewässer des Ruhrpotts herrscht. Wasserkönig kann Überschwemmungen verursachen und ist bei Anwohnern gefürchtet."
+  },
+  {
+    "id": 65,
+    "name": "Erdkönig",
+    "era": "present",
+    "rank": "C",
+    "types": [
+      "Erde"
+    ],
+    "base_stats": {
+      "hp": 78,
+      "atk": 43,
+      "def": 62,
+      "mag": 29,
+      "res": 42,
+      "spd": 25
+    },
+    "growth": {
+      "curve": "medium",
+      "yield": 144
+    },
+    "capture_rate": 117,
+    "traits": [
+      "Stur"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Rempler"
+      },
+      {
+        "level": 5,
+        "move": "Lehmschuss"
+      },
+      {
+        "level": 10,
+        "move": "Steinwurf"
+      },
+      {
+        "level": 20,
+        "move": "Erdbeben"
+      },
+      {
+        "level": 30,
+        "move": "Panzerhaut"
+      }
+    ],
+    "evolution": null,
+    "description": "Ein mächtiger Erdkönig, der über den Boden des Ruhrpotts herrscht. Erdkönig kann schwere Erdbeben verursachen und ist bei Bauarbeitern gefürchtet."
+  },
+  {
+    "id": 66,
+    "name": "Luftkönig",
+    "era": "present",
+    "rank": "C",
+    "types": [
+      "Luft"
+    ],
+    "base_stats": {
+      "hp": 48,
+      "atk": 65,
+      "def": 38,
+      "mag": 39,
+      "res": 32,
+      "spd": 56
+    },
+    "growth": {
+      "curve": "medium",
+      "yield": 145
+    },
+    "capture_rate": 118,
+    "traits": [
+      "Flatterhaft"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Kratzer"
+      },
+      {
+        "level": 5,
+        "move": "Windstoß"
+      },
+      {
+        "level": 10,
+        "move": "Wirbelwind"
+      },
+      {
+        "level": 20,
+        "move": "Orkan"
+      },
+      {
+        "level": 30,
+        "move": "Brüllen"
+      }
+    ],
+    "evolution": null,
+    "description": "Ein mächtiger Luftkönig, der über die Lüfte des Ruhrpotts herrscht. Luftkönig kann schwere Stürme verursachen und ist bei Piloten gefürchtet."
+  },
+  {
+    "id": 67,
+    "name": "Pflanzenkaiser",
+    "era": "present",
+    "rank": "C",
+    "types": [
+      "Pflanze"
+    ],
+    "base_stats": {
+      "hp": 72,
+      "atk": 39,
+      "def": 61,
+      "mag": 32,
+      "res": 42,
+      "spd": 28
+    },
+    "growth": {
+      "curve": "medium",
+      "yield": 146
+    },
+    "capture_rate": 119,
+    "traits": [
+      "Wuchernd"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Rempler"
+      },
+      {
+        "level": 5,
+        "move": "Rankenhieb"
+      },
+      {
+        "level": 10,
+        "move": "Samenbombe"
+      },
+      {
+        "level": 20,
+        "move": "Blattsturm"
+      },
+      {
+        "level": 30,
+        "move": "Giftstachel"
+      }
+    ],
+    "evolution": null,
+    "description": "Ein mächtiger Pflanzenkaiser, der über alle Pflanzen des Ruhrpotts herrscht. Pflanzenkaiser kann ganze Städte überwuchern und ist bei Stadtplanern gefürchtet."
+  },
+  {
+    "id": 68,
+    "name": "Bestienkaiser",
+    "era": "present",
+    "rank": "C",
+    "types": [
+      "Bestie"
+    ],
+    "base_stats": {
+      "hp": 65,
+      "atk": 68,
+      "def": 35,
+      "mag": 28,
+      "res": 31,
+      "spd": 37
+    },
+    "growth": {
+      "curve": "medium",
+      "yield": 147
+    },
+    "capture_rate": 120,
+    "traits": [
+      "Wild"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Biss"
+      },
+      {
+        "level": 5,
+        "move": "Heulen"
+      },
+      {
+        "level": 10,
+        "move": "Stampfer"
+      },
+      {
+        "level": 20,
+        "move": "Krallenhieb"
+      },
+      {
+        "level": 30,
+        "move": "Raserei"
+      }
+    ],
+    "evolution": null,
+    "description": "Ein mächtiger Bestienkaiser, der über alle wilden Monster des Ruhrpotts herrscht. Bestienkaiser ist der unumstrittene Anführer der wilden Monster."
+  },
+  {
+    "id": 69,
+    "name": "Energietyrann",
+    "era": "present",
+    "rank": "C",
+    "types": [
+      "Energie"
+    ],
+    "base_stats": {
+      "hp": 41,
+      "atk": 49,
+      "def": 35,
+      "mag": 68,
+      "res": 29,
+      "spd": 36
+    },
+    "growth": {
+      "curve": "medium",
+      "yield": 148
+    },
+    "capture_rate": 121,
+    "traits": [
+      "Aufgeladen"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Rempler"
+      },
+      {
+        "level": 5,
+        "move": "Funkenschlag"
+      },
+      {
+        "level": 10,
+        "move": "Donnerblitz"
+      },
+      {
+        "level": 20,
+        "move": "Lichtstrahl"
+      },
+      {
+        "level": 30,
+        "move": "Magnetfeld"
+      }
+    ],
+    "evolution": null,
+    "description": "Ein mächtiger Energietyrann, der über alle elektrischen Systeme des Ruhrpotts herrscht. Energietyrann kann ganze Städte lahmlegen und ist bei Elektrikern gefürchtet."
+  },
+  {
+    "id": 70,
+    "name": "Chaostyrann",
+    "era": "present",
+    "rank": "C",
+    "types": [
+      "Chaos"
+    ],
+    "base_stats": {
+      "hp": 56,
+      "atk": 47,
+      "def": 36,
+      "mag": 41,
+      "res": 37,
+      "spd": 47
+    },
+    "growth": {
+      "curve": "medium",
+      "yield": 149
+    },
+    "capture_rate": 122,
+    "traits": [
+      "Unberechenbar"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Verwirrung"
+      },
+      {
+        "level": 5,
+        "move": "Windstoß"
+      },
+      {
+        "level": 10,
+        "move": "Chaosblitz"
+      },
+      {
+        "level": 20,
+        "move": "Wahnsinn"
+      },
+      {
+        "level": 30,
+        "move": "Brüllen"
+      }
+    ],
+    "evolution": null,
+    "description": "Ein mächtiger Chaostyrann, der über alle chaotischen Kräfte des Ruhrpotts herrscht. Chaostyrann kann ganze Städte in Chaos stürzen."
+  },
+  {
+    "id": 71,
+    "name": "Seuchentyrann",
+    "era": "present",
+    "rank": "C",
+    "types": [
+      "Seuche"
+    ],
+    "base_stats": {
+      "hp": 77,
+      "atk": 33,
+      "def": 41,
+      "mag": 34,
+      "res": 32,
+      "spd": 45
+    },
+    "growth": {
+      "curve": "medium",
+      "yield": 150
+    },
+    "capture_rate": 123,
+    "traits": [
+      "Ansteckend"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Giftwolke"
+      },
+      {
+        "level": 5,
+        "move": "Giftstachel"
+      },
+      {
+        "level": 10,
+        "move": "Pesthauch"
+      },
+      {
+        "level": 20,
+        "move": "Seuchenschwall"
+      },
+      {
+        "level": 30,
+        "move": "Fluch"
+      }
+    ],
+    "evolution": null,
+    "description": "Ein mächtiger Seuchentyrann, der über alle Krankheiten des Ruhrpotts herrscht. Seuchentyrann kann ganze Städte infizieren und ist bei Ärzten gefürchtet."
+  },
+  {
+    "id": 72,
+    "name": "Mystischer Tyrann",
+    "era": "present",
+    "rank": "C",
+    "types": [
+      "Mystisch"
+    ],
+    "base_stats": {
+      "hp": 40,
+      "atk": 39,
+      "def": 32,
+      "mag": 65,
+      "res": 45,
+      "spd": 30
+    },
+    "growth": {
+      "curve": "medium",
+      "yield": 151
+    },
+    "capture_rate": 124,
+    "traits": [
+      "Unheimlich"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Spukball"
+      },
+      {
+        "level": 5,
+        "move": "Hypnose"
+      },
+      {
+        "level": 10,
+        "move": "Fluch"
+      },
+      {
+        "level": 20,
+        "move": "Schattenhieb"
+      },
+      {
+        "level": 30,
+        "move": "Lichtstrahl"
+      }
+    ],
+    "evolution": null,
+    "description": "Ein mächtiger mystischer Tyrann, der über alle Geister und mystischen Kräfte des Ruhrpotts herrscht. Mystischer Tyrann kann ganze Städte in Angst versetzen."
+  },
+  {
+    "id": 73,
+    "name": "Eiswanderer",
+    "rank": "C",
+    "era": "future",
+    "types": [
+      "Wasser"
+    ],
+    "base_stats": {
+      "hp": 65,
+      "atk": 45,
+      "def": 55,
+      "mag": 60,
+      "res": 65,
+      "spd": 40
+    },
+    "growth": {
+      "curve": "medium",
+      "yield": 180
+    },
+    "capture_rate": 120,
+    "traits": [
+      "Frostig"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Rempler"
+      },
+      {
+        "level": 5,
+        "move": "Basisangriff"
+      },
+      {
+        "level": 10,
+        "move": "Spezialangriff"
+      },
+      {
+        "level": 20,
+        "move": "Mächtiger Angriff"
+      },
+      {
+        "level": 30,
+        "move": "Ultimativer Angriff"
+      },
+      {
+        "level": 40,
+        "move": "Weltangriff"
+      },
+      {
+        "level": 50,
+        "move": "Universumsangriff"
+      },
+      {
+        "level": 60,
+        "move": "Zeitangriff"
+      },
+      {
+        "level": 70,
+        "move": "Raumangriff"
+      }
+    ],
+    "evolution": null,
+    "description": "Ein gefrorener Wanderer aus der Zukunft, der durch einen Zeitriss in den Ruhrpott gelangt ist. Eiswanderer kann alles um sich herum einfrieren."
+  },
+  {
+    "id": 74,
+    "name": "Stahlgolem",
+    "rank": "C",
+    "era": "future",
+    "types": [
+      "Erde"
+    ],
+    "base_stats": {
+      "hp": 80,
+      "atk": 70,
+      "def": 75,
+      "mag": 30,
+      "res": 50,
+      "spd": 25
+    },
+    "growth": {
+      "curve": "medium",
+      "yield": 185
+    },
+    "capture_rate": 118,
+    "traits": [
+      "Stur"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Rempler"
+      },
+      {
+        "level": 5,
+        "move": "Basisangriff"
+      },
+      {
+        "level": 10,
+        "move": "Spezialangriff"
+      },
+      {
+        "level": 20,
+        "move": "Mächtiger Angriff"
+      },
+      {
+        "level": 30,
+        "move": "Ultimativer Angriff"
+      },
+      {
+        "level": 40,
+        "move": "Weltangriff"
+      },
+      {
+        "level": 50,
+        "move": "Universumsangriff"
+      },
+      {
+        "level": 60,
+        "move": "Zeitangriff"
+      },
+      {
+        "level": 70,
+        "move": "Raumangriff"
+      }
+    ],
+    "evolution": null,
+    "description": "Ein mechanischer Golem aus der Zukunft, der durch einen Zeitriss in den Ruhrpott gelangt ist. Stahlgolem ist fast unzerstörbar."
+  },
+  {
+    "id": 75,
+    "name": "Blitzfalke",
+    "rank": "C",
+    "era": "future",
+    "types": [
+      "Luft",
+      "Energie"
+    ],
+    "base_stats": {
+      "hp": 55,
+      "atk": 65,
+      "def": 40,
+      "mag": 70,
+      "res": 45,
+      "spd": 75
+    },
+    "growth": {
+      "curve": "medium",
+      "yield": 190
+    },
+    "capture_rate": 115,
+    "traits": [
+      "Flatterhaft",
+      "Aufgeladen"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Rempler"
+      },
+      {
+        "level": 5,
+        "move": "Basisangriff"
+      },
+      {
+        "level": 10,
+        "move": "Spezialangriff"
+      },
+      {
+        "level": 20,
+        "move": "Mächtiger Angriff"
+      },
+      {
+        "level": 30,
+        "move": "Ultimativer Angriff"
+      },
+      {
+        "level": 40,
+        "move": "Weltangriff"
+      },
+      {
+        "level": 50,
+        "move": "Universumsangriff"
+      },
+      {
+        "level": 60,
+        "move": "Zeitangriff"
+      },
+      {
+        "level": 70,
+        "move": "Raumangriff"
+      }
+    ],
+    "evolution": null,
+    "description": "Ein elektrischer Falke aus der Zukunft, der durch einen Zeitriss in den Ruhrpott gelangt ist. Blitzfalke ist so schnell wie der Blitz."
+  },
+  {
+    "id": 76,
+    "name": "Giftranke",
+    "rank": "C",
+    "era": "future",
+    "types": [
+      "Pflanze",
+      "Seuche"
+    ],
+    "base_stats": {
+      "hp": 70,
+      "atk": 55,
+      "def": 50,
+      "mag": 65,
+      "res": 60,
+      "spd": 45
+    },
+    "growth": {
+      "curve": "medium",
+      "yield": 195
+    },
+    "capture_rate": 112,
+    "traits": [
+      "Wuchernd",
+      "Giftig"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Rempler"
+      },
+      {
+        "level": 5,
+        "move": "Basisangriff"
+      },
+      {
+        "level": 10,
+        "move": "Spezialangriff"
+      },
+      {
+        "level": 20,
+        "move": "Mächtiger Angriff"
+      },
+      {
+        "level": 30,
+        "move": "Ultimativer Angriff"
+      },
+      {
+        "level": 40,
+        "move": "Weltangriff"
+      },
+      {
+        "level": 50,
+        "move": "Universumsangriff"
+      },
+      {
+        "level": 60,
+        "move": "Zeitangriff"
+      },
+      {
+        "level": 70,
+        "move": "Raumangriff"
+      }
+    ],
+    "evolution": null,
+    "description": "Eine giftige Pflanze aus der Zukunft, die durch einen Zeitriss in den Ruhrpott gelangt ist. Giftranke kann alles vergiften, was sie berührt."
+  },
+  {
+    "id": 77,
+    "name": "Schattenwolf",
+    "rank": "C",
+    "era": "future",
+    "types": [
+      "Bestie",
+      "Mystisch"
+    ],
+    "base_stats": {
+      "hp": 75,
+      "atk": 75,
+      "def": 45,
+      "mag": 55,
+      "res": 50,
+      "spd": 60
+    },
+    "growth": {
+      "curve": "medium",
+      "yield": 200
+    },
+    "capture_rate": 110,
+    "traits": [
+      "Wild",
+      "Geisterhaft"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Rempler"
+      },
+      {
+        "level": 5,
+        "move": "Basisangriff"
+      },
+      {
+        "level": 10,
+        "move": "Spezialangriff"
+      },
+      {
+        "level": 20,
+        "move": "Mächtiger Angriff"
+      },
+      {
+        "level": 30,
+        "move": "Ultimativer Angriff"
+      },
+      {
+        "level": 40,
+        "move": "Weltangriff"
+      },
+      {
+        "level": 50,
+        "move": "Universumsangriff"
+      },
+      {
+        "level": 60,
+        "move": "Zeitangriff"
+      },
+      {
+        "level": 70,
+        "move": "Raumangriff"
+      }
+    ],
+    "evolution": null,
+    "description": "Ein mystischer Wolf aus der Zukunft, der durch einen Zeitriss in den Ruhrpott gelangt ist. Schattenwolf kann durch Wände laufen."
+  },
+  {
+    "id": 78,
+    "name": "Chaosgeist",
+    "rank": "C",
+    "era": "future",
+    "types": [
+      "Chaos",
+      "Mystisch"
+    ],
+    "base_stats": {
+      "hp": 60,
+      "atk": 50,
+      "def": 40,
+      "mag": 75,
+      "res": 65,
+      "spd": 55
+    },
+    "growth": {
+      "curve": "medium",
+      "yield": 205
+    },
+    "capture_rate": 108,
+    "traits": [
+      "Unberechenbar",
+      "Geisterhaft"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Rempler"
+      },
+      {
+        "level": 5,
+        "move": "Basisangriff"
+      },
+      {
+        "level": 10,
+        "move": "Spezialangriff"
+      },
+      {
+        "level": 20,
+        "move": "Mächtiger Angriff"
+      },
+      {
+        "level": 30,
+        "move": "Ultimativer Angriff"
+      },
+      {
+        "level": 40,
+        "move": "Weltangriff"
+      },
+      {
+        "level": 50,
+        "move": "Universumsangriff"
+      },
+      {
+        "level": 60,
+        "move": "Zeitangriff"
+      },
+      {
+        "level": 70,
+        "move": "Raumangriff"
+      }
+    ],
+    "evolution": null,
+    "description": "Ein chaotischer Geist aus der Zukunft, der durch einen Zeitriss in den Ruhrpott gelangt ist. Chaosgeist macht alles kaputt."
+  },
+  {
+    "id": 79,
+    "name": "Plasmadrache",
+    "rank": "C",
+    "era": "future",
+    "types": [
+      "Feuer",
+      "Energie"
+    ],
+    "base_stats": {
+      "hp": 70,
+      "atk": 65,
+      "def": 50,
+      "mag": 70,
+      "res": 45,
+      "spd": 50
+    },
+    "growth": {
+      "curve": "medium",
+      "yield": 210
+    },
+    "capture_rate": 105,
+    "traits": [
+      "Hitzkopf",
+      "Aufgeladen"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Rempler"
+      },
+      {
+        "level": 5,
+        "move": "Basisangriff"
+      },
+      {
+        "level": 10,
+        "move": "Spezialangriff"
+      },
+      {
+        "level": 20,
+        "move": "Mächtiger Angriff"
+      },
+      {
+        "level": 30,
+        "move": "Ultimativer Angriff"
+      },
+      {
+        "level": 40,
+        "move": "Weltangriff"
+      },
+      {
+        "level": 50,
+        "move": "Universumsangriff"
+      },
+      {
+        "level": 60,
+        "move": "Zeitangriff"
+      },
+      {
+        "level": 70,
+        "move": "Raumangriff"
+      }
+    ],
+    "evolution": null,
+    "description": "Ein Plasmadrache aus der Zukunft, der durch einen Zeitriss in den Ruhrpott gelangt ist. Plasmadrache ist heiß und elektrisch."
+  },
+  {
+    "id": 80,
+    "name": "Zeitgeist",
+    "rank": "C",
+    "era": "future",
+    "types": [
+      "Mystisch"
+    ],
+    "base_stats": {
+      "hp": 50,
+      "atk": 40,
+      "def": 35,
+      "mag": 80,
+      "res": 70,
+      "spd": 65
+    },
+    "growth": {
+      "curve": "medium",
+      "yield": 215
+    },
+    "capture_rate": 102,
+    "traits": [
+      "Geisterhaft"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Rempler"
+      },
+      {
+        "level": 5,
+        "move": "Basisangriff"
+      },
+      {
+        "level": 10,
+        "move": "Spezialangriff"
+      },
+      {
+        "level": 20,
+        "move": "Mächtiger Angriff"
+      },
+      {
+        "level": 30,
+        "move": "Ultimativer Angriff"
+      },
+      {
+        "level": 40,
+        "move": "Weltangriff"
+      },
+      {
+        "level": 50,
+        "move": "Universumsangriff"
+      },
+      {
+        "level": 60,
+        "move": "Zeitangriff"
+      },
+      {
+        "level": 70,
+        "move": "Raumangriff"
+      }
+    ],
+    "evolution": null,
+    "description": "Ein Zeitgeist aus der Zukunft, der durch einen Zeitriss in den Ruhrpott gelangt ist. Zeitgeist kann die Zeit verlangsamen."
+  },
+  {
+    "id": 81,
+    "name": "Feuerkaiser",
+    "era": "present",
+    "rank": "B",
+    "types": [
+      "Feuer"
+    ],
+    "base_stats": {
+      "hp": 82,
+      "atk": 72,
+      "def": 48,
+      "mag": 43,
+      "res": 36,
+      "spd": 41
+    },
+    "growth": {
+      "curve": "slow",
+      "yield": 175
+    },
+    "capture_rate": 110,
+    "traits": [
+      "Hitzkopf"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Rempler"
+      },
+      {
+        "level": 5,
+        "move": "Funken"
+      },
+      {
+        "level": 10,
+        "move": "Feuerball"
+      },
+      {
+        "level": 20,
+        "move": "Flammenwurf"
+      },
+      {
+        "level": 30,
+        "move": "Hitzewelle"
+      },
+      {
+        "level": 40,
+        "move": "Höllenfeuer"
+      },
+      {
+        "level": 50,
+        "move": "Vulkanausbruch"
+      }
+    ],
+    "evolution": null,
+    "description": "Ein mächtiger Feuerkaiser, der über alle Feuerkräfte des Ruhrpotts herrscht. Feuerkaiser kann ganze Städte in Brand setzen und ist bei Feuerwehrleuten gefürchtet."
+  },
+  {
+    "id": 82,
+    "name": "Wasserkaiser",
+    "era": "present",
+    "rank": "B",
+    "types": [
+      "Wasser"
+    ],
+    "base_stats": {
+      "hp": 75,
+      "atk": 41,
+      "def": 45,
+      "mag": 48,
+      "res": 38,
+      "spd": 39
+    },
+    "growth": {
+      "curve": "slow",
+      "yield": 176
+    },
+    "capture_rate": 111,
+    "traits": [
+      "Glitschig"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Rempler"
+      },
+      {
+        "level": 5,
+        "move": "Blubber"
+      },
+      {
+        "level": 10,
+        "move": "Wasserstrahl"
+      },
+      {
+        "level": 20,
+        "move": "Windstoß"
+      },
+      {
+        "level": 30,
+        "move": "Wellenritt"
+      },
+      {
+        "level": 40,
+        "move": "Tsunami"
+      }
+    ],
+    "evolution": null,
+    "description": "Ein mächtiger Wasserkaiser, der über alle Gewässer des Ruhrpotts herrscht. Wasserkaiser kann schwere Überschwemmungen verursachen."
+  },
+  {
+    "id": 83,
+    "name": "Erdkaiser",
+    "era": "present",
+    "rank": "B",
+    "types": [
+      "Erde"
+    ],
+    "base_stats": {
+      "hp": 85,
+      "atk": 46,
+      "def": 66,
+      "mag": 32,
+      "res": 45,
+      "spd": 28
+    },
+    "growth": {
+      "curve": "slow",
+      "yield": 177
+    },
+    "capture_rate": 112,
+    "traits": [
+      "Stur"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Rempler"
+      },
+      {
+        "level": 5,
+        "move": "Lehmschuss"
+      },
+      {
+        "level": 10,
+        "move": "Steinwurf"
+      },
+      {
+        "level": 20,
+        "move": "Erdbeben"
+      },
+      {
+        "level": 30,
+        "move": "Panzerhaut"
+      },
+      {
+        "level": 40,
+        "move": "Bergsturz"
+      }
+    ],
+    "evolution": null,
+    "description": "Ein mächtiger Erdkaiser, der über den gesamten Boden des Ruhrpotts herrscht. Erdkaiser kann schwere Erdbeben und Bergstürze verursachen."
+  },
+  {
+    "id": 84,
+    "name": "Luftkaiser",
+    "era": "present",
+    "rank": "B",
+    "types": [
+      "Luft"
+    ],
+    "base_stats": {
+      "hp": 52,
+      "atk": 70,
+      "def": 41,
+      "mag": 42,
+      "res": 35,
+      "spd": 59
+    },
+    "growth": {
+      "curve": "slow",
+      "yield": 178
+    },
+    "capture_rate": 113,
+    "traits": [
+      "Flatterhaft"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Kratzer"
+      },
+      {
+        "level": 5,
+        "move": "Windstoß"
+      },
+      {
+        "level": 10,
+        "move": "Wirbelwind"
+      },
+      {
+        "level": 20,
+        "move": "Orkan"
+      },
+      {
+        "level": 30,
+        "move": "Brüllen"
+      },
+      {
+        "level": 40,
+        "move": "Tornado"
+      }
+    ],
+    "evolution": null,
+    "description": "Ein mächtiger Luftkaiser, der über alle Lüfte des Ruhrpotts herrscht. Luftkaiser kann schwere Stürme und Tornados verursachen."
+  },
+  {
+    "id": 85,
+    "name": "Pflanzenkaiser",
+    "era": "present",
+    "rank": "B",
+    "types": [
+      "Pflanze"
+    ],
+    "base_stats": {
+      "hp": 78,
+      "atk": 42,
+      "def": 65,
+      "mag": 35,
+      "res": 45,
+      "spd": 31
+    },
+    "growth": {
+      "curve": "slow",
+      "yield": 179
+    },
+    "capture_rate": 114,
+    "traits": [
+      "Wuchernd"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Rempler"
+      },
+      {
+        "level": 5,
+        "move": "Rankenhieb"
+      },
+      {
+        "level": 10,
+        "move": "Samenbombe"
+      },
+      {
+        "level": 20,
+        "move": "Blattsturm"
+      },
+      {
+        "level": 30,
+        "move": "Giftstachel"
+      },
+      {
+        "level": 40,
+        "move": "Dschungel"
+      }
+    ],
+    "evolution": null,
+    "description": "Ein mächtiger Pflanzenkaiser, der über alle Pflanzen des Ruhrpotts herrscht. Pflanzenkaiser kann ganze Städte in Dschungel verwandeln."
+  },
+  {
+    "id": 86,
+    "name": "Bestienkaiser",
+    "era": "present",
+    "rank": "B",
+    "types": [
+      "Bestie"
+    ],
+    "base_stats": {
+      "hp": 70,
+      "atk": 73,
+      "def": 38,
+      "mag": 31,
+      "res": 34,
+      "spd": 40
+    },
+    "growth": {
+      "curve": "slow",
+      "yield": 180
+    },
+    "capture_rate": 115,
+    "traits": [
+      "Wild"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Biss"
+      },
+      {
+        "level": 5,
+        "move": "Heulen"
+      },
+      {
+        "level": 10,
+        "move": "Stampfer"
+      },
+      {
+        "level": 20,
+        "move": "Krallenhieb"
+      },
+      {
+        "level": 30,
+        "move": "Raserei"
+      },
+      {
+        "level": 40,
+        "move": "Bestienwut"
+      }
+    ],
+    "evolution": null,
+    "description": "Ein mächtiger Bestienkaiser, der über alle wilden Monster des Ruhrpotts herrscht. Bestienkaiser ist der unumstrittene Anführer aller wilden Monster."
+  },
+  {
+    "id": 87,
+    "name": "Energietyrann",
+    "era": "present",
+    "rank": "B",
+    "types": [
+      "Energie"
+    ],
+    "base_stats": {
+      "hp": 45,
+      "atk": 52,
+      "def": 38,
+      "mag": 72,
+      "res": 32,
+      "spd": 39
+    },
+    "growth": {
+      "curve": "slow",
+      "yield": 181
+    },
+    "capture_rate": 116,
+    "traits": [
+      "Aufgeladen"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Rempler"
+      },
+      {
+        "level": 5,
+        "move": "Funkenschlag"
+      },
+      {
+        "level": 10,
+        "move": "Donnerblitz"
+      },
+      {
+        "level": 20,
+        "move": "Lichtstrahl"
+      },
+      {
+        "level": 30,
+        "move": "Magnetfeld"
+      },
+      {
+        "level": 40,
+        "move": "Blitzschlag"
+      }
+    ],
+    "evolution": null,
+    "description": "Ein mächtiger Energietyrann, der über alle elektrischen Systeme des Ruhrpotts herrscht. Energietyrann kann ganze Städte lahmlegen."
+  },
+  {
+    "id": 88,
+    "name": "Chaostyrann",
+    "era": "present",
+    "rank": "B",
+    "types": [
+      "Chaos"
+    ],
+    "base_stats": {
+      "hp": 60,
+      "atk": 50,
+      "def": 39,
+      "mag": 44,
+      "res": 40,
+      "spd": 50
+    },
+    "growth": {
+      "curve": "slow",
+      "yield": 182
+    },
+    "capture_rate": 117,
+    "traits": [
+      "Unberechenbar"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Verwirrung"
+      },
+      {
+        "level": 5,
+        "move": "Windstoß"
+      },
+      {
+        "level": 10,
+        "move": "Chaosblitz"
+      },
+      {
+        "level": 20,
+        "move": "Wahnsinn"
+      },
+      {
+        "level": 30,
+        "move": "Brüllen"
+      },
+      {
+        "level": 40,
+        "move": "Chaossturm"
+      }
+    ],
+    "evolution": null,
+    "description": "Ein mächtiger Chaostyrann, der über alle chaotischen Kräfte des Ruhrpotts herrscht. Chaostyrann kann ganze Städte in Chaos stürzen."
+  },
+  {
+    "id": 89,
+    "name": "Seuchentyrann",
+    "era": "present",
+    "rank": "B",
+    "types": [
+      "Seuche"
+    ],
+    "base_stats": {
+      "hp": 83,
+      "atk": 36,
+      "def": 44,
+      "mag": 37,
+      "res": 35,
+      "spd": 48
+    },
+    "growth": {
+      "curve": "slow",
+      "yield": 183
+    },
+    "capture_rate": 118,
+    "traits": [
+      "Ansteckend"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Giftwolke"
+      },
+      {
+        "level": 5,
+        "move": "Giftstachel"
+      },
+      {
+        "level": 10,
+        "move": "Pesthauch"
+      },
+      {
+        "level": 20,
+        "move": "Seuchenschwall"
+      },
+      {
+        "level": 30,
+        "move": "Fluch"
+      },
+      {
+        "level": 40,
+        "move": "Seuchenwelle"
+      }
+    ],
+    "evolution": null,
+    "description": "Ein mächtiger Seuchentyrann, der über alle Krankheiten des Ruhrpotts herrscht. Seuchentyrann kann ganze Städte infizieren."
+  },
+  {
+    "id": 90,
+    "name": "Mystischer Tyrann",
+    "era": "present",
+    "rank": "B",
+    "types": [
+      "Mystisch"
+    ],
+    "base_stats": {
+      "hp": 44,
+      "atk": 42,
+      "def": 35,
+      "mag": 68,
+      "res": 48,
+      "spd": 33
+    },
+    "growth": {
+      "curve": "slow",
+      "yield": 184
+    },
+    "capture_rate": 119,
+    "traits": [
+      "Unheimlich"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Spukball"
+      },
+      {
+        "level": 5,
+        "move": "Hypnose"
+      },
+      {
+        "level": 10,
+        "move": "Fluch"
+      },
+      {
+        "level": 20,
+        "move": "Schattenhieb"
+      },
+      {
+        "level": 30,
+        "move": "Lichtstrahl"
+      },
+      {
+        "level": 40,
+        "move": "Geisterwelt"
+      }
+    ],
+    "evolution": null,
+    "description": "Ein mächtiger mystischer Tyrann, der über alle Geister und mystischen Kräfte des Ruhrpotts herrscht. Mystischer Tyrann kann die Geisterwelt beschwören."
+  },
+  {
+    "id": 91,
+    "name": "Feuerherrscher",
+    "era": "past",
+    "rank": "B",
+    "types": [
+      "Feuer"
+    ],
+    "base_stats": {
+      "hp": 80,
+      "atk": 70,
+      "def": 46,
+      "mag": 41,
+      "res": 34,
+      "spd": 39
+    },
+    "growth": {
+      "curve": "slow",
+      "yield": 185
+    },
+    "capture_rate": 120,
+    "traits": [
+      "Hitzkopf"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Rempler"
+      },
+      {
+        "level": 5,
+        "move": "Funken"
+      },
+      {
+        "level": 10,
+        "move": "Feuerball"
+      },
+      {
+        "level": 20,
+        "move": "Flammenwurf"
+      },
+      {
+        "level": 30,
+        "move": "Hitzewelle"
+      },
+      {
+        "level": 40,
+        "move": "Urfeuer"
+      }
+    ],
+    "evolution": null,
+    "description": "Ein prähistorischer Feuerherrscher aus der Urzeit. Feuerherrscher beherrschte schon damals die Feuerkräfte und ist jetzt wieder erwacht."
+  },
+  {
+    "id": 92,
+    "name": "Wasserherrscher",
+    "era": "past",
+    "rank": "B",
+    "types": [
+      "Wasser"
+    ],
+    "base_stats": {
+      "hp": 73,
+      "atk": 39,
+      "def": 43,
+      "mag": 46,
+      "res": 36,
+      "spd": 37
+    },
+    "growth": {
+      "curve": "slow",
+      "yield": 186
+    },
+    "capture_rate": 121,
+    "traits": [
+      "Glitschig"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Rempler"
+      },
+      {
+        "level": 5,
+        "move": "Blubber"
+      },
+      {
+        "level": 10,
+        "move": "Wasserstrahl"
+      },
+      {
+        "level": 20,
+        "move": "Windstoß"
+      },
+      {
+        "level": 30,
+        "move": "Wellenritt"
+      },
+      {
+        "level": 40,
+        "move": "Urwasser"
+      }
+    ],
+    "evolution": null,
+    "description": "Ein prähistorischer Wasserherrscher aus der Urzeit. Wasserherrscher beherrschte schon damals die Wasserkräfte und ist jetzt wieder erwacht."
+  },
+  {
+    "id": 93,
+    "name": "Erdherrscher",
+    "era": "past",
+    "rank": "B",
+    "types": [
+      "Erde"
+    ],
+    "base_stats": {
+      "hp": 83,
+      "atk": 44,
+      "def": 64,
+      "mag": 30,
+      "res": 43,
+      "spd": 26
+    },
+    "growth": {
+      "curve": "slow",
+      "yield": 187
+    },
+    "capture_rate": 122,
+    "traits": [
+      "Stur"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Rempler"
+      },
+      {
+        "level": 5,
+        "move": "Lehmschuss"
+      },
+      {
+        "level": 10,
+        "move": "Steinwurf"
+      },
+      {
+        "level": 20,
+        "move": "Erdbeben"
+      },
+      {
+        "level": 30,
+        "move": "Panzerhaut"
+      },
+      {
+        "level": 40,
+        "move": "Urerde"
+      }
+    ],
+    "evolution": null,
+    "description": "Ein prähistorischer Erdherrscher aus der Urzeit. Erdherrscher beherrschte schon damals die Erdkräfte und ist jetzt wieder erwacht."
+  },
+  {
+    "id": 94,
+    "name": "Luftherrscher",
+    "era": "past",
+    "rank": "B",
+    "types": [
+      "Luft"
+    ],
+    "base_stats": {
+      "hp": 50,
+      "atk": 68,
+      "def": 39,
+      "mag": 40,
+      "res": 33,
+      "spd": 57
+    },
+    "growth": {
+      "curve": "slow",
+      "yield": 188
+    },
+    "capture_rate": 123,
+    "traits": [
+      "Flatterhaft"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Kratzer"
+      },
+      {
+        "level": 5,
+        "move": "Windstoß"
+      },
+      {
+        "level": 10,
+        "move": "Wirbelwind"
+      },
+      {
+        "level": 20,
+        "move": "Orkan"
+      },
+      {
+        "level": 30,
+        "move": "Brüllen"
+      },
+      {
+        "level": 40,
+        "move": "Urluft"
+      }
+    ],
+    "evolution": null,
+    "description": "Ein prähistorischer Luftherrscher aus der Urzeit. Luftherrscher beherrschte schon damals die Luftkräfte und ist jetzt wieder erwacht."
+  },
+  {
+    "id": 95,
+    "name": "Pflanzenherrscher",
+    "era": "past",
+    "rank": "B",
+    "types": [
+      "Pflanze"
+    ],
+    "base_stats": {
+      "hp": 76,
+      "atk": 40,
+      "def": 63,
+      "mag": 33,
+      "res": 43,
+      "spd": 29
+    },
+    "growth": {
+      "curve": "slow",
+      "yield": 189
+    },
+    "capture_rate": 124,
+    "traits": [
+      "Wuchernd"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Rempler"
+      },
+      {
+        "level": 5,
+        "move": "Rankenhieb"
+      },
+      {
+        "level": 10,
+        "move": "Samenbombe"
+      },
+      {
+        "level": 20,
+        "move": "Blattsturm"
+      },
+      {
+        "level": 30,
+        "move": "Giftstachel"
+      },
+      {
+        "level": 40,
+        "move": "Urpflanze"
+      }
+    ],
+    "evolution": null,
+    "description": "Ein prähistorischer Pflanzenherrscher aus der Urzeit. Pflanzenherrscher beherrschte schon damals die Pflanzenkräfte und ist jetzt wieder erwacht."
+  },
+  {
+    "id": 96,
+    "name": "Bestienherrscher",
+    "era": "past",
+    "rank": "B",
+    "types": [
+      "Bestie"
+    ],
+    "base_stats": {
+      "hp": 68,
+      "atk": 71,
+      "def": 36,
+      "mag": 29,
+      "res": 32,
+      "spd": 38
+    },
+    "growth": {
+      "curve": "slow",
+      "yield": 190
+    },
+    "capture_rate": 125,
+    "traits": [
+      "Wild"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Biss"
+      },
+      {
+        "level": 5,
+        "move": "Heulen"
+      },
+      {
+        "level": 10,
+        "move": "Stampfer"
+      },
+      {
+        "level": 20,
+        "move": "Krallenhieb"
+      },
+      {
+        "level": 30,
+        "move": "Raserei"
+      },
+      {
+        "level": 40,
+        "move": "Urbestie"
+      }
+    ],
+    "evolution": null,
+    "description": "Ein prähistorischer Bestienherrscher aus der Urzeit. Bestienherrscher beherrschte schon damals alle wilden Monster und ist jetzt wieder erwacht."
+  },
+  {
+    "id": 97,
+    "name": "Energieherrscher",
+    "era": "past",
+    "rank": "B",
+    "types": [
+      "Energie"
+    ],
+    "base_stats": {
+      "hp": 43,
+      "atk": 50,
+      "def": 36,
+      "mag": 70,
+      "res": 30,
+      "spd": 37
+    },
+    "growth": {
+      "curve": "slow",
+      "yield": 191
+    },
+    "capture_rate": 126,
+    "traits": [
+      "Aufgeladen"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Rempler"
+      },
+      {
+        "level": 5,
+        "move": "Funkenschlag"
+      },
+      {
+        "level": 10,
+        "move": "Donnerblitz"
+      },
+      {
+        "level": 20,
+        "move": "Lichtstrahl"
+      },
+      {
+        "level": 30,
+        "move": "Magnetfeld"
+      },
+      {
+        "level": 40,
+        "move": "Urenergie"
+      }
+    ],
+    "evolution": null,
+    "description": "Ein prähistorischer Energieherrscher aus der Urzeit. Energieherrscher beherrschte schon damals die Energiekräfte und ist jetzt wieder erwacht."
+  },
+  {
+    "id": 98,
+    "name": "Chaosherrscher",
+    "era": "past",
+    "rank": "B",
+    "types": [
+      "Chaos"
+    ],
+    "base_stats": {
+      "hp": 58,
+      "atk": 48,
+      "def": 37,
+      "mag": 42,
+      "res": 38,
+      "spd": 48
+    },
+    "growth": {
+      "curve": "slow",
+      "yield": 192
+    },
+    "capture_rate": 127,
+    "traits": [
+      "Unberechenbar"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Verwirrung"
+      },
+      {
+        "level": 5,
+        "move": "Windstoß"
+      },
+      {
+        "level": 10,
+        "move": "Chaosblitz"
+      },
+      {
+        "level": 20,
+        "move": "Wahnsinn"
+      },
+      {
+        "level": 30,
+        "move": "Brüllen"
+      },
+      {
+        "level": 40,
+        "move": "Urchaos"
+      }
+    ],
+    "evolution": null,
+    "description": "Ein prähistorischer Chaosherrscher aus der Urzeit. Chaosherrscher beherrschte schon damals die chaotischen Kräfte und ist jetzt wieder erwacht."
+  },
+  {
+    "id": 99,
+    "name": "Seuchenherrscher",
+    "era": "past",
+    "rank": "B",
+    "types": [
+      "Seuche"
+    ],
+    "base_stats": {
+      "hp": 81,
+      "atk": 34,
+      "def": 42,
+      "mag": 35,
+      "res": 33,
+      "spd": 46
+    },
+    "growth": {
+      "curve": "slow",
+      "yield": 193
+    },
+    "capture_rate": 128,
+    "traits": [
+      "Ansteckend"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Giftwolke"
+      },
+      {
+        "level": 5,
+        "move": "Giftstachel"
+      },
+      {
+        "level": 10,
+        "move": "Pesthauch"
+      },
+      {
+        "level": 20,
+        "move": "Seuchenschwall"
+      },
+      {
+        "level": 30,
+        "move": "Fluch"
+      },
+      {
+        "level": 40,
+        "move": "Urseuche"
+      }
+    ],
+    "evolution": null,
+    "description": "Ein prähistorischer Seuchenherrscher aus der Urzeit. Seuchenherrscher beherrschte schon damals alle Krankheiten und ist jetzt wieder erwacht."
+  },
+  {
+    "id": 100,
+    "name": "Mystischer Herrscher",
+    "era": "past",
+    "rank": "B",
+    "types": [
+      "Mystisch"
+    ],
+    "base_stats": {
+      "hp": 42,
+      "atk": 40,
+      "def": 33,
+      "mag": 66,
+      "res": 46,
+      "spd": 31
+    },
+    "growth": {
+      "curve": "slow",
+      "yield": 194
+    },
+    "capture_rate": 129,
+    "traits": [
+      "Unheimlich"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Spukball"
+      },
+      {
+        "level": 5,
+        "move": "Hypnose"
+      },
+      {
+        "level": 10,
+        "move": "Fluch"
+      },
+      {
+        "level": 20,
+        "move": "Schattenhieb"
+      },
+      {
+        "level": 30,
+        "move": "Lichtstrahl"
+      },
+      {
+        "level": 40,
+        "move": "Urmystik"
+      }
+    ],
+    "evolution": null,
+    "description": "Ein prähistorischer mystischer Herrscher aus der Urzeit. Mystischer Herrscher beherrschte schon damals alle mystischen Kräfte und ist jetzt wieder erwacht."
+  },
+  {
+    "id": 101,
+    "name": "Feuergott",
+    "era": "present",
+    "rank": "A",
+    "types": [
+      "Feuer"
+    ],
+    "base_stats": {
+      "hp": 88,
+      "atk": 75,
+      "def": 50,
+      "mag": 45,
+      "res": 38,
+      "spd": 43
+    },
+    "growth": {
+      "curve": "slow",
+      "yield": 210
+    },
+    "capture_rate": 105,
+    "traits": [
+      "Hitzkopf"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Rempler"
+      },
+      {
+        "level": 5,
+        "move": "Funken"
+      },
+      {
+        "level": 10,
+        "move": "Feuerball"
+      },
+      {
+        "level": 20,
+        "move": "Flammenwurf"
+      },
+      {
+        "level": 30,
+        "move": "Hitzewelle"
+      },
+      {
+        "level": 40,
+        "move": "Höllenfeuer"
+      },
+      {
+        "level": 50,
+        "move": "Vulkanausbruch"
+      },
+      {
+        "level": 60,
+        "move": "Sonnenfeuer"
+      }
+    ],
+    "evolution": null,
+    "description": "Ein göttliches Feuerwesen, das über alle Feuerkräfte des Ruhrpotts herrscht. Feuergott kann ganze Städte in Brand setzen."
+  },
+  {
+    "id": 102,
+    "name": "Wassergott",
+    "era": "present",
+    "rank": "A",
+    "types": [
+      "Wasser"
+    ],
+    "base_stats": {
+      "hp": 81,
+      "atk": 43,
+      "def": 47,
+      "mag": 50,
+      "res": 40,
+      "spd": 41
+    },
+    "growth": {
+      "curve": "slow",
+      "yield": 211
+    },
+    "capture_rate": 106,
+    "traits": [
+      "Glitschig"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Rempler"
+      },
+      {
+        "level": 5,
+        "move": "Blubber"
+      },
+      {
+        "level": 10,
+        "move": "Wasserstrahl"
+      },
+      {
+        "level": 20,
+        "move": "Windstoß"
+      },
+      {
+        "level": 30,
+        "move": "Wellenritt"
+      },
+      {
+        "level": 40,
+        "move": "Tsunami"
+      },
+      {
+        "level": 50,
+        "move": "Ozeansturm"
+      }
+    ],
+    "evolution": null,
+    "description": "Ein göttliches Wasserwesen, das über alle Gewässer des Ruhrpotts herrscht. Wassergott kann schwere Überschwemmungen verursachen."
+  },
+  {
+    "id": 103,
+    "name": "Erdgott",
+    "era": "present",
+    "rank": "A",
+    "types": [
+      "Erde"
+    ],
+    "base_stats": {
+      "hp": 91,
+      "atk": 48,
+      "def": 68,
+      "mag": 34,
+      "res": 47,
+      "spd": 30
+    },
+    "growth": {
+      "curve": "slow",
+      "yield": 212
+    },
+    "capture_rate": 107,
+    "traits": [
+      "Stur"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Rempler"
+      },
+      {
+        "level": 5,
+        "move": "Lehmschuss"
+      },
+      {
+        "level": 10,
+        "move": "Steinwurf"
+      },
+      {
+        "level": 20,
+        "move": "Erdbeben"
+      },
+      {
+        "level": 30,
+        "move": "Panzerhaut"
+      },
+      {
+        "level": 40,
+        "move": "Bergsturz"
+      },
+      {
+        "level": 50,
+        "move": "Kontinentalverschiebung"
+      }
+    ],
+    "evolution": null,
+    "description": "Ein göttliches Erdwesen, das über den gesamten Boden des Ruhrpotts herrscht. Erdgott kann schwere Erdbeben verursachen."
+  },
+  {
+    "id": 104,
+    "name": "Luftgott",
+    "era": "present",
+    "rank": "A",
+    "types": [
+      "Luft"
+    ],
+    "base_stats": {
+      "hp": 54,
+      "atk": 72,
+      "def": 43,
+      "mag": 44,
+      "res": 37,
+      "spd": 61
+    },
+    "growth": {
+      "curve": "slow",
+      "yield": 213
+    },
+    "capture_rate": 108,
+    "traits": [
+      "Flatterhaft"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Kratzer"
+      },
+      {
+        "level": 5,
+        "move": "Windstoß"
+      },
+      {
+        "level": 10,
+        "move": "Wirbelwind"
+      },
+      {
+        "level": 20,
+        "move": "Orkan"
+      },
+      {
+        "level": 30,
+        "move": "Brüllen"
+      },
+      {
+        "level": 40,
+        "move": "Tornado"
+      },
+      {
+        "level": 50,
+        "move": "Hurrikan"
+      }
+    ],
+    "evolution": null,
+    "description": "Ein göttliches Luftwesen, das über alle Lüfte des Ruhrpotts herrscht. Luftgott kann schwere Stürme verursachen."
+  },
+  {
+    "id": 105,
+    "name": "Pflanzengott",
+    "era": "present",
+    "rank": "A",
+    "types": [
+      "Pflanze"
+    ],
+    "base_stats": {
+      "hp": 84,
+      "atk": 44,
+      "def": 67,
+      "mag": 37,
+      "res": 47,
+      "spd": 33
+    },
+    "growth": {
+      "curve": "slow",
+      "yield": 214
+    },
+    "capture_rate": 109,
+    "traits": [
+      "Wuchernd"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Rempler"
+      },
+      {
+        "level": 5,
+        "move": "Rankenhieb"
+      },
+      {
+        "level": 10,
+        "move": "Samenbombe"
+      },
+      {
+        "level": 20,
+        "move": "Blattsturm"
+      },
+      {
+        "level": 30,
+        "move": "Giftstachel"
+      },
+      {
+        "level": 40,
+        "move": "Dschungel"
+      },
+      {
+        "level": 50,
+        "move": "Urwald"
+      }
+    ],
+    "evolution": null,
+    "description": "Ein göttliches Pflanzenwesen, das über alle Pflanzen des Ruhrpotts herrscht. Pflanzengott kann ganze Städte überwuchern."
+  },
+  {
+    "id": 106,
+    "name": "Bestiengott",
+    "era": "present",
+    "rank": "A",
+    "types": [
+      "Bestie"
+    ],
+    "base_stats": {
+      "hp": 76,
+      "atk": 75,
+      "def": 40,
+      "mag": 33,
+      "res": 36,
+      "spd": 42
+    },
+    "growth": {
+      "curve": "slow",
+      "yield": 215
+    },
+    "capture_rate": 110,
+    "traits": [
+      "Wild"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Biss"
+      },
+      {
+        "level": 5,
+        "move": "Heulen"
+      },
+      {
+        "level": 10,
+        "move": "Stampfer"
+      },
+      {
+        "level": 20,
+        "move": "Krallenhieb"
+      },
+      {
+        "level": 30,
+        "move": "Raserei"
+      },
+      {
+        "level": 40,
+        "move": "Bestienwut"
+      },
+      {
+        "level": 50,
+        "move": "Urbestie"
+      }
+    ],
+    "evolution": null,
+    "description": "Ein göttliches Bestienwesen, das über alle wilden Monster des Ruhrpotts herrscht. Bestiengott ist der unumstrittene Anführer."
+  },
+  {
+    "id": 107,
+    "name": "Energiegott",
+    "era": "present",
+    "rank": "A",
+    "types": [
+      "Energie"
+    ],
+    "base_stats": {
+      "hp": 47,
+      "atk": 54,
+      "def": 40,
+      "mag": 74,
+      "res": 34,
+      "spd": 41
+    },
+    "growth": {
+      "curve": "slow",
+      "yield": 216
+    },
+    "capture_rate": 111,
+    "traits": [
+      "Aufgeladen"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Rempler"
+      },
+      {
+        "level": 5,
+        "move": "Funkenschlag"
+      },
+      {
+        "level": 10,
+        "move": "Donnerblitz"
+      },
+      {
+        "level": 20,
+        "move": "Lichtstrahl"
+      },
+      {
+        "level": 30,
+        "move": "Magnetfeld"
+      },
+      {
+        "level": 40,
+        "move": "Blitzschlag"
+      },
+      {
+        "level": 50,
+        "move": "Plasmasturm"
+      }
+    ],
+    "evolution": null,
+    "description": "Ein göttliches Energieewesen, das über alle elektrischen Systeme des Ruhrpotts herrscht. Energiegott kann ganze Städte lahmlegen."
+  },
+  {
+    "id": 108,
+    "name": "Chaosgott",
+    "era": "present",
+    "rank": "A",
+    "types": [
+      "Chaos"
+    ],
+    "base_stats": {
+      "hp": 62,
+      "atk": 52,
+      "def": 41,
+      "mag": 46,
+      "res": 42,
+      "spd": 52
+    },
+    "growth": {
+      "curve": "slow",
+      "yield": 217
+    },
+    "capture_rate": 112,
+    "traits": [
+      "Unberechenbar"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Verwirrung"
+      },
+      {
+        "level": 5,
+        "move": "Windstoß"
+      },
+      {
+        "level": 10,
+        "move": "Chaosblitz"
+      },
+      {
+        "level": 20,
+        "move": "Wahnsinn"
+      },
+      {
+        "level": 30,
+        "move": "Brüllen"
+      },
+      {
+        "level": 40,
+        "move": "Chaossturm"
+      },
+      {
+        "level": 50,
+        "move": "Dimensionsturm"
+      }
+    ],
+    "evolution": null,
+    "description": "Ein göttliches Chaoswesen, das über alle chaotischen Kräfte des Ruhrpotts herrscht. Chaosgott kann ganze Städte in Chaos stürzen."
+  },
+  {
+    "id": 109,
+    "name": "Seuchengott",
+    "era": "present",
+    "rank": "A",
+    "types": [
+      "Seuche"
+    ],
+    "base_stats": {
+      "hp": 87,
+      "atk": 38,
+      "def": 46,
+      "mag": 39,
+      "res": 37,
+      "spd": 50
+    },
+    "growth": {
+      "curve": "slow",
+      "yield": 218
+    },
+    "capture_rate": 113,
+    "traits": [
+      "Ansteckend"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Giftwolke"
+      },
+      {
+        "level": 5,
+        "move": "Giftstachel"
+      },
+      {
+        "level": 10,
+        "move": "Pesthauch"
+      },
+      {
+        "level": 20,
+        "move": "Seuchenschwall"
+      },
+      {
+        "level": 30,
+        "move": "Fluch"
+      },
+      {
+        "level": 40,
+        "move": "Seuchenwelle"
+      },
+      {
+        "level": 50,
+        "move": "Apokalypse"
+      }
+    ],
+    "evolution": null,
+    "description": "Ein göttliches Seuchenwesen, das über alle Krankheiten des Ruhrpotts herrscht. Seuchengott kann ganze Städte infizieren."
+  },
+  {
+    "id": 110,
+    "name": "Mystischer Gott",
+    "era": "present",
+    "rank": "A",
+    "types": [
+      "Mystisch"
+    ],
+    "base_stats": {
+      "hp": 46,
+      "atk": 44,
+      "def": 37,
+      "mag": 70,
+      "res": 50,
+      "spd": 35
+    },
+    "growth": {
+      "curve": "slow",
+      "yield": 219
+    },
+    "capture_rate": 114,
+    "traits": [
+      "Unheimlich"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Spukball"
+      },
+      {
+        "level": 5,
+        "move": "Hypnose"
+      },
+      {
+        "level": 10,
+        "move": "Fluch"
+      },
+      {
+        "level": 20,
+        "move": "Schattenhieb"
+      },
+      {
+        "level": 30,
+        "move": "Lichtstrahl"
+      },
+      {
+        "level": 40,
+        "move": "Geisterwelt"
+      },
+      {
+        "level": 50,
+        "move": "Dimensionstor"
+      }
+    ],
+    "evolution": null,
+    "description": "Ein göttliches mystisches Wesen, das über alle Geister und mystischen Kräfte des Ruhrpotts herrscht. Mystischer Gott kann die Geisterwelt beschwören."
+  },
+  {
+    "id": 111,
+    "name": "Feuerkaiser",
+    "era": "past",
+    "rank": "A",
+    "types": [
+      "Feuer"
+    ],
+    "base_stats": {
+      "hp": 86,
+      "atk": 73,
+      "def": 48,
+      "mag": 43,
+      "res": 36,
+      "spd": 41
+    },
+    "growth": {
+      "curve": "slow",
+      "yield": 220
+    },
+    "capture_rate": 115,
+    "traits": [
+      "Hitzkopf"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Rempler"
+      },
+      {
+        "level": 5,
+        "move": "Funken"
+      },
+      {
+        "level": 10,
+        "move": "Feuerball"
+      },
+      {
+        "level": 20,
+        "move": "Flammenwurf"
+      },
+      {
+        "level": 30,
+        "move": "Hitzewelle"
+      },
+      {
+        "level": 40,
+        "move": "Urfeuer"
+      },
+      {
+        "level": 50,
+        "move": "Vulkanausbruch"
+      }
+    ],
+    "evolution": null,
+    "description": "Ein prähistorischer Feuerkaiser aus der Urzeit. Feuerkaiser beherrschte schon damals die Feuerkräfte und ist jetzt wieder erwacht."
+  },
+  {
+    "id": 112,
+    "name": "Wasserkaiser",
+    "era": "past",
+    "rank": "A",
+    "types": [
+      "Wasser"
+    ],
+    "base_stats": {
+      "hp": 79,
+      "atk": 41,
+      "def": 45,
+      "mag": 48,
+      "res": 38,
+      "spd": 39
+    },
+    "growth": {
+      "curve": "slow",
+      "yield": 221
+    },
+    "capture_rate": 116,
+    "traits": [
+      "Glitschig"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Rempler"
+      },
+      {
+        "level": 5,
+        "move": "Blubber"
+      },
+      {
+        "level": 10,
+        "move": "Wasserstrahl"
+      },
+      {
+        "level": 20,
+        "move": "Windstoß"
+      },
+      {
+        "level": 30,
+        "move": "Wellenritt"
+      },
+      {
+        "level": 40,
+        "move": "Urwasser"
+      },
+      {
+        "level": 50,
+        "move": "Tsunami"
+      }
+    ],
+    "evolution": null,
+    "description": "Ein prähistorischer Wasserkaiser aus der Urzeit. Wasserkaiser beherrschte schon damals die Wasserkräfte und ist jetzt wieder erwacht."
+  },
+  {
+    "id": 113,
+    "name": "Erdkaiser",
+    "era": "past",
+    "rank": "A",
+    "types": [
+      "Erde"
+    ],
+    "base_stats": {
+      "hp": 89,
+      "atk": 46,
+      "def": 66,
+      "mag": 32,
+      "res": 45,
+      "spd": 28
+    },
+    "growth": {
+      "curve": "slow",
+      "yield": 222
+    },
+    "capture_rate": 117,
+    "traits": [
+      "Stur"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Rempler"
+      },
+      {
+        "level": 5,
+        "move": "Lehmschuss"
+      },
+      {
+        "level": 10,
+        "move": "Steinwurf"
+      },
+      {
+        "level": 20,
+        "move": "Erdbeben"
+      },
+      {
+        "level": 30,
+        "move": "Panzerhaut"
+      },
+      {
+        "level": 40,
+        "move": "Urerde"
+      },
+      {
+        "level": 50,
+        "move": "Bergsturz"
+      }
+    ],
+    "evolution": null,
+    "description": "Ein prähistorischer Erdkaiser aus der Urzeit. Erdkaiser beherrschte schon damals die Erdkräfte und ist jetzt wieder erwacht."
+  },
+  {
+    "id": 114,
+    "name": "Luftkaiser",
+    "era": "past",
+    "rank": "A",
+    "types": [
+      "Luft"
+    ],
+    "base_stats": {
+      "hp": 52,
+      "atk": 70,
+      "def": 41,
+      "mag": 42,
+      "res": 35,
+      "spd": 59
+    },
+    "growth": {
+      "curve": "slow",
+      "yield": 223
+    },
+    "capture_rate": 118,
+    "traits": [
+      "Flatterhaft"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Kratzer"
+      },
+      {
+        "level": 5,
+        "move": "Windstoß"
+      },
+      {
+        "level": 10,
+        "move": "Wirbelwind"
+      },
+      {
+        "level": 20,
+        "move": "Orkan"
+      },
+      {
+        "level": 30,
+        "move": "Brüllen"
+      },
+      {
+        "level": 40,
+        "move": "Urluft"
+      },
+      {
+        "level": 50,
+        "move": "Tornado"
+      }
+    ],
+    "evolution": null,
+    "description": "Ein prähistorischer Luftkaiser aus der Urzeit. Luftkaiser beherrschte schon damals die Luftkräfte und ist jetzt wieder erwacht."
+  },
+  {
+    "id": 115,
+    "name": "Pflanzenkaiser",
+    "era": "past",
+    "rank": "A",
+    "types": [
+      "Pflanze"
+    ],
+    "base_stats": {
+      "hp": 82,
+      "atk": 42,
+      "def": 65,
+      "mag": 35,
+      "res": 45,
+      "spd": 31
+    },
+    "growth": {
+      "curve": "slow",
+      "yield": 224
+    },
+    "capture_rate": 119,
+    "traits": [
+      "Wuchernd"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Rempler"
+      },
+      {
+        "level": 5,
+        "move": "Rankenhieb"
+      },
+      {
+        "level": 10,
+        "move": "Samenbombe"
+      },
+      {
+        "level": 20,
+        "move": "Blattsturm"
+      },
+      {
+        "level": 30,
+        "move": "Giftstachel"
+      },
+      {
+        "level": 40,
+        "move": "Urpflanze"
+      },
+      {
+        "level": 50,
+        "move": "Dschungel"
+      }
+    ],
+    "evolution": null,
+    "description": "Ein prähistorischer Pflanzenkaiser aus der Urzeit. Pflanzenkaiser beherrschte schon damals die Pflanzenkräfte und ist jetzt wieder erwacht."
+  },
+  {
+    "id": 116,
+    "name": "Bestienkaiser",
+    "era": "past",
+    "rank": "A",
+    "types": [
+      "Bestie"
+    ],
+    "base_stats": {
+      "hp": 74,
+      "atk": 73,
+      "def": 38,
+      "mag": 31,
+      "res": 34,
+      "spd": 40
+    },
+    "growth": {
+      "curve": "slow",
+      "yield": 225
+    },
+    "capture_rate": 120,
+    "traits": [
+      "Wild"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Biss"
+      },
+      {
+        "level": 5,
+        "move": "Heulen"
+      },
+      {
+        "level": 10,
+        "move": "Stampfer"
+      },
+      {
+        "level": 20,
+        "move": "Krallenhieb"
+      },
+      {
+        "level": 30,
+        "move": "Raserei"
+      },
+      {
+        "level": 40,
+        "move": "Urbestie"
+      },
+      {
+        "level": 50,
+        "move": "Bestienwut"
+      }
+    ],
+    "evolution": null,
+    "description": "Ein prähistorischer Bestienkaiser aus der Urzeit. Bestienkaiser beherrschte schon damals alle wilden Monster und ist jetzt wieder erwacht."
+  },
+  {
+    "id": 117,
+    "name": "Energiekaiser",
+    "era": "past",
+    "rank": "A",
+    "types": [
+      "Energie"
+    ],
+    "base_stats": {
+      "hp": 45,
+      "atk": 52,
+      "def": 38,
+      "mag": 72,
+      "res": 32,
+      "spd": 39
+    },
+    "growth": {
+      "curve": "slow",
+      "yield": 226
+    },
+    "capture_rate": 121,
+    "traits": [
+      "Aufgeladen"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Rempler"
+      },
+      {
+        "level": 5,
+        "move": "Funkenschlag"
+      },
+      {
+        "level": 10,
+        "move": "Donnerblitz"
+      },
+      {
+        "level": 20,
+        "move": "Lichtstrahl"
+      },
+      {
+        "level": 30,
+        "move": "Magnetfeld"
+      },
+      {
+        "level": 40,
+        "move": "Urenergie"
+      },
+      {
+        "level": 50,
+        "move": "Blitzschlag"
+      }
+    ],
+    "evolution": null,
+    "description": "Ein prähistorischer Energiekaiser aus der Urzeit. Energiekaiser beherrschte schon damals die Energiekräfte und ist jetzt wieder erwacht."
+  },
+  {
+    "id": 118,
+    "name": "Chaoskaiser",
+    "era": "past",
+    "rank": "A",
+    "types": [
+      "Chaos"
+    ],
+    "base_stats": {
+      "hp": 60,
+      "atk": 50,
+      "def": 39,
+      "mag": 44,
+      "res": 40,
+      "spd": 50
+    },
+    "growth": {
+      "curve": "slow",
+      "yield": 227
+    },
+    "capture_rate": 122,
+    "traits": [
+      "Unberechenbar"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Verwirrung"
+      },
+      {
+        "level": 5,
+        "move": "Windstoß"
+      },
+      {
+        "level": 10,
+        "move": "Chaosblitz"
+      },
+      {
+        "level": 20,
+        "move": "Wahnsinn"
+      },
+      {
+        "level": 30,
+        "move": "Brüllen"
+      },
+      {
+        "level": 40,
+        "move": "Urchaos"
+      },
+      {
+        "level": 50,
+        "move": "Chaossturm"
+      }
+    ],
+    "evolution": null,
+    "description": "Ein prähistorischer Chaoskaiser aus der Urzeit. Chaoskaiser beherrschte schon damals die chaotischen Kräfte und ist jetzt wieder erwacht."
+  },
+  {
+    "id": 119,
+    "name": "Seuchenkaiser",
+    "era": "past",
+    "rank": "A",
+    "types": [
+      "Seuche"
+    ],
+    "base_stats": {
+      "hp": 85,
+      "atk": 36,
+      "def": 44,
+      "mag": 37,
+      "res": 35,
+      "spd": 48
+    },
+    "growth": {
+      "curve": "slow",
+      "yield": 228
+    },
+    "capture_rate": 123,
+    "traits": [
+      "Ansteckend"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Giftwolke"
+      },
+      {
+        "level": 5,
+        "move": "Giftstachel"
+      },
+      {
+        "level": 10,
+        "move": "Pesthauch"
+      },
+      {
+        "level": 20,
+        "move": "Seuchenschwall"
+      },
+      {
+        "level": 30,
+        "move": "Fluch"
+      },
+      {
+        "level": 40,
+        "move": "Urseuche"
+      },
+      {
+        "level": 50,
+        "move": "Seuchenwelle"
+      }
+    ],
+    "evolution": null,
+    "description": "Ein prähistorischer Seuchenkaiser aus der Urzeit. Seuchenkaiser beherrschte schon damals alle Krankheiten und ist jetzt wieder erwacht."
+  },
+  {
+    "id": 120,
+    "name": "Mystischer Kaiser",
+    "era": "past",
+    "rank": "A",
+    "types": [
+      "Mystisch"
+    ],
+    "base_stats": {
+      "hp": 44,
+      "atk": 42,
+      "def": 35,
+      "mag": 68,
+      "res": 48,
+      "spd": 33
+    },
+    "growth": {
+      "curve": "slow",
+      "yield": 229
+    },
+    "capture_rate": 124,
+    "traits": [
+      "Unheimlich"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Spukball"
+      },
+      {
+        "level": 5,
+        "move": "Hypnose"
+      },
+      {
+        "level": 10,
+        "move": "Fluch"
+      },
+      {
+        "level": 20,
+        "move": "Schattenhieb"
+      },
+      {
+        "level": 30,
+        "move": "Lichtstrahl"
+      },
+      {
+        "level": 40,
+        "move": "Urmystik"
+      },
+      {
+        "level": 50,
+        "move": "Geisterwelt"
+      }
+    ],
+    "evolution": null,
+    "description": "Ein prähistorischer mystischer Kaiser aus der Urzeit. Mystischer Kaiser beherrschte schon damals alle mystischen Kräfte und ist jetzt wieder erwacht."
+  },
+  {
+    "id": 121,
+    "name": "Feuerlord",
+    "era": "present",
+    "rank": "S",
+    "types": [
+      "Feuer"
+    ],
+    "base_stats": {
+      "hp": 95,
+      "atk": 78,
+      "def": 52,
+      "mag": 47,
+      "res": 40,
+      "spd": 45
+    },
+    "growth": {
+      "curve": "slow",
+      "yield": 250
+    },
+    "capture_rate": 100,
+    "traits": [
+      "Hitzkopf"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Rempler"
+      },
+      {
+        "level": 5,
+        "move": "Funken"
+      },
+      {
+        "level": 10,
+        "move": "Feuerball"
+      },
+      {
+        "level": 20,
+        "move": "Flammenwurf"
+      },
+      {
+        "level": 30,
+        "move": "Hitzewelle"
+      },
+      {
+        "level": 40,
+        "move": "Höllenfeuer"
+      },
+      {
+        "level": 50,
+        "move": "Vulkanausbruch"
+      },
+      {
+        "level": 60,
+        "move": "Sonnenfeuer"
+      },
+      {
+        "level": 70,
+        "move": "Sternenfeuer"
+      }
+    ],
+    "evolution": null,
+    "description": "Ein legendärer Feuerlord, der über alle Feuerkräfte des Ruhrpotts herrscht. Feuerlord kann ganze Städte in Brand setzen."
+  },
+  {
+    "id": 122,
+    "name": "Wasserlord",
+    "era": "present",
+    "rank": "S",
+    "types": [
+      "Wasser"
+    ],
+    "base_stats": {
+      "hp": 88,
+      "atk": 45,
+      "def": 49,
+      "mag": 52,
+      "res": 42,
+      "spd": 43
+    },
+    "growth": {
+      "curve": "slow",
+      "yield": 251
+    },
+    "capture_rate": 101,
+    "traits": [
+      "Glitschig"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Rempler"
+      },
+      {
+        "level": 5,
+        "move": "Blubber"
+      },
+      {
+        "level": 10,
+        "move": "Wasserstrahl"
+      },
+      {
+        "level": 20,
+        "move": "Windstoß"
+      },
+      {
+        "level": 30,
+        "move": "Wellenritt"
+      },
+      {
+        "level": 40,
+        "move": "Tsunami"
+      },
+      {
+        "level": 50,
+        "move": "Ozeansturm"
+      },
+      {
+        "level": 60,
+        "move": "Meereswut"
+      }
+    ],
+    "evolution": null,
+    "description": "Ein legendärer Wasserlord, der über alle Gewässer des Ruhrpotts herrscht. Wasserlord kann schwere Überschwemmungen verursachen."
+  },
+  {
+    "id": 123,
+    "name": "Erdlord",
+    "era": "present",
+    "rank": "S",
+    "types": [
+      "Erde"
+    ],
+    "base_stats": {
+      "hp": 98,
+      "atk": 50,
+      "def": 70,
+      "mag": 36,
+      "res": 49,
+      "spd": 32
+    },
+    "growth": {
+      "curve": "slow",
+      "yield": 252
+    },
+    "capture_rate": 102,
+    "traits": [
+      "Stur"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Rempler"
+      },
+      {
+        "level": 5,
+        "move": "Lehmschuss"
+      },
+      {
+        "level": 10,
+        "move": "Steinwurf"
+      },
+      {
+        "level": 20,
+        "move": "Erdbeben"
+      },
+      {
+        "level": 30,
+        "move": "Panzerhaut"
+      },
+      {
+        "level": 40,
+        "move": "Bergsturz"
+      },
+      {
+        "level": 50,
+        "move": "Kontinentalverschiebung"
+      },
+      {
+        "level": 60,
+        "move": "Planetenerde"
+      }
+    ],
+    "evolution": null,
+    "description": "Ein legendärer Erdlord, der über den gesamten Boden des Ruhrpotts herrscht. Erdlord kann schwere Erdbeben verursachen."
+  },
+  {
+    "id": 124,
+    "name": "Luftlord",
+    "era": "present",
+    "rank": "S",
+    "types": [
+      "Luft"
+    ],
+    "base_stats": {
+      "hp": 57,
+      "atk": 74,
+      "def": 45,
+      "mag": 46,
+      "res": 39,
+      "spd": 63
+    },
+    "growth": {
+      "curve": "slow",
+      "yield": 253
+    },
+    "capture_rate": 103,
+    "traits": [
+      "Flatterhaft"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Kratzer"
+      },
+      {
+        "level": 5,
+        "move": "Windstoß"
+      },
+      {
+        "level": 10,
+        "move": "Wirbelwind"
+      },
+      {
+        "level": 20,
+        "move": "Orkan"
+      },
+      {
+        "level": 30,
+        "move": "Brüllen"
+      },
+      {
+        "level": 40,
+        "move": "Tornado"
+      },
+      {
+        "level": 50,
+        "move": "Hurrikan"
+      },
+      {
+        "level": 60,
+        "move": "Weltwind"
+      }
+    ],
+    "evolution": null,
+    "description": "Ein legendärer Luftlord, der über alle Lüfte des Ruhrpotts herrscht. Luftlord kann schwere Stürme verursachen."
+  },
+  {
+    "id": 125,
+    "name": "Pflanzenlord",
+    "era": "present",
+    "rank": "S",
+    "types": [
+      "Pflanze"
+    ],
+    "base_stats": {
+      "hp": 91,
+      "atk": 46,
+      "def": 69,
+      "mag": 39,
+      "res": 49,
+      "spd": 35
+    },
+    "growth": {
+      "curve": "slow",
+      "yield": 254
+    },
+    "capture_rate": 104,
+    "traits": [
+      "Wuchernd"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Rempler"
+      },
+      {
+        "level": 5,
+        "move": "Rankenhieb"
+      },
+      {
+        "level": 10,
+        "move": "Samenbombe"
+      },
+      {
+        "level": 20,
+        "move": "Blattsturm"
+      },
+      {
+        "level": 30,
+        "move": "Giftstachel"
+      },
+      {
+        "level": 40,
+        "move": "Dschungel"
+      },
+      {
+        "level": 50,
+        "move": "Urwald"
+      },
+      {
+        "level": 60,
+        "move": "Weltwald"
+      }
+    ],
+    "evolution": null,
+    "description": "Ein legendärer Pflanzenlord, der über alle Pflanzen des Ruhrpotts herrscht. Pflanzenlord kann ganze Städte überwuchern."
+  },
+  {
+    "id": 126,
+    "name": "Bestienlord",
+    "era": "present",
+    "rank": "S",
+    "types": [
+      "Bestie"
+    ],
+    "base_stats": {
+      "hp": 83,
+      "atk": 77,
+      "def": 42,
+      "mag": 35,
+      "res": 38,
+      "spd": 44
+    },
+    "growth": {
+      "curve": "slow",
+      "yield": 255
+    },
+    "capture_rate": 105,
+    "traits": [
+      "Wild"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Biss"
+      },
+      {
+        "level": 5,
+        "move": "Heulen"
+      },
+      {
+        "level": 10,
+        "move": "Stampfer"
+      },
+      {
+        "level": 20,
+        "move": "Krallenhieb"
+      },
+      {
+        "level": 30,
+        "move": "Raserei"
+      },
+      {
+        "level": 40,
+        "move": "Bestienwut"
+      },
+      {
+        "level": 50,
+        "move": "Urbestie"
+      },
+      {
+        "level": 60,
+        "move": "Weltbestie"
+      }
+    ],
+    "evolution": null,
+    "description": "Ein legendärer Bestienlord, der über alle wilden Monster des Ruhrpotts herrscht. Bestienlord ist der unumstrittene Anführer."
+  },
+  {
+    "id": 127,
+    "name": "Energielord",
+    "era": "present",
+    "rank": "S",
+    "types": [
+      "Energie"
+    ],
+    "base_stats": {
+      "hp": 49,
+      "atk": 56,
+      "def": 42,
+      "mag": 76,
+      "res": 36,
+      "spd": 43
+    },
+    "growth": {
+      "curve": "slow",
+      "yield": 256
+    },
+    "capture_rate": 106,
+    "traits": [
+      "Aufgeladen"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Rempler"
+      },
+      {
+        "level": 5,
+        "move": "Funkenschlag"
+      },
+      {
+        "level": 10,
+        "move": "Donnerblitz"
+      },
+      {
+        "level": 20,
+        "move": "Lichtstrahl"
+      },
+      {
+        "level": 30,
+        "move": "Magnetfeld"
+      },
+      {
+        "level": 40,
+        "move": "Blitzschlag"
+      },
+      {
+        "level": 50,
+        "move": "Plasmasturm"
+      },
+      {
+        "level": 60,
+        "move": "Weltenergie"
+      }
+    ],
+    "evolution": null,
+    "description": "Ein legendärer Energielord, der über alle elektrischen Systeme des Ruhrpotts herrscht. Energielord kann ganze Städte lahmlegen."
+  },
+  {
+    "id": 128,
+    "name": "Chaoslord",
+    "era": "present",
+    "rank": "S",
+    "types": [
+      "Chaos"
+    ],
+    "base_stats": {
+      "hp": 64,
+      "atk": 54,
+      "def": 43,
+      "mag": 48,
+      "res": 44,
+      "spd": 54
+    },
+    "growth": {
+      "curve": "slow",
+      "yield": 257
+    },
+    "capture_rate": 107,
+    "traits": [
+      "Unberechenbar"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Verwirrung"
+      },
+      {
+        "level": 5,
+        "move": "Windstoß"
+      },
+      {
+        "level": 10,
+        "move": "Chaosblitz"
+      },
+      {
+        "level": 20,
+        "move": "Wahnsinn"
+      },
+      {
+        "level": 30,
+        "move": "Brüllen"
+      },
+      {
+        "level": 40,
+        "move": "Chaossturm"
+      },
+      {
+        "level": 50,
+        "move": "Dimensionsturm"
+      },
+      {
+        "level": 60,
+        "move": "Weltchaos"
+      }
+    ],
+    "evolution": null,
+    "description": "Ein legendärer Chaoslord, der über alle chaotischen Kräfte des Ruhrpotts herrscht. Chaoslord kann ganze Städte in Chaos stürzen."
+  },
+  {
+    "id": 129,
+    "name": "Seuchenlord",
+    "era": "present",
+    "rank": "S",
+    "types": [
+      "Seuche"
+    ],
+    "base_stats": {
+      "hp": 93,
+      "atk": 40,
+      "def": 48,
+      "mag": 41,
+      "res": 39,
+      "spd": 52
+    },
+    "growth": {
+      "curve": "slow",
+      "yield": 258
+    },
+    "capture_rate": 108,
+    "traits": [
+      "Ansteckend"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Giftwolke"
+      },
+      {
+        "level": 5,
+        "move": "Giftstachel"
+      },
+      {
+        "level": 10,
+        "move": "Pesthauch"
+      },
+      {
+        "level": 20,
+        "move": "Seuchenschwall"
+      },
+      {
+        "level": 30,
+        "move": "Fluch"
+      },
+      {
+        "level": 40,
+        "move": "Seuchenwelle"
+      },
+      {
+        "level": 50,
+        "move": "Apokalypse"
+      },
+      {
+        "level": 60,
+        "move": "Weltseuche"
+      }
+    ],
+    "evolution": null,
+    "description": "Ein legendärer Seuchenlord, der über alle Krankheiten des Ruhrpotts herrscht. Seuchenlord kann ganze Städte infizieren."
+  },
+  {
+    "id": 130,
+    "name": "Mystischer Lord",
+    "era": "present",
+    "rank": "S",
+    "types": [
+      "Mystisch"
+    ],
+    "base_stats": {
+      "hp": 48,
+      "atk": 46,
+      "def": 39,
+      "mag": 72,
+      "res": 52,
+      "spd": 37
+    },
+    "growth": {
+      "curve": "slow",
+      "yield": 259
+    },
+    "capture_rate": 109,
+    "traits": [
+      "Unheimlich"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Spukball"
+      },
+      {
+        "level": 5,
+        "move": "Hypnose"
+      },
+      {
+        "level": 10,
+        "move": "Fluch"
+      },
+      {
+        "level": 20,
+        "move": "Schattenhieb"
+      },
+      {
+        "level": 30,
+        "move": "Lichtstrahl"
+      },
+      {
+        "level": 40,
+        "move": "Geisterwelt"
+      },
+      {
+        "level": 50,
+        "move": "Dimensionstor"
+      },
+      {
+        "level": 60,
+        "move": "Weltmystik"
+      }
+    ],
+    "evolution": null,
+    "description": "Ein legendärer mystischer Lord, der über alle Geister und mystischen Kräfte des Ruhrpotts herrscht. Mystischer Lord kann die Geisterwelt beschwören."
+  },
+  {
+    "id": 131,
+    "name": "Feuerkaiser",
+    "era": "past",
+    "rank": "S",
+    "types": [
+      "Feuer"
+    ],
+    "base_stats": {
+      "hp": 93,
+      "atk": 75,
+      "def": 50,
+      "mag": 45,
+      "res": 38,
+      "spd": 43
+    },
+    "growth": {
+      "curve": "slow",
+      "yield": 260
+    },
+    "capture_rate": 110,
+    "traits": [
+      "Hitzkopf"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Rempler"
+      },
+      {
+        "level": 5,
+        "move": "Funken"
+      },
+      {
+        "level": 10,
+        "move": "Feuerball"
+      },
+      {
+        "level": 20,
+        "move": "Flammenwurf"
+      },
+      {
+        "level": 30,
+        "move": "Hitzewelle"
+      },
+      {
+        "level": 40,
+        "move": "Urfeuer"
+      },
+      {
+        "level": 50,
+        "move": "Vulkanausbruch"
+      },
+      {
+        "level": 60,
+        "move": "Sternenfeuer"
+      }
+    ],
+    "evolution": null,
+    "description": "Ein prähistorischer Feuerkaiser aus der Urzeit. Feuerkaiser beherrschte schon damals die Feuerkräfte und ist jetzt wieder erwacht."
+  },
+  {
+    "id": 132,
+    "name": "Wasserkaiser",
+    "era": "past",
+    "rank": "S",
+    "types": [
+      "Wasser"
+    ],
+    "base_stats": {
+      "hp": 86,
+      "atk": 43,
+      "def": 47,
+      "mag": 50,
+      "res": 40,
+      "spd": 41
+    },
+    "growth": {
+      "curve": "slow",
+      "yield": 261
+    },
+    "capture_rate": 111,
+    "traits": [
+      "Glitschig"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Rempler"
+      },
+      {
+        "level": 5,
+        "move": "Blubber"
+      },
+      {
+        "level": 10,
+        "move": "Wasserstrahl"
+      },
+      {
+        "level": 20,
+        "move": "Windstoß"
+      },
+      {
+        "level": 30,
+        "move": "Wellenritt"
+      },
+      {
+        "level": 40,
+        "move": "Urwasser"
+      },
+      {
+        "level": 50,
+        "move": "Tsunami"
+      },
+      {
+        "level": 60,
+        "move": "Meereswut"
+      }
+    ],
+    "evolution": null,
+    "description": "Ein prähistorischer Wasserkaiser aus der Urzeit. Wasserkaiser beherrschte schon damals die Wasserkräfte und ist jetzt wieder erwacht."
+  },
+  {
+    "id": 133,
+    "name": "Erdkaiser",
+    "era": "past",
+    "rank": "S",
+    "types": [
+      "Erde"
+    ],
+    "base_stats": {
+      "hp": 96,
+      "atk": 48,
+      "def": 68,
+      "mag": 34,
+      "res": 47,
+      "spd": 30
+    },
+    "growth": {
+      "curve": "slow",
+      "yield": 262
+    },
+    "capture_rate": 112,
+    "traits": [
+      "Stur"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Rempler"
+      },
+      {
+        "level": 5,
+        "move": "Lehmschuss"
+      },
+      {
+        "level": 10,
+        "move": "Steinwurf"
+      },
+      {
+        "level": 20,
+        "move": "Erdbeben"
+      },
+      {
+        "level": 30,
+        "move": "Panzerhaut"
+      },
+      {
+        "level": 40,
+        "move": "Urerde"
+      },
+      {
+        "level": 50,
+        "move": "Bergsturz"
+      },
+      {
+        "level": 60,
+        "move": "Planetenerde"
+      }
+    ],
+    "evolution": null,
+    "description": "Ein prähistorischer Erdkaiser aus der Urzeit. Erdkaiser beherrschte schon damals die Erdkräfte und ist jetzt wieder erwacht."
+  },
+  {
+    "id": 134,
+    "name": "Luftkaiser",
+    "era": "past",
+    "rank": "S",
+    "types": [
+      "Luft"
+    ],
+    "base_stats": {
+      "hp": 54,
+      "atk": 72,
+      "def": 43,
+      "mag": 44,
+      "res": 37,
+      "spd": 61
+    },
+    "growth": {
+      "curve": "slow",
+      "yield": 263
+    },
+    "capture_rate": 113,
+    "traits": [
+      "Flatterhaft"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Kratzer"
+      },
+      {
+        "level": 5,
+        "move": "Windstoß"
+      },
+      {
+        "level": 10,
+        "move": "Wirbelwind"
+      },
+      {
+        "level": 20,
+        "move": "Orkan"
+      },
+      {
+        "level": 30,
+        "move": "Brüllen"
+      },
+      {
+        "level": 40,
+        "move": "Urluft"
+      },
+      {
+        "level": 50,
+        "move": "Tornado"
+      },
+      {
+        "level": 60,
+        "move": "Weltwind"
+      }
+    ],
+    "evolution": null,
+    "description": "Ein prähistorischer Luftkaiser aus der Urzeit. Luftkaiser beherrschte schon damals die Luftkräfte und ist jetzt wieder erwacht."
+  },
+  {
+    "id": 135,
+    "name": "Feuerfürst",
+    "era": "present",
+    "rank": "SS",
+    "types": [
+      "Feuer"
+    ],
+    "base_stats": {
+      "hp": 100,
+      "atk": 80,
+      "def": 55,
+      "mag": 50,
+      "res": 42,
+      "spd": 47
+    },
+    "growth": {
+      "curve": "slow",
+      "yield": 300
+    },
+    "capture_rate": 95,
+    "traits": [
+      "Hitzkopf"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Rempler"
+      },
+      {
+        "level": 5,
+        "move": "Funken"
+      },
+      {
+        "level": 10,
+        "move": "Feuerball"
+      },
+      {
+        "level": 20,
+        "move": "Flammenwurf"
+      },
+      {
+        "level": 30,
+        "move": "Hitzewelle"
+      },
+      {
+        "level": 40,
+        "move": "Höllenfeuer"
+      },
+      {
+        "level": 50,
+        "move": "Vulkanausbruch"
+      },
+      {
+        "level": 60,
+        "move": "Sonnenfeuer"
+      },
+      {
+        "level": 70,
+        "move": "Sternenfeuer"
+      },
+      {
+        "level": 80,
+        "move": "Galaxienfeuer"
+      }
+    ],
+    "evolution": null,
+    "description": "Ein göttlicher Feuerfürst, der über alle Feuerkräfte des Ruhrpotts herrscht. Feuerfürst kann ganze Städte in Brand setzen."
+  },
+  {
+    "id": 136,
+    "name": "Wasserfürst",
+    "era": "present",
+    "rank": "SS",
+    "types": [
+      "Wasser"
+    ],
+    "base_stats": {
+      "hp": 93,
+      "atk": 47,
+      "def": 51,
+      "mag": 55,
+      "res": 44,
+      "spd": 45
+    },
+    "growth": {
+      "curve": "slow",
+      "yield": 301
+    },
+    "capture_rate": 96,
+    "traits": [
+      "Glitschig"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Rempler"
+      },
+      {
+        "level": 5,
+        "move": "Blubber"
+      },
+      {
+        "level": 10,
+        "move": "Wasserstrahl"
+      },
+      {
+        "level": 20,
+        "move": "Windstoß"
+      },
+      {
+        "level": 30,
+        "move": "Wellenritt"
+      },
+      {
+        "level": 40,
+        "move": "Tsunami"
+      },
+      {
+        "level": 50,
+        "move": "Ozeansturm"
+      },
+      {
+        "level": 60,
+        "move": "Meereswut"
+      },
+      {
+        "level": 70,
+        "move": "Weltmeer"
+      }
+    ],
+    "evolution": null,
+    "description": "Ein göttlicher Wasserfürst, der über alle Gewässer des Ruhrpotts herrscht. Wasserfürst kann schwere Überschwemmungen verursachen."
+  },
+  {
+    "id": 137,
+    "name": "Erdfürst",
+    "era": "present",
+    "rank": "SS",
+    "types": [
+      "Erde"
+    ],
+    "base_stats": {
+      "hp": 103,
+      "atk": 52,
+      "def": 72,
+      "mag": 38,
+      "res": 51,
+      "spd": 34
+    },
+    "growth": {
+      "curve": "slow",
+      "yield": 302
+    },
+    "capture_rate": 97,
+    "traits": [
+      "Stur"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Rempler"
+      },
+      {
+        "level": 5,
+        "move": "Lehmschuss"
+      },
+      {
+        "level": 10,
+        "move": "Steinwurf"
+      },
+      {
+        "level": 20,
+        "move": "Erdbeben"
+      },
+      {
+        "level": 30,
+        "move": "Panzerhaut"
+      },
+      {
+        "level": 40,
+        "move": "Bergsturz"
+      },
+      {
+        "level": 50,
+        "move": "Kontinentalverschiebung"
+      },
+      {
+        "level": 60,
+        "move": "Planetenerde"
+      },
+      {
+        "level": 70,
+        "move": "Weltboden"
+      }
+    ],
+    "evolution": null,
+    "description": "Ein göttlicher Erdfürst, der über den gesamten Boden des Ruhrpotts herrscht. Erdfürst kann schwere Erdbeben verursachen."
+  },
+  {
+    "id": 138,
+    "name": "Luftfürst",
+    "era": "present",
+    "rank": "SS",
+    "types": [
+      "Luft"
+    ],
+    "base_stats": {
+      "hp": 60,
+      "atk": 76,
+      "def": 47,
+      "mag": 48,
+      "res": 41,
+      "spd": 65
+    },
+    "growth": {
+      "curve": "slow",
+      "yield": 303
+    },
+    "capture_rate": 98,
+    "traits": [
+      "Flatterhaft"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Kratzer"
+      },
+      {
+        "level": 5,
+        "move": "Windstoß"
+      },
+      {
+        "level": 10,
+        "move": "Wirbelwind"
+      },
+      {
+        "level": 20,
+        "move": "Orkan"
+      },
+      {
+        "level": 30,
+        "move": "Brüllen"
+      },
+      {
+        "level": 40,
+        "move": "Tornado"
+      },
+      {
+        "level": 50,
+        "move": "Hurrikan"
+      },
+      {
+        "level": 60,
+        "move": "Weltwind"
+      },
+      {
+        "level": 70,
+        "move": "Universumswind"
+      }
+    ],
+    "evolution": null,
+    "description": "Ein göttlicher Luftfürst, der über alle Lüfte des Ruhrpotts herrscht. Luftfürst kann schwere Stürme verursachen."
+  },
+  {
+    "id": 139,
+    "name": "Pflanzenfürst",
+    "era": "present",
+    "rank": "SS",
+    "types": [
+      "Pflanze"
+    ],
+    "base_stats": {
+      "hp": 96,
+      "atk": 48,
+      "def": 71,
+      "mag": 41,
+      "res": 51,
+      "spd": 37
+    },
+    "growth": {
+      "curve": "slow",
+      "yield": 304
+    },
+    "capture_rate": 99,
+    "traits": [
+      "Wuchernd"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Rempler"
+      },
+      {
+        "level": 5,
+        "move": "Rankenhieb"
+      },
+      {
+        "level": 10,
+        "move": "Samenbombe"
+      },
+      {
+        "level": 20,
+        "move": "Blattsturm"
+      },
+      {
+        "level": 30,
+        "move": "Giftstachel"
+      },
+      {
+        "level": 40,
+        "move": "Dschungel"
+      },
+      {
+        "level": 50,
+        "move": "Urwald"
+      },
+      {
+        "level": 60,
+        "move": "Weltwald"
+      },
+      {
+        "level": 70,
+        "move": "Universumswald"
+      }
+    ],
+    "evolution": null,
+    "description": "Ein göttlicher Pflanzenfürst, der über alle Pflanzen des Ruhrpotts herrscht. Pflanzenfürst kann ganze Städte überwuchern."
+  },
+  {
+    "id": 140,
+    "name": "Erdfürst",
+    "rank": "SS",
+    "era": "present",
+    "types": [
+      "Erde"
+    ],
+    "base_stats": {
+      "hp": 103,
+      "atk": 52,
+      "def": 72,
+      "mag": 38,
+      "res": 51,
+      "spd": 34
+    },
+    "growth": {
+      "curve": "slow",
+      "yield": 302
+    },
+    "capture_rate": 97,
+    "traits": [
+      "Stur"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Rempler"
+      },
+      {
+        "level": 5,
+        "move": "Basisangriff"
+      },
+      {
+        "level": 10,
+        "move": "Spezialangriff"
+      },
+      {
+        "level": 20,
+        "move": "Mächtiger Angriff"
+      },
+      {
+        "level": 30,
+        "move": "Ultimativer Angriff"
+      },
+      {
+        "level": 40,
+        "move": "Weltangriff"
+      },
+      {
+        "level": 50,
+        "move": "Universumsangriff"
+      },
+      {
+        "level": 60,
+        "move": "Zeitangriff"
+      },
+      {
+        "level": 70,
+        "move": "Raumangriff"
+      }
+    ],
+    "evolution": null,
+    "description": "Ein göttlicher Erdfürst, der über den gesamten Boden des Ruhrpotts herrscht. Erdfürst kann schwere Erdbeben verursachen."
+  },
+  {
+    "id": 141,
+    "name": "Luftfürst",
+    "rank": "SS",
+    "era": "present",
+    "types": [
+      "Luft"
+    ],
+    "base_stats": {
+      "hp": 60,
+      "atk": 76,
+      "def": 47,
+      "mag": 48,
+      "res": 41,
+      "spd": 65
+    },
+    "growth": {
+      "curve": "slow",
+      "yield": 303
+    },
+    "capture_rate": 98,
+    "traits": [
+      "Flatterhaft"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Rempler"
+      },
+      {
+        "level": 5,
+        "move": "Basisangriff"
+      },
+      {
+        "level": 10,
+        "move": "Spezialangriff"
+      },
+      {
+        "level": 20,
+        "move": "Mächtiger Angriff"
+      },
+      {
+        "level": 30,
+        "move": "Ultimativer Angriff"
+      },
+      {
+        "level": 40,
+        "move": "Weltangriff"
+      },
+      {
+        "level": 50,
+        "move": "Universumsangriff"
+      },
+      {
+        "level": 60,
+        "move": "Zeitangriff"
+      },
+      {
+        "level": 70,
+        "move": "Raumangriff"
+      }
+    ],
+    "evolution": null,
+    "description": "Ein göttlicher Luftfürst, der über alle Lüfte des Ruhrpotts herrscht. Luftfürst kann schwere Stürme verursachen."
+  },
+  {
+    "id": 142,
+    "name": "Pflanzenfürst",
+    "rank": "SS",
+    "era": "present",
+    "types": [
+      "Pflanze"
+    ],
+    "base_stats": {
+      "hp": 96,
+      "atk": 48,
+      "def": 71,
+      "mag": 41,
+      "res": 51,
+      "spd": 37
+    },
+    "growth": {
+      "curve": "slow",
+      "yield": 304
+    },
+    "capture_rate": 99,
+    "traits": [
+      "Wuchernd"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Rempler"
+      },
+      {
+        "level": 5,
+        "move": "Basisangriff"
+      },
+      {
+        "level": 10,
+        "move": "Spezialangriff"
+      },
+      {
+        "level": 20,
+        "move": "Mächtiger Angriff"
+      },
+      {
+        "level": 30,
+        "move": "Ultimativer Angriff"
+      },
+      {
+        "level": 40,
+        "move": "Weltangriff"
+      },
+      {
+        "level": 50,
+        "move": "Universumsangriff"
+      },
+      {
+        "level": 60,
+        "move": "Zeitangriff"
+      },
+      {
+        "level": 70,
+        "move": "Raumangriff"
+      }
+    ],
+    "evolution": null,
+    "description": "Ein göttlicher Pflanzenfürst, der über alle Pflanzen des Ruhrpotts herrscht. Pflanzenfürst kann ganze Städte überwuchern."
+  },
+  {
+    "id": 143,
+    "name": "Feuerfürst",
+    "rank": "SS",
+    "era": "present",
+    "types": [
+      "Feuer"
+    ],
+    "base_stats": {
+      "hp": 85,
+      "atk": 78,
+      "def": 45,
+      "mag": 65,
+      "res": 38,
+      "spd": 42
+    },
+    "growth": {
+      "curve": "slow",
+      "yield": 305
+    },
+    "capture_rate": 96,
+    "traits": [
+      "Hitzkopf"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Rempler"
+      },
+      {
+        "level": 5,
+        "move": "Basisangriff"
+      },
+      {
+        "level": 10,
+        "move": "Spezialangriff"
+      },
+      {
+        "level": 20,
+        "move": "Mächtiger Angriff"
+      },
+      {
+        "level": 30,
+        "move": "Ultimativer Angriff"
+      },
+      {
+        "level": 40,
+        "move": "Weltangriff"
+      },
+      {
+        "level": 50,
+        "move": "Universumsangriff"
+      },
+      {
+        "level": 60,
+        "move": "Zeitangriff"
+      },
+      {
+        "level": 70,
+        "move": "Raumangriff"
+      }
+    ],
+    "evolution": null,
+    "description": "Ein göttlicher Feuerfürst, der über alle Flammen des Ruhrpotts herrscht. Feuerfürst kann ganze Industrieanlagen in Brand setzen."
+  },
+  {
+    "id": 144,
+    "name": "Wasserfürst",
+    "rank": "SS",
+    "era": "present",
+    "types": [
+      "Wasser"
+    ],
+    "base_stats": {
+      "hp": 92,
+      "atk": 44,
+      "def": 68,
+      "mag": 58,
+      "res": 55,
+      "spd": 33
+    },
+    "growth": {
+      "curve": "slow",
+      "yield": 306
+    },
+    "capture_rate": 95,
+    "traits": [
+      "Glitschig"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Rempler"
+      },
+      {
+        "level": 5,
+        "move": "Basisangriff"
+      },
+      {
+        "level": 10,
+        "move": "Spezialangriff"
+      },
+      {
+        "level": 20,
+        "move": "Mächtiger Angriff"
+      },
+      {
+        "level": 30,
+        "move": "Ultimativer Angriff"
+      },
+      {
+        "level": 40,
+        "move": "Weltangriff"
+      },
+      {
+        "level": 50,
+        "move": "Universumsangriff"
+      },
+      {
+        "level": 60,
+        "move": "Zeitangriff"
+      },
+      {
+        "level": 70,
+        "move": "Raumangriff"
+      }
+    ],
+    "evolution": null,
+    "description": "Ein göttlicher Wasserfürst, der über alle Gewässer des Ruhrpotts herrscht. Wasserfürst kann schwere Überschwemmungen verursachen."
+  },
+  {
+    "id": 145,
+    "name": "Bestienfürst",
+    "rank": "SS",
+    "era": "present",
+    "types": [
+      "Bestie"
+    ],
+    "base_stats": {
+      "hp": 88,
+      "atk": 82,
+      "def": 58,
+      "mag": 35,
+      "res": 42,
+      "spd": 48
+    },
+    "growth": {
+      "curve": "slow",
+      "yield": 307
+    },
+    "capture_rate": 94,
+    "traits": [
+      "Wild"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Rempler"
+      },
+      {
+        "level": 5,
+        "move": "Basisangriff"
+      },
+      {
+        "level": 10,
+        "move": "Spezialangriff"
+      },
+      {
+        "level": 20,
+        "move": "Mächtiger Angriff"
+      },
+      {
+        "level": 30,
+        "move": "Ultimativer Angriff"
+      },
+      {
+        "level": 40,
+        "move": "Weltangriff"
+      },
+      {
+        "level": 50,
+        "move": "Universumsangriff"
+      },
+      {
+        "level": 60,
+        "move": "Zeitangriff"
+      },
+      {
+        "level": 70,
+        "move": "Raumangriff"
+      }
+    ],
+    "evolution": null,
+    "description": "Ein göttlicher Bestienfürst, der über alle wilden Tiere des Ruhrpotts herrscht. Bestienfürst kann ganze Herden kontrollieren."
+  },
+  {
+    "id": 146,
+    "name": "Energiefürst",
+    "rank": "SS",
+    "era": "present",
+    "types": [
+      "Energie"
+    ],
+    "base_stats": {
+      "hp": 70,
+      "atk": 45,
+      "def": 52,
+      "mag": 88,
+      "res": 62,
+      "spd": 55
+    },
+    "growth": {
+      "curve": "slow",
+      "yield": 308
+    },
+    "capture_rate": 93,
+    "traits": [
+      "Aufgeladen"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Rempler"
+      },
+      {
+        "level": 5,
+        "move": "Basisangriff"
+      },
+      {
+        "level": 10,
+        "move": "Spezialangriff"
+      },
+      {
+        "level": 20,
+        "move": "Mächtiger Angriff"
+      },
+      {
+        "level": 30,
+        "move": "Ultimativer Angriff"
+      },
+      {
+        "level": 40,
+        "move": "Weltangriff"
+      },
+      {
+        "level": 50,
+        "move": "Universumsangriff"
+      },
+      {
+        "level": 60,
+        "move": "Zeitangriff"
+      },
+      {
+        "level": 70,
+        "move": "Raumangriff"
+      }
+    ],
+    "evolution": null,
+    "description": "Ein göttlicher Energiefürst, der über alle elektrischen Ströme des Ruhrpotts herrscht. Energiefürst kann ganze Städte lahmlegen."
+  },
+  {
+    "id": 147,
+    "name": "Zeitgott",
+    "rank": "X",
+    "era": "future",
+    "types": [
+      "Göttlich"
+    ],
+    "base_stats": {
+      "hp": 120,
+      "atk": 95,
+      "def": 85,
+      "mag": 110,
+      "res": 95,
+      "spd": 90
+    },
+    "growth": {
+      "curve": "slow",
+      "yield": 400
+    },
+    "capture_rate": 45,
+    "traits": [
+      "Unsterblich"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Rempler"
+      },
+      {
+        "level": 5,
+        "move": "Basisangriff"
+      },
+      {
+        "level": 10,
+        "move": "Spezialangriff"
+      },
+      {
+        "level": 20,
+        "move": "Mächtiger Angriff"
+      },
+      {
+        "level": 30,
+        "move": "Ultimativer Angriff"
+      },
+      {
+        "level": 40,
+        "move": "Weltangriff"
+      },
+      {
+        "level": 50,
+        "move": "Universumsangriff"
+      },
+      {
+        "level": 60,
+        "move": "Zeitangriff"
+      },
+      {
+        "level": 70,
+        "move": "Raumangriff"
+      }
+    ],
+    "evolution": null,
+    "description": "Ein wahrer Gott der Zeit, der über alle Zeitrissen des Ruhrpotts herrscht. Zeitgott kann die Zeit selbst kontrollieren und ganze Epochen überspringen."
+  },
+  {
+    "id": 148,
+    "name": "Raumdämon",
+    "rank": "X",
+    "era": "future",
+    "types": [
+      "Teuflisch"
+    ],
+    "base_stats": {
+      "hp": 110,
+      "atk": 110,
+      "def": 75,
+      "mag": 95,
+      "res": 80,
+      "spd": 85
+    },
+    "growth": {
+      "curve": "slow",
+      "yield": 405
+    },
+    "capture_rate": 40,
+    "traits": [
+      "Verdammt"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Rempler"
+      },
+      {
+        "level": 5,
+        "move": "Basisangriff"
+      },
+      {
+        "level": 10,
+        "move": "Spezialangriff"
+      },
+      {
+        "level": 20,
+        "move": "Mächtiger Angriff"
+      },
+      {
+        "level": 30,
+        "move": "Ultimativer Angriff"
+      },
+      {
+        "level": 40,
+        "move": "Weltangriff"
+      },
+      {
+        "level": 50,
+        "move": "Universumsangriff"
+      },
+      {
+        "level": 60,
+        "move": "Zeitangriff"
+      },
+      {
+        "level": 70,
+        "move": "Raumangriff"
+      }
+    ],
+    "evolution": null,
+    "description": "Ein mächtiger Dämon aus der Hölle, der durch einen Zeitriss in den Ruhrpott gelangt ist. Raumdämon kann ganze Dimensionen zerstören."
+  },
+  {
+    "id": 149,
+    "name": "Lichtgöttin",
+    "rank": "X",
+    "era": "present",
+    "types": [
+      "Göttlich"
+    ],
+    "base_stats": {
+      "hp": 100,
+      "atk": 85,
+      "def": 90,
+      "mag": 120,
+      "res": 110,
+      "spd": 95
+    },
+    "growth": {
+      "curve": "slow",
+      "yield": 410
+    },
+    "capture_rate": 35,
+    "traits": [
+      "Heilig"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Rempler"
+      },
+      {
+        "level": 5,
+        "move": "Basisangriff"
+      },
+      {
+        "level": 10,
+        "move": "Spezialangriff"
+      },
+      {
+        "level": 20,
+        "move": "Mächtiger Angriff"
+      },
+      {
+        "level": 30,
+        "move": "Ultimativer Angriff"
+      },
+      {
+        "level": 40,
+        "move": "Weltangriff"
+      },
+      {
+        "level": 50,
+        "move": "Universumsangriff"
+      },
+      {
+        "level": 60,
+        "move": "Zeitangriff"
+      },
+      {
+        "level": 70,
+        "move": "Raumangriff"
+      }
+    ],
+    "evolution": null,
+    "description": "Eine göttliche Lichtgöttin, die über alle guten Kräfte des Ruhrpotts herrscht. Lichtgöttin kann das Böse vertreiben und Heilung bringen."
+  },
+  {
+    "id": 150,
+    "name": "Schattenlord",
+    "rank": "X",
+    "era": "past",
+    "types": [
+      "Teuflisch"
+    ],
+    "base_stats": {
+      "hp": 105,
+      "atk": 100,
+      "def": 80,
+      "mag": 105,
+      "res": 85,
+      "spd": 100
+    },
+    "growth": {
+      "curve": "slow",
+      "yield": 415
+    },
+    "capture_rate": 30,
+    "traits": [
+      "Dunkel"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Rempler"
+      },
+      {
+        "level": 5,
+        "move": "Basisangriff"
+      },
+      {
+        "level": 10,
+        "move": "Spezialangriff"
+      },
+      {
+        "level": 20,
+        "move": "Mächtiger Angriff"
+      },
+      {
+        "level": 30,
+        "move": "Ultimativer Angriff"
+      },
+      {
+        "level": 40,
+        "move": "Weltangriff"
+      },
+      {
+        "level": 50,
+        "move": "Universumsangriff"
+      },
+      {
+        "level": 60,
+        "move": "Zeitangriff"
+      },
+      {
+        "level": 70,
+        "move": "Raumangriff"
+      }
+    ],
+    "evolution": null,
+    "description": "Ein finsterer Lord der Schatten aus der Urzeit, der über alle dunklen Kräfte des Ruhrpotts herrscht. Schattenlord kann die Finsternis selbst kontrollieren."
+  },
+  {
+    "id": 151,
+    "name": "Chaosgott",
+    "rank": "X",
+    "era": "future",
+    "types": [
+      "Göttlich",
+      "Teuflisch"
+    ],
+    "base_stats": {
+      "hp": 130,
+      "atk": 120,
+      "def": 100,
+      "mag": 130,
+      "res": 100,
+      "spd": 110
+    },
+    "growth": {
+      "curve": "slow",
+      "yield": 500
+    },
+    "capture_rate": 25,
+    "traits": [
+      "Chaotisch",
+      "Göttlich"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "Rempler"
+      },
+      {
+        "level": 5,
+        "move": "Basisangriff"
+      },
+      {
+        "level": 10,
+        "move": "Spezialangriff"
+      },
+      {
+        "level": 20,
+        "move": "Mächtiger Angriff"
+      },
+      {
+        "level": 30,
+        "move": "Ultimativer Angriff"
+      },
+      {
+        "level": 40,
+        "move": "Weltangriff"
+      },
+      {
+        "level": 50,
+        "move": "Universumsangriff"
+      },
+      {
+        "level": 60,
+        "move": "Zeitangriff"
+      },
+      {
+        "level": 70,
+        "move": "Raumangriff"
+      }
+    ],
+    "evolution": null,
+    "description": "Ein wahrer Gott des Chaos, der sowohl göttliche als auch teuflische Kräfte besitzt. Chaosgott kann die Realität selbst neu erschaffen."
+  }
+]

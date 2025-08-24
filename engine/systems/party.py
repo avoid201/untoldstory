@@ -656,13 +656,3 @@ class PartyManager:
         return manager
 
 
-class PartyManager:
-    """Manages both active party and storage system."""
-    
-    def __init__(self, game=None):
-        """Initialize party manager."""
-        self.game = game
-        self.party = Party()
-        self.storage = StorageSystem()
-    
-

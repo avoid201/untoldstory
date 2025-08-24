@@ -1,0 +1,45 @@
+# Test-Abhängigkeiten für Untold Story
+# Installiere mit: pip install -r requirements-testing.txt
+
+# Test-Framework
+pytest>=7.0.0
+pytest-cov>=4.0.0
+pytest-mock>=3.10.0
+pytest-xdist>=3.0.0  # Parallele Test-Ausführung
+
+# Coverage-Tools
+coverage>=7.0.0
+coverage-badge>=1.1.0
+
+# Mocking und Testing
+unittest-mock>=1.0.0
+freezegun>=1.2.0  # Zeit-Mocking
+
+# Performance-Tests
+pytest-benchmark>=4.0.0
+
+# Code-Qualität
+flake8>=6.0.0
+black>=23.0.0
+isort>=5.12.0
+mypy>=1.0.0
+
+# Test-Berichte
+pytest-html>=3.1.0
+pytest-json-report>=1.5.0
+
+# Spezielle Test-Tools
+pytest-timeout>=2.1.0  # Test-Timeouts
+pytest-repeat>=0.9.0   # Tests wiederholen
+pytest-randomly>=3.15.0  # Zufällige Test-Reihenfolge
+
+# Debugging
+pytest-pdb>=0.2.0
+pytest-sugar>=0.9.0  # Schönere Ausgabe
+
+# Integration-Tests
+pytest-asyncio>=0.21.0  # Async-Tests
+pytest-tornado>=0.8.0   # Web-Framework-Tests
+
+# Visualisierung
+pytest-profiling>=1.7.0  # Performance-Profile

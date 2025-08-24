@@ -592,3 +592,6 @@ class TileManager:
         return self.dialogues_data.get(dialogue_id, None)
 
 # Singleton-Instanz wird über get_instance() Methode bereitgestellt
+
+# Globale Instanz für einfache Imports
+tile_manager = TileManager.get_instance()

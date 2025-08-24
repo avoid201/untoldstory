@@ -1,16 +1,20 @@
 """
 Effect executor for battle system.
-Handles all move effects, status conditions, and stat changes.
+Handles all move effects, status conditions, stat changes, and item effects.
 """
 
 from typing import TYPE_CHECKING, Dict, List, Optional, Any, Tuple
 from dataclasses import dataclass
 from enum import Enum, auto
 import random
+import logging
 
 if TYPE_CHECKING:
     from engine.systems.monster_instance import MonsterInstance
-    from engine.systems.battle.battle import Battle
+    from engine.systems.battle.battle_system import BattleState as Battle
+    from engine.systems.items import Item, ItemEffect
+
+logger = logging.getLogger(__name__)
 
 
 class EffectType(Enum):
@@ -30,6 +34,11 @@ class EffectType(Enum):
     SUBSTITUTE = auto()
     REFLECT = auto()
     LIGHT_SCREEN = auto()
+    # Item-specific effects
+    ITEM_HEAL = auto()
+    ITEM_STATUS = auto()
+    ITEM_STAT = auto()
+    ITEM_SPECIAL = auto()
 
 
 @dataclass
@@ -39,6 +48,229 @@ class EffectResult:
     message: str
     value: Optional[int] = None
     prevented_by: Optional[str] = None
+
+
+class ItemEffectHandler:
+    """Handles item effects in battle context."""
+    
+    def __init__(self):
+        """Initialize item effect handler."""
+        self.rng = random.Random()
+    
+    def execute_item_effect(self, item: 'Item', target: 'MonsterInstance', 
+                          battle: Optional['Battle'] = None) -> List[str]:
+        """
+        Execute item effects in battle context.
+        
+        Args:
+            item: Item being used
+            target: Target monster
+            battle: Current battle state
+            
+        Returns:
+            List of result messages
+        """
+        messages = []
+        
+        try:
+            # Validierung der Eingabeparameter
+            if not item:
+                messages.append("Kein Item angegeben!")
+                return messages
+            
+            if not target:
+                messages.append("Kein Ziel angegeben!")
+                return messages
+            
+            # Check if item can be used in battle
+            if not hasattr(item, 'use_in_battle') or not item.use_in_battle:
+                messages.append(f"{item.name if hasattr(item, 'name') else 'Item'} kann nicht im Kampf verwendet werden!")
+                return messages
+            
+            # Check effectiveness
+            if hasattr(item, 'get_effectiveness_message'):
+                try:
+                    effectiveness_msg = item.get_effectiveness_message(target)
+                    if effectiveness_msg:
+                        messages.append(effectiveness_msg)
+                        return messages
+                except Exception as e:
+                    logger.warning(f"Fehler bei der Effektivitätsprüfung: {str(e)}")
+                    # Fahre mit der Ausführung fort
+            
+            # Execute each effect
+            if hasattr(item, 'effects') and item.effects:
+                for effect in item.effects:
+                    if not effect:
+                        continue
+                        
+                    try:
+                        if self.rng.random() > effect.chance:
+                            continue
+                        
+                        result = self._apply_item_effect(effect, target, battle)
+                        if result:
+                            messages.append(result)
+                    except Exception as e:
+                        logger.error(f"Fehler bei der Effektausführung: {str(e)}")
+                        messages.append(f"Effekt fehlgeschlagen: {str(e)}")
+            else:
+                messages.append("Item hat keine Effekte!")
+            
+        except Exception as e:
+            logger.error(f"Kritischer Fehler bei der Item-Effektausführung: {str(e)}")
+            messages.append(f"Item-Verwendung fehlgeschlagen: {str(e)}")
+        
+        return messages
+    
+    def _apply_item_effect(self, effect: 'ItemEffect', target: 'MonsterInstance', 
+                          battle: Optional['Battle']) -> Optional[str]:
+        """Apply a single item effect."""
+        
+        # Map item effect types to battle effect types
+        if effect.effect_type.name == 'HEAL_HP':
+            return self._heal_hp_effect(effect, target)
+        
+        elif effect.effect_type.name == 'HEAL_STATUS':
+            return self._heal_status_effect(effect, target)
+        
+        elif effect.effect_type.name == 'HEAL_ALL_STATUS':
+            return self._heal_all_status_effect(target)
+        
+        elif effect.effect_type.name == 'REVIVE':
+            return self._revive_effect(effect, target)
+        
+        elif effect.effect_type.name == 'BUFF_STAT':
+            return self._buff_stat_effect(effect, target)
+        
+        elif effect.effect_type.name == 'DEBUFF_STAT':
+            return self._debuff_stat_effect(effect, target)
+        
+        elif effect.effect_type.name == 'TAMING_BONUS':
+            return self._taming_bonus_effect(effect, target, battle)
+        
+        elif effect.effect_type.name == 'ESCAPE':
+            return self._escape_effect(battle)
+        
+        return effect.message if effect.message else None
+    
+    def _heal_hp_effect(self, effect: 'ItemEffect', target: 'MonsterInstance') -> str:
+        """Heal HP effect from item."""
+        if not target:
+            return "Kein Ziel ausgewählt!"
+        
+        if isinstance(effect.value, float):
+            # Percentage heal
+            amount = int(target.max_hp * effect.value)
+        else:
+            # Fixed heal
+            amount = effect.value
+        
+        actual = min(amount, target.max_hp - target.current_hp)
+        target.current_hp += actual
+        
+        if actual > 0:
+            return f"{target.nickname or target.species.name} heilt {actual} KP!"
+        else:
+            return f"{target.nickname or target.species.name} hat bereits volle KP!"
+    
+    def _heal_status_effect(self, effect: 'ItemEffect', target: 'MonsterInstance') -> str:
+        """Heal status condition effect from item."""
+        if not target or not target.status:
+            return "Kein Statusproblem vorhanden!"
+        
+        if target.status == effect.value:
+            old_status = target.status
+            target.status = None
+            target.status_turns = 0
+            return f"{target.nickname or target.species.name} wurde von {old_status} geheilt!"
+        
+        return f"Dieses Item heilt nicht {target.status}!"
+    
+    def _heal_all_status_effect(self, target: 'MonsterInstance') -> str:
+        """Heal all status conditions effect from item."""
+        if not target or not target.status:
+            return "Kein Statusproblem vorhanden!"
+        
+        old_status = target.status
+        target.status = None
+        target.status_turns = 0
+        return f"{target.nickname or target.species.name} wurde von {old_status} geheilt!"
+    
+    def _revive_effect(self, effect: 'ItemEffect', target: 'MonsterInstance') -> str:
+        """Revive effect from item."""
+        if not target or target.current_hp > 0:
+            return "Das Monster lebt noch!"
+        
+        if isinstance(effect.value, float):
+            # Percentage revive
+            target.current_hp = int(target.max_hp * effect.value)
+        else:
+            # Fixed HP revive
+            target.current_hp = min(effect.value, target.max_hp)
+        
+        return f"{target.nickname or target.species.name} wurde wiederbelebt!"
+    
+    def _buff_stat_effect(self, effect: 'ItemEffect', target: 'MonsterInstance') -> str:
+        """Buff stat effect from item."""
+        if not target:
+            return "Kein Ziel ausgewählt!"
+        
+        stat, stages = effect.value
+        current = target.stat_stages.get(stat, 0)
+        new_stage = max(-6, min(6, current + stages))
+        
+        if new_stage == current:
+            return f"{target.nickname or target.species.name}'s {stat} kann nicht weiter erhöht werden!"
+        
+        target.stat_stages[stat] = new_stage
+        
+        stat_names = {
+            'atk': 'Angriff', 'def': 'Verteidigung',
+            'mag': 'Magie', 'res': 'Resistenz',
+            'spd': 'Initiative', 'acc': 'Genauigkeit', 'eva': 'Fluchtwert'
+        }
+        
+        return f"{target.nickname or target.species.name}'s {stat_names.get(stat, stat)} steigt!"
+    
+    def _debuff_stat_effect(self, effect: 'ItemEffect', target: 'MonsterInstance') -> str:
+        """Debuff stat effect from item."""
+        if not target:
+            return "Kein Ziel ausgewählt!"
+        
+        stat, stages = effect.value
+        current = target.stat_stages.get(stat, 0)
+        new_stage = max(-6, min(6, current - stages))
+        
+        if new_stage == current:
+            return f"{target.nickname or target.species.name}'s {stat} kann nicht weiter gesenkt werden!"
+        
+        target.stat_stages[stat] = new_stage
+        
+        stat_names = {
+            'atk': 'Angriff', 'def': 'Verteidigung',
+            'mag': 'Magie', 'res': 'Resistenz',
+            'spd': 'Initiative', 'acc': 'Genauigkeit', 'eva': 'Fluchtwert'
+        }
+        
+        return f"{target.nickname or target.species.name}'s {stat_names.get(stat, stat)} sinkt!"
+    
+    def _taming_bonus_effect(self, effect: 'ItemEffect', target: 'MonsterInstance', 
+                            battle: Optional['Battle']) -> str:
+        """Apply taming bonus effect from item."""
+        if not battle or not battle.is_wild:
+            return "Taming-Bonus funktioniert nur bei wilden Monstern!"
+        
+        # This would integrate with the taming system
+        return f"Taming-Bonus von {effect.value}x angewendet!"
+    
+    def _escape_effect(self, battle: Optional['Battle']) -> str:
+        """Escape effect from item."""
+        if not battle:
+            return "Nicht im Kampf!"
+        
+        # This would trigger battle escape
+        return "Fluchtversuch gestartet!"
 
 
 class StatusEffects:
@@ -228,6 +460,7 @@ class EffectExecutor:
         self.rng = random.Random(seed)
         self.status_effects = StatusEffects()
         self.stat_changes = StatChangeEffects()
+        self.item_effects = ItemEffectHandler()
     
     def execute_effect(self, effect: Dict[str, Any], 
                       user: 'MonsterInstance',
@@ -326,6 +559,19 @@ class EffectExecutor:
             results.append(EffectResult(success=True, message=message))
         
         return results
+    
+    def execute_item_effects(self, item: 'Item', target: 'MonsterInstance') -> List[str]:
+        """
+        Execute item effects in battle context.
+        
+        Args:
+            item: Item being used
+            target: Target monster
+            
+        Returns:
+            List of result messages
+        """
+        return self.item_effects.execute_item_effect(item, target, self.battle)
     
     def execute_move_effects(self, move_data: Dict[str, Any],
                             user: 'MonsterInstance',

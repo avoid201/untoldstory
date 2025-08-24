@@ -10,7 +10,9 @@ from dataclasses import dataclass
 import time
 
 from engine.world.tiles import TILE_SIZE
-from engine.world.tile_manager import TileManager
+from engine.world.tile_manager import tile_manager
+from engine.world.entity import Entity, EntitySprite, Direction
+from engine.ui.dialogue import DialoguePage
 
 class MovementPattern(Enum):
     """NPC-Bewegungsmuster"""
@@ -101,6 +103,9 @@ class ImprovedNPC:
         self.sight_range = config.sight_range
         self.facing = config.facing
         
+        # NPC-Typ für Kompatibilität
+        self.npc_type = "trainer" if self.is_trainer else "npc"
+        
         # Patrol-Pfad
         self.patrol_path = config.patrol_path or []
         self.patrol_index = 0
@@ -134,8 +139,30 @@ class ImprovedNPC:
     
     def _load_sprite(self) -> pygame.Surface:
         """Lädt den NPC-Sprite"""
-        # TODO: Echtes Sprite-Loading implementieren
-        # Erstelle Placeholder-Sprite
+        try:
+            # Versuche echten Sprite zu laden
+            sprite_manager = SpriteManager.get()
+            
+            # Erstelle Sprite-Namen basierend auf NPC-Typ und ID
+            if self.is_trainer:
+                sprite_name = f"npc_trainer_{self.npc_id}"
+            else:
+                sprite_name = f"npc_{self.npc_id}"
+            
+            # Versuche Sprite zu laden
+            sprite = sprite_manager.get_sprite(sprite_name)
+            if sprite:
+                return sprite
+            
+            # Fallback: Versuche generischen NPC-Sprite
+            generic_sprite = sprite_manager.get_sprite("npc_generic")
+            if generic_sprite:
+                return generic_sprite
+                
+        except Exception as e:
+            print(f"Fehler beim Laden des NPC-Sprites {self.npc_id}: {e}")
+        
+        # Fallback: Erstelle Placeholder-Sprite
         surface = pygame.Surface((TILE_SIZE, TILE_SIZE))
         
         # Farbe basierend auf Typ
@@ -163,7 +190,7 @@ class ImprovedNPC:
         elif self.facing == Direction.RIGHT:
             pygame.draw.polygon(surface, (255, 255, 255),
                               [(TILE_SIZE-5, center-3), (TILE_SIZE-5, center+3), 
-                               (TILE_SIZE-2, center)])
+                               (center, TILE_SIZE-2)])
         
         return surface
     
@@ -257,9 +284,9 @@ class ImprovedNPC:
         dist_from_home = abs(new_x - self.home_position[0]) + abs(new_y - self.home_position[1])
         
         if dist_from_home <= self.movement_radius:
-                    # Prüfe Kollision
-        tile_manager = TileManager.get_instance()
-        if not tile_manager.is_collision(new_x, new_y):
+            # Prüfe Kollision
+            tile_manager = TileManager.get_instance()
+            if not tile_manager.is_collision(new_x, new_y):
                 self._set_target(new_x, new_y)
                 self.facing = direction
     
@@ -288,11 +315,12 @@ class ImprovedNPC:
         
         # Finde Pfad zum nächsten Patrol-Punkt
         tile_manager = TileManager.get_instance()
-        path = tile_manager.find_path((self.tile_x, self.tile_y), target)
-        if path:
-            self.current_path = path
-            self.path_index = 0
-            self._move_along_path()
+        if not tile_manager.find_path((self.tile_x, self.tile_y), target):
+            return # Kein Pfad gefunden
+        
+        self.current_path = tile_manager.find_path((self.tile_x, self.tile_y), target)
+        self.path_index = 0
+        self._move_along_path()
     
     def _move_follow(self, player_pos: Tuple[int, int]):
         """Folgt dem Spieler"""
@@ -301,6 +329,9 @@ class ImprovedNPC:
         # Nur folgen wenn Spieler in Reichweite
         if dist <= self.sight_range and dist > 1:
             tile_manager = TileManager.get_instance()
+            if not tile_manager.find_path((self.tile_x, self.tile_y), player_pos):
+                return # Kein Pfad gefunden
+            
             path = tile_manager.find_path((self.tile_x, self.tile_y), player_pos)
             if path and len(path) > 1:  # Nicht direkt auf Spieler-Position
                 self.current_path = path[:-1]  # Letzten Schritt weglassen
@@ -346,7 +377,7 @@ class ImprovedNPC:
                     
                     if (x, y) not in self.visited_tiles:
                         tile_manager = TileManager.get_instance()
-                    if not tile_manager.is_collision(x, y):
+                        if not tile_manager.is_collision(x, y):
                             unvisited.append((x, y))
             
             if unvisited:
@@ -365,6 +396,9 @@ class ImprovedNPC:
             else:
                 # Finde Pfad
                 tile_manager = TileManager.get_instance()
+                if not tile_manager.find_path((self.tile_x, self.tile_y), self.wander_target):
+                    return # Kein Pfad gefunden
+                
                 path = tile_manager.find_path((self.tile_x, self.tile_y), self.wander_target)
                 if path:
                     self.current_path = path
@@ -434,13 +468,9 @@ class ImprovedNPC:
         if in_sight:
             # Prüfe ob Sichtlinie frei ist (keine Hindernisse)
             tile_manager = TileManager.get_instance()
-            path = tile_manager.find_path((self.tile_x, self.tile_y), player_pos)
-            if path:
-                # Direkte Linie prüfen
-                direct_distance = abs(dx) + abs(dy)
-                if len(path) == direct_distance:
-                    self.has_spotted_player = True
-                    return True
+            if not tile_manager.find_path((self.tile_x, self.tile_y), player_pos):
+                self.has_spotted_player = True
+                return True
         
         return False
     
@@ -457,6 +487,7 @@ class ImprovedNPC:
         # TODO: Richtung zum Spieler berechnen
         
         # Dialog holen
+        from engine.world.tile_manager import TileManager
         tile_manager = TileManager.get_instance()
         dialogue = tile_manager.get_dialogue(self.dialogue_id)
         return dialogue
@@ -545,20 +576,25 @@ class ImprovedNPC:
         self.visited_tiles = set(data.get('visited_tiles', []))
 
 # RivalKlaus Klasse für die FieldScene
-from engine.world.entity import Entity, EntitySprite
-from engine.ui.dialogue import DialoguePage
-from typing import List
-
-class RivalKlaus(Entity):
+class RivalKlaus(ImprovedNPC):
     """Klaus - der Rivale des Spielers"""
     
     def __init__(self, x: float, y: float):
-        sprite_config = EntitySprite(
-            sheet_path="rival.png",
-            frame_width=16,
-            frame_height=16
+        # Konvertiere Pixel zu Tiles
+        tile_x = int(x // TILE_SIZE)
+        tile_y = int(y // TILE_SIZE)
+        
+        # Erstelle NPC-Konfiguration
+        config = NPCConfig(
+            npc_id="rival_klaus",
+            sprite_name="rival.png",
+            dialogue_id="rival_first_meeting",
+            movement_pattern=MovementPattern.STATIC,
+            is_trainer=True,
+            sight_range=3
         )
-        super().__init__(x, y, 14, 14, sprite_config)
+        
+        super().__init__(tile_x, tile_y, config)
         
         self.name = "Klaus"
         self.interactable = True

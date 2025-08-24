@@ -61,11 +61,7 @@ class TileRenderer:
                 screen_y = y * self.tile_size - int(camera_y)
                 
                 # Hole den Sprite für diese Tile-ID oder Tile-Name
-                # Versuche zuerst GID-basiertes Loading für TMX-Maps
-                if isinstance(tile_data, int) and tile_data > 0:
-                    tile_sprite = self.sprite_manager.get_tile_by_gid(tile_data)
-                else:
-                    tile_sprite = self.sprite_manager.get_tile_sprite(tile_data)
+                tile_sprite = self._get_tile_sprite(tile_data)
                 
                 if tile_sprite:
                     # Zeichne den Tile-Sprite
@@ -75,11 +71,59 @@ class TileRenderer:
                     placeholder = self._create_placeholder_tile(tile_data)
                     if placeholder:
                         screen.blit(placeholder, (screen_x, screen_y))
-                        print(f"⚠️  Platzhalter für Tile {tile_data} erstellt")
+                        # Log nur einmal pro Tile-ID
+                        if tile_data not in self.missing_tiles:
+                            print(f"⚠️  Platzhalter für Tile {tile_data} erstellt")
+                            self.missing_tiles.add(tile_data)
         
         # Debug-Informationen rendern
         if self.debug_mode:
             self._render_debug_info(screen, layer_name, start_tile_x, start_tile_y, end_tile_x, end_tile_y)
+
+    def _get_tile_sprite(self, tile_data: Any) -> Optional[pygame.Surface]:
+        """
+        Holt einen Tile-Sprite basierend auf den verfügbaren Daten.
+        
+        Unterstützt:
+        - int: GID aus JSON-Maps (neue Struktur)
+        - str: Tile-Name (direkter Zugriff)
+        - Mapping über tile_mapping.json
+        """
+        if tile_data is None or tile_data == 0:
+            return None
+        
+        # Versuche zuerst den Sprite direkt zu holen
+        tile_sprite = self.sprite_manager.get_tile_sprite(tile_data)
+        if tile_sprite is not None:
+            return tile_sprite
+        
+        # Falls es eine numerische ID ist, versuche das Mapping
+        if isinstance(tile_data, int) and tile_data > 0:
+            # Versuche über das Tile-Mapping
+            tile_sprite = self.sprite_manager.get_tile_by_mapping(str(tile_data))
+            if tile_sprite is not None:
+                return tile_sprite
+            
+            # Fallback: Versuche GID-basiertes Loading
+            tile_sprite = self.sprite_manager.get_tile_by_gid(tile_data)
+            if tile_sprite is not None:
+                return tile_sprite
+        
+        # Falls es ein String ist, versuche verschiedene Varianten
+        if isinstance(tile_data, str):
+            # Versuche verschiedene Schreibweisen
+            variations = [
+                tile_data.lower(),
+                tile_data.replace("_", ""),
+                tile_data.split("_")[0] if "_" in tile_data else tile_data
+            ]
+            
+            for variation in variations:
+                tile_sprite = self.sprite_manager.get_tile(variation)
+                if tile_sprite is not None:
+                    return tile_sprite
+        
+        return None
 
     def _create_placeholder_tile(self, tile_data) -> Optional[pygame.Surface]:
         """Erstellt einen Platzhalter-Tile für fehlende Sprites"""
@@ -98,248 +142,61 @@ class TileRenderer:
                     # Für Tile-Namen: Zeige den ersten Buchstaben
                     display_text = tile_data[:3] if len(tile_data) > 3 else tile_data
                 else:
-                    # Für Tile-IDs: Zeige die ID
-                    display_text = str(tile_data)
+                    # Für numerische IDs: Zeige die ID
+                    display_text = str(tile_data)[:3]
                 
-                text = font.render(display_text, True, (255, 255, 255))
-                text_rect = text.get_rect(center=(self.tile_size // 2, self.tile_size // 2))
-                placeholder.blit(text, text_rect)
-            except:
-                pass  # Ignoriere Font-Fehler
-
-            # Tile-ID oder Tile-Name im Set der fehlenden Tiles vermerken
-            self.missing_tiles.add(tile_data)
+                text_surface = font.render(display_text, True, (0, 0, 0))
+                text_rect = text_surface.get_rect(center=(self.tile_size // 2, self.tile_size // 2))
+                placeholder.blit(text_surface, text_rect)
+                
+            except Exception as e:
+                # Falls Text-Rendering fehlschlägt, zeichne ein X
+                pygame.draw.line(placeholder, (0, 0, 0), (2, 2), (self.tile_size - 2, self.tile_size - 2), 2)
+                pygame.draw.line(placeholder, (0, 0, 0), (self.tile_size - 2, 2), (2, self.tile_size - 2), 2)
             
             return placeholder
+            
         except Exception as e:
-            print(f"❌ Fehler beim Erstellen des Platzhalter-Tiles: {e}")
+            print(f"Fehler beim Erstellen des Platzhalter-Tiles: {e}")
             return None
 
-    def _draw_placeholder_tile(self, screen: pygame.Surface, x: int, y: int, size: int, tile_id: int) -> None:
-        """Zeichnet einen Platzhalter direkt auf den Screen (für Möbel/Dekoration)."""
-        placeholder = self._create_placeholder_tile(tile_id)
-        if placeholder:
-            screen.blit(placeholder, (x, y))
-    
-    def set_debug(self, enabled: bool) -> None:
-        """Aktiviert oder deaktiviert den Debug-Modus"""
-        self.debug_mode = enabled
-        if enabled:
-            print(f"🔧 TileRenderer Debug-Modus: aktiviert")
-    
-    def set_debug_mode(self, enabled: bool) -> None:
-        """Alias für set_debug für Kompatibilität"""
-        self.set_debug(enabled)
-    
+    def _is_empty_tile(self, tile_data: Any) -> bool:
+        """Prüft, ob ein Tile leer ist (nicht gerendert werden soll)"""
+        if tile_data is None:
+            return True
+        if tile_data == 0:
+            return True
+        if isinstance(tile_data, str) and tile_data.lower() in ["", "empty", "none"]:
+            return True
+        return False
+
     def _render_debug_info(self, screen: pygame.Surface, layer_name: str, 
-                           start_col: int, start_row: int, end_col: int, end_row: int) -> None:
-        """Rendert Debug-Informationen über die Layer"""
-        if not self.debug_mode:
-            return
+                          start_x: int, start_y: int, end_x: int, end_y: int) -> None:
+        """Rendert Debug-Informationen über den sichtbaren Bereich"""
+        try:
+            font = pygame.font.Font(None, 24)
             
-        # Zeichne Debug-Info
-        font = pygame.font.Font(None, 24)
-        
-        # Layer-Informationen
-        info_text = f"Layer: {layer_name}"
-        text_surface = font.render(info_text, True, (255, 255, 0))
-        screen.blit(text_surface, (10, 10))
-        
-        # Sichtbarer Bereich
-        area_text = f"Bereich: ({start_col},{start_row}) - ({end_col},{end_row})"
-        text_surface = font.render(area_text, True, (255, 255, 0))
-        screen.blit(text_surface, (10, 35))
-        
-        # Cache-Status
-        cache_info = self.sprite_manager.get_cache_info()
-        cache_text = f"Cache: {cache_info['total_sprites']} Sprites"
-        text_surface = font.render(cache_text, True, (255, 255, 0))
-        screen.blit(text_surface, (10, 60))
-    
-    def get_tile_at_position(self, world_x: int, world_y: int, 
-                            layer_data: List[List[int]]) -> Optional[int]:
-        """Ermittelt die Tile-ID an einer bestimmten Welt-Position"""
-        if not layer_data:
-            return None
+            # Debug-Text
+            debug_text = [
+                f"Layer: {layer_name}",
+                f"Visible: ({start_x},{start_y}) to ({end_x},{end_y})",
+                f"Tiles: {len(range(start_x, end_x))}x{len(range(start_y, end_y))}"
+            ]
             
-        # Berechne die Grid-Position
-        grid_x = int(world_x // self.tile_size)
-        grid_y = int(world_y // self.tile_size)
-        
-        # Prüfe Grenzen
-        if (0 <= grid_y < len(layer_data) and 
-            0 <= grid_x < len(layer_data[grid_y])):
-            return layer_data[grid_y][grid_x]
-            
-        return None
-    
-    def is_tile_walkable(self, tile_id: int) -> bool:
-        """Prüft, ob eine Tile begehbar ist.
+            y_offset = 10
+            for text in debug_text:
+                text_surface = font.render(text, True, (255, 255, 255))
+                screen.blit(text_surface, (10, y_offset))
+                y_offset += 25
+                
+        except Exception as e:
+            # Ignoriere Font-Fehler
+            pass
 
-        Bevorzugt das Feld 'walkable' aus dem Tile-Mapping. Falls nicht vorhanden,
-        nutzt eine Kategorie-Heuristik als Fallback.
-        """
-        tile_info = self.sprite_manager.get_tile_info(tile_id)
-        if tile_info:
-            # Mapping kann ein Dict sein
-            walkable = tile_info.get("walkable") if isinstance(tile_info, dict) else None
-            if isinstance(walkable, bool):
-                return walkable
-            # Fallback: Kategorie-basierte Heuristik
-            category = tile_info.get("category") if isinstance(tile_info, dict) else None
-            non_walkable = {"furniture", "electronics", "decoration", "landscape", "water", "void"}
-            return category not in non_walkable if category is not None else True
+    def set_debug_mode(self, enabled: bool) -> None:
+        """Aktiviert/Deaktiviert den Debug-Modus"""
+        self.debug_mode = enabled
 
-        # Standard-Fallback
-        return True
-    
-    def get_missing_tiles(self) -> set:
-        """Gibt alle fehlenden Tile-IDs zurück"""
-        return self.missing_tiles.copy()
-    
-    def clear_missing_tiles(self) -> None:
-        """Löscht die Liste der fehlenden Tiles"""
+    def clear_missing_tiles_cache(self) -> None:
+        """Löscht den Cache der fehlenden Tiles"""
         self.missing_tiles.clear()
-
-    def render_map(self, screen: pygame.Surface, map_data: Dict[str, Any], 
-                   camera_offset: Tuple[int, int]) -> None:
-        """Rendert eine komplette Map mit allen Layern"""
-        if not map_data or "layers" not in map_data:
-            return
-            
-        layers = map_data["layers"]
-        
-        # Rendere Layer in der richtigen Reihenfolge (Hintergrund zu Vordergrund)
-        for layer_name, layer_data in layers.items():
-            if isinstance(layer_data, list) and layer_data:
-                self.render_layer(screen, layer_data, camera_offset, layer_name)
-        
-        # Rendere zusätzliche Möbel- und Dekorations-Layer
-        self._render_furniture_placement(screen, map_data, camera_offset)
-        self._render_decoration(screen, map_data, camera_offset)
-                
-        # Debug-Info anzeigen (falls aktiviert)
-        if self.debug_mode:
-            # Zeige Debug-Info für den ersten Layer
-            first_layer = next(iter(layers.values()), [])
-            if first_layer:
-                start_col = max(0, int(camera_offset[0] // self.tile_size))
-                end_col = min(len(first_layer[0]), int((camera_offset[0] + screen.get_width()) // self.tile_size) + 1)
-                start_row = max(0, int(camera_offset[1] // self.tile_size))
-                end_row = min(len(first_layer), int((camera_offset[1] + screen.get_height()) // self.tile_size) + 1)
-                
-                self._render_debug_info(screen, "Map", start_col, start_row, end_col, end_row)
-    
-    def _render_furniture_placement(self, screen: pygame.Surface, map_data: Dict[str, Any], 
-                                   camera_offset: Tuple[int, int]) -> None:
-        """Rendert Möbel-Platzierungen aus dem furniture_placement Array"""
-        if "furniture_placement" not in map_data:
-            return
-            
-        furniture_data = map_data["furniture_placement"]
-        if not furniture_data:
-            return
-            
-        tile_size = self.tile_size
-        camera_x, camera_y = camera_offset
-        screen_width, screen_height = screen.get_size()
-        
-        for furniture in furniture_data:
-            if not isinstance(furniture, dict):
-                continue
-                
-            x = furniture.get("x", 0)
-            y = furniture.get("y", 0)
-            tile_id = furniture.get("tile_id", 0)
-            
-            if tile_id == 0:
-                continue
-                
-            # Berechne die Welt-Position
-            world_x = x * tile_size
-            world_y = y * tile_size
-            
-            # Prüfe, ob das Möbel im sichtbaren Bereich liegt
-            if (world_x < camera_x - tile_size or world_x > camera_x + screen_width + tile_size or
-                world_y < camera_y - tile_size or world_y > camera_y + screen_height + tile_size):
-                continue
-                
-            # Berechne die Bildschirm-Position
-            screen_x = int(world_x - camera_x)
-            screen_y = int(world_y - camera_y)
-            
-            # Hole den Sprite für diese Tile-ID
-            sprite = self.sprite_manager.get_tile_sprite(tile_id)
-            
-            if sprite:
-                # Zeichne den Sprite
-                screen.blit(sprite, (screen_x, screen_y))
-            else:
-                # Fallback: Zeichne einen Platzhalter
-                self._draw_placeholder_tile(screen, screen_x, screen_y, tile_size, tile_id)
-    
-    def _render_decoration(self, screen: pygame.Surface, map_data: Dict[str, Any], 
-                          camera_offset: Tuple[int, int]) -> None:
-        """Rendert Dekorationen aus dem decoration Array"""
-        if "decoration" not in map_data:
-            return
-            
-        decoration_data = map_data["decoration"]
-        if not decoration_data:
-            return
-            
-        tile_size = self.tile_size
-        camera_x, camera_y = camera_offset
-        screen_width, screen_height = screen.get_size()
-        
-        for decoration in decoration_data:
-            if not isinstance(decoration, dict):
-                continue
-                
-            x = decoration.get("x", 0)
-            y = decoration.get("y", 0)
-            tile_id = decoration.get("tile_id", 0)
-            
-            if tile_id == 0:
-                continue
-                
-            # Berechne die Welt-Position
-            world_x = x * tile_size
-            world_y = y * tile_size
-            
-            # Prüfe, ob die Dekoration im sichtbaren Bereich liegt
-            if (world_x < camera_x - tile_size or world_x > camera_x + screen_width + tile_size or
-                world_y < camera_y - tile_size or world_y > camera_y + screen_height + tile_size):
-                continue
-                
-            # Berechne die Bildschirm-Position
-            screen_x = int(world_x - camera_x)
-            screen_y = int(world_y - camera_y)
-            
-            # Hole den Sprite für diese Tile-ID
-            sprite = self.sprite_manager.get_tile_sprite(tile_id)
-            
-            if sprite:
-                # Zeichne den Sprite
-                screen.blit(sprite, (screen_x, screen_y))
-            else:
-                # Fallback: Zeichne einen Platzhalter
-                self._draw_placeholder_tile(screen, screen_x, screen_y, tile_size, tile_id)
-
-    def _is_empty_tile(self, tile_data) -> bool:
-        """
-        Prüft, ob ein Tile als leer betrachtet werden soll.
-        
-        Args:
-            tile_data: Tile-ID (int) oder Tile-Name (str)
-            
-        Returns:
-            True wenn das Tile leer ist
-        """
-        if isinstance(tile_data, int):
-            return tile_data <= 0
-        elif isinstance(tile_data, str):
-            # Leere Tiles sind "grass" oder leere Strings
-            return not tile_data or tile_data.lower() in ['grass', 'empty', '']
-        else:
-            return False

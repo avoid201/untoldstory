@@ -245,19 +245,33 @@ class EnhancedMapManager:
         """Handle interaction with an NPC."""
         print(f"[EnhancedMapManager] Interacting with NPC: {npc.npc_id}")
         
+        # Prevent interaction if dialogue is already active
+        if hasattr(self.game, 'current_scene') and hasattr(self.game.current_scene, 'dialogue_box'):
+            if self.game.current_scene.dialogue_box.is_open():
+                return
+        
         # Get dialog pages
         pages = npc.get_dialogue_pages()
         
         # Show dialog
         if hasattr(self.game, 'current_scene') and hasattr(self.game.current_scene, 'dialogue_box'):
+            # Lock player movement during dialog
+            if hasattr(self.game.current_scene, 'player') and self.game.current_scene.player:
+                self.game.current_scene.player.lock_movement(True)
+            
             self.game.current_scene.dialogue_box.show_dialogue(
-                pages,
-                callback=lambda result: self._on_dialog_complete(npc.npc_id, result)
-            )
+                                            pages,
+                            callback=lambda result: self._on_npc_dialog_complete(npc.npc_id, result)
+                        )
     
     def _interact_with_object(self, obj):
         """Handle interaction with an object."""
         print(f"[EnhancedMapManager] Interacting with object: {obj.id}")
+        
+        # Prevent interaction if dialogue is already active
+        if hasattr(self.game, 'current_scene') and hasattr(self.game.current_scene, 'dialogue_box'):
+            if self.game.current_scene.dialogue_box.is_open():
+                return
         
         # Get handler for interaction type
         handler = self.object_handlers.get(obj.interaction, self._handle_examine_object)
@@ -270,6 +284,11 @@ class EnhancedMapManager:
     def _execute_trigger(self, trigger):
         """Execute a trigger event."""
         print(f"[EnhancedMapManager] Executing trigger: {trigger.id}")
+        
+        # Prevent trigger execution if dialogue is already active
+        if hasattr(self.game, 'current_scene') and hasattr(self.game.current_scene, 'dialogue_box'):
+            if self.game.current_scene.dialogue_box.is_open():
+                return
         
         if trigger.event == 'cutscene':
             self._start_cutscene(trigger.args.get('cutscene_id'))
@@ -285,6 +304,11 @@ class EnhancedMapManager:
     def _execute_warp(self, warp: WarpData):
         """Execute a warp to another map."""
         print(f"[EnhancedMapManager] Warping to {warp.destination_map}")
+        
+        # Prevent warp execution if dialogue is already active
+        if hasattr(self.game, 'current_scene') and hasattr(self.game.current_scene, 'dialogue_box'):
+            if self.game.current_scene.dialogue_box.is_open():
+                return
         
         # Play warp sound if specified
         if warp.sound:
@@ -325,8 +349,24 @@ class EnhancedMapManager:
     
     def _handle_save_object(self, obj):
         """Handle save point object."""
-        # TODO: Implement save system
-        self._show_message("Game saved! (Not implemented yet)")
+        try:
+            # Implementiere Speichersystem
+            if hasattr(self.game, 'save_game'):
+                save_success = self.game.save_game()
+                if save_success:
+                    self._show_message("Spiel erfolgreich gespeichert!")
+                else:
+                    self._show_message("Fehler beim Speichern des Spiels!")
+            else:
+                # Fallback: Verwende den StoryManager
+                if hasattr(self.game, 'story_manager'):
+                    self.game.story_manager.save_progress()
+                    self._show_message("Spielstand gespeichert!")
+                else:
+                    self._show_message("Speichersystem nicht verfügbar!")
+        except Exception as e:
+            print(f"[EnhancedMapManager] Save error: {e}")
+            self._show_message("Fehler beim Speichern!")
     
     def _handle_item_object(self, obj):
         """Handle item pickup."""
@@ -358,7 +398,15 @@ class EnhancedMapManager:
     def _show_message(self, text: str):
         """Show a simple message dialog."""
         if hasattr(self.game, 'current_scene') and hasattr(self.game.current_scene, 'dialogue_box'):
-            self.game.current_scene.dialogue_box.show_text(text)
+            # Lock player movement during message
+            if hasattr(self.game.current_scene, 'player') and self.game.current_scene.player:
+                self.game.current_scene.player.lock_movement(True)
+            
+            # Show message as dialogue with callback to unlock movement
+            from engine.ui.dialogue import DialoguePage
+            self.game.current_scene.dialogue_box.show_dialogue([
+                DialoguePage(text, None)
+            ], callback=lambda _: self._on_message_complete())
     
     def _show_dialog(self, dialog_id: str):
         """Show a dialog sequence."""
@@ -377,24 +425,65 @@ class EnhancedMapManager:
                     ))
                 
                 if pages and hasattr(self.game, 'current_scene'):
-                    self.game.current_scene.dialogue_box.show_dialogue(pages)
+                    # Lock player movement during dialog
+                    if hasattr(self.game.current_scene, 'player') and self.game.current_scene.player:
+                        self.game.current_scene.player.lock_movement(True)
+                    
+                    # Show dialog with callback to unlock movement
+                    self.game.current_scene.dialogue_box.show_dialogue(
+                        pages,
+                        callback=lambda _: self._on_message_complete()
+                    )
             except Exception as e:
                 print(f"[EnhancedMapManager] Failed to load dialog {dialog_id}: {e}")
     
     def _start_cutscene(self, cutscene_id: str):
         """Start a cutscene."""
+        # Prevent cutscene start if dialogue is already active
+        if hasattr(self.game, 'current_scene') and hasattr(self.game.current_scene, 'dialogue_box'):
+            if self.game.current_scene.dialogue_box.is_open():
+                return
+        
         if hasattr(self.game, 'cutscene_manager'):
-            # TODO: Implement cutscene system
-            print(f"[EnhancedMapManager] Starting cutscene: {cutscene_id}")
+            try:
+                # Implementiere Cutscene-System
+                cutscene = self.game.cutscene_manager.get_cutscene(cutscene_id)
+                if cutscene:
+                    self.game.cutscene_manager.start_cutscene(cutscene_id)
+                    print(f"[EnhancedMapManager] Cutscene {cutscene_id} gestartet")
+                else:
+                    print(f"[EnhancedMapManager] Cutscene {cutscene_id} nicht gefunden")
+            except Exception as e:
+                print(f"[EnhancedMapManager] Cutscene error: {e}")
+        else:
+            print(f"[EnhancedMapManager] Cutscene {cutscene_id} kann nicht gestartet werden - kein CutsceneManager")
     
     def _start_battle(self, battle_args: Dict):
         """Start a battle."""
+        # Prevent battle start if dialogue is already active
+        if hasattr(self.game, 'current_scene') and hasattr(self.game.current_scene, 'dialogue_box'):
+            if self.game.current_scene.dialogue_box.is_open():
+                return
+        
         # TODO: Integrate with battle system
         print(f"[EnhancedMapManager] Starting battle: {battle_args}")
     
-    def _on_dialog_complete(self, npc_id: str, result: Any):
-        """Callback when dialog completes."""
+    def _on_message_complete(self):
+        """Handle message dialog completion - unlock movement and start cooldown."""
+        # Unlock player movement
+        if hasattr(self.game, 'current_scene') and hasattr(self.game.current_scene, 'player') and self.game.current_scene.player:
+            self.game.current_scene.player.lock_movement(False)
+            
+        # Start input cooldown to prevent immediate re-triggering
+        if hasattr(self.game, 'current_scene') and hasattr(self.game.current_scene, 'dialog_input_cooldown'):
+            self.game.current_scene.dialog_input_cooldown = self.game.current_scene.dialog_cooldown_duration
+
+    def _on_npc_dialog_complete(self, npc_id: str, result: Any):
+        """Callback when NPC dialog completes."""
         print(f"[EnhancedMapManager] Dialog complete for {npc_id}: {result}")
+        
+        # Unlock player movement and start cooldown
+        self._on_message_complete()
         
         # Handle special NPCs
         if npc_id == 'professor' and not self.game.story_manager.get_flag('has_starter'):

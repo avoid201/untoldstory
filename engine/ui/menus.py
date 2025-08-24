@@ -352,11 +352,19 @@ class PartyMenu(MenuBase):
                         'poison': (150, 0, 200),
                         'sleep': (100, 100, 100)
                     }
-                    status_color = status_colors.get(monster.status, (150, 150, 150))
+                    # Handle status condition object properly
+                    if hasattr(monster.status, 'name'):
+                        status_name = monster.status.name
+                    elif hasattr(monster.status, '__str__'):
+                        status_name = str(monster.status)
+                    else:
+                        status_name = "OK"
+                    
+                    status_color = status_colors.get(status_name, (150, 150, 150))
                     status_rect = pygame.Rect(bar_x - 25, bar_y, 20, 10)
                     pygame.draw.rect(surface, status_color, status_rect)
                     
-                    status_text = monster.status[:3].upper()
+                    status_text = status_name[:3].upper() if len(status_name) >= 3 else status_name.upper()
                     status_surf = pygame.font.Font(None, 10).render(status_text, True, (255, 255, 255))
                     surface.blit(status_surf, (bar_x - 23, bar_y + 1))
             else:

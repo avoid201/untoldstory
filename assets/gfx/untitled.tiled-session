@@ -1,0 +1,119 @@
+{
+    "activeFile": "",
+    "expandedProjectPaths": [
+    ],
+    "fileStates": {
+        "/Users/leon/Desktop/untold_story/data/maps/bergmannsheil.tmx": {
+            "scale": 3.599609375,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 95.98263700488334,
+                "y": 64.03472599023333
+            }
+        },
+        "/Users/leon/Desktop/untold_story/data/maps/kohlenstadt.tmx": {
+            "scale": 0.39979166666666666,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 403.960396039604,
+                "y": 581.5528921313186
+            }
+        },
+        "/Users/leon/Desktop/untold_story/data/maps/museum.tmx": {
+            "scale": 2.399739583333333,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 159.80900705371675,
+                "y": 96.05208898534998
+            }
+        },
+        "/Users/leon/Desktop/untold_story/data/maps/objects1.tsx": {
+            "scaleInDock": 1
+        },
+        "/Users/leon/Desktop/untold_story/data/maps/penny.tmx": {
+            "scale": 2.8796874999999997,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 111.99131850244169,
+                "y": 80.04340748779165
+            }
+        },
+        "/Users/leon/Desktop/untold_story/data/maps/player_house.tmx": {
+            "scale": 3.99,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 59.02255639097744,
+                "y": 76.56641604010024
+            }
+        },
+        "/Users/leon/Desktop/untold_story/data/maps/rival_house.tmx": {
+            "scale": 4.799479166666666,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 71.9869777536625,
+                "y": 48.02604449267499
+            }
+        },
+        "/Users/leon/Desktop/untold_story/data/maps/route1.tmx": {
+            "scale": 1.2313244047619047,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 335.81726992567525,
+                "y": 127.91105202731282
+            }
+        },
+        "/Users/leon/Desktop/untold_story/data/maps/test_map.tmx": {
+            "scale": 1.9197916666666668,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 160.17362995116656,
+                "y": 120.06511123168747
+            }
+        },
+        "/Users/leon/Desktop/untold_story/data/maps/test_tileset.tsx": {
+            "scaleInDock": 1
+        },
+        "/Users/leon/Desktop/untold_story/data/maps/tiles1.tsx": {
+            "scaleInDock": 1
+        },
+        "/Users/leon/Desktop/untold_story/data/maps/water1.tsx": {
+            "scaleInDock": 1
+        },
+        ":/automap-tiles.tsx": {
+            "scaleInDock": 1
+        },
+        "object_tiles.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "tiles.tsx": {
+            "dynamicWrapping": true,
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "tiles/tiles_building1.tsx": {
+            "scaleInDock": 1
+        },
+        "tiles/tiles_interior1.tsx": {
+            "scaleInDock": 1
+        },
+        "tiles/tiles_terrain1.tsx": {
+            "scaleInDock": 1
+        }
+    },
+    "openFiles": [
+    ],
+    "project": "",
+    "recentFiles": [
+        "object_tiles.tsx",
+        "tiles.tsx",
+        "/Users/leon/Desktop/untold_story/data/maps/kohlenstadt.tmx",
+        "/Users/leon/Desktop/untold_story/data/maps/bergmannsheil.tmx",
+        "/Users/leon/Desktop/untold_story/data/maps/museum.tmx",
+        "/Users/leon/Desktop/untold_story/data/maps/route1.tmx",
+        "/Users/leon/Desktop/untold_story/data/maps/test_map.tmx",
+        "/Users/leon/Desktop/untold_story/data/maps/penny.tmx",
+        "/Users/leon/Desktop/untold_story/data/maps/rival_house.tmx",
+        "/Users/leon/Desktop/untold_story/data/maps/player_house.tmx"
+    ]
+}

@@ -75,8 +75,13 @@ class Cutscene:
             if not hasattr(self, '_fade_started'):
                 self._fade_started = True
                 self._fade_timer = 0.0
-                # TODO: Implementiere Fade-Effekt in der Scene
-                print(f"Fade {action.params.get('type', 'in')} für {action.duration}s")
+                fade_type = action.params.get('type', 'in')
+                print(f"Fade {fade_type} für {action.duration}s")
+                
+                # Starte Fade-Effekt in der Scene
+                if hasattr(self.game, 'current_scene') and self.game.current_scene:
+                    if hasattr(self.game.current_scene, 'start_fade'):
+                        self.game.current_scene.start_fade(fade_type, action.duration)
             
             self._fade_timer += dt
             if self._fade_timer >= action.duration:
@@ -87,8 +92,23 @@ class Cutscene:
             # Move-Action
             if not hasattr(self, '_move_started'):
                 self._move_started = True
-                # TODO: Implementiere Entity-Bewegung
-                print(f"Move entity {action.params.get('entity')} to {action.params.get('to')}")
+                entity_name = action.params.get('entity')
+                target_pos = action.params.get('to')
+                
+                print(f"Move entity {entity_name} to {target_pos}")
+                
+                # Implementiere Entity-Bewegung
+                if hasattr(self.game, 'current_scene') and self.game.current_scene:
+                    if hasattr(self.game.current_scene, 'move_entity'):
+                        success = self.game.current_scene.move_entity(entity_name, target_pos)
+                        if success:
+                            self._next_action()
+                            return False
+                        else:
+                            # Warte bis Bewegung abgeschlossen ist
+                            return False
+                
+                # Fallback: Bewegung sofort beenden
                 self._next_action()
                 return False
         
@@ -96,8 +116,20 @@ class Cutscene:
             # Spawn-Action
             if not hasattr(self, '_spawn_done'):
                 self._spawn_done = True
-                # TODO: Implementiere Entity-Spawn
-                print(f"Spawn entity {action.params.get('entity')} at {action.params.get('position')}")
+                entity_name = action.params.get('entity')
+                position = action.params.get('position')
+                
+                print(f"Spawn entity {entity_name} at {position}")
+                
+                # Implementiere Entity-Spawn
+                if hasattr(self.game, 'current_scene') and self.game.current_scene:
+                    if hasattr(self.game.current_scene, 'spawn_entity'):
+                        success = self.game.current_scene.spawn_entity(entity_name, position)
+                        if success:
+                            print(f"Entity {entity_name} erfolgreich gespawnt")
+                        else:
+                            print(f"Fehler beim Spawnen von {entity_name}")
+                
                 self._next_action()
                 return False
         
@@ -105,8 +137,20 @@ class Cutscene:
             # Scene-Change-Action
             if not hasattr(self, '_scene_changed'):
                 self._scene_changed = True
-                # TODO: Implementiere Scene-Wechsel
-                print(f"Change to scene {action.params.get('scene')}")
+                target_scene = action.params.get('scene')
+                
+                print(f"Change to scene {target_scene}")
+                
+                # Implementiere Scene-Wechsel
+                if hasattr(self.game, 'change_scene'):
+                    try:
+                        self.game.change_scene(target_scene)
+                        print(f"Scene-Wechsel zu {target_scene} erfolgreich")
+                    except Exception as e:
+                        print(f"Fehler beim Scene-Wechsel: {e}")
+                else:
+                    print("Game hat keine change_scene Methode")
+                
                 self._next_action()
                 return False
         

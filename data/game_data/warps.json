@@ -1,9 +1,16 @@
 {
   "player_house": {
     "exit_door": {
-      "position": [5, 10],
+      "position": [2, 5],
       "destination_map": "kohlenstadt",
-      "destination_position": [20, 25],
+      "destination_position": [9, 10],
+      "type": "door",
+      "sound": "door_open"
+    },
+    "exit_door_2": {
+      "position": [3, 5],
+      "destination_map": "kohlenstadt",
+      "destination_position": [9, 10],
       "type": "door",
       "sound": "door_open"
     },
@@ -16,70 +23,91 @@
     }
   },
   "rival_house": {
-    "exit_door": {
-      "position": [5, 10],
+    "exit_door_1": {
+      "position": [4, 5],
       "destination_map": "kohlenstadt",
-      "destination_position": [22, 25],
+      "destination_position": [23, 7],
+      "type": "door",
+      "sound": "door_open"
+    },
+    "exit_door_2": {
+      "position": [5, 5],
+      "destination_map": "kohlenstadt",
+      "destination_position": [23, 7],
       "type": "door",
       "sound": "door_open"
     }
   },
   "kohlenstadt": {
     "player_house_entrance": {
-      "position": [20, 24],
+      "position": [9, 10],
       "destination_map": "player_house",
-      "destination_position": [5, 9],
+      "destination_position": [2, 5],
       "type": "door",
       "sound": "door_open"
     },
     "rival_house_entrance": {
-      "position": [22, 24],
+      "position": [23, 7],
       "destination_map": "rival_house",
-      "destination_position": [5, 9],
+      "destination_position": [4, 5],
       "type": "door",
       "sound": "door_open"
     },
     "museum_entrance": {
-      "position": [15, 10],
+      "position": [19, 21],
       "destination_map": "museum",
-      "destination_position": [10, 15],
+      "destination_position": [2, 5],
       "type": "door",
       "sound": "door_open"
     },
-    "hospital_entrance": {
-      "position": [30, 15],
-      "destination_map": "bergmannsheil",
-      "destination_position": [8, 12],
+    "doenerbude_entrance": {
+      "position": [19, 11],
+      "destination_map": "doenerbude",
+      "destination_position": [2, 5],
       "type": "door",
       "sound": "door_open"
     },
     "penny_entrance": {
-      "position": [25, 30],
+      "position": [11, 26],
       "destination_map": "penny",
-      "destination_position": [5, 10],
+      "destination_position": [4, 13],
+      "type": "door",
+      "sound": "door_open"
+    },
+    "bergmannsheil_entrance": {
+      "position": [9, 33],
+      "destination_map": "bergmannsheil",
+      "destination_position": [2, 5],
       "type": "door",
       "sound": "door_open"
     },
     "route1_north": {
-      "position": [15, 0],
+      "position": [7, 49],
       "destination_map": "route1",
-      "destination_position": [15, 48],
+      "destination_position": [4, 0],
       "type": "route",
       "sound": null
     },
-    "route1_east": {
-      "position": [49, 20],
+    "route1_north_2": {
+      "position": [8, 49],
       "destination_map": "route1",
-      "destination_position": [1, 20],
+      "destination_position": [5, 0],
       "type": "route",
       "sound": null
     }
   },
   "museum": {
-    "exit_door": {
-      "position": [10, 16],
+    "exit_door_1": {
+      "position": [2, 5],
       "destination_map": "kohlenstadt",
-      "destination_position": [15, 11],
+      "destination_position": [19, 21],
+      "type": "door",
+      "sound": "door_open"
+    },
+    "exit_door_2": {
+      "position": [3, 5],
+      "destination_map": "kohlenstadt",
+      "destination_position": [19, 21],
       "type": "door",
       "sound": "door_open"
     },
@@ -92,10 +120,17 @@
     }
   },
   "bergmannsheil": {
-    "exit_door": {
-      "position": [8, 13],
+    "exit_door_1": {
+      "position": [2, 5],
       "destination_map": "kohlenstadt",
-      "destination_position": [30, 16],
+      "destination_position": [9, 33],
+      "type": "door",
+      "sound": "door_open"
+    },
+    "exit_door_2": {
+      "position": [3, 5],
+      "destination_map": "kohlenstadt",
+      "destination_position": [9, 33],
       "type": "door",
       "sound": "door_open"
     },
@@ -108,10 +143,17 @@
     }
   },
   "penny": {
-    "exit_door": {
-      "position": [5, 11],
+    "exit_door_1": {
+      "position": [4, 13],
       "destination_map": "kohlenstadt",
-      "destination_position": [25, 31],
+      "destination_position": [11, 26],
+      "type": "door",
+      "sound": "door_open"
+    },
+    "exit_door_2": {
+      "position": [5, 13],
+      "destination_map": "kohlenstadt",
+      "destination_position": [11, 26],
       "type": "door",
       "sound": "door_open"
     },
@@ -123,18 +165,27 @@
       "sound": "door_open"
     }
   },
+  "doenerbude": {
+    "exit_door": {
+      "position": [2, 5],
+      "destination_map": "kohlenstadt",
+      "destination_position": [19, 11],
+      "type": "door",
+      "sound": "door_open"
+    }
+  },
   "route1": {
     "kohlenstadt_south": {
-      "position": [15, 49],
+      "position": [4, 0],
       "destination_map": "kohlenstadt",
-      "destination_position": [15, 1],
+      "destination_position": [7, 49],
       "type": "route",
       "sound": null
     },
-    "kohlenstadt_west": {
-      "position": [0, 20],
+    "kohlenstadt_south_2": {
+      "position": [5, 0],
       "destination_map": "kohlenstadt",
-      "destination_position": [48, 20],
+      "destination_position": [8, 49],
       "type": "route",
       "sound": null
     },

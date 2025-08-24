@@ -1,121 +1,83 @@
 {
-  "map_id": "museum",
-  "npcs": [
-    {
-      "id": "professor_budde",
-      "position": [10, 5],
-      "sprite": "elder.png",
-      "dialog": "professor_dialog",
-      "movement": "static",
-      "facing": "south",
-      "conditions": {}
-    },
-    {
-      "id": "assistant",
-      "position": [8, 6],
-      "sprite": "npc_scientist.png",
-      "dialog": "assistant_dialog",
-      "movement": "static",
-      "facing": "east",
-      "conditions": {}
-    },
-    {
-      "id": "fossil_expert",
-      "position": [15, 8],
-      "sprite": "npc_man_2.png",
-      "dialog": "fossil_expert_dialog",
-      "movement": "patrol",
-      "facing": "south",
-      "route": [[15, 8], [15, 10], [18, 10], [18, 8], [15, 8]],
-      "conditions": {}
-    }
-  ],
-  "warps": [
-    {
-      "id": "exit",
-      "position": [5, 11],
-      "destination": {
-        "map": "kohlenstadt",
-        "position": [20, 6],
-        "facing": "south"
-      },
-      "type": "door",
-      "sound": "door_open"
-    },
-    {
-      "id": "lab_entrance",
-      "position": [10, 3],
-      "destination": {
-        "map": "museum_lab",
-        "position": [5, 8],
-        "facing": "north"
-      },
-      "type": "door",
-      "sound": "door_open",
-      "conditions": {
-        "flag": "lab_access_granted"
-      }
-    }
-  ],
-  "objects": [
-    {
-      "id": "fossil_display_1",
-      "position": [3, 5],
-      "interaction": "examine",
-      "dialog": "An ancient Kohlosaurus fossil! It lived in the swamps that became coal mines."
-    },
-    {
-      "id": "fossil_display_2",
-      "position": [6, 5],
-      "interaction": "examine",
-      "dialog": "A Ruhrpteryx skeleton! This flying monster ruled the ancient skies."
-    },
-    {
-      "id": "fossil_display_3",
-      "position": [14, 5],
-      "interaction": "examine",
-      "dialog": "The mighty Zechemander! Its fossils were found deep in the mines."
-    },
-    {
-      "id": "research_notes",
-      "position": [9, 4],
-      "interaction": "examine",
-      "dialog": "Professor Budde's research notes on fossil revival technology."
-    },
-    {
-      "id": "museum_pc",
-      "position": [2, 8],
-      "interaction": "activate",
-      "dialog": "Access the Monster Storage System?",
-      "action": "open_storage"
-    }
-  ],
-  "triggers": [
-    {
-      "id": "professor_intro",
-      "position": [10, 7],
-      "event": "cutscene",
-      "args": {
-        "cutscene_id": "professor_introduction"
-      },
-      "conditions": {
-        "flag": "!met_professor"
-      },
-      "auto": true,
-      "one_time": true
-    },
-    {
-      "id": "starter_selection",
-      "position": [10, 6],
-      "event": "special",
-      "args": {
-        "action": "starter_selection"
-      },
-      "conditions": {
-        "flag": "!has_starter"
-      },
-      "auto": false,
-      "one_time": false
-    }
-  ]
+    "npcs": [
+        {
+            "id": "professor",
+            "name": "Professor Budde",
+            "position": [10, 10],
+            "sprite": "professor",
+            "dialog": "professor_dialog",
+            "movement": "static",
+            "facing": "down",
+            "conditions": {
+                "flag": "!has_starter"
+            }
+        },
+        {
+            "id": "assistant",
+            "name": "Assistent Tim",
+            "position": [15, 10],
+            "sprite": "scientist",
+            "dialog": "assistant_dialog",
+            "movement": "patrol",
+            "patrol_points": [[15, 10], [15, 15], [20, 15], [20, 10]],
+            "facing": "down"
+        }
+    ],
+    "warps": [
+        {
+            "id": "exit",
+            "position": [10, 20],
+            "destination": {
+                "map": "kohlenstadt",
+                "position": [40, 16],
+                "facing": "down"
+            },
+            "type": "door"
+        }
+    ],
+    "objects": [
+        {
+            "id": "fossil_display_1",
+            "position": [5, 5],
+            "type": "examine",
+            "interaction": {
+                "type": "examine",
+                "text": "Ein uraltes Fossil aus dem Kohleflöz.\nEs scheint zu pulsieren..."
+            }
+        },
+        {
+            "id": "fossil_display_2",
+            "position": [15, 5],
+            "type": "examine",
+            "interaction": {
+                "type": "examine",
+                "text": "Dieses Fossil sieht aus wie ein versteinertes Ei.\nWas da wohl drin war?"
+            }
+        },
+        {
+            "id": "research_notes",
+            "position": [10, 5],
+            "type": "examine",
+            "interaction": {
+                "type": "examine",
+                "text": "Forschungsnotizen des Professors:\n'Die Wiederbelebung funktioniert! Endlich!'"
+            }
+        }
+    ],
+    "triggers": [
+        {
+            "id": "professor_intro",
+            "position": [10, 15],
+            "type": "auto",
+            "conditions": {
+                "flag": "!has_starter"
+            },
+            "actions": [
+                {
+                    "type": "cutscene",
+                    "id": "professor_fossil_intro"
+                }
+            ]
+        }
+    ]
 }

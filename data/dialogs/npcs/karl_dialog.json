@@ -1,42 +1,26 @@
 {
-  "id": "karl_dialog",
-  "default": [
-    {
-      "text": "Ey, wat willze denn, Jung?",
-      "speaker": "Ruhrpott Karl"
-    },
-    {
-      "text": "Pass auf im hohen Gras! Da lauern wilde Monster!",
-      "speaker": "Ruhrpott Karl"
-    },
-    {
-      "text": "Wenn de eins fängst, kannze damit kämpfen!",
-      "speaker": "Ruhrpott Karl"
-    },
-    {
-      "text": "Aber brauchst Monsterbälle dafür. Gibt's im Laden zu kaufen!",
-      "speaker": "Ruhrpott Karl"
-    }
-  ],
-  "branches": [
-    {
-      "conditions": {
-        "flag": "has_starter"
-      },
-      "pages": [
+    "id": "karl_dialog",
+    "default": [
+        {"text": "Ey, wat willze denn, Jung?", "speaker": "Karl"},
+        {"text": "Pass auf im hohen Gras! Da lauern wilde Monster!", "speaker": "Karl"},
+        {"text": "Wenn de eins fängst, kannze damit kämpfen!", "speaker": "Karl"}
+    ],
+    "branches": [
         {
-          "text": "Oh, du hast ja schon ein Monster!",
-          "speaker": "Ruhrpott Karl"
+            "conditions": {"flag": "has_starter"},
+            "pages": [
+                {"text": "Oh, du hast ja schon'n Monster!", "speaker": "Karl"},
+                {"text": "Dann kannze ja los in die Wildnis!", "speaker": "Karl"},
+                {"text": "Aber pass auf dich auf, ne?", "speaker": "Karl"}
+            ]
         },
         {
-          "text": "Dann ab mit dir ins hohe Gras!",
-          "speaker": "Ruhrpott Karl"
-        },
-        {
-          "text": "Trainier fleißig, dann wirst du stark wie die Kumpel im Bergwerk!",
-          "speaker": "Ruhrpott Karl"
+            "conditions": {"flag": "rival_battle_1"},
+            "pages": [
+                {"text": "Ich hab gehört, du hast dich mit Klaus gekloppt!", "speaker": "Karl"},
+                {"text": "Der Bengel nervt schon seit Jahren alle hier.", "speaker": "Karl"},
+                {"text": "Zeig's ihm richtig, wa?", "speaker": "Karl"}
+            ]
         }
-      ]
-    }
-  ]
+    ]
 }

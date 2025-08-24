@@ -296,8 +296,8 @@ class Entity:
         screen_x = int(self.x - camera_offset[0])
         screen_y = int(self.y - camera_offset[1])
         
-        if self.sprite_surface and self.sprite_config:
-            # Draw sprite
+        if self.sprite_surface:
+            # Draw sprite (either with or without sprite_config)
             self._draw_sprite(surface, camera_offset)
         else:
             # Draw fallback
@@ -313,8 +313,9 @@ class Entity:
             screen_x = int(self.x - camera_offset[0])
             screen_y = int(self.y - camera_offset[1])
             
-            # Bestimme den aktuellen Frame basierend auf der Animation
+            # Für NPCs: Zeichne einfach den kompletten Sprite
             if self.sprite_config and self.sprite_config.animations:
+                # Komplex: Sprite-Sheet mit Animationen
                 anim_name = self._get_animation_name()
                 frames = self.sprite_config.animations.get(anim_name, [0])
                 if frames:
@@ -331,31 +332,14 @@ class Entity:
                         self.sprite_config.frame_height
                     )
                     
-                    # Erstelle ein Rechteck für die Bildschirmposition (Grid-aligned)
-                    screen_rect = pygame.Rect(
-                        screen_x,  # Keine Zentrierung - verwende direkte Position
-                        screen_y,  # Keine Zentrierung - verwende direkte Position  
-                        self.sprite_config.frame_width,
-                        self.sprite_config.frame_height
-                    )
-                    
                     # Zeichne nur den aktuellen Frame
-                    surface.blit(self.sprite_surface, screen_rect, frame_rect)
+                    surface.blit(self.sprite_surface, (screen_x, screen_y), frame_rect)
                 else:
-                    # Fallback: Zeichne den ersten Frame (Grid-aligned)
-                    screen_rect = pygame.Rect(
-                        screen_x,  # Keine Zentrierung
-                        screen_y,  # Keine Zentrierung
-                        self.sprite_config.frame_width,
-                        self.sprite_config.frame_height
-                    )
-                    surface.blit(self.sprite_surface, screen_rect)
+                    # Fallback: Zeichne den ersten Frame
+                    surface.blit(self.sprite_surface, (screen_x, screen_y))
             else:
-                # Keine Animation: Zeichne den kompletten Sprite (Grid-aligned)
-                sprite_rect = pygame.Rect(screen_x, screen_y, 
-                                        self.sprite_surface.get_width(),
-                                        self.sprite_surface.get_height())
-                surface.blit(self.sprite_surface, sprite_rect)
+                # Einfach: Einzelner Sprite (NPCs)
+                surface.blit(self.sprite_surface, (screen_x, screen_y))
             
             # Debug-Informationen (nur wenn Debug aktiviert ist)
             if hasattr(self, 'game') and hasattr(self.game, 'debug_mode') and self.game.debug_mode:

@@ -1,0 +1,133 @@
+{
+    "Map/SizeTest": {
+        "height": 4300,
+        "width": 2
+    },
+    "activeFile": "player_house.tmx",
+    "expandedProjectPaths": [
+    ],
+    "file.lastUsedOpenFilter": "All Files (*)",
+    "fileStates": {
+        "/Users/leon/Desktop/untold_story/assets/gfx/tiles/tiles_building1.tsx": {
+            "scaleInDock": 1
+        },
+        "/Users/leon/Desktop/untold_story/assets/gfx/tiles/tiles_interior1.tsx": {
+            "scaleInDock": 1
+        },
+        "bergmannsheil.tmx": {
+            "expandedObjectLayers": [
+                2
+            ],
+            "scale": 4.40859375,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 63.96597554492293,
+                "y": 47.974481658692184
+            }
+        },
+        "doenerbude.tmx": {
+            "expandedObjectLayers": [
+                2
+            ],
+            "scale": 5.878125,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 47.974481658692184,
+                "y": 48.0595427963849
+            }
+        },
+        "kohlenstadt.tmx": {
+            "expandedObjectLayers": [
+                3
+            ],
+            "scale": 2.5586,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 168.06065817243802,
+                "y": 769.7568983037597
+            }
+        },
+        "museum.tmx": {
+            "expandedObjectLayers": [
+                2
+            ],
+            "scale": 2.9390625,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 95.94896331738437,
+                "y": 48.14460393407763
+            }
+        },
+        "penny.tmx": {
+            "expandedObjectLayers": [
+                2
+            ],
+            "scale": 2.752455357142857,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 63.94290811775202,
+                "y": 112.08174519503692
+            }
+        },
+        "player_house Kopie.tmx": {
+            "scale": 4.40859375,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 63.96597554492293,
+                "y": 47.974481658692184
+            }
+        },
+        "player_house.tmx": {
+            "expandedObjectLayers": [
+                2
+            ],
+            "scale": 4.40859375,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 63.96597554492293,
+                "y": 47.974481658692184
+            }
+        },
+        "rival_house.tmx": {
+            "expandedObjectLayers": [
+                2
+            ],
+            "scale": 4.40859375,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 63.96597554492293,
+                "y": 47.974481658692184
+            }
+        },
+        "route1.tmx": {
+            "scale": 1.1021484375,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 255.8639021796917,
+                "y": 95.72213361687045
+            }
+        },
+        "tiles.tsx": {
+            "dynamicWrapping": true,
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        }
+    },
+    "last.exportedFilePath": "/Users/leon/Desktop/untold_story/data/maps",
+    "map.height": 14,
+    "map.lastUsedExportFilter": "All Files (*)",
+    "map.lastUsedFormat": "tmx",
+    "map.tileHeight": 16,
+    "map.tileWidth": 16,
+    "map.width": 8,
+    "openFiles": [
+        "tiles.tsx",
+        "player_house.tmx"
+    ],
+    "project": "tiled_project_untold_story.tiled-project",
+    "recentFiles": [
+        "player_house Kopie.tmx",
+        "player_house.tmx",
+        "tiles.tsx"
+    ]
+}

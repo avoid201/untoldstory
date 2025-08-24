@@ -181,5 +181,211 @@
     ],
     "responses": null,
     "actions": null
+  },
+  "biker_stories": {
+    "text": [
+      "Moin, Kumpel! Fährsse auch Motorrad?",
+      "Ich bin mit meiner Maschine schon durchs ganze Ruhrgebiet!",
+      "Von Duisburg bis Dortmund - überall wartet das Abenteuer!",
+      "Meine Monster fahren auch gerne mit - wind-resistant!"
+    ],
+    "responses": ["Cool! Erzähl mehr!", "Interessant..."],
+    "actions": [null, null]
+  },
+  "security_patrol": {
+    "text": [
+      "Halt! Alles in Ordnung hier?",
+      "Ich sorge für Sicherheit in Kohlenstadt.",
+      "Hatte heut' schon drei wilde Monster eingefangen.",
+      "Pass auf dich auf, Junge!"
+    ],
+    "responses": ["Alles bestens!", "Danke für den Schutz"],
+    "actions": [null, null]
+  },
+  "gossip_talk": {
+    "text": [
+      "Hasse schon gehört? Der Nachbar hat'n neues Monster!",
+      "So'n komisches Ding ausser Zeche...",
+      "Macht die ganze Nacht Lärm! Skandal, sag ich!",
+      "Früher war hier mehr Ruhe, dat kann ich dir sagen."
+    ],
+    "responses": ["Ach so!", "Das ist ja schrecklich!"],
+    "actions": [null, null]
+  },
+  "weather_talk": {
+    "text": [
+      "Wat für'n Wetter heut', wa?",
+      "Typisch Ruhrgebiet - erst Regen, dann Sonne!",
+      "Meine Monster mögen dat. Besonders die Wasser-Typen!",
+      "Schönen Tag noch, Kollege!"
+    ],
+    "responses": ["Ihnen auch!"],
+    "actions": [null]
+  },
+  "professor_intro": {
+    "text": [
+      "Ah, da biste ja endlich!",
+      "Ich bin Professor Budde, Monster-Forscher hier im Ruhrgebiet.",
+      "Du willst bestimmt Trainer werden, wa?",
+      "Dann such dir mal'n schönes Starter-Monster aus!",
+      "Die hab ich alle hier ausm Pott - echte Ruhrgebiets-Monster!"
+    ],
+    "responses": ["Ja, gerne!", "Mal schauen..."],
+    "actions": ["start_starter_selection", null]
+  },
+  "museum_rules": {
+    "text": [
+      "Bitte leise sein im Museum!",
+      "Und die Exponate nicht anfassen!",
+      "Manche der fossilen Monster sind noch aktiv...",
+      "Sicherheit geht vor!"
+    ],
+    "responses": ["Verstanden!"],
+    "actions": [null]
+  },
+  "doener_greeting": {
+    "text": [
+      "Merhaba! Willkommen bei Ali's Döner!",
+      "Bester Döner im ganzen Ruhrgebiet!",
+      "Scharf oder mild? Mit oder ohne Zwiebeln?",
+      "Für Monster-Trainer gibt's Rabatt!"
+    ],
+    "responses": ["Einen Döner bitte!", "Nur schauen"],
+    "actions": ["buy_food:doener", null]
+  },
+  "nature_talk": {
+    "text": [
+      "Hallo! Ich bin Förster hier auf Route 1.",
+      "Passe auf, dass die Balance zwischen Mensch und Monster stimmt.",
+      "Die Natur hier ist wunderschön - aber auch gefährlich!",
+      "Respektiere die wilden Monster und sie respektieren dich."
+    ],
+    "responses": ["Guter Rat!", "Danke für die Warnung"],
+    "actions": [null, null]
+  },
+  "fishing_tips": {
+    "text": [
+      "Petri Heil! Angelsse auch gerne?",
+      "Hier im Baldeneysee gibt's die besten Wasser-Monster!",
+      "Mit der richtigen Angel kannst du richtige Schätze fangen.",
+      "Hier, nimm meine alte Angel - hab'n neue gekriegt!"
+    ],
+    "responses": ["Vielen Dank!", "Das ist sehr nett!"],
+    "actions": ["give_item:old_rod", "give_item:old_rod"]
+  },
+  "mom_morning_wake": {
+    "text": [
+      "Ey, Junge! Pennst du immer noch, du faule Socke?",
+      "Der verrückte Professor hat schon dreimal angerufen!",
+      "Der labert was von 'bahnbrechender Entdeckung' und so'n Scheiß.",
+      "Mach hinne, sonst kriegste kein Frühstück mehr!",
+      "Und räum gefälligst mal dein Zimmer auf! Sieht aus wie nach'm Bombenangriff!"
+    ],
+    "responses": ["Ja, Mama...", "Bin schon wach!", "Noch 5 Minuten!"],
+    "actions": ["leave", "leave", "sleep_more"]
+  },
+  "klaus_first_battle": {
+    "text": [
+      "Ey, Alter! Na, auch endlich wach geworden?",
+      "Der olle Professor hat mir erzählt, dass du auch so'n Fossil kriegst.",
+      "Haha, meins is auf jeden Fall stärker als dein Schrott!",
+      "Komm, lass uns kloppen! Ich mach dich fertig!",
+      "Danach kannste direkt wieder nach Hause zu Mutti heulen!"
+    ],
+    "responses": ["Bring's on!", "Muss das sein?"],
+    "actions": ["start_battle:klaus_1", "start_battle:klaus_1"]
+  },
+  "professor_fossil_intro": {
+    "text": [
+      "Ach, da bisse ja endlich, du Schlafmütze!",
+      "Weißte wat? Ich hab's geschafft! Ich hab die verdammten Viecher wiederbelebt!",
+      "Jahrmillionen alte Monster-Fossilien aus'm Kohleflöz!",
+      "Die Dinger sind der absolute Hammer! Stärker als der ganze moderne Dreck!",
+      "Hör zu, Junge - du willst doch diese bescheuerten Trials machen, oder?",
+      "Ohne Monster kommste da nich weit. Die anderen Zähmer fressen dich zum Frühstück!",
+      "Ich geb dir eins von meinen Babys. Aber pass gefälligst drauf auf!",
+      "Die sind verdammt wertvoll und ich hab keine Lust, noch mehr auszubuddeln!"
+    ],
+    "responses": null,
+    "actions": ["go_to_starter_selection"]
+  },
+  "bergmann_karl": {
+    "text": [
+      "Tach auch, Junge! Ich bin der Karl.",
+      "40 Jahre hab ich inner Zeche malocht, dat kannse dir gar nich vorstellen!",
+      "Damals, da warens noch echte Männer, die da unten geschuftet haben.",
+      "Und die Monster erst! Kohlenbeißer so groß wie'n Kleinwagen!",
+      "Heute ist alles anders... aber die Geschichten, die bleiben!"
+    ],
+    "responses": ["Erzählen Sie mehr!", "Interessant!"],
+    "actions": null
+  },
+  "first_trial_guard": {
+    "text": [
+      "Halt! Du willst zur ersten Prüfung?",
+      "Hasse überhaupt'n Monster dabei? Zeig mal!",
+      "Hmm... sieht noch bisschen schwach aus, wa?",
+      "Aber gut, versuch dein Glück. Der Prüfer wartet drinnen.",
+      "Pass auf - der is' kein Anfänger!"
+    ],
+    "responses": ["Ich bin bereit!", "Ich trainier noch bisschen"],
+    "actions": ["check_party", null]
+  },
+  "time_rift_witness": {
+    "text": [
+      "Hasse dat gesehen?! Der Himmel hat sich aufgerissen!",
+      "Da kamen Monster raus, die hab ich noch nie gesehen!",
+      "Die sahen aus wie aus der Zukunft oder sowat!",
+      "Ich hab Schiss, Mann! Wat is hier los?",
+      "Die Regierung sagt nix, aber ich weiß, dat is nich normal!"
+    ],
+    "responses": ["Beruhigen Sie sich!", "Ich kümmere mich darum"],
+    "actions": ["add_quest:investigate_rifts", "add_quest:investigate_rifts"]
+  },
+  "team_temporal_grunt": {
+    "text": [
+      "Was willst du denn hier, Knirps?",
+      "Team Temporal arbeitet für eine bessere Zukunft!",
+      "Die Monster von morgen sind stärker als der Schrott von heute!",
+      "Verschwinde, oder ich mach dich fertig!"
+    ],
+    "responses": ["Ich habe keine Angst!", "Ok, ich geh ja schon..."],
+    "actions": ["start_battle:temporal_grunt_1", null]
+  },
+  "fossil_glutkohle": {
+    "text": [
+      "Das hier is'n Glutkohle - brennt heißer als'n Hochofen!",
+      "War mal'n Salamander oder so'n Scheiß, vor paar Millionen Jahren.",
+      "Jetzt isses'n wandelnder Brandsatz. Perfekt für Hitzköpfe wie dich!"
+    ],
+    "responses": ["Das will ich!", "Zeig mir die anderen"],
+    "actions": ["choose_starter:glutkohle", null]
+  },
+  "fossil_tropfstein": {
+    "text": [
+      "Tropfstein - das Ding tropft seit der Steinzeit!",
+      "Hat in irgend'ner unterirdischen Höhle gehockt und is versteinert.",
+      "Aber unterschätz das Teil nich - kann dich wegspülen wie'n Tsunami!"
+    ],
+    "responses": ["Das nehm ich!", "Was gibt's noch?"],
+    "actions": ["choose_starter:tropfstein", null]
+  },
+  "fossil_lehmling": {
+    "text": [
+      "Lehmling - zäh wie'n Bergmann nach Doppelschicht!",
+      "Das Viech hat Erdbeben überlebt, Vulkanausbrüche, den ganzen Kram.",
+      "Haut rein wie'n Presslufthammer!"
+    ],
+    "responses": ["Perfekt!", "Die anderen?"],
+    "actions": ["choose_starter:lehmling", null]
+  },
+  "fossil_windei": {
+    "text": [
+      "Windei - sieht aus wie nix, aber hat's faustdick hinter den Ohren!",
+      "War mal'n fliegender Saurier oder sowat.",
+      "Schneller als du 'Scheiße' sagen kannst!"
+    ],
+    "responses": ["Das ist meins!", "Hmm, mal sehen..."],
+    "actions": ["choose_starter:windei", null]
   }
 }

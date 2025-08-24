@@ -53,6 +53,7 @@ class RenderManager:
         self.add_layer("ground", 100)        # Boden
         self.add_layer("decor", 200)         # Dekoration
         self.add_layer("furniture", 300)     # Möbel
+        self.add_layer("objects", 350)       # Object-Layer aus Area (zwischen furniture und entities)
         self.add_layer("entities", 400)      # Spieler, NPCs
         self.add_layer("overhang", 500)      # Überhang (Bäume, etc.)
         self.add_layer("decoration", 600)    # Dekoration
@@ -93,7 +94,7 @@ class RenderManager:
         # Cache als dirty markieren bis Render abgeschlossen
         self._cache_dirty = True
         
-        # Viewport für Culling berechnen
+        # Viewport für Culling berechnen - Vergrößere Buffer für bessere NPC-Sichtbarkeit
         viewport = self._calculate_viewport(camera, surface.get_size()) if self.use_culling else None
         
         # Lösche alle Entity-Layer
@@ -127,6 +128,8 @@ class RenderManager:
                 self._render_decor_layer(surface, area, camera)
             elif layer.name == "furniture":
                 self._render_furniture_layer(surface, area, camera)
+            elif layer.name == "objects":
+                self._render_objects_layer(surface, area, camera)
             elif layer.name == "entities":
                 self._render_entities_layer(surface, layer, camera)
             elif layer.name == "overhang":
@@ -143,7 +146,13 @@ class RenderManager:
     
     def _render_ground_layer(self, surface: pygame.Surface, area: Area, camera: Camera) -> None:
         """Rendert den Boden-Layer."""
-        if "ground" in area.layers:
+        # Neue Priorität: layer_surfaces (fertige Surfaces) vor layers (Tile-Daten)
+        if hasattr(area, 'layer_surfaces') and "Tile Layer 1" in area.layer_surfaces:
+            # Verwende fertige Surface
+            layer_surface = area.layer_surfaces["Tile Layer 1"]
+            camera_offset = (-int(camera.x), -int(camera.y))
+            surface.blit(layer_surface, camera_offset)
+        elif hasattr(area, 'layers') and "ground" in area.layers:
             self._render_tile_layer(surface, area.layers["ground"], camera, "ground")
     
     def _render_decor_layer(self, surface: pygame.Surface, area: Area, camera: Camera) -> None:
@@ -155,6 +164,14 @@ class RenderManager:
         """Rendert den Möbel-Layer."""
         if "furniture" in area.layers:
             self._render_tile_layer(surface, area.layers["furniture"], camera, "furniture")
+    
+    def _render_objects_layer(self, surface: pygame.Surface, area: Area, camera: Camera) -> None:
+        """Rendert den Objects-Layer aus den Area layer_surfaces."""
+        if hasattr(area, 'layer_surfaces') and "objects" in area.layer_surfaces:
+            # Verwende fertige Surface
+            layer_surface = area.layer_surfaces["objects"]
+            camera_offset = (-int(camera.x), -int(camera.y))
+            surface.blit(layer_surface, camera_offset)
     
     def _render_overhang_layer(self, surface: pygame.Surface, area: Area, camera: Camera) -> None:
         """Rendert den Überhang-Layer."""
@@ -197,7 +214,7 @@ class RenderManager:
     def _calculate_viewport(self, camera: Camera, surface_size: Tuple[int, int]) -> pygame.Rect:
         """Berechnet das sichtbare Viewport für Culling."""
         # Erweitere Viewport um einen Puffer für smoother Bewegung
-        buffer = 32  # Pixel
+        buffer = 128  # Pixel - Vergrößert für bessere NPC-Sichtbarkeit
         return pygame.Rect(
             camera.x - buffer,
             camera.y - buffer,

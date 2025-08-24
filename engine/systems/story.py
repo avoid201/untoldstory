@@ -71,6 +71,17 @@ class StoryManager:
         self._init_core_flags()
         self._init_scripts()
     
+    def reset(self) -> None:
+        """Reset all story flags for new game."""
+        self.flags.clear()
+        self.phase = StoryPhase.PROLOGUE
+        self.completed_scripts.clear()
+        self.trials_completed = 0
+        self.rival_battles_won = 0
+        self.time_rifts_closed = 0
+        self._init_core_flags()
+        self._init_scripts()
+    
     def _init_core_flags(self) -> None:
         """Initialize core story flags."""
         # Prologue flags
@@ -84,6 +95,16 @@ class StoryManager:
                      'Spieler hat Professor Budde getroffen')
         self.add_flag('can_leave_town', 'Kann Stadt verlassen',
                      'Spieler darf Kohlenstadt verlassen')
+        self.add_flag('left_house_first_time', 'Haus zum ersten Mal verlassen',
+                     'Spieler hat das Haus zum ersten Mal verlassen')
+        self.add_flag('game_started', 'Spiel gestartet',
+                     'Spieler hat ein neues Spiel gestartet')
+        self.add_flag('first_awakening', 'Erstes Aufwachen',
+                     'Spieler wacht zum ersten Mal auf')
+        self.add_flag('professor_intro_started', 'Professor Intro gestartet',
+                     'Der Professor hat seine Einführung begonnen')
+        self.add_flag('rival_first_encounter', 'Erste Begegnung mit Rivalen',
+                     'Spieler hat Klaus zum ersten Mal getroffen')
         
         # Trial flags (10 trials/challenges)
         for i in range(1, 11):
@@ -95,6 +116,8 @@ class StoryManager:
         # Time rift flags
         self.add_flag('time_rifts_discovered', 'Zeitrisse entdeckt',
                      'Erste Zeitrisse sind aufgetaucht')
+        self.add_flag('timerifts_started', 'Zeitrisse gestartet',
+                     'Zeitrisse sind aktiv')
         self.add_flag('future_monsters_appearing', 'Zukunftsmonster erscheinen',
                      'Monster aus der Zukunft tauchen auf')
         self.add_flag('antagonist_revealed', 'Antagonist enthüllt',

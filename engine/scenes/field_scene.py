@@ -1,12 +1,14 @@
 """
-Field Scene for Untold Story
-Main overworld gameplay scene with map, player, NPCs, and interactions
+Field Scene for Untold Story - AUFGERÄUMT VON FLINT!
+Main overworld gameplay scene mit Map, Player, NPCs und Interaktionen
+Jetzt ohne den ganzen überflüssigen Scheiß!
 """
 
 import pygame
 import random
 import json
 from typing import Optional, List, Dict, Any, Tuple
+
 from engine.core.scene_base import Scene
 from engine.core.resources import resources
 from engine.world.tiles import TILE_SIZE, world_to_tile, tile_to_world, draw_grid
@@ -21,82 +23,21 @@ from engine.ui.transitions import TransitionType
 from engine.graphics.sprite_manager import SpriteManager
 from engine.graphics.tile_renderer import TileRenderer
 from engine.world.area import Area
-from engine.world.enhanced_map_manager import EnhancedMapManager
-from engine.world.npc_improved import RivalKlaus
 import os
 
 
-# ExtendedArea-Klasse entfernt - verursacht Konflikte!
-
-def add_warp_methods_to_area(area):
-    """Fügt die fehlenden Warp/Trigger-Methoden zur Area hinzu"""
-    
-    def get_warp_at(tile_x: int, tile_y: int):
-        if hasattr(area, 'map_data') and hasattr(area.map_data, 'warps'):
-            for warp in area.map_data.warps:
-                if warp.x == tile_x and warp.y == tile_y:
-                    return warp
-        return None
-    
-    def get_trigger_at(tile_x: int, tile_y: int):
-        if hasattr(area, 'map_data') and hasattr(area.map_data, 'triggers'):
-            for trigger in area.map_data.triggers:
-                if trigger.x == tile_x and trigger.y == tile_y:
-                    return trigger
-        return None
-    
-    def get_tile_type(tile_x: int, tile_y: int) -> int:
-        # Für neue Area-Klasse
-        if hasattr(area, 'map_data') and hasattr(area.map_data, 'layers'):
-            if "ground" in area.map_data.layers:
-                layer = area.map_data.layers["ground"]
-                if 0 <= tile_y < len(layer) and 0 <= tile_x < len(layer[tile_y]):
-                    return layer[tile_y][tile_x]
-        # Fallback für alte Area-Klasse
-        elif hasattr(area, 'layers') and "ground" in area.layers:
-            layer = area.layers["ground"]
-            if 0 <= tile_y < len(layer) and 0 <= tile_x < len(layer[tile_y]):
-                return layer[tile_y][tile_x]
-        return 0
-    
-    # Füge Methoden zur Area-Instanz hinzu
-    area.get_warp_at = get_warp_at
-    area.get_trigger_at = get_trigger_at
-    area.get_tile_type = get_tile_type
-    
-    # Debug: Zeige dass Methoden hinzugefügt wurden
-    area_name = getattr(area, 'name', getattr(area, 'map_id', 'unknown'))
-    print(f"Added warp methods to area: {area_name}")
-    print(f"  - get_warp_at: {hasattr(area, 'get_warp_at')}")
-    print(f"  - get_trigger_at: {hasattr(area, 'get_trigger_at')}")
-    print(f"  - get_tile_type: {hasattr(area, 'get_tile_type')}")
-    print(f"  - has map_data: {hasattr(area, 'map_data')}")
-    print(f"  - has layers: {hasattr(area, 'layers')}")
-    print(f"  - has layer_surfaces: {hasattr(area, 'layer_surfaces')}")
-    print(f"  - TMX mode: {hasattr(area, 'tmx_path') and area.tmx_path is not None}")
-    
-    return area
-
 class FieldScene(Scene):
     """
-    Main overworld gameplay scene.
+    Main overworld gameplay scene - jetzt aufgeräumt!
     """
     
     def __init__(self, game) -> None:
-        """
-        Initialize the field scene.
-        
-        Args:
-            game: Game instance
-        """
+        """Initialize the field scene."""
         super().__init__(game)
         
-        # Initialize graphics systems - use existing sprite manager from game
+        # Graphics systems
         self.sprite_manager = self.game.sprite_manager if hasattr(self.game, 'sprite_manager') else SpriteManager.get()
         self.tile_renderer = TileRenderer(self.sprite_manager)
-        
-        # Enable debug output for tile rendering
-        # self.tile_renderer.set_debug(True)  # Debug-Modus deaktiviert
         
         # Current area and map
         self.current_area: Optional[Area] = None
@@ -107,187 +48,121 @@ class FieldScene(Scene):
         
         # Camera
         self.camera: Optional[Camera] = None
-        self.camera_config = CameraConfig()  # Verwende Standard-Konfiguration mit neuen Konstanten
+        self.camera_config = CameraConfig()
         
         # UI elements
-        self.dialogue_box = DialogueBox(
-            x=10,
-            y=120,
-            width=300,
-            height=50
-        )
+        self.dialogue_box = DialogueBox(x=10, y=120, width=300, height=50)
         
         # State flags
         self.show_debug = False
         self.show_grid = False
-        self.show_collision = False
-        self.show_entity_info = False
-        self.show_tile_info = False
-        self.show_camera_info = False
-        self.show_performance_info = False
         self.paused = False
         self.in_battle = False
+        
+        # Dialog cooldown
+        self.dialog_input_cooldown: float = 0.0
+        self.dialog_cooldown_duration: float = 0.3
         
         # Encounter system
         self.encounter_enabled = True
         self.steps_since_encounter = 0
-        self.min_steps_between_encounters = 10
+        self.min_steps_between_encounters = 3  # Reduziert für besseres Testing
         self.encounter_check_pending = False
         
-        # Story flags and game state
+        # Story flags
         self.story_flags: Dict[str, bool] = {}
         self.game_variables: Dict[str, Any] = {}
         
-        # Load graphics resources
+        # Load graphics
         self._load_graphics()
         
-        
-        # NEW: Enhanced Map Manager for TMX/JSON separation
-        self.use_enhanced_manager = True  # Set to False to use old system
-        if self.use_enhanced_manager:
-            try:
-                self.map_manager = EnhancedMapManager(game)
-                print("✅ Using Enhanced Map Manager with TMX/JSON separation")
-            except Exception as e:
-                print(f"⚠️ Enhanced Map Manager failed, using old system: {e}")
-                self.use_enhanced_manager = False
-
-        # Check if starter scene should be shown
+        # Check für Starter-Requirement
         self._check_starter_requirement()
     
     def _load_graphics(self):
-        """Load all graphical resources."""
-        print("Loading graphics...")
+        """Lade Grafik-Ressourcen."""
+        print("[Flint] Lade Grafiken...")
         
-        # SpriteManager lädt Tiles/Sprites lazily; kein externes Tileset nötig
+        # SpriteManager lädt alles lazy
         try:
-            # Trigger lazy load once for cache warm-up
-            _ = self.sprite_manager.get_cache_info()
-            print(f"Sprite cache warm-up complete: {_['total_sprites']} sprites")
+            cache_info = self.sprite_manager.get_cache_info()
+            print(f"[Flint] Sprite-Cache bereit: {cache_info['total_sprites']} Sprites")
         except Exception as e:
-            print(f"SpriteManager warm-up failed: {e}")
+            print(f"[Flint] Cache warm-up fehlgeschlagen: {e}")
         
-        # Info
-        try:
-            print(f"All sprites via SpriteManager: {self.sprite_manager.get_sprite_cache_size()} available")
-        except Exception:
-            pass
-        
-        # Mapping-Hinweis
-        try:
-            info = self.sprite_manager.get_cache_info()
-            print(f"Tile mappings: {info['tile_mappings']} entries")
-        except Exception:
-            pass
-        
-        # Load monster sprites
+        # Lade Monster-Daten
         try:
             data = self.game.resources.load_json('monsters.json', from_data=True)
             if isinstance(data, list):
-                print(f"Monster data loaded: {len(data)} monsters")
+                print(f"[Flint] Monster geladen: {len(data)} Viecher")
         except Exception as e:
-            print(f"Failed to load monster data: {e}")
-    
-    def _load_individual_sprites(self):
-        """Load individual sprites from the sprites directory."""
-        print("Loading individual sprites...")
-        
-        # Preload wichtige Sprites - 16x16 System
-        self.preload_sprites = [
-            # Player wird automatisch geladen über get_player() 
-            # Tiles werden automatisch über get_tile() geladen
-            # Alle Sprites sind im gfx/ Ordner organisiert
-        ]
-        
-        # Alle Sprites sind bereits über SpriteManager geladen
-        print("Sprites werden automatisch über SpriteManager geladen:")
-        print(f"  - Tiles: {len(self.sprite_manager._tiles)} verfügbar")  
-        print(f"  - Objects: {len(self.sprite_manager._objects)} verfügbar")
-        print(f"  - Player: {len(self.sprite_manager._player_dir_map)} Richtungen verfügbar")
-        print(f"  - NPCs: {len(self.sprite_manager._npc_dir_map)} Varianten verfügbar")
-        print(f"  - Monster: {len(self.sprite_manager._monster)} verfügbar")
+            print(f"[Flint] Monster laden fehlgeschlagen: {e}")
     
     def _initialize_player(self):
-        """Initialize the player with Pokémon-style movement"""
+        """Initialisiere den Player mit Grid-Movement."""
         from engine.world.player import Player
         from engine.world.tiles import TILE_SIZE
         
-        # Create player at default position
+        # Erstelle Player
         self.player = Player(5 * TILE_SIZE, 5 * TILE_SIZE)
         
-        # Verbinde den Player mit dem Game-Objekt für Sprite-Zugriff
+        # Verbinde mit Game und SpriteManager
         self.player.game = self.game
-        
-        # Verbinde den Player mit dem SpriteManager der FieldScene
         if hasattr(self, 'sprite_manager'):
             self.player.sprite_manager = self.sprite_manager
-            print(f"✅ Player mit FieldScene SpriteManager verbunden")
-        else:
-            print("⚠️  Kein SpriteManager in FieldScene verfügbar")
+            print(f"[Flint] Player mit SpriteManager verbunden")
         
-        # Set up callbacks
+        # Setze Callbacks
         self.player.set_interact_callback(self._handle_interaction)
         self.player.set_warp_callback(self._check_warp_at_position)
         self.player.set_encounter_callback(self._check_encounter)
         self.player.set_collision_callback(self._handle_collision_event)
         
-        # Lade das Player-Sprite neu mit dem SpriteManager
+        # Lade Player-Sprite
         self.player._load_player_sprite()
         
-        print(f"Player initialisiert: {self.player.name}")
-        print(f"Player Position: ({self.player.x}, {self.player.y})")
-        print(f"Player Sprite geladen: {self.player.sprite_surface is not None}")
+        print(f"[Flint] Player initialisiert: {self.player.name}")
+        print(f"[Flint] Position: ({self.player.x}, {self.player.y})")
     
     def _check_starter_requirement(self):
-        """Check if player needs to choose a starter."""
+        """Check ob der Spieler'n Starter braucht."""
         if not hasattr(self.game, 'party_manager'):
             return
             
-        # Check if party is empty
         if self.game.party_manager.party.is_empty():
-            # Check if this is first time
             if not self.game.story_manager.get_flag('has_starter'):
-                # Need to choose starter!
+                # Ab zur Starter-Auswahl!
                 from engine.scenes.starter_scene import StarterScene
-                self.game.push_scene(StarterScene, game=self.game)
+                self.game.push_scene(StarterScene)
     
     def enter(self, **kwargs) -> None:
-        """
-        Enter the field scene.
-        
-        Args:
-            **kwargs: Scene parameters (map_id, spawn_point, etc.)
-        """
+        """Enter the field scene."""
         super().enter(**kwargs)
         
-        # Verbinde den SpriteManager mit der Game-Klasse
+        # Verbinde SpriteManager
         if hasattr(self.game, 'sprite_manager'):
             self.sprite_manager = self.game.sprite_manager
-            print(f"✅ SpriteManager in FieldScene verbunden: {len(self.sprite_manager.sprite_cache)} Sprites")
-        else:
-            print("⚠️  Kein SpriteManager in Game verfügbar")
+            print(f"[Flint] SpriteManager verbunden: {len(self.sprite_manager.sprite_cache)} Sprites")
         
         # Get parameters
-        map_id = kwargs.get('map_id', 'player_house')  # Start im Player House
+        map_id = kwargs.get('map_id', 'player_house')
         spawn_point = kwargs.get('spawn_point', 'bed')
         
-        # Load the map
+        # Lade Map
         self.load_map(map_id)
         
-        # Position player at spawn point
+        # Position player
         if spawn_point and self.player:
             self._position_player_at_spawn(spawn_point)
         
-        # Reset encounter flag
+        # Reset battle flag
         self.in_battle = False
         
-        # Start area music if specified
+        # Starte Map-Musik falls vorhanden
         if self.current_area:
             music_file = None
             if hasattr(self.current_area, 'map_data') and self.current_area.map_data:
                 music_file = self.current_area.map_data.properties.get('music')
-            elif hasattr(self.current_area, 'properties'):
-                music_file = self.current_area.properties.get('music')
             
             if music_file:
                 try:
@@ -296,68 +171,31 @@ class FieldScene(Scene):
                     pass
     
     def load_map(self, map_name: str, spawn_x: int = 5, spawn_y: int = 5):
-        """Lädt eine neue Map und positioniert Spieler"""
-        print(f"Loading map: {map_name}")
+        """Lädt eine Map - VEREINFACHT!"""
+        print(f"[Flint] Lade Map: {map_name}")
         
-        # NEW: Try to use Enhanced Map Manager if available
-        if hasattr(self, 'use_enhanced_manager') and self.use_enhanced_manager and hasattr(self, 'map_manager'):
-            try:
-                print(f"[EnhancedMode] Loading map with new system: {map_name}")
-                self.current_area = self.map_manager.load_map(map_name, spawn_x, spawn_y)
-                self.map_id = map_name
-                
-                # Setup camera
-                if not self.camera:
-                    from engine.world.camera import Camera, CameraConfig
-                    self.camera = Camera(
-                        viewport_width=self.game.logical_size[0],
-                        viewport_height=self.game.logical_size[1],
-                        world_width=self.current_area.width * TILE_SIZE,
-                        world_height=self.current_area.height * TILE_SIZE,
-                        config=self.camera_config
-                    )
-                else:
-                    self.camera.set_world_size(
-                        self.current_area.width * TILE_SIZE,
-                        self.current_area.height * TILE_SIZE
-                    )
-                
-                # Create player if needed
-                if not self.player:
-                    self._initialize_player()
-                
-                # Set player position
-                self.player.set_tile_position(spawn_x, spawn_y)
-                
-                # Center camera
-                self.camera.center_on(
-                    self.player.x + self.player.width // 2,
-                    self.player.y + self.player.height // 2,
-                    immediate=True
-                )
-                self.camera.set_follow_target(self.player)
-                
-                print(f"[EnhancedMode] Map loaded successfully!")
-                return
-                
-            except Exception as e:
-                print(f"[EnhancedMode] Failed to load with new system: {e}")
-                print("[EnhancedMode] Falling back to old system...")
+        # Speichere vorherige Map für Story-Events
+        if self.player and self.map_id:
+            self.player.last_map = self.map_id
         
         try:
-            # Load map data
+            # Lade Map-Daten
             from engine.world.map_loader import MapLoader
             map_data = MapLoader.load_map(map_name)
             
-            # Validate map
-            issues = MapLoader.validate_map(map_data)
-            if issues:
-                for issue in issues:
-                    print(f"Map warning: {issue}")
+            # Initialisiere Camera falls nötig
+            if not self.camera:
+                from engine.world.camera import Camera, CameraConfig
+                self.camera = Camera(
+                    viewport_width=self.game.logical_size[0],
+                    viewport_height=self.game.logical_size[1],
+                    world_width=map_data.width * 16,
+                    world_height=map_data.height * 16,
+                    config=self.camera_config
+                )
             
-            # Create area - Verwende die normale Area-Klasse aus area.py
+            # Erstelle Area
             from engine.world.area import Area
-            # Die neue Area-Klasse lädt die Map selbst über map_id
             self.current_area = Area(map_name)
             self.map_id = map_name
             
@@ -365,44 +203,24 @@ class FieldScene(Scene):
             if not hasattr(self.current_area, 'map_data'):
                 self.current_area.map_data = map_data
             
-            # Map_data ist bereits in Area gesetzt, keine zusätzlichen Attribute nötig
+            # Debug-Info
+            print(f"[Flint] Map geladen: {map_name}")
+            print(f"[Flint] Größe: {map_data.width}x{map_data.height}")
             
-            # Debug: Zeige Map-Informationen
-            area_name = getattr(self.current_area, 'name', getattr(self.current_area, 'map_id', map_name))
-            area_width = getattr(self.current_area, 'width', 20)
-            area_height = getattr(self.current_area, 'height', 15)
-            print(f"Map loaded: {area_name}")
-            print(f"Map size: {area_width}x{area_height}")
-            if hasattr(self.current_area, 'layer_surfaces'):
-                print(f"Layers: {list(self.current_area.layer_surfaces.keys())}")
-            elif hasattr(self.current_area, 'layers'):
-                print(f"Layers: {list(self.current_area.layers.keys())}")
-            
-            # Load encounter data for this area
+            # Lade Encounter-Daten
             self._load_encounter_data()
             
-            # Create or update camera
-            from engine.world.tiles import TILE_SIZE
-            if not self.camera:
-                from engine.world.camera import Camera, CameraConfig
-                self.camera = Camera(
-                    viewport_width=self.game.logical_size[0],
-                    viewport_height=self.game.logical_size[1],
-                    world_width=self.current_area.width * TILE_SIZE,
-                    world_height=self.current_area.height * TILE_SIZE,
-                    config=self.camera_config
-                )
-            else:
-                # Aktualisiere Kamera-Weltgröße
-                world_width = getattr(self.current_area, 'width', 20) * TILE_SIZE
-                world_height = getattr(self.current_area, 'height', 15) * TILE_SIZE
+            # Update Camera
+            if self.camera:
+                world_width = map_data.width * 16
+                world_height = map_data.height * 16
                 self.camera.set_world_size(world_width, world_height)
             
-            # Create player if doesn't exist
+            # Erstelle Player falls nicht vorhanden
             if not self.player:
                 self._initialize_player()
             
-            # Set collision map for player
+            # Setze Collision-Map für Player
             collision_layer = map_data.layers.get('collision', [])
             self.player.set_collision_map(
                 collision_layer,
@@ -410,72 +228,59 @@ class FieldScene(Scene):
                 map_data.height
             )
             
-            # Setze Spieler-Position
+            # Positioniere Player
             self.player.set_tile_position(spawn_x, spawn_y)
             
-            # Zentriere Kamera sofort auf Spieler
+            # Zentriere Camera auf Player
             self.camera.center_on(
                 self.player.x + self.player.width // 2,
                 self.player.y + self.player.height // 2,
                 immediate=True
             )
-            
-            # Setze Kamera auf Spieler-Entity für kontinuierliches Follow
             self.camera.set_follow_target(self.player)
             
-            # Debug output
-            print(f"Player positioned at tile ({spawn_x}, {spawn_y})")
-            print(f"Player world position: ({self.player.x}, {self.player.y})")
-            print(f"Camera position: ({self.camera.x}, {self.camera.y})")
-            
-            # Load NPCs and entities for this area
+            # Lade NPCs
             self._load_area_entities()
             
-            print(f"Map {map_name} loaded successfully!")
+            print(f"[Flint] Map {map_name} erfolgreich geladen!")
             
         except Exception as e:
-            print(f"Error loading map {map_name}: {e}")
+            print(f"[Flint] Fehler beim Map-Laden: {e}")
             import traceback
             traceback.print_exc()
-            # Load a fallback empty map
             self._create_empty_area()
     
     def _load_encounter_data(self):
-        """Load encounter data for current area."""
+        """Lade Encounter-Daten für die Area."""
         if not self.current_area:
             return
         
-        # Default encounter table based on area
-        if self.map_id == "kohlenstadt":
-            # Kohlenstadt - starter area encounters
+        if self.map_id == "route1":  # Fixed: route1 ohne Unterstrich!
+            # Route 1 mit F und E Rang Monstern
+            self.current_area.encounter_table = self._create_route_1_encounter_table()
+            self.current_area.encounter_rate = 0.25  # Erhöht für besseres Testing
+        elif self.map_id == "kohlenstadt":
+            # Starter-Area
             self.current_area.encounter_table = [
-                {"species_id": 5, "name": "Rattfratz", "level_min": 2, "level_max": 4, "weight": 40},
-                {"species_id": 6, "name": "Taubsi", "level_min": 2, "level_max": 5, "weight": 30},
-                {"species_id": 7, "name": "Raupie", "level_min": 3, "level_max": 4, "weight": 20},
-                {"species_id": 8, "name": "Hornliu", "level_min": 3, "level_max": 5, "weight": 10},
+                {"species_id": 5, "name": "Kohlekumpel", "level_min": 2, "level_max": 4, "weight": 40},
+                {"species_id": 6, "name": "Kieselkrabbler", "level_min": 2, "level_max": 5, "weight": 30},
+                {"species_id": 7, "name": "Flugratte", "level_min": 3, "level_max": 4, "weight": 20},
+                {"species_id": 8, "name": "Wolkenfurz", "level_min": 3, "level_max": 5, "weight": 10},
             ]
-            self.current_area.encounter_rate = 0.15  # 15% chance in grass
-            
-        elif self.map_id == "route_2":
-            # Slightly harder area
-            self.current_area.encounter_table = [
-                {"species_id": 5, "name": "Rattfratz", "level_min": 4, "level_max": 6, "weight": 30},
-                {"species_id": 9, "name": "Nidoran", "level_min": 4, "level_max": 6, "weight": 25},
-                {"species_id": 10, "name": "Piepi", "level_min": 5, "level_max": 7, "weight": 20},
-                {"species_id": 11, "name": "Pummeluff", "level_min": 5, "level_max": 7, "weight": 15},
-                {"species_id": 12, "name": "Zubat", "level_min": 5, "level_max": 8, "weight": 10},
-            ]
-            self.current_area.encounter_rate = 0.12
+            self.current_area.encounter_rate = 0.15
+        else:
+            # Keine Encounters
+            self.current_area.encounter_table = []
+            self.current_area.encounter_rate = 0
     
     def _create_empty_area(self) -> None:
-        """Create an empty fallback area."""
+        """Erstelle eine leere Fallback-Area."""
         from engine.world.map_loader import MapData
         from engine.world.tiles import TILE_SIZE
         
-        # Create minimal map data
         empty_map = MapData(
             id="empty",
-            name="Empty Area",
+            name="Leere Area",
             width=20,
             height=20,
             tile_size=TILE_SIZE,
@@ -490,58 +295,88 @@ class FieldScene(Scene):
         )
         
         from engine.world.area import Area
-        # Die neue Area erstellt eine leere Map als Fallback
         self.current_area = Area("empty")
-        
-        # Füge zusätzliche Attribute hinzu
         self.current_area.map_data = empty_map
         self.current_area.entities = []
         self.current_area.npcs = []
-        self.current_area.encounter_rate = 0.1
+        self.current_area.encounter_rate = 0
         self.current_area.encounter_table = []
     
     def _load_area_entities(self) -> None:
-        """Load NPCs and other entities for the current area."""
+        """Lade NPCs für die aktuelle Area - MIT PATHFINDING!"""
         from engine.world.tiles import TILE_SIZE
         
-        # This would load from data files
-        # For now, create some test NPCs
+        # Lade NPC-Daten
+        npcs_data = resources.load_json("game_data/npcs.json")
+        if not npcs_data:
+            print(f"[Flint] Keine NPC-Daten gefunden")
+            return
         
-        if self.map_id == "kohlenstadt":
-            # Create Professor NPC if no starter yet
-            if not self.game.story_manager.get_flag('has_starter'):
-                prof = Entity(
-                    x=8 * TILE_SIZE,
-                    y=10 * TILE_SIZE,
-                    width=14,
-                    height=14
+        current_map_npcs = npcs_data.get(self.map_id, {})
+        
+        for npc_name, npc_info in current_map_npcs.items():
+            try:
+                # Bestimme Sprite
+                sprite_name = npc_info.get("sprite", "villager_m")
+                facing = npc_info.get("facing", "down")
+                
+                # Lade Sprite
+                npc_sprite = self.sprite_manager.get_npc_sprite(sprite_name, facing)
+                if not npc_sprite:
+                    # Fallback
+                    for fallback_dir in ["down", "up", "left", "right"]:
+                        if fallback_dir != facing:
+                            npc_sprite = self.sprite_manager.get_npc_sprite(sprite_name, fallback_dir)
+                            if npc_sprite:
+                                break
+                
+                # Erstelle NPC
+                from engine.world.npc import NPC
+                npc = NPC.from_config_dict(
+                    name=npc_name.replace('_', ' ').title(),
+                    config_dict=npc_info,
+                    sprite_surface=npc_sprite
                 )
-                prof.name = "Professor Budde"
-                prof.interactable = True
-                self.current_area.add_entity(prof)
-            
-            # Create a test NPC
-            npc = Entity(
-                x=12 * TILE_SIZE,
-                y=8 * TILE_SIZE,
-                width=14,
-                height=14
-            )
-            npc.name = "Ruhrpott Karl"
-            npc.interactable = True
-            self.current_area.add_entity(npc)
+                
+                # WICHTIG: Setze Pathfinding-Komponenten!
+                if hasattr(self.current_area, 'map_data') and self.current_area.map_data:
+                    collision_layer = self.current_area.map_data.layers.get('collision', [])
+                    npc.set_collision_layer(collision_layer)
+                    
+                    # Aktiviere Pathfinding für NPCs mit Movement-Pattern
+                    movement_pattern = npc_info.get('movement_pattern', 'static')
+                    if movement_pattern != 'static':
+                        # TODO: Pathfinding hier integrieren!
+                        print(f"[Flint] NPC {npc_name} braucht Pathfinding für Pattern: {movement_pattern}")
+                
+                # Setze SpriteManager
+                npc.set_sprite_manager(self.sprite_manager)
+                
+                # WICHTIG: Setze Area und Player-Referenz für Pathfinding!
+                npc.set_area(self.current_area)
+                npc.set_player_reference(self.player)
+                
+                # Füge zur Area hinzu
+                self.current_area.entities.append(npc)
+                print(f"[Flint] NPC hinzugefügt: {npc.name} - Pattern: {npc_info.get('movement_pattern', 'static')}")
+                
+            except Exception as e:
+                print(f"[Flint] Fehler beim NPC-Laden {npc_name}: {e}")
+        
+        print(f"[Flint] {len(current_map_npcs)} NPCs geladen für {self.map_id}")
+    
+    def _on_dialogue_complete(self) -> None:
+        """Dialog fertig - Movement wieder freigeben."""
+        if self.player:
+            self.player.lock_movement(False)
+        self.dialog_input_cooldown = self.dialog_cooldown_duration
     
     def _position_player_at_spawn(self, spawn_point: str) -> None:
-        """
-        Position player at a named spawn point.
-        
-        Args:
-            spawn_point: Name of spawn point or tile coordinates
-        """
+        """Positioniere Player am Spawn-Point."""
         if not self.player or not self.current_area:
             return
         
-        # Check for named spawn points in map properties
+        # Check für benannte Spawn-Points
         if hasattr(self.current_area, 'map_data') and self.current_area.map_data:
             spawn_data = self.current_area.map_data.properties.get('spawns', {})
             
@@ -549,80 +384,51 @@ class FieldScene(Scene):
                 spawn = spawn_data[spawn_point]
                 self.player.set_tile_position(spawn['x'], spawn['y'])
                 if 'direction' in spawn:
-                    # Set facing direction
                     from engine.world.entity import Direction
                     self.player.direction = Direction[spawn['direction'].upper()]
                 return
+        
+        # Spezielle Spawn-Points
+        if spawn_point == "bed":
+            if self.map_id == "player_house":
+                self.player.set_tile_position(5, 5)
+                from engine.world.entity import Direction
+                self.player.direction = Direction.DOWN
+            else:
+                self.player.set_tile_position(5, 5)
         elif spawn_point == "door":
-            # Default door position
             self.player.set_tile_position(10, 10)
         else:
-            # Default center position - verwende Area-Dimensionen
+            # Default center
             if hasattr(self.current_area, 'width') and hasattr(self.current_area, 'height'):
                 self.player.set_tile_position(
                     self.current_area.width // 2,
                     self.current_area.height // 2
                 )
             else:
-                # Fallback
                 self.player.set_tile_position(10, 10)
     
     def handle_event(self, event: pygame.event.Event) -> bool:
-        """
-        Handle input events.
-        
-        Args:
-            event: pygame event to process
-            
-        Returns:
-            True if event was handled
-        """
-        # Let dialogue handle input first
+        """Handle Input-Events."""
+        # Dialog first
         if self.dialogue_box.is_open():
             return self.dialogue_box.handle_input(event)
         
-        # Check for pause
+        # Check für Pause und Debug
         if event.type == pygame.KEYDOWN:
             if event.key in [pygame.K_ESCAPE, pygame.K_q]:
                 self._toggle_pause()
                 return True
             elif event.key == pygame.K_TAB:
-                # Debug-Features umschalten
                 self.show_debug = not self.show_debug
                 if self.show_debug:
-                    print("🔍 Debug-Modus aktiviert!")
-                    print("  G - Grid anzeigen/verstecken")
-                    print("  C - Kollision anzeigen/verstecken")
-                    print("  E - Entity-Info anzeigen/verstecken")
-                    print("  T - Tile-Info anzeigen/verstecken")
-                    print("  V - Kamera-Info anzeigen/verstecken")
-                    print("  P - Performance-Info anzeigen/verstecken")
+                    print("[Flint] 🔍 Debug-Modus AN!")
                 else:
-                    print("🔍 Debug-Modus deaktiviert")
+                    print("[Flint] 🔍 Debug-Modus AUS")
                 return True
             elif event.key == pygame.K_g:
                 self.show_grid = not self.show_grid
-                print(f"📐 Grid: {'AN' if self.show_grid else 'AUS'}")
-                return True
-            elif event.key == pygame.K_c:
-                self.show_collision = not self.show_collision
-                print(f"🚫 Kollision: {'AN' if self.show_collision else 'AUS'}")
-                return True
-            elif event.key == pygame.K_e:
-                self.show_entity_info = not self.show_entity_info
-                print(f"👤 Entity-Info: {'AN' if self.show_entity_info else 'AUS'}")
-                return True
-            elif event.key == pygame.K_t:
-                self.show_tile_info = not self.show_tile_info
-                print(f"🧱 Tile-Info: {'AN' if self.show_tile_info else 'AUS'}")
-                return True
-            elif event.key == pygame.K_v:
-                self.show_camera_info = not self.show_camera_info
-                print(f"📷 Kamera-Info: {'AN' if self.show_camera_info else 'AUS'}")
-                return True
-            elif event.key == pygame.K_p:
-                self.show_performance_info = not self.show_performance_info
-                print(f"⚡ Performance-Info: {'AN' if self.show_performance_info else 'AUS'}")
+                print(f"[Flint] Grid: {'AN' if self.show_grid else 'AUS'}")
                 return True
             elif event.key == pygame.K_b and self.game.debug_mode:
                 # Debug: Force battle
@@ -632,100 +438,97 @@ class FieldScene(Scene):
         return False
     
     def _toggle_pause(self) -> None:
-        """Toggle pause state."""
+        """Pause umschalten."""
         self.paused = not self.paused
         
         if self.paused:
-            # Open pause menu
             from engine.scenes.pause_scene import PauseScene
             self.game.push_scene(PauseScene, game=self.game)
-        else:
-            # Resume
-            pass
     
     def update(self, dt: float) -> None:
-        """Update the field scene."""
-        # Update dialogue
+        """Update der Scene."""
+        # Update Dialog-Cooldown
+        if self.dialog_input_cooldown > 0.0:
+            self.dialog_input_cooldown -= dt
+            if self.dialog_input_cooldown < 0.0:
+                self.dialog_input_cooldown = 0.0
+        
+        # Update Dialog
         if hasattr(self, 'dialogue_box'):
             self.dialogue_box.update(dt)
             
-            # Nur bei Dialog pausieren, NICHT bei Cutscene!
             if self.dialogue_box.is_open() or self.paused:
-                # Update Cutscene aber pausiere alles andere
+                # Update Cutscene trotzdem
                 if hasattr(self.game, 'cutscene_manager') and self.game.cutscene_manager.active_cutscene:
                     self.game.cutscene_manager.update(dt)
                 return
         
-        # Check for pending encounter
+        # Check für Encounter
         if self.encounter_check_pending and not self.in_battle:
             self.encounter_check_pending = False
             self._execute_encounter_check()
         
-        # Update cutscene manager FIRST
+        # Update Cutscene Manager
         if hasattr(self.game, 'cutscene_manager') and self.game.cutscene_manager.active_cutscene:
             self.game.cutscene_manager.update(dt)
         
-        # Update player with input (auch wenn Cutscene läuft, außer wenn explizit gesperrt)
+        # Update Player
         if self.player and not self.in_battle:
             self.player.handle_input(self.game, dt)
             self.player.update(dt)
         
-        # WICHTIG: Update camera NACH Player-Update!
+        # Update Camera NACH Player!
         if self.camera:
             self.camera.update(dt)
         
-        # Update area entities
+        # Update NPCs - HIER KOMMT PATHFINDING REIN!
         if self.current_area and hasattr(self.current_area, 'entities'):
             for entity in self.current_area.entities:
                 entity.update(dt)
+                # TODO: Pathfinding-Update für bewegende NPCs
         
-        # Check for story events
-        if hasattr(self, '_check_story_events'):
-            self._check_story_events()
+        # Check Story-Events
+        self._check_story_events()
     
     def draw(self, surface: pygame.Surface) -> None:
-        """Zeichnet die Szene mit korrekter Layer-Reihenfolge"""
+        """Zeichne die Scene."""
         if not self.current_area:
-            # Debug: Zeige Fehler wenn keine Area geladen
             font = pygame.font.Font(None, 24)
             text = font.render("FEHLER: Keine Area geladen!", True, (255, 0, 0))
             surface.blit(text, (50, 50))
             return
         
-        # Verwende den neuen RenderManager für koordiniertes Rendering
+        # Verwende RenderManager
         if not hasattr(self, 'render_manager'):
             from engine.graphics.render_manager import RenderManager
             self.render_manager = RenderManager()
         
-        # Setze Player-Referenz IMMER neu (da RenderManager die Layer löscht)
+        # Setze Player-Referenz
         self.render_manager.player = self.player
         
-        # Aktiviere Debug-Modus für RenderManager
-        # self.render_manager.set_debug_mode(True)  # Debug-Modus deaktiviert
-        
-        # UI-Elemente sammeln
+        # UI-Elemente
         ui_elements = []
         if hasattr(self, 'dialogue_box'):
             ui_elements.append(self.dialogue_box)
         
-        # Rendere komplette Szene mit RenderManager
+        # Rendere Scene
         self.render_manager.render_scene(surface, self.current_area, self.camera, ui_elements)
         
-        # Optional: Debug-Grid
+        # Debug-Grid
         if self.show_grid:
             from engine.world.tiles import draw_grid
             draw_grid(surface, int(self.camera.x), int(self.camera.y))
         
-        # Debug-Info anzeigen wenn aktiviert
+        # Debug-Info
         if self.show_debug:
             self._draw_debug_info(surface)
         
-        # Draw UI elements
+        # UI
         self._draw_ui(surface)
     
     def _draw_ui(self, surface: pygame.Surface) -> None:
-        """Draw UI elements."""
-        # Draw area name (fade in/out)
+        """Zeichne UI-Elemente."""
+        # Area-Name
         if self.current_area:
             try:
                 font = pygame.font.Font(None, 18)
@@ -735,7 +538,7 @@ class FieldScene(Scene):
             except:
                 pass
         
-        # Draw pause indicator
+        # Pause-Indikator
         if self.paused:
             try:
                 font = pygame.font.Font(None, 24)
@@ -744,283 +547,243 @@ class FieldScene(Scene):
                 surface.blit(text, rect)
             except:
                 pass
-        
-        # Draw encounter steps counter (debug)
-        if self.game.debug_mode:
-            try:
-                font = pygame.font.Font(None, 12)
-                text = font.render(f"Steps: {self.steps_since_encounter}", True, (255, 255, 0))
-                surface.blit(text, (5, 25))
-            except:
-                pass
-        
-        # Draw debug information
-        if self.show_debug:
-            self._draw_debug_info(surface)
     
     def _draw_debug_info(self, surface: pygame.Surface) -> None:
-        """Draw debug information overlay."""
+        """Debug-Info zeichnen."""
         if not self.show_debug:
             return
             
-        # Font für Debug-Info
         font = pygame.font.Font(None, 14)
         small_font = pygame.font.Font(None, 12)
         
-        # Hintergrund für Debug-Info
-        debug_surface = pygame.Surface((300, 200), pygame.SRCALPHA)
+        debug_surface = pygame.Surface((300, 150), pygame.SRCALPHA)
         debug_surface.fill((0, 0, 0, 180))
         
         y_offset = 10
         line_height = 16
         
         # Debug-Status
-        status_text = f"🔍 DEBUG MODUS AKTIV"
-        text = font.render(status_text, True, (255, 255, 0))
+        text = font.render("🔍 DEBUG MODUS - FLINT", True, (255, 255, 0))
         debug_surface.blit(text, (10, y_offset))
         y_offset += line_height + 5
         
         # Player-Info
         if self.player:
-            player_text = f"👤 Player: ({self.player.x}, {self.player.y})"
-            text = small_font.render(player_text, True, (255, 255, 255))
-            debug_surface.blit(text, (10, y_offset))
-            y_offset += line_height
-            
             tile_x, tile_y = self.player.get_tile_position()
-            tile_text = f"   Tile: ({tile_x}, {tile_y})"
-            text = small_font.render(tile_text, True, (200, 200, 200))
+            text = small_font.render(f"Player: Tile ({tile_x}, {tile_y})", True, (255, 255, 255))
             debug_surface.blit(text, (10, y_offset))
             y_offset += line_height
         
         # Camera-Info
         if self.camera:
-            cam_text = f"📷 Camera: ({self.camera.x}, {self.camera.y})"
-            text = small_font.render(cam_text, True, (255, 255, 255))
+            text = small_font.render(f"Camera: ({int(self.camera.x)}, {int(self.camera.y)})", True, (255, 255, 255))
             debug_surface.blit(text, (10, y_offset))
             y_offset += line_height
         
         # Area-Info
         if self.current_area:
-            area_text = f"🗺️ Area: {self.current_area.name}"
-            text = small_font.render(area_text, True, (255, 255, 255))
+            text = small_font.render(f"Area: {self.current_area.name}", True, (255, 255, 255))
             debug_surface.blit(text, (10, y_offset))
             y_offset += line_height
             
-            map_text = f"   Size: {self.current_area.map_data.width}x{self.current_area.map_data.height}"
-            text = small_font.render(map_text, True, (200, 200, 200))
-            debug_surface.blit(text, (10, y_offset))
-            y_offset += line_height
-            
-            entity_text = f"   Entities: {len(self.current_area.entities)}"
-            text = small_font.render(entity_text, True, (200, 200, 200))
-            debug_surface.blit(text, (10, y_offset))
-            y_offset += line_height
+            if hasattr(self.current_area, 'entities'):
+                text = small_font.render(f"NPCs: {len(self.current_area.entities)}", True, (200, 200, 200))
+                debug_surface.blit(text, (10, y_offset))
+                y_offset += line_height
         
-        # Debug-Features Status
-        y_offset += 5
-        features_text = "Debug-Features:"
-        text = small_font.render(features_text, True, (255, 255, 0))
+        # Encounter-Info
+        text = small_font.render(f"Steps: {self.steps_since_encounter}", True, (200, 200, 200))
         debug_surface.blit(text, (10, y_offset))
-        y_offset += line_height
         
-        features = [
-            ("Grid", self.show_grid, "G"),
-            ("Kollision", self.show_collision, "C"),
-            ("Entity-Info", self.show_entity_info, "E"),
-            ("Tile-Info", self.show_tile_info, "T"),
-            ("Kamera-Info", self.show_camera_info, "V"),
-            ("Performance", self.show_performance_info, "P")
-        ]
-        
-        for feature_name, is_active, key in features:
-            status = "AN" if is_active else "AUS"
-            color = (0, 255, 0) if is_active else (255, 100, 100)
-            feature_text = f"   {key}: {feature_name} - {status}"
-            text = small_font.render(feature_text, True, color)
-            debug_surface.blit(text, (10, y_offset))
-            y_offset += line_height
-        
-        # Debug-Info auf den Screen zeichnen
         surface.blit(debug_surface, (10, 50))
 
-    def _start_cutscene(self, cutscene_id: str) -> None:
-        """Start a cutscene sequence (placeholder until system is fully implemented)."""
-        # Placeholder for cutscene system
-        if hasattr(self.game, 'cutscene_manager'):
-            # In Zukunft: self.game.cutscene_manager.start(cutscene_id)
-            pass
-
-    def _check_story_events(self):
-        """Checks and triggers story events based on position and flags."""
-        if not self.player or not self.game.story_manager:
-            return
-
-        tile_x, tile_y = self.player.get_tile_position()
-        story = self.game.story_manager
-
-        # Player leaves house for the first time
-        if self.map_id == "kohlenstadt" and not story.get_flag('left_house_first_time'):
-            story.set_flag('left_house_first_time', True)
-            self.dialogue_box.show_text(
-                "Kohlenstadt! Die Stadt, in der alles begann. Zeit, Professor Budde zu besuchen!"
-            )
-
-        # Player enters museum
-        if self.map_id == "museum" and not story.get_flag('visited_museum'):
-            story.set_flag('visited_museum', True)
-            if not story.get_flag('has_starter'):
-                # Trigger professor cutscene
-                self._start_professor_intro()
-
-        # Player leaves museum with starter
-        if self.map_id == "kohlenstadt" and story.get_flag('has_starter'):
-            if not story.get_flag('met_rival') and story.should_spawn_rival():
-                # Spawn rival outside the museum
-                self._spawn_rival_outside_museum()
-
-    def _start_professor_intro(self):
-        """Starts the professor introduction dialogue."""
-        story = self.game.story_manager
-        story.set_flag('met_professor', True)
-
-        pages = [
-            DialoguePage(
-                "Ach, du bist es! Ich hab schon auf dich gewartet!",
-                "Prof. Budde"
-            ),
-            DialoguePage(
-                "Ich bin Professor Budde, der führende Fossil-Forscher hier!",
-                "Prof. Budde"
-            ),
-            DialoguePage(
-                "Ich hab gehört, du willst auf Reisen gehen?",
-                "Prof. Budde"
-            ),
-            DialoguePage(
-                "Da brauchst du unbedingt ein Monster als Partner!",
-                "Prof. Budde"
-            ),
-            DialoguePage(
-                "Komm, ich zeig dir meine neuesten Wiederbelebungen!",
-                "Prof. Budde"
-            )
-        ]
-
-        self.dialogue_box.show_dialogue(
-            pages,
-            callback=lambda _: self._go_to_starter_selection()
-        )
-
-    def _spawn_rival_outside_museum(self):
-        """Spawns the rival NPC in front of the museum and starts dialogue."""
-        story = self.game.story_manager
-        story.set_flag('met_rival', True)
-
-        # Create rival NPC
-        rival = RivalKlaus(20 * 16, 8 * 16)  # In front of the museum
-        self.current_area.entities.append(rival)
-
-        # Start rival dialogue
-        pages = rival.get_dialogue(story)
-        self.dialogue_box.show_dialogue(
-            pages,
-            callback=lambda _: self._start_rival_battle()
-        )
-
-    def _start_rival_battle(self):
-        """Starts a battle with the rival."""
-        rival_monster = self._create_rival_starter()
-
-        from engine.scenes.battle_scene import BattleScene
-        battle_scene = BattleScene(self.game)
-
-        self.game.push_scene(
-            battle_scene,
-            enemy_team=[rival_monster],
-            is_trainer_battle=True,
-            trainer_name="Klaus",
-            on_victory=lambda: self._on_rival_victory(),
-            on_defeat=lambda: self._on_rival_defeat()
-        )
-
-    def _create_rival_starter(self):
-        """Creates the rival's starter monster based on player's choice."""
-        player_starter = self.game.party_manager.party.monsters[0]
-
-        rival_species_id = 1  # Default
-        if player_starter.species_id == 1:  # Feuer
-            rival_species_id = 2  # Wasser
-        elif player_starter.species_id == 2:  # Wasser
-            rival_species_id = 3  # Pflanze
-        elif player_starter.species_id == 3:  # Pflanze
-            rival_species_id = 1  # Feuer
-
-        from engine.systems.monster_instance import MonsterInstance
-        rival_monster = MonsterInstance.create_from_species(
-            species=self.game.resources.get_monster_species(rival_species_id),
-            game=self.game
-        )
-        return rival_monster
-
-    def _on_rival_victory(self):
-        """Callback when player wins against rival."""
-        story = self.game.story_manager
-        story.set_flag('rival_first_battle', True)
-        story.variables['rival_won_first'] = False
-
-        self.dialogue_box.show_dialogue([
-            DialoguePage("Mensch, du bist ja echt stark!", "Klaus"),
-            DialoguePage("Aber wart's ab, ich werd trainieren!", "Klaus"),
-            DialoguePage("Beim nächsten Mal gewinne ich!", "Klaus"),
-            DialoguePage("[Klaus rennt davon]", None)
-        ])
-
-        self._remove_rival_npc()
-
-    def _on_rival_defeat(self):
-        """Callback when player loses to rival."""
-        story = self.game.story_manager
-        story.set_flag('rival_first_battle', True)
-        story.variables['rival_won_first'] = True
-
-        self.dialogue_box.show_dialogue([
-            DialoguePage("Haha! Ich hab's gewusst!", "Klaus"),
-            DialoguePage("Mein Monster ist das Beste!", "Klaus"),
-            DialoguePage("Du solltest erstmal trainieren gehen!", "Klaus"),
-            DialoguePage("[Klaus geht stolz davon]", None)
-        ])
-
-        self._remove_rival_npc()
-
-    def _remove_rival_npc(self):
-        """Removes the rival NPC from the current area."""
-        self.current_area.entities = [
-            e for e in self.current_area.entities
-            if not isinstance(e, RivalKlaus)
-        ]
+    # === STORY-EVENTS ===
     
-    def _check_warps(self) -> None:
-        """Check if player is on a warp tile."""
-        if not self.player or not self.current_area:
+    def _check_story_events(self):
+        """Check für Story-Events - hier passiert die Action!"""
+        if not self.player or not hasattr(self.game, 'story_manager') or not self.game.story_manager:
+            return
+
+        if self.dialogue_box.is_open():
+            return
+
+        story = self.game.story_manager
+        
+        # Debug Map-Wechsel
+        if hasattr(self.player, 'last_map'):
+            if self.player.last_map != self.map_id:
+                print(f"[Flint] Map-Wechsel: {self.player.last_map} → {self.map_id}")
+        
+        # Event 1: Erstes Mal Haus verlassen
+        if self.map_id == "kohlenstadt" and not story.get_flag('left_house_first_time'):
+            if hasattr(self.player, 'last_map') and self.player.last_map == "player_house":
+                print("[Flint] Story-Event: Erstes Mal Haus verlassen!")
+                story.set_flag('left_house_first_time', True)
+                self._show_internal_monologue([
+                    "Kohlenstadt... wat für'n Drecksloch.",
+                    "Aber hey, hier is alles angefangen. Die alten Zechen, die Fossilien...",
+                    "Mal gucken wat der durchgeknallte Professor diesmal ausgegraben hat."
+                ])
+                return
+        
+        # Event 2: Museum betreten ohne Starter
+        if self.map_id == "museum" and not story.get_flag('has_starter'):
+            if not story.get_flag('professor_intro_started'):
+                print("[Flint] Story-Event: Professor-Intro!")
+                story.set_flag('professor_intro_started', True)
+                self._trigger_professor_fossil_intro()
+                return
+    
+    def _show_internal_monologue(self, lines: List[str]):
+        """Zeigt internen Monolog."""
+        if self.player:
+            self.player.lock_movement(True)
+        
+        pages = [DialoguePage(line, None) for line in lines]
+        self.dialogue_box.show_dialogue(
+            pages,
+            callback=lambda _: self._on_dialogue_complete()
+        )
+    
+    def _trigger_professor_fossil_intro(self):
+        """Professor Budde's verrückte Fossil-Show!"""
+        if self.player:
+            self.player.lock_movement(True)
+        
+        dialogue_pages = [
+            DialoguePage("Ach, da bisse ja endlich, du Schlafmütze!", "Prof. Budde"),
+            DialoguePage("Weißte wat? Ich hab's geschafft! Die verdammten Viecher sind wieder da!", "Prof. Budde"),
+            DialoguePage("Jahrmillionen alte Monster aus'm Kohleflöz!", "Prof. Budde"),
+            DialoguePage("Hör ma, du willst doch die Trials machen, wa?", "Prof. Budde"),
+            DialoguePage("Ohne Monster kommste da nich weit, Junge!", "Prof. Budde"),
+            DialoguePage("Ich geb dir eins von meinen Babys. Aber pass drauf auf!", "Prof. Budde")
+        ]
+        
+        self.dialogue_box.show_dialogue(
+            dialogue_pages,
+            callback=lambda _: self._go_to_fossil_selection()
+        )
+    
+    def _go_to_fossil_selection(self):
+        """Ab zur Fossil-Auswahl!"""
+        if self.player:
+            self.player.lock_movement(False)
+        
+        print("[Flint] Wechsel zur Starter-Auswahl")
+        from engine.scenes.starter_scene import StarterScene
+        self.game.push_scene(StarterScene)
+    
+    # === INTERAKTIONEN ===
+    
+    def _handle_interaction(self, tile_pos: Tuple[int, int]) -> None:
+        """Handle Interaktion an Tile-Position."""
+        tile_x, tile_y = tile_pos
+        
+        # Check NPCs
+        for entity in self.current_area.entities:
+            entity_tile = entity.get_tile_position()
+            if entity_tile == tile_pos and entity.interactable:
+                from engine.world.npc import NPC
+                if isinstance(entity, NPC):
+                    entity.on_interact(self.player)
+                
+                # Face NPC
+                if hasattr(entity, 'grid_x') and hasattr(entity, 'grid_y'):
+                    dx = entity.grid_x - self.player.grid_x
+                    dy = entity.grid_y - self.player.grid_y
+                    entity.direction = Direction.from_vector(-dx, -dy)
+                
+                self._interact_with_entity(entity)
+                return
+        
+        # Check Triggers
+        if hasattr(self.current_area, 'map_data') and self.current_area.map_data:
+            for trigger in self.current_area.map_data.triggers:
+                if trigger.x == tile_x and trigger.y == tile_y:
+                    self._execute_trigger(trigger)
+                    return
+    
+    def _interact_with_entity(self, entity: Entity) -> None:
+        """Interagiere mit Entity."""
+        if self.dialogue_box.is_open():
+            return
+            
+        if self.player:
+            self.player.lock_movement(True)
+        
+        # Verwende dialogue_id falls vorhanden
+        if hasattr(entity, 'dialogue_id') and entity.dialogue_id:
+            self._show_npc_dialogue(entity.dialogue_id, entity.name)
             return
         
-        # Get player's current tile
-        tile_x, tile_y = self.player.get_tile_position()
+        # Fallback-Dialog
+        pages = [DialoguePage(
+            text="Ey, wat willze?",
+            speaker=entity.name
+        )]
+        self.dialogue_box.show_dialogue(
+            pages,
+            callback=lambda _: self._on_dialogue_complete()
+        )
+    
+    def _show_npc_dialogue(self, dialogue_id: str, speaker_name: str) -> None:
+        """Zeige Dialog aus dialogues.json."""
+        dialogues_data = resources.load_json("game_data/dialogues.json")
+        if not dialogues_data or dialogue_id not in dialogues_data:
+            pages = [DialoguePage(
+                text="Moin! Alles klar bei dir?",
+                speaker=speaker_name
+            )]
+            self.dialogue_box.show_dialogue(
+                pages,
+                callback=lambda _: self._on_dialogue_complete()
+            )
+            return
         
-        # Check for warp
-        warp = self.current_area.get_warp_at(tile_x, tile_y)
-        if warp:
-            self._execute_warp(warp)
+        dialogue_data = dialogues_data[dialogue_id]
+        text_lines = dialogue_data.get("text", ["..."])
+        
+        pages = []
+        for line in text_lines:
+            pages.append(DialoguePage(text=line, speaker=speaker_name))
+        
+        self.dialogue_box.show_dialogue(
+            pages,
+            callback=lambda _: self._on_dialogue_complete()
+        )
+    
+    # === WARPS ===
+    
+    def _check_warp_at_position(self, tile_x: int, tile_y: int):
+        """Check für Warp an Position."""
+        if not self.current_area:
+            return
+        
+        # Lade Warps aus warps.json
+        warps_data = resources.load_json("game_data/warps.json")
+        if not warps_data:
+            return
+        
+        current_map_warps = warps_data.get(self.map_id, {})
+        
+        for warp_name, warp_info in current_map_warps.items():
+            warp_pos = warp_info.get("position", [])
+            if len(warp_pos) == 2 and warp_pos[0] == tile_x and warp_pos[1] == tile_y:
+                from engine.world.map_loader import Warp
+                warp = Warp(
+                    x=tile_x,
+                    y=tile_y,
+                    to_map=warp_info.get("destination_map"),
+                    to_x=warp_info.get("destination_position", [5, 5])[0],
+                    to_y=warp_info.get("destination_position", [5, 5])[1],
+                    direction=warp_info.get("direction"),
+                    transition_type=warp_info.get("type", "fade")
+                )
+                self._execute_warp(warp)
+                return
     
     def _execute_warp(self, warp: Warp) -> None:
-        """
-        Execute a warp to another map with smooth transitions.
-        
-        Args:
-            warp: Warp data
-        """
-        # Prepare warp data for transition system
+        """Führe Warp aus."""
         warp_data = {
             'target_map': warp.to_map,
             'spawn_x': warp.to_x,
@@ -1030,140 +793,14 @@ class FieldScene(Scene):
             'spawn_point': getattr(warp, 'spawn_point', 'default')
         }
         
-        # Execute transition based on warp type
         MapTransition.execute_transition(self.game, warp_data)
-        
-        # Note: The actual map loading and player positioning is now handled
-        # by the transition system, so we don't need to do it here anymore
-    
-    def _check_triggers(self) -> None:
-        """Check for automatic triggers at player position."""
-        if not self.player or not self.current_area:
-            return
-        
-        # Get player's current tile
-        tile_x, tile_y = self.player.get_tile_position()
-        
-        # Check for trigger
-        trigger = self.current_area.get_trigger_at(tile_x, tile_y)
-        if trigger and trigger.event == "auto":
-            self._execute_trigger(trigger)
-    
-    def _handle_interaction(self, tile_pos: Tuple[int, int]) -> None:
-        """
-        Handle player interaction at a tile position.
-        
-        Args:
-            tile_pos: (tile_x, tile_y) position to interact with
-        """
-        tile_x, tile_y = tile_pos
-
-
-        # NEW: Try enhanced interaction manager first
-        if hasattr(self, 'use_enhanced_manager') and self.use_enhanced_manager and hasattr(self, 'map_manager'):
-            if self.map_manager.check_interaction(tile_x, tile_y):
-                return
-        
-        
-        # Check for NPCs
-        for entity in self.current_area.entities:
-            entity_tile = entity.get_tile_position()
-            if entity_tile == tile_pos and entity.interactable:
-                # Face the NPC (if entity has grid position)
-                if hasattr(entity, 'grid_x') and hasattr(entity, 'grid_y'):
-                    dx = entity.grid_x - self.player.grid_x
-                    dy = entity.grid_y - self.player.grid_y
-                    entity.direction = Direction.from_vector(-dx, -dy)
-                
-                # Interact
-                self._interact_with_entity(entity)
-                return
-        
-        # Check for triggers
-        if hasattr(self.current_area, 'map_data') and self.current_area.map_data:
-            for trigger in self.current_area.map_data.triggers:
-                if trigger.x == tile_x and trigger.y == tile_y:
-                    self._execute_trigger(trigger)
-                    return
-        else:
-            # Fallback für TMX-basierte Areas
-            trigger = self.current_area.get_trigger_at(tile_x * 16, tile_y * 16)
-            if trigger:
-                self._execute_trigger(trigger)
-                return
-        
-        # Check for hidden items (optional)
-        self._check_hidden_item(tile_x, tile_y)
-    
-    def _check_warp_at_position(self, tile_x: int, tile_y: int):
-        """Check for warp at specific tile position"""
-        if not self.current_area:
-            return
-        
-        # Check for warp at this position
-        if hasattr(self.current_area, 'map_data') and self.current_area.map_data:
-            for warp in self.current_area.map_data.warps:
-                if warp.x == tile_x and warp.y == tile_y:
-                    self._execute_warp(warp)
-                    break
-        else:
-            # Fallback für TMX-basierte Areas
-            warp = self.current_area.get_warp_at(tile_x * 16, tile_y * 16)
-            if warp:
-                self._execute_warp(warp)
-    
-    def _handle_collision_event(self, tile_x: int, tile_y: int):
-        """Handle collision with solid tile"""
-        # Check if it's a sign or interactable solid object
-        if hasattr(self.current_area, 'map_data') and self.current_area.map_data:
-            for trigger in self.current_area.map_data.triggers:
-                if trigger.x == tile_x and trigger.y == tile_y:
-                    # Auto-interact with signs when walking into them
-                    if trigger.event == "sign":
-                        self._execute_trigger(trigger)
-                        break
-        else:
-            # Fallback für TMX-basierte Areas
-            trigger = self.current_area.get_trigger_at(tile_x * 16, tile_y * 16)
-            if trigger:
-                self._execute_trigger(trigger)
-    
-    def _check_hidden_item(self, tile_x: int, tile_y: int):
-        """Check for hidden items at position"""
-        # Hidden items system (optional)
-        hidden_items = self.game_variables.get('hidden_items', {})
-        key = f"{self.map_id}_{tile_x}_{tile_y}"
-        
-        if key in hidden_items and not hidden_items[key]['found']:
-            item = hidden_items[key]
-            self.dialogue_box.show_text(
-                f"Du hast {item['name']} gefunden!",
-                callback=lambda _: self._collect_hidden_item(key, item)
-            )
-    
-    def _collect_hidden_item(self, key: str, item: dict):
-        """Collect a hidden item"""
-        # Mark as found
-        hidden_items = self.game_variables.get('hidden_items', {})
-        hidden_items[key]['found'] = True
-        
-        # Add to inventory
-        # self.game.inventory.add_item(item['id'], item.get('quantity', 1))
     
     def _execute_trigger(self, trigger: Trigger) -> None:
-        """
-        Execute a trigger event.
-        
-        Args:
-            trigger: Trigger data
-        """
+        """Führe Trigger aus."""
         if trigger.event == "sign":
-            # Show sign text
             text = trigger.args.get('text', 'Ein Schild, aber nix drauf.')
             self.dialogue_box.show_text(text)
-            
         elif trigger.event == "dialogue":
-            # Show dialogue sequence
             pages = []
             for page_data in trigger.args.get('pages', []):
                 pages.append(DialoguePage(
@@ -1172,132 +809,61 @@ class FieldScene(Scene):
                 ))
             if pages:
                 self.dialogue_box.show_dialogue(pages)
-                
-        elif trigger.event == "cutscene":
-            # Start a cutscene
-            cutscene_id = trigger.args.get('id')
-            if cutscene_id:
-                self._start_cutscene(cutscene_id)
     
-    def _interact_with_entity(self, entity: Entity) -> None:
-        """
-        Interact with an entity.
-        
-        Args:
-            entity: Entity to interact with
-        """
-        # Lock player movement during interaction
-        if self.player:
-            self.player.lock_movement(True)
-        
-        # Handle different NPCs
-        if entity.name == "Professor Budde":
-            if not self.game.story_manager.get_flag('has_starter'):
-                pages = [
-                    DialoguePage(
-                        text="Ey Jung! Du brauchst'n Monster für deine Reise!",
-                        speaker="Prof. Budde"
-                    ),
-                    DialoguePage(
-                        text="Komm mal mit ins Labor, ich hab da wat für dich!",
-                        speaker="Prof. Budde"
-                    )
-                ]
-                
-                self.dialogue_box.show_dialogue(
-                    pages,
-                    callback=lambda _: self._go_to_starter_selection()
-                )
-            else:
-                pages = [
-                    DialoguePage(
-                        text="Na, wie läuft's mit deinem Monster?",
-                        speaker="Prof. Budde"
-                    ),
-                    DialoguePage(
-                        text="Pass gut auf's auf, ne?",
-                        speaker="Prof. Budde"
-                    )
-                ]
-                
-                self.dialogue_box.show_dialogue(
-                    pages,
-                    callback=lambda _: self.player.lock_movement(False) if self.player else None
-                )
-                
-        elif entity.name == "Ruhrpott Karl":
-            pages = [
-                DialoguePage(
-                    text="Ey, wat willze denn, Jung?",
-                    speaker="Karl"
-                ),
-                DialoguePage(
-                    text="Pass auf im hohen Gras! Da lauern wilde Monster!",
-                    speaker="Karl"
-                ),
-                DialoguePage(
-                    text="Wenn de eins fängst, kannze damit kämpfen!",
-                    speaker="Karl"
-                )
-            ]
-            
-            self.dialogue_box.show_dialogue(
-                pages,
-                callback=lambda _: self.player.lock_movement(False) if self.player else None
-            )
+    def _handle_collision_event(self, tile_x: int, tile_y: int):
+        """Handle Kollision mit Tile."""
+        if hasattr(self.current_area, 'map_data') and self.current_area.map_data:
+            for trigger in self.current_area.map_data.triggers:
+                if trigger.x == tile_x and trigger.y == tile_y:
+                    if trigger.event == "sign":
+                        self._execute_trigger(trigger)
+                        break
     
-    def _go_to_starter_selection(self):
-        """Go to starter selection scene."""
-        if self.player:
-            self.player.lock_movement(False)
-        
-        from engine.scenes.starter_scene import StarterScene
-        self.game.push_scene(StarterScene, game=self.game)
+    # === ENCOUNTERS ===
     
     def _check_encounter(self, tile_x: int, tile_y: int, steps: int) -> None:
-        """
-        Check for random encounter.
-        
-        Args:
-            tile_x: Current tile X
-            tile_y: Current tile Y
-            steps: Steps since last encounter
-        """
+        """Check für Random Encounter."""
         if not self.encounter_enabled or not self.current_area or self.in_battle:
             return
         
-        # Increment step counter
         self.steps_since_encounter += 1
         
-        # Check minimum steps
         if self.steps_since_encounter < self.min_steps_between_encounters:
             return
         
-        # Get terrain type at current position  
-        tile_type = self.current_area.get_tile_type(tile_x, tile_y)
+        # Get Terrain-Typ aus der Map
+        tile_type = None
+        if hasattr(self.current_area, 'map_data') and self.current_area.map_data:
+            # Check Tile Layer 1 (main terrain layer)
+            if 'Tile Layer 1' in self.current_area.map_data.layers:
+                layer = self.current_area.map_data.layers['Tile Layer 1']
+                if 0 <= tile_y < len(layer) and 0 <= tile_x < len(layer[tile_y]):
+                    tile_type = layer[tile_y][tile_x]
+                    print(f"[DEBUG] Tile at ({tile_x}, {tile_y}) - Tile ID: {tile_type}")
         
-        # Check if this is an encounter tile (grass = 5, tall grass = 2)
-        if tile_type in [2, 5]:
-            # Roll for encounter
+        # Check für Gras-Tiles nur auf Route 1
+        if self.map_id == "route1" and tile_type == 29:  # NUR Tile ID 29 ist hohes Gras auf Route 1
+            print(f"[DEBUG] Grass tile at ({tile_x}, {tile_y})")
             if random.random() < self.current_area.encounter_rate:
-                # Delay encounter check to next frame to avoid movement issues
+                print(f"[Flint] Encounter triggered auf Grass-Tile {tile_type}!")
+                self.encounter_check_pending = True
+        elif self.map_id == "kohlenstadt" and tile_type in [2, 5]:  # Fallback für Kohlenstadt
+            if random.random() < self.current_area.encounter_rate:
+                print(f"[Flint] Encounter triggered auf Grass-Tile {tile_type}!")
                 self.encounter_check_pending = True
     
     def _execute_encounter_check(self):
-        """Execute the actual encounter check."""
+        """Führe Encounter aus."""
         if not self.game.party_manager.party.get_conscious_members():
-            # No conscious monsters, can't battle
             return
         
-        # Start battle!
         self._start_battle()
     
     def _start_battle(self) -> None:
-        """Start a random battle encounter."""
+        """Starte Kampf!"""
         if self.in_battle:
             return
         
-        # Check if party has monsters
         if not self.game.party_manager.party.get_conscious_members():
             self.dialogue_box.show_text(
                 "Du hast keine kampffähigen Monster! Hol dir erst eins vom Professor!",
@@ -1305,108 +871,163 @@ class FieldScene(Scene):
             )
             return
         
-        # Mark as in battle to prevent multiple triggers
         self.in_battle = True
-        
-        # Reset encounter steps
         self.steps_since_encounter = 0
         
-        # Generate wild monster from encounter table
         wild_monster = self._generate_wild_monster()
         
         if not wild_monster:
-            # No encounter data, show debug message
             self.dialogue_box.show_text(
-                "Keine Monster in diesem Gebiet! (Encounter-Daten fehlen)",
+                "Keine Monster hier! (Encounter-Daten fehlen)",
                 callback=lambda _: setattr(self, 'in_battle', False)
             )
             return
         
-        # Show encounter message briefly
         self.dialogue_box.show_text(
             f"Ein wildes {wild_monster.species_name} erscheint!",
             callback=lambda _: self._transition_to_battle(wild_monster)
         )
     
     def _generate_wild_monster(self) -> Optional[MonsterInstance]:
-        """Generate a wild monster from encounter table."""
+        """Generiere wildes Monster."""
         if not self.current_area or not self.current_area.encounter_table:
-            # Fallback: Create a basic wild monster for testing
-            species = self.game.resources.get_monster_species(5)  # Rattfratz
-            if species:
-                monster = MonsterInstance.create_from_species(
-                    species=species,
-                    level=random.randint(2, 5)
-                )
-                return monster
-            return None
+            # Fallback für Tests
+            from engine.systems.monster_instance import MonsterInstance
+            level = random.randint(2, 5)
+            monster = MonsterInstance(
+                species_id="5",
+                name="Kohlekumpel",
+                level=level,
+                stats={'hp': 100, 'atk': 50, 'def': 40, 'mag': 35, 'res': 35, 'spd': 40}
+            )
+            # Set species as dict for compatibility
+            monster.species = {'id': 5, 'name': 'Kohlekumpel'}
+            # Initialize stat_stages
+            monster.stat_stages = {'atk': 0, 'def': 0, 'mag': 0, 'res': 0, 'spd': 0}
+            return monster
         
-        # Calculate total weight
         total_weight = sum(enc['weight'] for enc in self.current_area.encounter_table)
-        
-        # Roll random number
         roll = random.randint(1, total_weight)
         
-        # Find which monster to spawn
         current_weight = 0
         for encounter in self.current_area.encounter_table:
             current_weight += encounter['weight']
             if roll <= current_weight:
-                # This is our monster!
-                species = self.game.resources.get_monster_species(encounter['species_id'])
-                if species:
-                    level = random.randint(encounter['level_min'], encounter['level_max'])
-                    monster = MonsterInstance.create_from_species(
-                        species=species,
-                        level=level
-                    )
-                    return monster
-                else:
-                    # Species not found – baue eine Minimal-Spezies und erstelle Instanz
-                    placeholder_species = {
-                        "id": encounter['species_id'],
-                        "name": encounter['name'],
-                        "era": "present",
-                        "rank": "F",
-                        "types": ["Normal"],
-                        "base_stats": {
-                            "hp": 15,
-                            "atk": 5,
-                            "def": 5,
-                            "mag": 5,
-                            "res": 5,
-                            "spd": 5
-                        },
-                        "growth": {"curve": "medium_fast", "yield": 40},
-                        "capture_rate": 255,
-                        "traits": [],
-                        "learnset": []
-                    }
-                    level = random.randint(encounter['level_min'], encounter['level_max'])
-                    return MonsterInstance.create_from_species(placeholder_species, level=level)
+                from engine.systems.monster_instance import MonsterInstance
+                level = random.randint(encounter['level_min'], encounter['level_max'])
+                
+                # Create monster with all required stats
+                base_stat = 40 + level * 2
+                stats = {
+                    'hp': base_stat + 20,  # HP should be higher
+                    'atk': base_stat,
+                    'def': base_stat - 5,
+                    'mag': base_stat - 10,
+                    'res': base_stat - 10,
+                    'spd': base_stat
+                }
+                
+                # Calculate HP based on level
+                hp_value = stats['hp'] + (level * 10)
+                
+                monster = MonsterInstance(
+                    species_id=str(encounter['species_id']),
+                    name=encounter['name'],
+                    level=level,
+                    stats=stats,
+                    max_hp=hp_value,
+                    current_hp=hp_value
+                )
+                
+                # Set species as dict for compatibility
+                monster.species = {
+                    'id': encounter['species_id'],
+                    'name': encounter['name'],
+                    'rank': encounter.get('rank', 'F')
+                }
+                
+                # Initialize stat_stages  
+                monster.stat_stages = {'atk': 0, 'def': 0, 'mag': 0, 'res': 0, 'spd': 0}
+                
+                return monster
         
         return None
     
+    def _create_route_1_encounter_table(self):
+        """Route 1 Encounter-Tabelle mit F und E Rang."""
+        try:
+            monsters_data = self.game.resources.load_json("data/monsters.json")
+            if not monsters_data:
+                print("[Flint] monsters.json nicht gefunden")
+                return self._get_fallback_encounter_table()
+            
+            f_rank = [m for m in monsters_data if m.get("rank") == "F"]
+            e_rank = [m for m in monsters_data if m.get("rank") == "E"]
+            
+            selected_f = random.sample(f_rank, min(10, len(f_rank)))
+            selected_e = random.sample(e_rank, min(10, len(e_rank)))
+            
+            encounter_table = []
+            
+            # 95% F-Rang
+            f_weight = 95 // len(selected_f) if selected_f else 0
+            for monster in selected_f:
+                encounter_table.append({
+                    "species_id": monster["id"],
+                    "name": monster["name"],
+                    "level_min": 3,
+                    "level_max": 6,
+                    "weight": f_weight,
+                    "rank": "F"
+                })
+            
+            # 5% E-Rang
+            e_weight = max(1, 5 // len(selected_e)) if selected_e else 0
+            for monster in selected_e:
+                encounter_table.append({
+                    "species_id": monster["id"],
+                    "name": monster["name"],
+                    "level_min": 5,
+                    "level_max": 8,
+                    "weight": e_weight,
+                    "rank": "E"
+                })
+            
+            print(f"[Flint] Route 1: {len(selected_f)} F-Rang, {len(selected_e)} E-Rang Monster")
+            return encounter_table
+            
+        except Exception as e:
+            print(f"[Flint] Fehler bei Encounter-Tabelle: {e}")
+            return self._get_fallback_encounter_table()
+    
+    def _get_fallback_encounter_table(self):
+        """Fallback Encounter-Tabelle."""
+        return [
+            {"species_id": 1, "name": "Glutstummel", "level_min": 3, "level_max": 6, "weight": 20, "rank": "F"},
+            {"species_id": 5, "name": "Kohlekumpel", "level_min": 3, "level_max": 6, "weight": 20, "rank": "F"},
+            {"species_id": 6, "name": "Kieselkrabbler", "level_min": 3, "level_max": 6, "weight": 20, "rank": "F"},
+            {"species_id": 7, "name": "Flugratte", "level_min": 3, "level_max": 6, "weight": 20, "rank": "F"},
+            {"species_id": 8, "name": "Wolkenfurz", "level_min": 3, "level_max": 6, "weight": 15, "rank": "F"},
+            {"species_id": 21, "name": "Flammimp", "level_min": 5, "level_max": 8, "weight": 5, "rank": "E"},
+        ]
+    
     def _transition_to_battle(self, wild_monster: MonsterInstance):
-        """Transition to battle scene."""
-        # Play battle transition effect
-        self.game.start_transition('battle_swirl', duration=0.8)
+        """Übergang zum Kampf."""
+        monster_name = wild_monster.species.get('name', 'Unknown') if isinstance(wild_monster.species, dict) else getattr(wild_monster.species, 'name', wild_monster.name)
+        print(f"[Flint] Starte Battle Transition zu {monster_name}")
         
-        # Create battle scene
         from engine.scenes.battle_scene import BattleScene
         
-        # Start battle with wild monster after a short delay
-        def start_battle_after_transition():
-            self.game.push_scene(
-                BattleScene,
-                player_team=None,  # Will use party manager
-                enemy_team=[wild_monster],
-                is_wild=True,
-                background='grass'
-            )
-            # Reset in_battle flag when we return
-            self.in_battle = False
+        # Direkt zur Battle Scene wechseln
+        self.game.push_scene(
+            BattleScene,
+            player_team=None,
+            enemy_team=[wild_monster],
+            is_wild=True,
+            background='grass'
+        )
         
-        # Schedule battle start after transition begins
-        import threading
-        threading.Timer(0.4, start_battle_after_transition).start()
+        self.in_battle = False
+        print(f"[Flint] Battle Scene gestartet!")
+
+# Ey, jetzt is der Code sauber! - Flint

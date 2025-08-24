@@ -1,69 +1,35 @@
 {
-  "id": "professor_dialog",
-  "default": [
-    {
-      "text": "Welcome to the Kohlenstadt Fossil Museum!",
-      "speaker": "Prof. Budde"
-    },
-    {
-      "text": "I'm Professor Budde, the leading fossil researcher in the Ruhr region!",
-      "speaker": "Prof. Budde"
-    },
-    {
-      "text": "Did you know that many monster fossils were found in our coal mines?",
-      "speaker": "Prof. Budde"
-    }
-  ],
-  "branches": [
-    {
-      "conditions": {
-        "flag": "!has_starter"
-      },
-      "pages": [
+    "id": "professor_dialog",
+    "default": [
+        {"text": "Ach, da bisse ja endlich, du Schlafmütze!", "speaker": "Prof. Budde"},
+        {"text": "Weißte wat? Ich hab's geschafft!", "speaker": "Prof. Budde"},
+        {"text": "Ich hab die verdammten Viecher wiederbelebt!", "speaker": "Prof. Budde"},
+        {"text": "Jahrmillionen alte Monster-Fossilien aus'm Kohleflöz!", "speaker": "Prof. Budde"},
+        {"text": "Die Dinger sind der absolute Hammer!", "speaker": "Prof. Budde"},
+        {"text": "Stärker als der ganze moderne Dreck!", "speaker": "Prof. Budde"},
+        {"text": "Hör zu, Junge - du willst doch diese bescheuerten Trials machen, oder?", "speaker": "Prof. Budde"},
+        {"text": "Ohne Monster kommste da nich weit.", "speaker": "Prof. Budde"},
+        {"text": "Die anderen Zähmer fressen dich zum Frühstück!", "speaker": "Prof. Budde"},
+        {"text": "Ich geb dir eins von meinen Babys.", "speaker": "Prof. Budde"},
+        {"text": "Aber pass gefälligst drauf auf!", "speaker": "Prof. Budde"},
+        {"text": "Die sind verdammt wertvoll und ich hab keine Lust, noch mehr auszubuddeln!", "speaker": "Prof. Budde"}
+    ],
+    "branches": [
         {
-          "text": "Ach, you must be the young trainer from down the street!",
-          "speaker": "Prof. Budde"
+            "conditions": {"flag": "has_starter"},
+            "pages": [
+                {"text": "Na, wie läuft's mit deinem Monster?", "speaker": "Prof. Budde"},
+                {"text": "Pass gut drauf auf, ne?", "speaker": "Prof. Budde"},
+                {"text": "Die Viecher sind selten und kostbar!", "speaker": "Prof. Budde"}
+            ]
         },
         {
-          "text": "Your mother told me you're planning to go on an adventure!",
-          "speaker": "Prof. Budde"
-        },
-        {
-          "text": "You'll need a monster partner for that journey, wat?",
-          "speaker": "Prof. Budde"
-        },
-        {
-          "text": "Come! I have three specially revived fossil monsters for you to choose from!",
-          "speaker": "Prof. Budde"
-        },
-        {
-          "text": "Speak to me again when you're ready to choose your partner!",
-          "speaker": "Prof. Budde"
+            "conditions": {"flag": "trials_completed", "value": 1},
+            "pages": [
+                {"text": "Ey, ich hab gehört du hast die erste Trial geschafft!", "speaker": "Prof. Budde"},
+                {"text": "Nich schlecht für'n Anfänger!", "speaker": "Prof. Budde"},
+                {"text": "Weiter so, Jung!", "speaker": "Prof. Budde"}
+            ]
         }
-      ]
-    },
-    {
-      "conditions": {
-        "flag": "has_starter"
-      },
-      "pages": [
-        {
-          "text": "How's your adventure going?",
-          "speaker": "Prof. Budde"
-        },
-        {
-          "text": "Take good care of your monster partner!",
-          "speaker": "Prof. Budde"
-        },
-        {
-          "text": "Remember, the bond between trainer and monster is sacred!",
-          "speaker": "Prof. Budde"
-        },
-        {
-          "text": "If you find any rare fossils, bring them to me!",
-          "speaker": "Prof. Budde"
-        }
-      ]
-    }
-  ]
+    ]
 }

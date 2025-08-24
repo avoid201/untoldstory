@@ -45,6 +45,14 @@ class MainMenuScene(Scene):
         self.submenu_type = None
         self.submenu_selection = 0
         
+        # Options menu items
+        self.options_menu_items = [
+            "Musik: An",
+            "Sound: An", 
+            "Geschwindigkeit: Normal",
+            "Zurück"
+        ]
+        
         # Save system
         self.save_system = SaveSystem()
         self.save_slots: List[Optional[SaveMetadata]] = []
@@ -167,8 +175,16 @@ class MainMenuScene(Scene):
                 
         elif self.submenu_type == 'options':
             # Options menu
-            # TODO: Implement options
-            if event.key in [pygame.K_q, pygame.K_ESCAPE]:
+            if event.key == pygame.K_UP:
+                self.submenu_selection = max(0, self.submenu_selection - 1)
+                return True
+            elif event.key == pygame.K_DOWN:
+                self.submenu_selection = min(len(self.options_menu_items) - 1, self.submenu_selection + 1)
+                return True
+            elif event.key == pygame.K_RETURN:
+                self._handle_option_selection()
+                return True
+            elif event.key in [pygame.K_q, pygame.K_ESCAPE]:
                 self.in_submenu = False
                 self.submenu_type = None
                 return True
@@ -215,10 +231,27 @@ class MainMenuScene(Scene):
             self.game.running = False
     
     def _start_new_game(self) -> None:
-        """Start a new game."""
-        # Transition directly to field scene
+        """Start a new game - Zeit, den Arsch hochzukriegen!"""
+        # Reset story flags für neues Spiel
+        if hasattr(self.game, 'story_manager'):
+            self.game.story_manager.reset()
+            self.game.story_manager.set_flag('game_started', True)
+            self.game.story_manager.set_flag('first_awakening', True)  # Für Intro-Sequenz
+        
+        # Party leeren für frischen Start
+        if hasattr(self.game, 'party_manager'):
+            # Party hat keine clear() Methode - erstelle neue Party
+            from engine.systems.party import Party
+            self.game.party_manager.party = Party()
+        
+        # Ab ins Spielerhaus, direkt am Bett
         from engine.scenes.field_scene import FieldScene
-        self.game.change_scene(FieldScene)
+        self.game.change_scene(
+            FieldScene,
+            map_id='player_house',
+            spawn_point='bed',  # Aufwachen im Bett
+            transition='fade_black'
+        )
     
     def _continue_game(self) -> None:
         """Continue from most recent save."""
@@ -251,6 +284,42 @@ class MainMenuScene(Scene):
             # Transition to field scene
             from engine.scenes.field_scene import FieldScene
             self.game.change_scene(FieldScene)
+    
+    def _handle_option_selection(self) -> None:
+        """Handle option selection in options menu."""
+        selected_item = self.options_menu_items[self.submenu_selection]
+        
+        if "Musik" in selected_item:
+            # Toggle Musik
+            if "An" in selected_item:
+                self.options_menu_items[self.submenu_selection] = "Musik: Aus"
+                # TODO: Implementiere Musik-Aus
+            else:
+                self.options_menu_items[self.submenu_selection] = "Musik: An"
+                # TODO: Implementiere Musik-An
+                
+        elif "Sound" in selected_item:
+            # Toggle Sound
+            if "An" in selected_item:
+                self.options_menu_items[self.submenu_selection] = "Sound: Aus"
+                # TODO: Implementiere Sound-Aus
+            else:
+                self.options_menu_items[self.submenu_selection] = "Sound: An"
+                # TODO: Implementiere Sound-An
+                
+        elif "Geschwindigkeit" in selected_item:
+            # Cycle through speeds
+            speeds = ["Langsam", "Normal", "Schnell"]
+            current_speed = selected_item.split(": ")[1]
+            current_index = speeds.index(current_speed)
+            next_index = (current_index + 1) % len(speeds)
+            self.options_menu_items[self.submenu_selection] = f"Geschwindigkeit: {speeds[next_index]}"
+            # TODO: Implementiere Geschwindigkeits-Änderung
+            
+        elif "Zurück" in selected_item:
+            # Return to main menu
+            self.in_submenu = False
+            self.submenu_type = None
     
     def update(self, dt: float) -> None:
         """Update main menu."""

@@ -248,8 +248,21 @@ class InteractionManager:
                             
             elif condition_type == 'item':
                 # Check if player has item
-                # TODO: Implement inventory check
-                pass
+                try:
+                    if hasattr(self.game, 'party_manager'):
+                        # Prüfe ob Spieler das Item im Inventar hat
+                        inventory = self.game.party_manager.get_inventory()
+                        if inventory and hasattr(inventory, 'has_item'):
+                            return inventory.has_item(condition_value)
+                        else:
+                            # Fallback: Prüfe Story-Flags
+                            return self.game.story_manager.get_flag(f"has_item_{condition_value}")
+                    else:
+                        # Fallback: Prüfe Story-Flags
+                        return self.game.story_manager.get_flag(f"has_item_{condition_value}")
+                except Exception as e:
+                    print(f"Fehler beim Item-Check: {e}")
+                    return False
                 
             elif condition_type == 'variable':
                 # Check game variable

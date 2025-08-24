@@ -176,8 +176,108 @@ class PauseScene(Scene):
     
     def _open_options(self) -> None:
         """Open options menu."""
-        # TODO: Implement options menu
-        pass
+        # Erstelle einfaches Options-Menü direkt hier
+        class SimpleOptionsMenu:
+            def __init__(self, items, title, on_select, on_cancel):
+                self.items = items
+                self.title = title
+                self.on_select = on_select
+                self.on_cancel = on_cancel
+                self.selected_index = 0
+                self.font = pygame.font.Font(None, 16)
+            
+            def handle_event(self, event):
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_UP:
+                        self.selected_index = (self.selected_index - 1) % len(self.items)
+                        return True
+                    elif event.key == pygame.K_DOWN:
+                        self.selected_index = (self.selected_index + 1) % len(self.items)
+                        return True
+                    elif event.key == pygame.K_RETURN:
+                        self.on_select(self.selected_index, self.items[self.selected_index])
+                        return True
+                    elif event.key == pygame.K_ESCAPE:
+                        self.on_cancel()
+                        return True
+                return False
+            
+            def update(self, dt):
+                pass
+            
+            def draw(self, surface):
+                # Draw options menu
+                menu_width = 200
+                menu_height = 150
+                menu_x = (surface.get_width() - menu_width) // 2
+                menu_y = (surface.get_height() - menu_height) // 2
+                
+                # Background
+                pygame.draw.rect(surface, (40, 40, 60), (menu_x, menu_y, menu_width, menu_height))
+                pygame.draw.rect(surface, (100, 100, 120), (menu_x, menu_y, menu_width, menu_height), 2)
+                
+                # Title
+                title_surf = self.font.render(self.title, True, (255, 255, 255))
+                title_rect = title_surf.get_rect(center=(menu_x + menu_width // 2, menu_y + 20))
+                surface.blit(title_surf, title_rect)
+                
+                # Items
+                for i, item in enumerate(self.items):
+                    color = (255, 255, 255) if i == self.selected_index else (200, 200, 200)
+                    item_surf = self.font.render(item, True, color)
+                    item_rect = item_surf.get_rect(x=menu_x + 20, y=menu_y + 40 + i * 25)
+                    surface.blit(item_surf, item_rect)
+        
+        options_items = [
+            "Musik: An",
+            "Sound: An",
+            "Geschwindigkeit: Normal",
+            "Zurück"
+        ]
+        
+        options_menu = SimpleOptionsMenu(
+            options_items,
+            "Optionen",
+            self._handle_option_selection,
+            self._close_submenu
+        )
+        
+        self.submenu = options_menu
+        self.in_submenu = True
+        self.submenu_type = 'options'
+    
+    def _handle_option_selection(self, index: int, item: str) -> None:
+        """Handle option selection in options menu."""
+        if "Musik" in item:
+            # Toggle Musik
+            if "An" in item:
+                self.submenu.items[index] = "Musik: Aus"
+                # TODO: Implementiere Musik-Aus
+            else:
+                self.submenu.items[index] = "Musik: An"
+                # TODO: Implementiere Musik-An
+                
+        elif "Sound" in item:
+            # Toggle Sound
+            if "An" in item:
+                self.submenu.items[index] = "Sound: Aus"
+                # TODO: Implementiere Sound-Aus
+            else:
+                self.submenu.items[index] = "Sound: An"
+                # TODO: Implementiere Sound-An
+                
+        elif "Geschwindigkeit" in item:
+            # Cycle through speeds
+            speeds = ["Langsam", "Normal", "Schnell"]
+            current_speed = item.split(": ")[1]
+            current_index = speeds.index(current_speed)
+            next_index = (current_index + 1) % len(speeds)
+            self.submenu.items[index] = f"Geschwindigkeit: {speeds[next_index]}"
+            # TODO: Implementiere Geschwindigkeits-Änderung
+            
+        elif "Zurück" in item:
+            # Return to pause menu
+            self._close_submenu()
     
     def _quit_to_menu(self) -> None:
         """Quit to main menu."""
@@ -211,8 +311,9 @@ class PauseScene(Scene):
     
     def draw(self, surface: pygame.Surface) -> None:
         """Draw pause scene."""
-        # Draw parent scene (frozen)
-        self.parent_scene.draw(surface)
+        # Draw parent scene (frozen) if available
+        if self.parent_scene:
+            self.parent_scene.draw(surface)
         
         # Draw darkened overlay
         surface.blit(self.overlay, (0, 0))

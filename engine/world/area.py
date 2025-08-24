@@ -1,21 +1,23 @@
 """
 Area - Repräsentiert eine spielbare Map-Region
 Mit verbessertem TMX-Support und korrektem Tile-Rendering
+OPTIMIERT: Surface-Caching und reduzierte JSON-Operationen
 """
 
 import pygame
-import xml.etree.ElementTree as ET
 from pathlib import Path
 from typing import Dict, List, Optional, Tuple
 from dataclasses import dataclass
+from functools import lru_cache
+import time
 
 from engine.world.tiles import TILE_SIZE, TileType
 from engine.world.map_loader import MapLoader, MapData
 from engine.graphics.sprite_manager import SpriteManager
 from engine.world.entity import Entity
-from engine.world.npc_improved import ImprovedNPC as NPC
+from engine.world.npc import NPC
 from engine.core.resources import resources
-from engine.world.tile_manager import tile_manager
+from engine.world.tile_manager import TileManager
 
 @dataclass
 class AreaConfig:
@@ -27,7 +29,13 @@ class AreaConfig:
     weather: Optional[str] = None
 
 class Area:
-    """Eine spielbare Map-Region mit TMX-Support"""
+    """Eine spielbare Map-Region mit TMX-Support und Performance-Optimierungen"""
+    
+    # Klassenweite Caches für bessere Performance
+    _surface_cache: Dict[str, pygame.Surface] = {}
+    _json_cache: Dict[str, Dict] = {}
+    _cache_timestamps: Dict[str, float] = {}
+    _cache_ttl = 300.0  # 5 Minuten Cache-Lebensdauer
     
     def __init__(self, map_id: str):
         """
@@ -47,7 +55,7 @@ class Area:
         self.tile_width = TILE_SIZE
         self.tile_height = TILE_SIZE
         
-        # Surfaces für jede Layer
+        # Surfaces für jede Layer - OPTIMIERT: Caching implementiert
         self.layer_surfaces: Dict[str, pygame.Surface] = {}
         
         # Entities und NPCs
@@ -58,198 +66,86 @@ class Area:
         self.encounter_rate = 0.1
         self.encounter_table = []
         
-        # TMX-spezifische Daten
-        self.tmx_path: Optional[Path] = None
-        self.gid_to_surface: Dict[int, pygame.Surface] = {}
+        # Performance-Metriken
+        self._render_time = 0.0
+        self._cache_hits = 0
+        self._cache_misses = 0
         
         # Lade die Map
         self._load_map()
+    
+    @classmethod
+    def _cleanup_cache(cls) -> None:
+        """Bereinigt abgelaufene Cache-Einträge"""
+        current_time = time.time()
+        expired_keys = [
+            key for key, timestamp in cls._cache_timestamps.items()
+            if current_time - timestamp > cls._cache_ttl
+        ]
         
+        for key in expired_keys:
+            cls._surface_cache.pop(key, None)
+            cls._json_cache.pop(key, None)
+            cls._cache_timestamps.pop(key, None)
+    
+    @classmethod
+    def _get_cached_surface(cls, cache_key: str) -> Optional[pygame.Surface]:
+        """Holt eine gecachte Surface aus dem Cache"""
+        cls._cleanup_cache()
+        if cache_key in cls._surface_cache:
+            cls._cache_timestamps[cache_key] = time.time()
+            return cls._surface_cache[cache_key]
+        return None
+    
+    @classmethod
+    def _cache_surface(cls, cache_key: str, surface: pygame.Surface) -> None:
+        """Speichert eine Surface im Cache"""
+        cls._surface_cache[cache_key] = surface
+        cls._cache_timestamps[cache_key] = time.time()
+    
+    @classmethod
+    def _get_cached_json(cls, map_id: str) -> Optional[Dict]:
+        """Holt gecachte JSON-Daten aus dem Cache"""
+        cls._cleanup_cache()
+        if map_id in cls._json_cache:
+            cls._cache_timestamps[map_id] = time.time()
+            return cls._json_cache[map_id]
+        return None
+    
+    @classmethod
+    def _cache_json(cls, map_id: str, data: Dict) -> None:
+        """Speichert JSON-Daten im Cache"""
+        cls._json_cache[map_id] = data
+        cls._cache_timestamps[map_id] = time.time()
+
     def _load_map(self):
-        """Lädt die Map-Daten"""
+        """Lädt die Map-Daten mit optimiertem Caching"""
         try:
-            # Versuche TMX direkt zu laden
-            tmx_path = Path("data/maps") / f"{self.map_id}.tmx"
-            if tmx_path.exists():
-                self.tmx_path = tmx_path
-                self._load_tmx_direct()
-            else:
-                # Fallback auf MapLoader
-                self.map_data = MapLoader.load_map(self.map_id)
-                # Setze Attribute aus MapData
-                if self.map_data:
-                    self.width = self.map_data.width
-                    self.height = self.map_data.height
-                    self.name = self.map_data.name or self.name
-                    self.tile_width = self.map_data.tile_size
-                    self.tile_height = self.map_data.tile_size
-                self._render_layers()
+            # Verwende nur noch den MapLoader für JSON-Maps
+            self.map_data = MapLoader.load_map(self.map_id)
+            # Setze Attribute aus MapData
+            if self.map_data:
+                self.width = self.map_data.width
+                self.height = self.map_data.height
+                self.name = self.map_data.name or self.name
+                self.tile_width = self.map_data.tile_size
+                self.tile_height = self.map_data.tile_size
+            self._render_layers()
                 
         except Exception as e:
             print(f"[Area] Fehler beim Laden der Map {self.map_id}: {e}")
             # Erstelle leere Map als Fallback
             self._create_empty_map()
     
-    def _load_tmx_direct(self):
-        """Lädt TMX-Map direkt mit korrektem Tile-Rendering"""
-        print(f"[Area] Lade TMX direkt: {self.tmx_path}")
-        
-        # Parse TMX
-        tree = ET.parse(self.tmx_path)
-        root = tree.getroot()
-        
-        # Map-Eigenschaften
-        self.width = int(root.get('width', 32))
-        self.height = int(root.get('height', 32))
-        self.tile_width = int(root.get('tilewidth', 16))
-        self.tile_height = int(root.get('tileheight', 16))
-        
-        # Lade alle Tilesets und erstelle GID-Mapping
-        self._load_tmx_tilesets(root)
-        
-        # Lade und rendere Layer
-        self._load_tmx_layers(root)
-        
-        # Lade Objekte (Warps, NPCs, etc.)
-        self._load_tmx_objects(root)
+    # TMX-Methoden entfernt - veraltet
     
-    def _load_tmx_tilesets(self, root):
-        """Lädt alle Tilesets aus der TMX"""
-        for tileset_elem in root.findall('tileset'):
-            firstgid = int(tileset_elem.get('firstgid', 1))
-            source = tileset_elem.get('source', '')
-            
-            if source:
-                tsx_path = self.tmx_path.parent / source
-                if tsx_path.exists():
-                    self._load_tsx_tileset(tsx_path, firstgid)
+    # TMX-Tileset-Methoden entfernt - veraltet
     
-    def _load_tsx_tileset(self, tsx_path: Path, firstgid: int):
-        """Lädt ein einzelnes Tileset aus einer TSX-Datei"""
-        try:
-            tree = ET.parse(tsx_path)
-            root = tree.getroot()
-            
-            tile_width = int(root.get('tilewidth', 16))
-            tile_height = int(root.get('tileheight', 16))
-            tile_count = int(root.get('tilecount', 0))
-            columns = int(root.get('columns', 1))
-            
-            # Finde Bild
-            image_elem = root.find('image')
-            if image_elem is None:
-                return
-            
-            # Konstruiere Bildpfad
-            image_source = image_elem.get('source', '')
-            if image_source.startswith('../../'):
-                image_path = Path(image_source.replace('../../', ''))
-            else:
-                image_path = tsx_path.parent / image_source
-            
-            if not image_path.exists():
-                print(f"[Area] Tileset-Bild nicht gefunden: {image_path}")
-                return
-            
-            # Lade Tileset-Bild
-            tileset_surface = pygame.image.load(str(image_path)).convert_alpha()
-            
-            # Extrahiere einzelne Tiles
-            for tile_id in range(tile_count):
-                col = tile_id % columns
-                row = tile_id // columns
-                
-                x = col * tile_width
-                y = row * tile_height
-                
-                # Extrahiere Tile
-                tile_surf = pygame.Surface((tile_width, tile_height), pygame.SRCALPHA)
-                tile_surf.blit(tileset_surface, (0, 0), (x, y, tile_width, tile_height))
-                
-                # Skaliere auf TILE_SIZE falls nötig
-                if tile_width != TILE_SIZE or tile_height != TILE_SIZE:
-                    tile_surf = pygame.transform.scale(tile_surf, (TILE_SIZE, TILE_SIZE))
-                
-                # Speichere mit GID
-                gid = firstgid + tile_id
-                self.gid_to_surface[gid] = tile_surf
-            
-            print(f"[Area] Geladen: {tsx_path.name} - {tile_count} Tiles (firstgid={firstgid})")
-            
-        except Exception as e:
-            print(f"[Area] Fehler beim Laden von Tileset {tsx_path}: {e}")
+    # TSX-Tileset-Methoden entfernt - veraltet
     
-    def _load_tmx_layers(self, root):
-        """Lädt und rendert alle Layer aus der TMX"""
-        for layer_elem in root.findall('layer'):
-            layer_name = layer_elem.get('name', 'default')
-            layer_width = int(layer_elem.get('width', self.width))
-            layer_height = int(layer_elem.get('height', self.height))
-            
-            # Erstelle Surface für diesen Layer
-            layer_surface = pygame.Surface(
-                (layer_width * TILE_SIZE, layer_height * TILE_SIZE),
-                pygame.SRCALPHA
-            )
-            
-            # Parse Tile-Daten
-            data_elem = layer_elem.find('data')
-            if data_elem is not None:
-                encoding = data_elem.get('encoding', 'csv')
-                
-                if encoding == 'csv':
-                    # Parse CSV-Daten
-                    csv_text = data_elem.text.strip()
-                    y = 0
-                    for line in csv_text.split('\n'):
-                        if not line.strip():
-                            continue
-                        
-                        x = 0
-                        for gid_str in line.split(','):
-                            if not gid_str.strip():
-                                continue
-                            
-                            gid = int(gid_str.strip())
-                            
-                            # Entferne Flip-Flags
-                            FLIP_FLAGS = 0x80000000 | 0x40000000 | 0x20000000
-                            clean_gid = gid & ~FLIP_FLAGS
-                            
-                            # Hole Tile-Surface
-                            if clean_gid > 0 and clean_gid in self.gid_to_surface:
-                                tile_surf = self.gid_to_surface[clean_gid]
-                                layer_surface.blit(tile_surf, (x * TILE_SIZE, y * TILE_SIZE))
-                            
-                            x += 1
-                        y += 1
-            
-            # Speichere gerenderten Layer
-            self.layer_surfaces[layer_name] = layer_surface
-            print(f"[Area] Layer gerendert: {layer_name}")
+    # TMX-Layer-Methoden entfernt - veraltet
     
-    def _load_tmx_objects(self, root):
-        """Lädt Objekte (Warps, NPCs, etc.) aus der TMX"""
-        for objectgroup_elem in root.findall('objectgroup'):
-            group_name = objectgroup_elem.get('name', '')
-            
-            for obj_elem in objectgroup_elem.findall('object'):
-                obj_type = obj_elem.get('type', '').lower()
-                obj_name = obj_elem.get('name', '')
-                obj_x = float(obj_elem.get('x', 0))
-                obj_y = float(obj_elem.get('y', 0))
-                
-                # Konvertiere zu Tile-Koordinaten
-                tile_x = int(obj_x // TILE_SIZE)
-                tile_y = int(obj_y // TILE_SIZE)
-                
-                # Verarbeite nach Typ
-                if obj_type == 'npc':
-                    # Erstelle NPC
-                    self._create_npc(tile_x, tile_y, obj_name)
-                elif obj_type == 'warp':
-                    # Speichere Warp-Info (wird vom MapLoader verarbeitet)
-                    pass
+    # TMX-Objekt-Methoden entfernt - veraltet
     
     def _create_npc(self, tile_x: int, tile_y: int, npc_id: str):
         """Erstellt einen NPC"""
@@ -264,73 +160,174 @@ class Area:
             print(f"[Area] Fehler beim Erstellen von NPC {npc_id}: {e}")
     
     def _render_layers(self):
-        """Rendert Layer aus MapData (Fallback für nicht-TMX)"""
+        """Rendert Layer aus MapData mit optimiertem Caching"""
         if not self.map_data:
             return
         
+        start_time = time.time()
+        
+        # OPTIMIERT: Verwende gecachte Surfaces wenn möglich
+        cache_key = f"{self.map_id}_layers_{self.map_data.width}x{self.map_data.height}"
+        cached_surfaces = self._get_cached_surface(cache_key)
+        
+        if cached_surfaces:
+            # OPTIMIERT: Kopiere gecachte Surfaces
+            for layer_name, surface in cached_surfaces.items():
+                self.layer_surfaces[layer_name] = surface.copy()
+            self._cache_hits += 1
+            self._render_time = time.time() - start_time
+            return
+        
+        self._cache_misses += 1
+        
+        # Rendere Tile-Layer
         for layer_name, layer_data in self.map_data.layers.items():
             if layer_name == "collision":
                 continue  # Collision wird nicht gerendert
             
-            # Erstelle Surface für Layer
+            # OPTIMIERT: Erstelle Surface nur wenn nötig
             surface = pygame.Surface(
                 (self.map_data.width * TILE_SIZE, 
                  self.map_data.height * TILE_SIZE),
                 pygame.SRCALPHA
             )
             
-            # Rendere jeden Tile
-            for y, row in enumerate(layer_data):
-                for x, tile in enumerate(row):
-                    if tile:
-                        # Hole Sprite
-                        sprite = self._get_tile_sprite(tile)
-                        if sprite:
-                            surface.blit(sprite, (x * TILE_SIZE, y * TILE_SIZE))
+            # OPTIMIERT: Batch-Rendering für bessere Performance
+            self._render_tile_layer_batch(surface, layer_data)
             
             self.layer_surfaces[layer_name] = surface
+        
+        # Rendere Object-Layer aus der ursprünglichen JSON-Daten
+        self._render_object_layers()
+        
+        # OPTIMIERT: Cache die gerenderten Surfaces
+        self._cache_surface(cache_key, self.layer_surfaces.copy())
+        
+        self._render_time = time.time() - start_time
     
-    def _get_tile_sprite(self, tile_id) -> Optional[pygame.Surface]:
-        """Holt ein Tile-Sprite"""
-        # Versuche verschiedene Methoden
-        sprite = self.sprite_manager.get_tile_sprite(tile_id)
-        if sprite:
-            return sprite
+    def _render_tile_layer_batch(self, surface: pygame.Surface, layer_data: List[List[int]]) -> None:
+        """OPTIMIERT: Batch-Rendering für Tile-Layer"""
+        # Sammle alle Tiles in einem Batch
+        tile_batch = []
         
-        # Fallback auf direktes Tile
-        if isinstance(tile_id, str):
-            sprite = self.sprite_manager.get_tile(tile_id)
-            if sprite:
-                return sprite
+        for y, row in enumerate(layer_data):
+            for x, tile in enumerate(row):
+                if tile:
+                    sprite = self._get_tile_sprite_from_gid(tile)
+                    if sprite:
+                        tile_batch.append((sprite, x * TILE_SIZE, y * TILE_SIZE))
         
-        # Fallback: Erstelle farbiges Rechteck basierend auf ID
-        surface = pygame.Surface((TILE_SIZE, TILE_SIZE))
+        # OPTIMIERT: Batch-Blitting für bessere Performance
+        for sprite, x, y in tile_batch:
+            surface.blit(sprite, (x, y))
+    
+    def _render_object_layers(self):
+        """Rendert Object-Layer mit optimiertem Caching"""
+        try:
+            # OPTIMIERT: Verwende gecachte JSON-Daten
+            json_data = self._get_cached_json(self.map_id)
+            
+            if not json_data:
+                # Lade die Original-JSON-Datei nur wenn nicht im Cache
+                json_data = resources.load_json(f"maps/{self.map_id}.json")
+                if json_data:
+                    self._cache_json(self.map_id, json_data)
+            
+            if not json_data:
+                print(f"[Area] Keine JSON-Daten für Object-Layer gefunden: {self.map_id}")
+                return
+            
+            # OPTIMIERT: Erstelle Object-Layer Surface nur wenn nötig
+            object_surface = pygame.Surface(
+                (self.map_data.width * TILE_SIZE, 
+                 self.map_data.height * TILE_SIZE),
+                pygame.SRCALPHA
+            )
+            
+            # OPTIMIERT: Batch-Rendering für Objekte
+            object_batch = []
+            
+            # Durchsuche alle Layer nach Object-Layern
+            for layer in json_data.get("layers", []):
+                if layer.get("type") == "objectgroup":
+                    layer_name = layer.get("name", "objects")
+                    print(f"[Area] Verarbeite Object-Layer: {layer_name} mit {len(layer.get('objects', []))} Objekten")
+                    
+                    # Sammle alle Objekte in einem Batch
+                    for obj in layer.get("objects", []):
+                        gid = obj.get("gid")
+                        if gid:
+                            # Konvertiere Pixel-Koordinaten zu Tile-Koordinaten
+                            # Wichtig: Tiled verwendet bottom-left Koordinaten für Objekte!
+                            obj_x = int(obj.get("x", 0))
+                            obj_y = int(obj.get("y", 0)) - TILE_SIZE  # Bottom-aligned korrigieren
+                            
+                            # Hole Object-Sprite basierend auf GID
+                            sprite = self._get_tile_sprite_from_gid(gid)
+                            if sprite:
+                                object_batch.append((sprite, obj_x, obj_y))
+                                print(f"[Area] Object geladen: GID {gid} an Position ({obj_x}, {obj_y})")
+                            else:
+                                print(f"[Area] Kein Sprite für GID {gid} gefunden")
+            
+            # OPTIMIERT: Batch-Blitting für Objekte
+            for sprite, x, y in object_batch:
+                object_surface.blit(sprite, (x, y))
+            
+            # Füge Object-Layer zur Layer-Liste hinzu
+            self.layer_surfaces["objects"] = object_surface
+            print(f"[Area] Object-Layer erstellt mit {len(object_batch)} Objekten")
+            
+        except Exception as e:
+            print(f"[Area] Fehler beim Rendern der Object-Layer: {e}")
+            import traceback
+            traceback.print_exc()
+    
+    @lru_cache(maxsize=256)
+    def _get_tile_sprite_from_gid(self, gid: int) -> Optional[pygame.Surface]:
+        """Übersetzt GIDs aus Tiled-Format in Tile-Sprites mit LRU-Cache"""
+        # GID-zu-Tile-Mapping basierend auf den TSX-Dateien
+        # WICHTIG: GID = firstgid + tile_id, also GID 43 = Tile ID 42 = wall.png, GID 44 = Tile ID 43 = warp_carpet.png
+        gid_to_tile_mapping = {
+            # Tileset 1 (firstgid=1) - GID = 1 + tile_id
+            1: "bush_1", 2: "bush_2", 3: "bush", 4: "carpet", 5: "cliff_face",
+            6: "dirt_1", 7: "dirt_2", 8: "flower_blue", 9: "flower_red",
+            10: "grass_1", 11: "grass_2", 12: "grass_3", 13: "grass_4", 14: "grass",
+            15: "gravel_1", 16: "gravel_2", 17: "gravel", 18: "ledge",
+            19: "path_1", 20: "path_2", 21: "path", 22: "rock_1", 23: "rock_2",
+            24: "rock", 25: "roof_blue", 26: "roof_red", 27: "roof_ridge", 28: "roof",
+            29: "sand_1", 30: "sand_2", 31: "snow", 32: "stairs_h", 33: "stairs_v",
+            34: "stairs", 35: "stone_floor", 36: "stump", 37: "tall_grass_1",
+            38: "tall_grass_2", 39: "tall_grass", 40: "tree_small", 41: "wall_brick",
+            42: "wall_plaster", 43: "wall", 44: "warp_carpet", 45: "water_1",
+            46: "water_2", 47: "water_corner_ne", 48: "water_corner_nw",
+            49: "water_corner_se", 50: "water_corner_sw", 51: "water_edge_e",
+            52: "water_edge_n", 53: "water_edge_s", 54: "water_edge_w", 55: "wood_floor",
+            
+            # Tileset 2 (firstgid=56) - Object tiles
+            56: "barrel", 57: "bed", 58: "bookshelf", 59: "boulder", 60: "chair",
+            61: "crate", 62: "door", 63: "fence_h", 64: "fence_v", 65: "gravestone",
+            66: "lamp_post", 67: "mailbox", 68: "potted_plant", 69: "sign",
+            70: "table", 71: "tv", 72: "well", 73: "window"
+        }
         
-        # Verschiedene Farben für verschiedene Tile-Typen
-        if isinstance(tile_id, str):
-            if 'grass' in tile_id:
-                surface.fill((34, 139, 34))
-            elif 'dirt' in tile_id or 'path' in tile_id:
-                surface.fill((139, 90, 43))
-            elif 'water' in tile_id:
-                surface.fill((64, 164, 223))
-            elif 'wall' in tile_id:
-                surface.fill((105, 105, 105))
-            else:
-                surface.fill((128, 128, 128))
-        else:
-            # Numerische ID: Verwende Farbpalette
-            colors = [
-                (34, 139, 34),   # Grün (Gras)
-                (139, 90, 43),   # Braun (Erde)
-                (64, 164, 223),  # Blau (Wasser)
-                (105, 105, 105), # Grau (Stein)
-                (255, 215, 0),   # Gold (Sand)
-            ]
-            color = colors[tile_id % len(colors)]
-            surface.fill(color)
+        # Versuche über das GID-Mapping
+        if gid in gid_to_tile_mapping:
+            tile_name = gid_to_tile_mapping[gid]
+            
+            # Prüfe zuerst ob es ein Tile ist
+            tile_sprite = self.sprite_manager.get_tile(tile_name)
+            if tile_sprite:
+                return tile_sprite
+            
+            # Falls kein Tile gefunden, versuche Object-Sprite
+            object_sprite = self.sprite_manager.get_object_sprite(tile_name)
+            if object_sprite:
+                return object_sprite
         
-        return surface
+        # Fallback: Verwende GID direkt als Sprite
+        # Versuche über das Tile-Mapping
+        return self.sprite_manager.get_tile_by_mapping(str(gid))
     
     def _create_empty_map(self):
         """Erstellt eine leere Fallback-Map"""
@@ -513,10 +510,21 @@ class Area:
         Returns:
             Tile-ID oder 0
         """
-        if self.map_data and "ground" in self.map_data.layers:
-            layer = self.map_data.layers["ground"]
-            if 0 <= tile_y < len(layer) and 0 <= tile_x < len(layer[tile_y]):
-                return layer[tile_y][tile_x]
+        if not self.map_data:
+            return 0
+            
+        # Versuche verschiedene Layer-Namen (Tiled nutzt manchmal andere Namen)
+        possible_layers = ["ground", "Tile Layer 1", "floor", "base"]
+        
+        for layer_name in possible_layers:
+            if layer_name in self.map_data.layers:
+                layer = self.map_data.layers[layer_name]
+                if 0 <= tile_y < len(layer) and 0 <= tile_x < len(layer[tile_y]):
+                    tile_id = layer[tile_y][tile_x]
+                    # Debug-Output für Testing
+                    if tile_id == 29:  # Grass-Tile
+                        print(f"[DEBUG] Grass tile at ({tile_x}, {tile_y})")
+                    return tile_id
         return 0
     
     def add_entity(self, entity: Entity):
@@ -609,3 +617,9 @@ class Area:
                     visible_tiles.append((x, y))
         
         return visible_tiles
+    
+    # TMX-Layer-mit-neuen-Tiles-Methode entfernt - veraltet
+    
+    # GID-zu-Tile-Mapping-Methode entfernt - veraltet
+    
+    # Platzhalter-Tile-Methode entfernt - veraltet

@@ -11,7 +11,7 @@ import random
 if TYPE_CHECKING:
     from engine.systems.monster_instance import MonsterInstance
     from engine.systems.moves import Move
-    from engine.systems.battle.battle import Battle
+    from engine.systems.battle.battle_controller import BattleState as Battle
     from engine.systems.battle.turn_logic import BattleAction
 
 
@@ -49,6 +49,44 @@ class BattleAI:
         """
         self.level = level
         self.rng = random.Random(seed)
+    
+    def choose_action(self, actor: 'MonsterInstance',
+                     enemy_team: List['MonsterInstance'],
+                     player_team: List['MonsterInstance'],
+                     battle_state) -> Dict:
+        """Choose action for AI monster - compatibility method."""
+        # Determine targets based on actor
+        if actor in player_team:
+            targets = [t for t in enemy_team if t.current_hp > 0]
+        else:
+            targets = [t for t in player_team if t.current_hp > 0]
+        
+        if not targets:
+            return {
+                'type': 'pass',
+                'move_id': None,
+                'targets': [],
+                'actor': actor
+            }
+        
+        # Simple AI: choose random move and target
+        available_moves = [m for m in actor.moves if m and hasattr(m, 'current_pp') and m.current_pp > 0]
+        if available_moves:
+            move = available_moves[0]
+            target = targets[0]
+            return {
+                'type': 'attack',
+                'move_id': move.id if hasattr(move, 'id') else 'tackle',
+                'targets': [target.id if hasattr(target, 'id') else 'enemy_0'],
+                'actor': actor
+            }
+        else:
+            return {
+                'type': 'pass',
+                'move_id': None,
+                'targets': [],
+                'actor': actor
+            }
     
     def decide_action(self, battle: 'Battle', 
                      actor: 'MonsterInstance',

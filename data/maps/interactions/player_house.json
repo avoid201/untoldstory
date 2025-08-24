@@ -1,90 +1,29 @@
 {
-  "map_id": "player_house",
-  "name": "Dein Zuhause",
-  
-  "npcs": [
-    {
-      "id": "mom",
-      "name": "Mama",
-      "position": [4, 2],
-      "sprite": "npc_woman",
-      "facing": "down",
-      "movement": "static",
-      "dialog": "mom_dialog",
-      "conditions": {}
-    }
-  ],
-  
-  "warps": [
-    {
-      "id": "door_outside",
-      "position": [4, 5],
-      "destination": {
-        "map": "kohlenstadt",
-        "position": [10, 15],
-        "facing": "down"
-      },
-      "type": "door",
-      "sound": "door_open",
-      "conditions": {}
-    }
-  ],
-  
-  "objects": [
-    {
-      "id": "tv",
-      "position": [2, 1],
-      "type": "examine",
-      "interaction": {
-        "type": "dialog",
-        "text": "Es läuft gerade eine Sendung über Fossil-Monster im Ruhrgebiet."
-      }
-    },
-    {
-      "id": "bed",
-      "position": [6, 1],
-      "type": "rest_point",
-      "interaction": {
-        "type": "heal",
-        "text": "Möchtest du dich ausruhen?",
-        "confirm": true,
-        "heal_party": true,
-        "heal_text": "Du und deine Monster sind wieder fit!"
-      }
-    },
-    {
-      "id": "bookshelf",
-      "position": [7, 1],
-      "type": "examine",
-      "interaction": {
-        "type": "dialog",
-        "text": "Bücher über die Geschichte des Ruhrgebiets und Monster-Training."
-      }
-    },
-    {
-      "id": "pc",
-      "position": [1, 1],
-      "type": "examine",
-      "interaction": {
-        "type": "dialog",
-        "text": "Dein alter Computer. Du könntest damit auf deine gespeicherten Monster zugreifen."
-      }
-    }
-  ],
-  
-  "triggers": [
-    {
-      "id": "first_exit",
-      "position": [4, 4],
-      "type": "auto",
-      "conditions": {
-        "flag": "!left_house_first_time"
-      },
-      "action": {
-        "type": "dialog",
-        "text": "Mama: Pass auf dich auf da draußen! Und vergiss nicht, Professor Budde zu besuchen!",
-        "set_flag": "left_house_first_time"
-      }
-    }
-  ]
+    "npcs": [],
+    "warps": [
+        {
+            "id": "door_outside",
+            "position": [10, 17],
+            "destination": {
+                "map": "kohlenstadt",
+                "position": [25, 30],
+                "facing": "down"
+            },
+            "type": "door",
+            "sound": "door_open"
+        }
+    ],
+    "objects": [
+        {
+            "id": "player_bed",
+            "position": [5, 5],
+            "type": "rest_point",
+            "interaction": {
+                "type": "rest",
+                "text": "Möchtest du dich ausruhen?",
+                "heal": true
+            }
+        }
+    ],
+    "triggers": []
 }
