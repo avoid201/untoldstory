@@ -1,4 +1,4 @@
-# Untold Story - Mastermap für KI-Entwicklung
+# Untold Story - Vollständige Mastermap für KI-Entwicklung
 
 ## 📋 Projekt-Übersicht
 
@@ -21,28 +21,124 @@
 
 ---
 
-## 📁 Projektstruktur
+## 📁 Vollständige Projektstruktur
 
 ```
 untold_story/
-├── main.py                    # Haupteinstiegspunkt
-├── engine/                    # Haupt-Engine
-│   ├── core/                 # Kern-Systeme
-│   ├── systems/              # Spielmechaniken
-│   ├── ui/                   # UI-Komponenten
-│   ├── scenes/              # Szenen-Management
-│   ├── world/               # Welt und Entities
-│   ├── graphics/            # Rendering und Sprites
-│   └── audio/               # Audio-System
-├── data/                     # JSON-Daten
+├── main.py                    # Haupteinstiegspunkt - Game().__init__, initialize_sprite_system()
+├── engine/                    # Haupt-Engine mit 6 Hauptmodulen
+│   ├── core/                 # 7 Kern-Systeme
+│   │   ├── game.py           # Game-Klasse - Hauptloop, Scene-Stack, Input-Manager
+│   │   ├── scene_base.py     # Scene, TransitionScene - Abstract Base Classes
+│   │   ├── resources.py      # ResourceManager, LRUCache - Asset-Loading mit intelligenter Caching
+│   │   ├── config.py         # 15+ Config-Klassen - Zentrale Konstanten & Settings
+│   │   ├── input_manager.py  # InputManager, InputConfig, InputState - Key-Mapping & Events
+│   │   ├── event_processor.py # EventProcessor, DebugKeyConfig - pygame Event-Handling
+│   │   └── debug_overlay.py  # DebugOverlayManager, DebugInfo - FPS Counter & Debug-UI
+│   ├── systems/              # 17 Spielmechanik-Dateien
+│   │   ├── battle/           # 22 Battle-System-Dateien (Hauptsystem)
+│   │   ├── moves.py          # Move, MoveEffect, MoveExecutor, MoveRegistry - Move-System
+│   │   ├── monster_instance.py # MonsterInstance, MonsterSpecies, MonsterRank - Monster-Objekte
+│   │   ├── monsters.py       # MonsterDatabase - Species-Cache & Management
+│   │   ├── stats.py          # BaseStats, StatStages, Experience, StatCalculator - Stat-Berechnungen
+│   │   ├── types.py          # TypeChart, TypeData, TypeRelation - Type-Effectiveness-Matrix
+│   │   ├── party.py          # Party, StorageBox, StorageSystem, PartyManager - Team-Management
+│   │   ├── story.py          # StoryManager, StoryFlag, CutsceneScript - Progression & Flags
+│   │   ├── save.py           # SaveSystem, SaveMetadata, GameStateSerializer - Save/Load mit ZIP
+│   │   ├── items.py          # Item, ItemManager, ItemCategory - Item-System
+│   │   ├── conditions.py     # StatusCondition, FieldEffect - Battle-Conditions
+│   │   ├── field_effects.py  # WeatherSystem, TerrainEffect - Environmental-Effects
+│   │   ├── synthesis.py      # SynthesisSystem, BreedingPair - Monster-Fusion
+│   │   ├── taming.py         # TamingSystem, TamingAttempt - Monster-Capture
+│   │   ├── quests.py         # QuestManager, Quest, QuestObjective - Quest-System
+│   │   ├── cutscene.py       # CutsceneManager, CutsceneEvent - Story-Events
+│   │   └── weather.py        # WeatherManager, WeatherType - Dynamic Weather
+│   ├── ui/                   # 10 UI-Komponenten
+│   │   ├── battle_ui.py      # BattleUI, BattleHUD, BattleMenu - Komplettes Battle-Interface
+│   │   ├── menus.py          # MenuBase, PartyMenu, QuestMenu - Menü-System
+│   │   ├── dialogue.py       # DialogueBox, DialoguePage, DialogueChoice - Text-System
+│   │   ├── hud.py            # HUD-Elemente - Persistent UI
+│   │   ├── transitions.py    # TransitionManager, FadeTransition - Scene-Übergänge
+│   │   ├── enhanced_menus.py # Erweiterte Menü-Features
+│   │   ├── modern_ui_patterns.py # UI-Design-Patterns
+│   │   ├── accessibility.py  # Accessibility-Features
+│   │   ├── battle_styles.py  # Battle-UI-Styling
+│   │   └── battle_log.py     # Battle-Log-System
+│   ├── scenes/               # 7 Haupt-Szenen
+│   │   ├── battle_scene.py   # BattleScene - 1402 Zeilen Battle-Management
+│   │   ├── field_scene.py    # FieldScene - 1033 Zeilen Overworld-Gameplay  
+│   │   ├── main_menu_scene.py # MainMenuScene - Hauptmenü
+│   │   ├── start_scene.py    # StartScene - Spielstart
+│   │   ├── pause_scene.py    # PauseScene - Pause-Overlay
+│   │   ├── starter_scene.py  # StarterScene - 1474 Zeilen Monster-Auswahl
+│   │   └── battle/           # Battle-Szenen-Untermodule
+│   ├── world/                # 20 Welt-Komponenten
+│   │   ├── area.py           # Area, AreaConfig - Spielbare Map-Regionen
+│   │   ├── entity.py         # Entity, EntitySprite, Direction - Basis-Entities
+│   │   ├── player.py         # Player - Spieler-Charakter mit Movement
+│   │   ├── npc.py            # NPC, MovementPattern, NPCConfig - Non-Player-Characters
+│   │   ├── camera.py         # Camera, CameraConfig - Kamera-System
+│   │   ├── tiles.py          # TILE_SIZE, TileType, world_to_tile() - Tile-Utilities
+│   │   ├── map_loader.py     # MapLoader, MapData, Warp, Trigger - Map-Loading-System
+│   │   ├── tile_manager.py   # TileManager - Tile-Verwaltung
+│   │   ├── pathfinding.py    # Pathfinding-Algorithmen
+│   │   ├── interaction_manager.py # InteractionManager - Entity-Interaktionen
+│   │   └── [10 weitere Welt-Dateien]
+│   ├── graphics/             # 6 Grafik-Systeme
+│   │   ├── sprite_manager.py # SpriteManager - 577 Zeilen Sprite-Cache & Loading
+│   │   ├── tile_renderer.py  # TileRenderer - Map-Rendering
+│   │   ├── render_manager.py # RenderManager, RenderLayer - Z-Order & Performance
+│   │   ├── optimized_renderer.py # OptimizedRenderer, TextureAtlas - Performance-Optimierungen
+│   │   ├── asset_manager.py  # AssetManager - Asset-Verwaltung
+│   │   └── [1 weitere Grafik-Datei]
+│   ├── audio/                # 2 Audio-Dateien
+│   │   ├── audio_manager.py  # AudioManager, AudioChannel - 330 Zeilen Audio-System
+│   │   └── __init__.py       # Audio-Modul-Init
+│   ├── devtools/             # 3 Developer-Tools
+│   │   ├── input_debug.py    # Input-Debugging-Tools
+│   │   ├── hot_reload.py     # Hot-Reload-System für Development
+│   │   └── error_handler.py  # Erweiterte Error-Handling
+│   └── items/                # 1 Item-System-Datei
+│       └── running_shoes.py  # RunningShoes - Spezifisches Item-System
+├── data/                     # JSON-Datenstrukturen
+│   ├── monsters.json         # 8005 Zeilen Monster-Database
+│   ├── moves.json           # 289 Zeilen Move-Database
+│   ├── types.json           # 196 Zeilen Type-Chart
+│   ├── items.json           # 707 Zeilen Item-Database
+│   ├── field_effects.json   # 271 Zeilen Environmental-Effects
+│   ├── tile_mapping.json    # 534 Zeilen Tile-ID-Mappings
+│   └── [weitere JSON-Dateien]
 ├── assets/                   # Grafiken, Audio
-├── saves/                    # Spielstände
-└── tests/                    # Test-Dateien
+│   ├── gfx/                 # 152 Grafik-Dateien (151 PNG)
+│   │   ├── monster/         # Monster-Sprites (1-151.png Format)
+│   │   ├── tiles/          # Tile-Sprites
+│   │   ├── ui/             # UI-Grafiken
+│   │   └── [weitere Grafik-Ordner]
+│   ├── sfx/                # Sound-Effects
+│   └── bgm/                # Background-Music
+├── saves/                   # Spielstände (ZIP-Format)
+├── tests/                   # 15+ Test-Dateien
+└── tools/                   # 18 Utility-Tools
+
 ```
 
 ---
 
-## 🏗️ Engine-Architektur
+## 🏗️ Vollständige Engine-Architektur
+
+### 📖 Übersicht der Haupt-Engine-Module
+
+Das Engine-System ist in 7 Hauptmodule aufgeteilt:
+
+1. **`core/`** - 7 Kern-Dateien: Game-Loop, Resources, Input, Events, Debug
+2. **`systems/`** - 17 Gameplay-Dateien: Battle, Monster, Stats, Save, Story
+3. **`ui/`** - 10 UI-Dateien: Menus, Dialoge, Battle-UI, HUD
+4. **`scenes/`** - 7 Scene-Dateien: Field, Battle, Menu, Transitions  
+5. **`world/`** - 20 Welt-Dateien: Maps, Entities, NPCs, Camera
+6. **`graphics/`** - 6 Grafik-Dateien: Sprites, Rendering, Performance
+7. **`audio/`** - 2 Audio-Dateien: Manager, Channels
+
+### 🎮 Core-Systeme (`engine/core/`) - Detaillierte Klassen-Analyse
 
 ### Core-Systeme (`engine/core/`)
 
