@@ -290,36 +290,71 @@ class MainMenuScene(Scene):
         selected_item = self.options_menu_items[self.submenu_selection]
         
         if "Musik" in selected_item:
-            # Toggle Musik
-            if "An" in selected_item:
-                self.options_menu_items[self.submenu_selection] = "Musik: Aus"
-                # TODO: Implementiere Musik-Aus
-            else:
+            # Toggle Musik über Settings-Manager
+            music_enabled = self.game.settings_manager.toggle_music()
+            if music_enabled:
                 self.options_menu_items[self.submenu_selection] = "Musik: An"
-                # TODO: Implementiere Musik-An
+            else:
+                self.options_menu_items[self.submenu_selection] = "Musik: Aus"
+            
+            # Apply audio settings and save
+            self.game.settings_manager.apply_audio_settings(self.game.audio_manager)
+            if not music_enabled:
+                self.game.audio_manager.pause_music()
+            else:
+                self.game.audio_manager.unpause_music()
+            self.game.settings_manager.save_settings()
                 
         elif "Sound" in selected_item:
-            # Toggle Sound
-            if "An" in selected_item:
-                self.options_menu_items[self.submenu_selection] = "Sound: Aus"
-                # TODO: Implementiere Sound-Aus
-            else:
+            # Toggle Sound über Settings-Manager
+            sound_enabled = self.game.settings_manager.toggle_sound()
+            if sound_enabled:
                 self.options_menu_items[self.submenu_selection] = "Sound: An"
-                # TODO: Implementiere Sound-An
+            else:
+                self.options_menu_items[self.submenu_selection] = "Sound: Aus"
+            
+            # Apply audio settings and save
+            self.game.settings_manager.apply_audio_settings(self.game.audio_manager)
+            self.game.settings_manager.save_settings()
                 
         elif "Geschwindigkeit" in selected_item:
-            # Cycle through speeds
-            speeds = ["Langsam", "Normal", "Schnell"]
-            current_speed = selected_item.split(": ")[1]
-            current_index = speeds.index(current_speed)
-            next_index = (current_index + 1) % len(speeds)
-            self.options_menu_items[self.submenu_selection] = f"Geschwindigkeit: {speeds[next_index]}"
-            # TODO: Implementiere Geschwindigkeits-Änderung
+            # Cycle through text speeds via Settings-Manager
+            new_speed = self.game.settings_manager.cycle_text_speed()
+            speed_mapping = {
+                "slow": "Langsam",
+                "normal": "Normal", 
+                "fast": "Schnell"
+            }
+            speed_display = speed_mapping.get(new_speed.value, "Normal")
+            self.options_menu_items[self.submenu_selection] = f"Geschwindigkeit: {speed_display}"
+            # Save settings
+            self.game.settings_manager.save_settings()
             
         elif "Zurück" in selected_item:
             # Return to main menu
             self.in_submenu = False
             self.submenu_type = None
+    
+    def _update_options_display(self) -> None:
+        """Update options menu items to reflect current settings."""
+        settings = self.game.settings_manager
+        
+        # Update music setting display
+        music_text = "Musik: An" if settings.audio.music_enabled else "Musik: Aus"
+        self.options_menu_items[0] = music_text
+        
+        # Update sound setting display
+        sound_text = "Sound: An" if settings.audio.sound_enabled else "Sound: Aus"
+        self.options_menu_items[1] = sound_text
+        
+        # Update speed setting display
+        speed_mapping = {
+            "slow": "Langsam",
+            "normal": "Normal",
+            "fast": "Schnell"
+        }
+        speed_display = speed_mapping.get(settings.graphics.text_speed.value, "Normal")
+        self.options_menu_items[2] = f"Geschwindigkeit: {speed_display}"
     
     def update(self, dt: float) -> None:
         """Update main menu."""

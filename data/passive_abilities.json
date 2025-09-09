@@ -1,0 +1,408 @@
+{
+  "passive_abilities": [
+    {
+      "id": "fire_resistance",
+      "name": "Feuerresistenz",
+      "description": "Reduziert Feuer-Schaden um 25%",
+      "category": "defensive",
+      "effect_type": "damage_reduction",
+      "effect_value": 0.25,
+      "target_type": "fire",
+      "tier_requirement": 2,
+      "is_stackable": false
+    },
+    {
+      "id": "water_resistance",
+      "name": "Wasserresistenz", 
+      "description": "Reduziert Wasser-Schaden um 25%",
+      "category": "defensive",
+      "effect_type": "damage_reduction",
+      "effect_value": 0.25,
+      "target_type": "water",
+      "tier_requirement": 2,
+      "is_stackable": false
+    },
+    {
+      "id": "earth_resistance",
+      "name": "Erdresistenz",
+      "description": "Reduziert Erde-Schaden um 25%",
+      "category": "defensive",
+      "effect_type": "damage_reduction",
+      "effect_value": 0.25,
+      "target_type": "earth",
+      "tier_requirement": 2,
+      "is_stackable": false
+    },
+    {
+      "id": "wind_resistance",
+      "name": "Windresistenz",
+      "description": "Reduziert Wind-Schaden um 25%",
+      "category": "defensive",
+      "effect_type": "damage_reduction",
+      "effect_value": 0.25,
+      "target_type": "wind",
+      "tier_requirement": 2,
+      "is_stackable": false
+    },
+    {
+      "id": "plant_resistance",
+      "name": "Pflanzenresistenz",
+      "description": "Reduziert Pflanzen-Schaden um 25%",
+      "category": "defensive",
+      "effect_type": "damage_reduction",
+      "effect_value": 0.25,
+      "target_type": "plant",
+      "tier_requirement": 2,
+      "is_stackable": false
+    },
+    {
+      "id": "beast_resistance",
+      "name": "Bestienresistenz",
+      "description": "Reduziert Bestien-Schaden um 25%",
+      "category": "defensive",
+      "effect_type": "damage_reduction",
+      "effect_value": 0.25,
+      "target_type": "beast",
+      "tier_requirement": 2,
+      "is_stackable": false
+    },
+    {
+      "id": "energy_resistance",
+      "name": "Energieresistenz",
+      "description": "Reduziert Energie-Schaden um 25%",
+      "category": "defensive",
+      "effect_type": "damage_reduction",
+      "effect_value": 0.25,
+      "target_type": "energy",
+      "tier_requirement": 2,
+      "is_stackable": false
+    },
+    {
+      "id": "chaos_resistance",
+      "name": "Chaosresistenz",
+      "description": "Reduziert Chaos-Schaden um 25%",
+      "category": "defensive",
+      "effect_type": "damage_reduction",
+      "effect_value": 0.25,
+      "target_type": "chaos",
+      "tier_requirement": 2,
+      "is_stackable": false
+    },
+    {
+      "id": "poison_resistance",
+      "name": "Seuchenresistenz",
+      "description": "Reduziert Seuchen-Schaden um 25%",
+      "category": "defensive",
+      "effect_type": "damage_reduction",
+      "effect_value": 0.25,
+      "target_type": "poison",
+      "tier_requirement": 2,
+      "is_stackable": false
+    },
+    {
+      "id": "mystic_resistance",
+      "name": "Mystikresistenz",
+      "description": "Reduziert Mystik-Schaden um 25%",
+      "category": "defensive",
+      "effect_type": "damage_reduction",
+      "effect_value": 0.25,
+      "target_type": "mystic",
+      "tier_requirement": 2,
+      "is_stackable": false
+    },
+    {
+      "id": "divine_resistance",
+      "name": "Göttliche Resistenz",
+      "description": "Reduziert Göttlichen Schaden um 25%",
+      "category": "defensive",
+      "effect_type": "damage_reduction",
+      "effect_value": 0.25,
+      "target_type": "divine",
+      "tier_requirement": 3,
+      "is_stackable": false
+    },
+    {
+      "id": "devil_resistance",
+      "name": "Teufelsresistenz",
+      "description": "Reduziert Teufels-Schaden um 25%",
+      "category": "defensive",
+      "effect_type": "damage_reduction",
+      "effect_value": 0.25,
+      "target_type": "devil",
+      "tier_requirement": 3,
+      "is_stackable": false
+    },
+    {
+      "id": "attack_boost",
+      "name": "Angriffsverstärkung",
+      "description": "Erhöht physischen Angriff um 20%",
+      "category": "offensive",
+      "effect_type": "stat_boost",
+      "effect_value": 0.20,
+      "target_stat": "atk",
+      "tier_requirement": 2,
+      "is_stackable": true
+    },
+    {
+      "id": "defense_boost",
+      "name": "Verteidigungsverstärkung",
+      "description": "Erhöht physische Verteidigung um 20%",
+      "category": "defensive",
+      "effect_type": "stat_boost",
+      "effect_value": 0.20,
+      "target_stat": "def",
+      "tier_requirement": 2,
+      "is_stackable": true
+    },
+    {
+      "id": "magic_boost",
+      "name": "Magieverstärkung",
+      "description": "Erhöht magischen Angriff um 20%",
+      "category": "offensive",
+      "effect_type": "stat_boost",
+      "effect_value": 0.20,
+      "target_stat": "mag",
+      "tier_requirement": 2,
+      "is_stackable": true
+    },
+    {
+      "id": "resistance_boost",
+      "name": "Resistenzverstärkung",
+      "description": "Erhöht magische Resistenz um 20%",
+      "category": "defensive",
+      "effect_type": "stat_boost",
+      "effect_value": 0.20,
+      "target_stat": "res",
+      "tier_requirement": 2,
+      "is_stackable": true
+    },
+    {
+      "id": "speed_boost",
+      "name": "Geschwindigkeitsverstärkung",
+      "description": "Erhöht Geschwindigkeit um 20%",
+      "category": "utility",
+      "effect_type": "stat_boost",
+      "effect_value": 0.20,
+      "target_stat": "spd",
+      "tier_requirement": 2,
+      "is_stackable": true
+    },
+    {
+      "id": "hp_boost",
+      "name": "Lebenspunkteverstärkung",
+      "description": "Erhöht maximale Lebenspunkte um 25%",
+      "category": "defensive",
+      "effect_type": "stat_boost",
+      "effect_value": 0.25,
+      "target_stat": "hp",
+      "tier_requirement": 2,
+      "is_stackable": true
+    },
+    {
+      "id": "critical_boost",
+      "name": "Kritischer Treffer",
+      "description": "Erhöht Kritische-Treffer-Chance um 10%",
+      "category": "offensive",
+      "effect_type": "critical_chance",
+      "effect_value": 0.10,
+      "tier_requirement": 3,
+      "is_stackable": true
+    },
+    {
+      "id": "accuracy_boost",
+      "name": "Genauigkeitsverstärkung",
+      "description": "Erhöht Genauigkeit um 15%",
+      "category": "utility",
+      "effect_type": "accuracy_boost",
+      "effect_value": 0.15,
+      "tier_requirement": 2,
+      "is_stackable": true
+    },
+    {
+      "id": "evasion_boost",
+      "name": "Ausweichverstärkung",
+      "description": "Erhöht Ausweichchance um 15%",
+      "category": "defensive",
+      "effect_type": "evasion_boost",
+      "effect_value": 0.15,
+      "tier_requirement": 2,
+      "is_stackable": true
+    },
+    {
+      "id": "status_immunity",
+      "name": "Statusimmunität",
+      "description": "Immun gegen alle Status-Effekte",
+      "category": "defensive",
+      "effect_type": "status_immunity",
+      "effect_value": 1.0,
+      "tier_requirement": 4,
+      "is_stackable": false
+    },
+    {
+      "id": "burn_immunity",
+      "name": "Verbrennungsimmunität",
+      "description": "Immun gegen Verbrennung",
+      "category": "defensive",
+      "effect_type": "status_immunity",
+      "effect_value": 1.0,
+      "target_status": "burn",
+      "tier_requirement": 2,
+      "is_stackable": false
+    },
+    {
+      "id": "poison_immunity",
+      "name": "Vergiftungsimmunität",
+      "description": "Immun gegen Vergiftung",
+      "category": "defensive",
+      "effect_type": "status_immunity",
+      "effect_value": 1.0,
+      "target_status": "poison",
+      "tier_requirement": 2,
+      "is_stackable": false
+    },
+    {
+      "id": "paralysis_immunity",
+      "name": "Paralysierungsimmunität",
+      "description": "Immun gegen Lähmung",
+      "category": "defensive",
+      "effect_type": "status_immunity",
+      "effect_value": 1.0,
+      "target_status": "paralysis",
+      "tier_requirement": 2,
+      "is_stackable": false
+    },
+    {
+      "id": "sleep_immunity",
+      "name": "Schlafimmunität",
+      "description": "Immun gegen Schlaf",
+      "category": "defensive",
+      "effect_type": "status_immunity",
+      "effect_value": 1.0,
+      "target_status": "sleep",
+      "tier_requirement": 2,
+      "is_stackable": false
+    },
+    {
+      "id": "freeze_immunity",
+      "name": "Einfrierimmunität",
+      "description": "Immun gegen Einfrieren",
+      "category": "defensive",
+      "effect_type": "status_immunity",
+      "effect_value": 1.0,
+      "target_status": "freeze",
+      "tier_requirement": 2,
+      "is_stackable": false
+    },
+    {
+      "id": "confusion_immunity",
+      "name": "Verwirrungsimmunität",
+      "description": "Immun gegen Verwirrung",
+      "category": "defensive",
+      "effect_type": "status_immunity",
+      "effect_value": 1.0,
+      "target_status": "confusion",
+      "tier_requirement": 2,
+      "is_stackable": false
+    },
+    {
+      "id": "regeneration",
+      "name": "Regeneration",
+      "description": "Regeneriert 5% der max HP pro Runde",
+      "category": "defensive",
+      "effect_type": "hp_regeneration",
+      "effect_value": 0.05,
+      "tier_requirement": 3,
+      "is_stackable": true
+    },
+    {
+      "id": "mana_regeneration",
+      "name": "Mana-Regeneration",
+      "description": "Regeneriert 10% der max MP pro Runde",
+      "category": "utility",
+      "effect_type": "mp_regeneration",
+      "effect_value": 0.10,
+      "tier_requirement": 3,
+      "is_stackable": true
+    },
+    {
+      "id": "damage_reflection",
+      "name": "Schadensreflexion",
+      "description": "Reflektiert 25% des erhaltenen Schadens",
+      "category": "defensive",
+      "effect_type": "damage_reflection",
+      "effect_value": 0.25,
+      "tier_requirement": 4,
+      "is_stackable": false
+    },
+    {
+      "id": "life_steal",
+      "name": "Lebensraub",
+      "description": "Heilt 20% des verursachten Schadens",
+      "category": "offensive",
+      "effect_type": "life_steal",
+      "effect_value": 0.20,
+      "tier_requirement": 3,
+      "is_stackable": true
+    },
+    {
+      "id": "mana_steal",
+      "name": "Mana-Raub",
+      "description": "Stiehlt 15% des verursachten Schadens als MP",
+      "category": "offensive",
+      "effect_type": "mana_steal",
+      "effect_value": 0.15,
+      "tier_requirement": 3,
+      "is_stackable": true
+    },
+    {
+      "id": "berserker",
+      "name": "Berserker",
+      "description": "Angriff steigt um 10% pro 25% verlorener HP",
+      "category": "offensive",
+      "effect_type": "berserker",
+      "effect_value": 0.10,
+      "tier_requirement": 4,
+      "is_stackable": false
+    },
+    {
+      "id": "guardian",
+      "name": "Wächter",
+      "description": "Verteidigung steigt um 15% pro 25% verlorener HP",
+      "category": "defensive",
+      "effect_type": "guardian",
+      "effect_value": 0.15,
+      "tier_requirement": 4,
+      "is_stackable": false
+    },
+    {
+      "id": "elemental_mastery",
+      "name": "Elementar-Meisterschaft",
+      "description": "Alle Elementar-Attacken verursachen 30% mehr Schaden",
+      "category": "offensive",
+      "effect_type": "elemental_damage_boost",
+      "effect_value": 0.30,
+      "tier_requirement": 4,
+      "is_stackable": false
+    },
+    {
+      "id": "physical_mastery",
+      "name": "Physische Meisterschaft",
+      "description": "Alle physischen Attacken verursachen 30% mehr Schaden",
+      "category": "offensive",
+      "effect_type": "physical_damage_boost",
+      "effect_value": 0.30,
+      "tier_requirement": 4,
+      "is_stackable": false
+    },
+    {
+      "id": "magic_mastery",
+      "name": "Magische Meisterschaft",
+      "description": "Alle magischen Attacken verursachen 30% mehr Schaden",
+      "category": "offensive",
+      "effect_type": "magic_damage_boost",
+      "effect_value": 0.30,
+      "tier_requirement": 4,
+      "is_stackable": false
+    }
+  ]
+}

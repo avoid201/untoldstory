@@ -12,6 +12,8 @@ from enum import Enum, auto
 from pathlib import Path
 
 from engine.core.config import Colors, LOGICAL_WIDTH, LOGICAL_HEIGHT
+# Import centralized font manager
+from engine.ui.battle_ui_utils import fonts
 
 
 class MessagePriority(Enum):
@@ -84,9 +86,9 @@ class BattleLog:
             MessageCategory.SYSTEM: "ℹ️"
         }
         
-        # Font setup
-        self.font = pygame.font.Font(None, 12)
-        self.small_font = pygame.font.Font(None, 10)
+        # Use centralized font manager instead of creating new fonts
+        self.font = fonts.small
+        self.small_font = fonts.tiny
         
         # Display settings
         self.log_position = (10, LOGICAL_HEIGHT - 120)

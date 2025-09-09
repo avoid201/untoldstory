@@ -379,3 +379,43 @@ class TransitionManager:
         else:
             # Default to fade
             return FadeTransition(game, from_scene, to_scene, duration)
+    
+    @staticmethod
+    def create_map_transition(game: 'Game', from_scene: Optional[Scene], 
+                            to_scene: Scene, transition_type: str = "fade") -> TransitionScene:
+        """
+        Create a transition specifically for map changes.
+        
+        Args:
+            game: Game instance
+            from_scene: Scene transitioning from
+            to_scene: Scene transitioning to
+            transition_type: Type of transition ("fade", "wipe", "radial")
+            
+        Returns:
+            TransitionScene instance
+        """
+        if transition_type == "fade":
+            return FadeTransition(game, from_scene, to_scene, 0.3, fade_color=(0, 0, 0))
+        elif transition_type == "wipe":
+            return WipeTransition(game, from_scene, to_scene, 0.4, direction="right")
+        elif transition_type == "radial":
+            return RadialTransition(game, from_scene, to_scene, 0.6, opening=True)
+        else:
+            return FadeTransition(game, from_scene, to_scene, 0.3)
+    
+    @staticmethod
+    def create_battle_transition(game: 'Game', from_scene: Optional[Scene], 
+                               to_scene: Scene) -> TransitionScene:
+        """
+        Create a transition specifically for battle encounters.
+        
+        Args:
+            game: Game instance
+            from_scene: Scene transitioning from
+            to_scene: Scene transitioning to
+            
+        Returns:
+            BattleSwirlTransition instance
+        """
+        return BattleSwirlTransition(game, from_scene, to_scene, 1.0)

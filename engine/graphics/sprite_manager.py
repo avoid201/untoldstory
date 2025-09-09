@@ -61,6 +61,17 @@ class SpriteManager:
         # GID-zu-Surface Mapping für TMX-Support (Legacy)
         self.gid_to_surface: Dict[int, pygame.Surface] = {}
         self._loaded_tilesets = set()  # Track loaded tilesets to avoid duplicates
+        
+        # OPTIMIERT: Performance-Tracking
+        self._load_times: List[float] = []
+        self._cache_hits = 0
+        self._cache_misses = 0
+        self._last_cleanup = 0.0
+        
+        # OPTIMIERT: Memory-Management
+        self._memory_usage = 0
+        self._max_memory_mb = 200  # 200MB Limit
+        self._priority_sprites = set()  # Sprites die nicht entladen werden sollen
 
     # ---------- Public API ----------
 
@@ -575,3 +586,79 @@ class SpriteManager:
         """Gibt die Anzahl der Sprites im Cache zurück (für Kompatibilität)."""
         self._ensure_loaded()
         return len(self.sprite_cache)
+    
+    def get_performance_stats(self) -> Dict[str, Any]:
+        """Gibt Performance-Statistiken zurück."""
+        avg_load_time = sum(self._load_times) / len(self._load_times) if self._load_times else 0
+        cache_hit_rate = self._cache_hits / (self._cache_hits + self._cache_misses) if (self._cache_hits + self._cache_misses) > 0 else 0
+        
+        return {
+            "total_sprites": len(self.sprite_cache),
+            "memory_usage_mb": self._memory_usage / (1024 * 1024),
+            "max_memory_mb": self._max_memory_mb,
+            "cache_hits": self._cache_hits,
+            "cache_misses": self._cache_misses,
+            "cache_hit_rate": cache_hit_rate,
+            "avg_load_time_ms": avg_load_time * 1000,
+            "monster_sprites": len(self._monster),
+            "tile_sprites": len(self._tiles),
+            "object_sprites": len(self._objects),
+            "npc_sprites": len(self._npc_dir_map),
+            "player_sprites": len(self._player_dir_map)
+        }
+    
+    def cleanup_memory(self) -> None:
+        """Bereinigt Memory und entfernt selten verwendete Sprites."""
+        import time
+        current_time = time.time()
+        
+        # Cleanup alle 5 Minuten
+        if current_time - self._last_cleanup < 300:
+            return
+        
+        # Entferne nicht-Prioritäts-Sprites wenn Memory-Limit erreicht
+        if self._memory_usage > self._max_memory_mb * 1024 * 1024:
+            # Hier könnte eine LRU-Implementierung hinzugefügt werden
+            # Für jetzt: Entferne Monster-Sprites die nicht priorisiert sind
+            sprites_to_remove = []
+            for key in self._monster.keys():
+                if key not in self._priority_sprites:
+                    sprites_to_remove.append(key)
+            
+            for key in sprites_to_remove[:10]:  # Entferne max 10 auf einmal
+                if key in self._monster:
+                    del self._monster[key]
+                    # Entferne auch aus sprite_cache
+                    cache_key = f"monster_{key}"
+                    if cache_key in self.sprite_cache:
+                        del self.sprite_cache[cache_key]
+        
+        self._last_cleanup = current_time
+    
+    def mark_priority_sprite(self, sprite_key: str) -> None:
+        """Markiert einen Sprite als Priorität (wird nicht entladen)."""
+        self._priority_sprites.add(sprite_key)
+    
+    def preload_common_sprites(self) -> None:
+        """Preload häufig verwendete Sprites für bessere Performance."""
+        try:
+            # Preload Player-Sprites
+            for direction in ["up", "down", "left", "right"]:
+                self.get_player_sprite(direction)
+                self.mark_priority_sprite(f"player_{direction}")
+            
+            # Preload häufige Monster-Sprites (1-20)
+            for i in range(1, 21):
+                self.get_monster_sprite(str(i))
+                self.mark_priority_sprite(str(i))
+            
+            # Preload häufige Tiles
+            common_tiles = ["grass", "path", "water", "stone_floor", "wall"]
+            for tile in common_tiles:
+                self.get_tile(tile)
+                self.mark_priority_sprite(f"tile_{tile}")
+            
+            print(f"[SpriteManager] Preloaded {len(self._priority_sprites)} priority sprites")
+            
+        except Exception as e:
+            print(f"Fehler beim Preload der Sprites: {e}")

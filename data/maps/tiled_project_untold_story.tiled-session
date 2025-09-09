@@ -3,7 +3,7 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "player_house.tmx",
+    "activeFile": "museum.tmx",
     "expandedProjectPaths": [
     ],
     "file.lastUsedOpenFilter": "All Files (*)",
@@ -40,11 +40,11 @@
             "expandedObjectLayers": [
                 3
             ],
-            "scale": 2.5586,
+            "scale": 1.1101,
             "selectedLayer": 1,
             "viewCenter": {
-                "x": 168.06065817243802,
-                "y": 769.7568983037597
+                "x": 221.60165750833258,
+                "y": 296.82010629673
             }
         },
         "museum.tmx": {
@@ -57,6 +57,9 @@
                 "x": 95.94896331738437,
                 "y": 48.14460393407763
             }
+        },
+        "object_tiles.tsx": {
+            "scaleInDock": 1
         },
         "penny.tmx": {
             "expandedObjectLayers": [
@@ -122,12 +125,22 @@
     "map.width": 8,
     "openFiles": [
         "tiles.tsx",
-        "player_house.tmx"
+        "player_house.tmx",
+        "kohlenstadt.tmx",
+        "route1.tmx",
+        "doenerbude.tmx",
+        "penny.tmx",
+        "museum.tmx"
     ],
     "project": "tiled_project_untold_story.tiled-project",
     "recentFiles": [
-        "player_house Kopie.tmx",
+        "tiles.tsx",
         "player_house.tmx",
-        "tiles.tsx"
+        "kohlenstadt.tmx",
+        "route1.tmx",
+        "doenerbude.tmx",
+        "penny.tmx",
+        "museum.tmx",
+        "player_house Kopie.tmx"
     ]
 }

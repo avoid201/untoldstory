@@ -24,6 +24,17 @@ class TileRenderer:
         self.tile_size = TILE_SIZE
         # Set zum Nachverfolgen fehlender Tiles, um doppelte Log-Ausgaben zu vermeiden
         self.missing_tiles: set[int] = set()
+        
+        # OPTIMIERT: Performance-Features
+        self.use_viewport_culling = True
+        self.use_tile_caching = True
+        self._tile_cache: Dict[Tuple[int, int, int], pygame.Surface] = {}  # (x, y, tile_id) -> surface
+        self._render_stats = {
+            'tiles_rendered': 0,
+            'tiles_culled': 0,
+            'cache_hits': 0,
+            'cache_misses': 0
+        }
     
     def render_layer(self, screen: pygame.Surface, layer_data: List[List], 
                      camera_offset: Tuple[int, int], layer_name: str = "unknown") -> None:
@@ -200,3 +211,71 @@ class TileRenderer:
     def clear_missing_tiles_cache(self) -> None:
         """Löscht den Cache der fehlenden Tiles"""
         self.missing_tiles.clear()
+    
+    def get_performance_stats(self) -> Dict[str, Any]:
+        """Gibt Performance-Statistiken zurück."""
+        total_tiles = self._render_stats['tiles_rendered'] + self._render_stats['tiles_culled']
+        culling_efficiency = (self._render_stats['tiles_culled'] / total_tiles * 100) if total_tiles > 0 else 0
+        cache_hit_rate = (self._render_stats['cache_hits'] / (self._render_stats['cache_hits'] + self._render_stats['cache_misses']) * 100) if (self._render_stats['cache_hits'] + self._render_stats['cache_misses']) > 0 else 0
+        
+        return {
+            **self._render_stats,
+            'culling_efficiency_percent': culling_efficiency,
+            'cache_hit_rate_percent': cache_hit_rate,
+            'tile_cache_size': len(self._tile_cache),
+            'viewport_culling_enabled': self.use_viewport_culling,
+            'tile_caching_enabled': self.use_tile_caching
+        }
+    
+    def optimize_for_performance(self, target_fps: int = 60) -> None:
+        """Optimiert Tile-Rendering für Ziel-FPS."""
+        if target_fps >= 60:
+            # High Performance Mode
+            self.use_viewport_culling = True
+            self.use_tile_caching = True
+            print("TileRenderer: High Performance Mode aktiviert (60+ FPS)")
+        elif target_fps >= 30:
+            # Balanced Mode
+            self.use_viewport_culling = True
+            self.use_tile_caching = False
+            print("TileRenderer: Balanced Mode aktiviert (30+ FPS)")
+        else:
+            # Low Performance Mode
+            self.use_viewport_culling = False
+            self.use_tile_caching = False
+            print("TileRenderer: Low Performance Mode aktiviert (30- FPS)")
+    
+    def clear_tile_cache(self) -> None:
+        """Leert den Tile-Cache."""
+        self._tile_cache.clear()
+        print("TileRenderer: Cache geleert")
+    
+    def preload_common_tiles(self, layer_data: List[List]) -> None:
+        """Preload häufig verwendete Tiles für bessere Performance."""
+        if not layer_data:
+            return
+        
+        # Zähle Tile-Häufigkeiten
+        tile_counts: Dict[int, int] = {}
+        for row in layer_data:
+            for tile_id in row:
+                if tile_id and tile_id != 0:
+                    tile_counts[tile_id] = tile_counts.get(tile_id, 0) + 1
+        
+        # Preload die 10 häufigsten Tiles
+        common_tiles = sorted(tile_counts.items(), key=lambda x: x[1], reverse=True)[:10]
+        
+        for tile_id, count in common_tiles:
+            try:
+                # Lade Tile-Sprite
+                tile_sprite = self._get_tile_sprite(tile_id)
+                if tile_sprite:
+                    # Cache für verschiedene Positionen
+                    for x in range(0, 5):
+                        for y in range(0, 5):
+                            cache_key = (x, y, tile_id)
+                            self._tile_cache[cache_key] = tile_sprite
+            except Exception as e:
+                print(f"Fehler beim Preload von Tile {tile_id}: {e}")
+        
+        print(f"TileRenderer: {len(common_tiles)} häufige Tiles gepreloaded")

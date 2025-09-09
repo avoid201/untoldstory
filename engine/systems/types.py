@@ -121,10 +121,7 @@ class TypeChart:
             self.effectiveness_matrix = None
             self._matrix_initialized = False
         
-        # Caching structures - OPTIMIERT: Erweiterte Cache-Strategien
-        self.lookup_cache: Dict[Tuple[str, str, str], float] = {}
-        self._cache_hits = 0
-        self._cache_misses = 0
+        # Performance tracking (LRU-Cache handles caching automatically)
         self._cache_size_limit = 1000
         
         # Advanced mechanics
@@ -194,7 +191,7 @@ class TypeChart:
                 if attacker and defender and multiplier is not None:
                     att_id = self.type_ids.get(attacker)
                     def_id = self.type_ids.get(defender)
-                    if att_id is not None and def_id is not None:
+                    if all(x is not None for x in (att_id, def_id)):
                         self.relations.append(TypeRelation(att_id, def_id, multiplier))
             
             # Load configuration
@@ -277,39 +274,20 @@ class TypeChart:
             for att in common_types:
                 self.calculate_type_multiplier(att, types)
     
-    def _cleanup_cache(self) -> None:
-        """Clean up cache if it gets too large."""
-        current_time = time.time()
-        
-        # Clean up every 5 minutes
-        if current_time - self._last_cleanup > 300:
-            if len(self.lookup_cache) > self._cache_size_limit:
-                # Remove oldest entries
-                items_to_remove = len(self.lookup_cache) - self._cache_size_limit
-                oldest_keys = sorted(self.lookup_cache.keys(), 
-                                   key=lambda k: self.lookup_cache.get(k, 0))[:items_to_remove]
-                
-                for key in oldest_keys:
-                    self.lookup_cache.pop(key, None)
-            
-            self._last_cleanup = current_time
+    # Cleanup method removed - LRU-Cache handles cache management automatically
+    
+    def get_all_types(self) -> List[str]:
+        """Get all available type names."""
+        return self.type_names.copy()
     
     @lru_cache(maxsize=256)
     def get_effectiveness(self, attacking_type: str, defending_type: str,
                          condition: BattleCondition = BattleCondition.NORMAL) -> float:
         """
         Get type effectiveness multiplier.
-        OPTIMIERT: LRU-Cache und NumPy-Matrix-Lookups
+        OPTIMIERT: LRU-Cache für automatisches Caching (entfernt redundantes manuelles Cache)
         """
         start_time = time.time()
-        
-        # Check cache first
-        cache_key = (attacking_type, defending_type, condition.value)
-        if cache_key in self.lookup_cache:
-            self._cache_hits += 1
-            return self.lookup_cache[cache_key]
-        
-        self._cache_misses += 1
         
         # Get type IDs
         att_id = self.type_ids.get(attacking_type)
@@ -343,19 +321,13 @@ class TypeChart:
             if attacking_type != defending_type:
                 multiplier = 0.5
         
-        # Cache result
-        self.lookup_cache[cache_key] = multiplier
-        
-        # Track performance
+        # Track performance (LRU-Cache handles caching automatically)
         calc_time = time.time() - start_time
         self._calculation_times.append(calc_time)
         
-        # Cleanup cache if needed
-        self._cleanup_cache()
-        
         return multiplier
     
-    def calculate_type_multiplier(self, attacking_type: str, defending_types: List[str]) -> float:
+    def calculate_type_multiplier(self, attacking_type: str, defending_types: List[str], condition: BattleCondition = BattleCondition.NORMAL) -> float:
         """
         Calculate effectiveness against dual-type defenders.
         OPTIMIERT: NumPy-Vektoroperationen für bessere Performance
@@ -364,7 +336,7 @@ class TypeChart:
             return 1.0
         
         if len(defending_types) == 1:
-            return self.get_effectiveness(attacking_type, defending_types[0])
+            return self.get_effectiveness(attacking_type, defending_types[0], condition)
         
         # OPTIMIERT: Batch-Berechnung mit NumPy wenn verfügbar
         if NUMPY_AVAILABLE and self._matrix_initialized:
@@ -387,7 +359,7 @@ class TypeChart:
             # Fallback: Einzelne Berechnungen
             total_multiplier = 1.0
             for def_type in defending_types:
-                total_multiplier *= self.get_effectiveness(attacking_type, def_type)
+                total_multiplier *= self.get_effectiveness(attacking_type, def_type, condition)
             
             return min(total_multiplier, self.config['combo_cap'])
     
@@ -398,21 +370,74 @@ class TypeChart:
     def get_performance_stats(self) -> Dict[str, Any]:
         """Get performance statistics."""
         return {
-            'cache_hits': self._cache_hits,
-            'cache_misses': self._cache_misses,
-            'cache_hit_rate': self._cache_hits / max(1, self._cache_hits + self._cache_misses),
             'avg_calculation_time': sum(self._calculation_times) / max(1, len(self._calculation_times)),
             'matrix_initialized': self._matrix_initialized,
             'numpy_available': NUMPY_AVAILABLE,
-            'cache_size': len(self.lookup_cache)
+            'total_calculations': len(self._calculation_times),
+            'types_loaded': len(self.types)
         }
     
     def clear_cache(self) -> None:
         """Clear all caches."""
-        self.lookup_cache.clear()
-        self._cache_hits = 0
-        self._cache_misses = 0
         self._calculation_times.clear()
+    
+    def get_type_coverage_analysis(self, types: List[str]) -> Dict[str, Any]:
+        """
+        AGENT 3: Analyze type coverage for a list of types.
+        Returns offensive coverage analysis.
+        """
+        try:
+            coverage = {}
+            for attacking_type in types:
+                total_effectiveness = 0
+                effective_count = 0
+                
+                for defending_type in self.type_names:
+                    effectiveness = self.get_effectiveness(attacking_type, defending_type)
+                    total_effectiveness += effectiveness
+                    if effectiveness > 1.0:
+                        effective_count += 1
+                
+                coverage[attacking_type] = {
+                    'average_effectiveness': total_effectiveness / len(self.type_names),
+                    'effective_against': effective_count,
+                    'coverage_percentage': effective_count / len(self.type_names)
+                }
+            
+            return {
+                'coverage': coverage,
+                'coverage_score': sum(c['coverage_percentage'] for c in coverage.values()) / len(types) if types else 0
+            }
+        except Exception as e:
+            logger.error(f"Error in type coverage analysis: {e}")
+            return {'coverage': {}, 'coverage_score': 0}
+    
+    def get_defensive_profile(self, types: List[str]) -> Dict[str, Any]:
+        """
+        AGENT 3: Get defensive profile for a list of types.
+        Returns weaknesses and resistances.
+        """
+        try:
+            weaknesses = []
+            resistances = []
+            
+            for attacking_type in self.type_names:
+                effectiveness = self.calculate_type_multiplier(attacking_type, types)
+                
+                if effectiveness > 1.0:
+                    weaknesses.append(attacking_type)
+                elif effectiveness < 1.0:
+                    resistances.append(attacking_type)
+            
+            return {
+                'weaknesses': weaknesses,
+                'resistances': resistances,
+                'weakness_count': len(weaknesses),
+                'resistance_count': len(resistances)
+            }
+        except Exception as e:
+            logger.error(f"Error in defensive profile analysis: {e}")
+            return {'weaknesses': [], 'resistances': [], 'weakness_count': 0, 'resistance_count': 0}
 
 
 class TypeSystemAPI:

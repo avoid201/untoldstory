@@ -93,7 +93,6 @@ one_hit_kill = false
 no_random_encounters = false
 fast_text = false
 unlock_all_areas = false
-all_monsters_catchable = false
 
 [save]
 # Save system settings
@@ -103,12 +102,7 @@ auto_save = true
 auto_save_interval = 300  # Seconds (5 minutes)
 confirm_overwrite = true
 
-[network]
-# Multiplayer settings (for future use)
-enable_multiplayer = false
-default_port = 25565
-max_players = 4
-timeout = 30.0
+# Network settings removed - not implemented yet
 
 [paths]
 # Custom paths (leave empty for defaults)
@@ -166,9 +160,4 @@ type_effectiveness_multiplier = 1.0
 stab_multiplier = 1.2
 critical_multiplier = 1.5
 
-[experimental]
-# Experimental features (may be unstable)
-enable_mod_support = false
-enable_custom_monsters = false
-enable_map_editor = false
-enable_battle_replay = false
+# Experimental features removed - use debug mode for development features

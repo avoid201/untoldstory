@@ -43,9 +43,26 @@ class RenderManager:
         self.use_culling = True  # Viewport Culling aktivieren
         self.use_caching = True  # Frame Caching aktivieren
         
+        # OPTIMIERT: Erweiterte Performance-Features
+        self.use_batch_rendering = True  # Batch-Rendering aktivieren
+        self.use_entity_culling = True   # Entity-Culling aktivieren
+        self._render_batches: Dict[str, List[Tuple[pygame.Surface, Tuple[int, int]]]] = {}
+        self._visible_entities: List[Entity] = []
+        self._last_viewport: Optional[pygame.Rect] = None
+        
+        # Performance-Tracking
+        self._render_stats = {
+            'frames_rendered': 0,
+            'entities_rendered': 0,
+            'tiles_rendered': 0,
+            'cache_hits': 0,
+            'cache_misses': 0,
+            'culling_savings': 0
+        }
+        
         # Sicherstellen, dass Sprites geladen sind
         self.sprite_manager._ensure_loaded()
-        print(f"RenderManager optimiert: {len(self.sprite_manager.sprite_cache)} Sprites, Culling={'ON' if self.use_culling else 'OFF'}")
+        print(f"RenderManager optimiert: {len(self.sprite_manager.sprite_cache)} Sprites, Culling={'ON' if self.use_culling else 'OFF'}, Batch={'ON' if self.use_batch_rendering else 'OFF'}")
     
     def _setup_default_layers(self):
         """Richtet die Standard-Rendering-Layer ein."""
@@ -256,3 +273,94 @@ class RenderManager:
     def get_sprite_cache_info(self) -> Dict:
         """Gibt Informationen über den Sprite-Cache zurück."""
         return self.sprite_manager.get_cache_info()
+    
+    def get_performance_stats(self) -> Dict[str, Any]:
+        """Gibt detaillierte Performance-Statistiken zurück."""
+        sprite_stats = self.sprite_manager.get_performance_stats()
+        
+        return {
+            **self._render_stats,
+            **sprite_stats,
+            'culling_enabled': self.use_culling,
+            'batch_rendering_enabled': self.use_batch_rendering,
+            'entity_culling_enabled': self.use_entity_culling,
+            'frame_cache_size': len(self._frame_cache),
+            'visible_entities_count': len(self._visible_entities),
+            'render_batches_count': len(self._render_batches)
+        }
+    
+    def optimize_for_performance(self, target_fps: int = 60) -> None:
+        """Optimiert Rendering-Einstellungen für Ziel-FPS."""
+        if target_fps >= 60:
+            # High Performance Mode
+            self.use_culling = True
+            self.use_batch_rendering = True
+            self.use_entity_culling = True
+            self.use_caching = True
+            print("RenderManager: High Performance Mode aktiviert (60+ FPS)")
+        elif target_fps >= 30:
+            # Balanced Mode
+            self.use_culling = True
+            self.use_batch_rendering = True
+            self.use_entity_culling = False
+            self.use_caching = True
+            print("RenderManager: Balanced Mode aktiviert (30+ FPS)")
+        else:
+            # Low Performance Mode
+            self.use_culling = False
+            self.use_batch_rendering = False
+            self.use_entity_culling = False
+            self.use_caching = False
+            print("RenderManager: Low Performance Mode aktiviert (30- FPS)")
+    
+    def add_to_render_batch(self, surface: pygame.Surface, position: Tuple[int, int], 
+                           batch_key: str = "default") -> None:
+        """Fügt ein Sprite zum Render-Batch hinzu."""
+        if not self.use_batch_rendering:
+            return
+        
+        if batch_key not in self._render_batches:
+            self._render_batches[batch_key] = []
+        
+        self._render_batches[batch_key].append((surface, position))
+    
+    def render_batch(self, target_surface: pygame.Surface, batch_key: str = "default") -> None:
+        """Rendert einen kompletten Batch."""
+        if batch_key not in self._render_batches:
+            return
+        
+        batch = self._render_batches[batch_key]
+        
+        # Sortiere nach Y-Position für korrekte Z-Order
+        batch.sort(key=lambda x: x[1][1])
+        
+        # Batch rendern
+        for surface, position in batch:
+            if self.use_culling and not self._is_in_viewport(position, surface.get_size()):
+                self._render_stats['culling_savings'] += 1
+                continue
+            
+            target_surface.blit(surface, position)
+            self._render_stats['entities_rendered'] += 1
+        
+        # Batch leeren
+        self._render_batches[batch_key].clear()
+    
+    def _is_in_viewport(self, position: Tuple[int, int], size: Tuple[int, int]) -> bool:
+        """Prüft ob ein Objekt im Viewport sichtbar ist."""
+        if not self._last_viewport:
+            return True
+        
+        x, y = position
+        width, height = size
+        
+        obj_rect = pygame.Rect(x, y, width, height)
+        return obj_rect.colliderect(self._last_viewport)
+    
+    def update_performance_stats(self) -> None:
+        """Aktualisiert Performance-Statistiken."""
+        self._render_stats['frames_rendered'] += 1
+        
+        # Bereinige alte Cache-Einträge
+        if self._render_stats['frames_rendered'] % 300 == 0:  # Alle 5 Sekunden bei 60fps
+            self.sprite_manager.cleanup_memory()

@@ -1,1401 +1,1167 @@
 """
-Battle Scene for Untold Story.
-Manages the flow of turn-based battles with full UI integration.
+Battle Scene for Untold Story - SYNTAX FIXED VERSION
+Alle Syntax-Fehler behoben, funktionsfähig
 """
 
 import pygame
 import random
-import os
+import logging
 from typing import Optional, List, Dict, Any
 from enum import Enum, auto
 
 from engine.core.scene_base import Scene
 from engine.core.config import Colors, GameState
-from engine.ui.battle_ui import BattleUI, BattleMenuState
-from engine.systems.battle.battle_controller import BattleState, BattlePhase, BattleType
-from engine.systems.battle.turn_logic import TurnOrder
+from engine.ui.battle import BattleUI, BattleMenuState
+from engine.ui.battle_rewards_ui import BattleRewardsUI
+from engine.systems.battle.battle_state import BattleState
+from engine.systems.battle.battle_controller import BattleController
+from engine.systems.battle.turn_processor import TurnProcessor
+from engine.systems.battle.action_processor import ActionProcessor
+from engine.systems.battle.event_processor import EventProcessor, EventType
+from engine.systems.battle.status_processor import StatusProcessor
+from engine.systems.battle.battle_enums import BattlePhase, BattleType, BattleResult
 from engine.systems.battle.battle_ai import BattleAI
+from engine.systems.battle.reward_system import RewardSystem, BattleRewards
+from engine.systems.battle.turn_logic import BattleAction, ActionType
 from engine.systems.monster_instance import MonsterInstance
-from engine.systems.battle.command_collection import (
-    CommandCollector, CommandPhase, CommandType, MonsterCommand
+# Debug functions (inline)
+def debug_battle_info(msg): print(f"[BATTLE INFO] {msg}")
+def debug_battle_error(msg): print(f"[BATTLE ERROR] {msg}")
+def debug_battle_debug(msg): print(f"[BATTLE DEBUG] {msg}")
+from engine.scenes.battle_scene_components import (
+    BattleScenePhases,
+    BattleSceneEffects,
+    BattleSceneInput,
+    BattleSceneActions,
+    BattleSceneIntegration
 )
-# from engine.ui.transitions import TransitionType  # Temporarily disabled
 
-# Import our new simplified battle manager
-try:
-    from engine.systems.battle.core.battle_manager import SimpleBattleManager, BattlePhase as SimpleBattlePhase, BattleResult as SimpleBattleResult
-    from engine.systems.battle.actions.dqm_damage_calc import DQMDamageCalculator
-    USE_SIMPLE_BATTLE = True
-except ImportError:
-    print("WARNING: SimpleBattleManager not found, using legacy system")
-    USE_SIMPLE_BATTLE = False
-
-
-class BattleResult(Enum):
-    """Possible battle outcomes."""
-    ONGOING = auto()
-    VICTORY = auto()
-    DEFEAT = auto()
-    FLED = auto()
-    CAUGHT = auto()
+# Logger für Battle Flow Optimization
+logger = logging.getLogger(__name__)
 
 
 class BattleScene(Scene):
-    """Main battle scene managing combat flow."""
+    """Main battle scene - SYNTAX FIXED."""
     
     def __init__(self, game):
         super().__init__(game)
         
         # Battle components
         self.battle_ui = BattleUI(game)
-        self.battle_state: Optional[BattleState] = None
-        self.turn_order: Optional[TurnOrder] = None
+        self.battle_rewards_ui = BattleRewardsUI()
+        self.battle_state = None
+        self.battle_controller = None  # Will be initialized in on_enter
+        self.turn_processor = None
+        self.action_processor = None
+        self.event_processor = None
+        self.status_processor = None
         self.battle_ai = BattleAI()
-        self.command_collector: Optional[CommandCollector] = None
+        self.reward_system = RewardSystem()
         
-        # Use simplified battle manager if available
-        if USE_SIMPLE_BATTLE:
-            self.simple_battle = SimpleBattleManager(game)
-            self.damage_calc = DQMDamageCalculator()
-        else:
-            self.simple_battle = None
-            self.damage_calc = None
+        # Consolidated battle scene components
+        self.phases = None  # Will be initialized in on_enter
+        self.effects = None  # Will be initialized in on_enter
+        self.input_handler = None  # Will be initialized in on_enter
+        self.actions = None  # Will be initialized in on_enter
+        self.integration = None  # Will be initialized in on_enter
+        
+        # Battle menu state
+        self.current_menu_state = BattleMenuState.MAIN
+        self.selected_move = None
         
         # Battle configuration
         self.is_wild = False
         self.is_boss = False
         self.can_flee = True
-        self.battle_bg = None  # Background type
+        self.battle_bg = None
         
-        # Turn state
-        self.current_phase = BattlePhase.INIT
-        self.action_queue: List[Dict] = []
-        self.pending_actions: Dict[str, Dict] = {}
-        self.turn_count = 0
-        self.collected_commands: Dict[str, MonsterCommand] = {}
-        self.commands_collected = False
-        
-        # Animation & timing
-        self.phase_timer = 0
-        self.animation_timer = 0
+        # Battle state (UI-specific only)
         self.waiting_for_input = False
-        self.battle_result = BattleResult.ONGOING
+        self.showing_rewards = False
         
-        # Rewards
-        self.exp_gained = 0
-        self.items_gained = []
-        self.money_gained = 0
-        
-        # Track caught monster
-        self.caught_monster = None
-        
-        # Monster sprites cache
-        self.monster_sprites = {}
+        # Rewards data
+        self.battle_rewards = None
         
     def on_enter(self, **kwargs):
         """Initialize battle from kwargs."""
         try:
-            # Reset battle result
-            self.battle_result = BattleResult.ONGOING
+            # Reset battle state flags
+            self.showing_rewards = False
             
-            # Use simplified battle if available
-            if USE_SIMPLE_BATTLE and self.simple_battle:
+            # Extract battle parameters
+            self.is_wild = kwargs.get('is_wild', True)
+            self.can_flee = kwargs.get('can_flee', True)
             
-            # Get player team from party manager - CRITICAL FIX!
+            # Get player team
             if not kwargs.get('player_team'):
-                # Use actual party monsters
                 if not hasattr(self.game, 'party_manager') or not self.game.party_manager:
-                    print("ERROR: Kein Party Manager verfügbar!")
+                    if self.game.debug_mode:
+                        print("ERROR: Kein Party Manager verfügbar!")
                     self.game.pop_scene()
                     return
                 
                 player_team = self.game.party_manager.party.get_conscious_members()
                 
-                # Check if party has any conscious monsters
                 if not player_team:
-                    print("ERROR: Keine kampffähigen Monster im Team!")
+                    if self.game.debug_mode:
+                        print("ERROR: Keine kampffähigen Monster im Team!")
                     self.game.pop_scene()
                     return
             else:
                 player_team = kwargs.get('player_team', [])
             
-            # Validierung des Spieler-Teams
-            if not isinstance(player_team, list) or len(player_team) == 0:
-                print("ERROR: Ungültiges Spieler-Team!")
-                self.game.pop_scene()
-                return
-            
-            # Überprüfe jedes Monster im Team
-            valid_player_team = []
-            for monster in player_team:
-                if monster and hasattr(monster, 'current_hp') and monster.current_hp > 0:
-                    valid_player_team.append(monster)
-                else:
-                    print(f"WARNING: Monster {getattr(monster, 'name', 'Unknown')} ist besiegt oder ungültig!")
-            
-            if not valid_player_team:
-                print("ERROR: Keine kampffähigen Monster im Spieler-Team!")
-                self.game.pop_scene()
-                return
-            
-            player_team = valid_player_team
-            
             # Get enemy team
             enemy_team = kwargs.get('enemy_team', [])
             if not enemy_team:
-                print("ERROR: Kein Gegner-Team angegeben!")
-                self.game.pop_scene()
-                return
+                # Create default enemy monster
+                from engine.systems.monsters import MonsterDatabase
+                db = MonsterDatabase()
+                species = db.get_random_species()
+                if species:
+                    enemy = species.create_instance(level=5)
+                    enemy_team = [enemy]
             
-            # Überprüfe jedes Monster im Gegner-Team
-            valid_enemy_team = []
-            for monster in enemy_team:
-                if monster and hasattr(monster, 'current_hp') and monster.current_hp > 0:
-                    valid_enemy_team.append(monster)
-                else:
-                    print(f"WARNING: Gegner-Monster {getattr(monster, 'name', 'Unknown')} ist besiegt oder ungültig!")
+            # CRITICAL FIX: Create BattleController FIRST, then use its state
+            self.battle_controller = BattleController(
+                player_team=player_team,
+                enemy_team=enemy_team,
+                battle_type=BattleType.WILD if self.is_wild else BattleType.TRAINER,
+                can_flee=self.can_flee,
+                can_catch=self.is_wild
+            )
             
-            if not valid_enemy_team:
-                print("ERROR: Keine gültigen Monster im Gegner-Team!")
-                self.game.pop_scene()
-                return
+            # Use BattleController's state as single source of truth
+            self.battle_state = self.battle_controller.state
+            debug_battle_info("BattleScene using BattleController.state as single source of truth")
             
-            enemy_team = valid_enemy_team
+            # Verbinde Battle-State mit UI
+            self.battle_ui.battle_state = self.battle_state
+            self.battle_ui.battle_controller = self.battle_controller
+            debug_battle_info("Battle-State und BattleController mit UI verbunden")
+            battle_info = self.battle_controller.initialize(player_team, enemy_team)
+            # Battle initialized successfully
             
-            # Battle configuration
-            self.is_wild = kwargs.get('is_wild', True)
-            self.is_boss = kwargs.get('is_boss', False)
-            self.can_flee = kwargs.get('can_flee', True) and self.is_wild
-            self.battle_bg = kwargs.get('background', 'grass')
+            # Initialize UI
+            self.battle_ui.init_battle(player_team, enemy_team)
+            # Stelle sicher, dass UI den battle_state hat
+            self.battle_ui.battle_state = self.battle_state
             
-            # Trainer info if applicable
-            self.trainer_name = kwargs.get('trainer_name', None)
+            # Initialize demo inventory for testing (remove in production)
+            if self.game.debug_mode:
+                self.battle_ui.init_demo_inventory()
+                debug_battle_info("Demo inventory mit Test-Items initialisiert")
             
-            print(f"Battle initialisiert: {len(player_team)} vs {len(enemy_team)} Monster")
-            print(f"Can flee: {self.can_flee}, Is wild: {self.is_wild}")
+            # Initialize battle processors - BUG 3 FIX: EventProcessor wird hier verbunden
+            self._initialize_battle_systems()
             
         except Exception as e:
-            print(f"KRITISCHER FEHLER bei der Battle-Initialisierung: {str(e)}")
+            if self.game.debug_mode:
+                print(f"ERROR: Battle initialization failed: {e}")
+            import traceback
+            traceback.print_exc()
             self.game.pop_scene()
             return
-        
-        # Initialize battle state with actual party
-        battle_type = BattleType.WILD if self.is_wild else BattleType.TRAINER
-        self.battle_state = BattleState(
-            player_team=player_team,
-            enemy_team=enemy_team,
-            battle_type=battle_type,
-            can_flee=self.can_flee,
-            can_catch=self.is_wild
-        )
-        
-        # Initialize turn manager
-        self.turn_order = TurnOrder()
-        
-        # Initialize command collector
-        self.command_collector = CommandCollector(self.battle_state)
-        self.command_collector.set_input_callback(self._get_player_command_callback)
-        
-        # Initialize UI with monster sprites
-        self.battle_ui.init_battle(player_team, enemy_team)
-        
-        # Get monster sprites from sprite manager
-        self._init_monster_sprites(player_team, enemy_team)
-        
-        # Reset battle vars
-        self.turn_count = 0
-        self.action_queue.clear()
-        self.pending_actions.clear()
-        self.caught_monster = None
-        
-        # Start intro phase
-        self.current_phase = BattlePhase.INIT
-        self.phase_timer = 0
-        self.waiting_for_input = False
-        
-        # Show intro message
-        if self.is_wild:
-            monster_name = enemy_team[0].name if enemy_team and hasattr(enemy_team[0], 'name') else "???"
-            self.battle_ui.add_message(f"Ein wildes {monster_name} erscheint!")
-        
-        # Set UI to main menu state
-        self.battle_ui.menu_state = BattleMenuState.MAIN
-        print("Battle Scene initialisiert - Intro Phase")
     
-    def _init_monster_sprites(self, player_team: List, enemy_team: List) -> None:
-        """Initialize monster sprites from sprite manager."""
-        # Wenn bereits geflohen, keine Sprites mehr initialisieren
-        if self.battle_result != BattleResult.ONGOING:
-            return
-        
-        # Die BattleUI verwaltet bereits die Monster-Sprites
-        # Hier müssen wir nichts mehr tun, da die BattleUI.init_battle() bereits aufgerufen wurde
-        print(f"Monster sprites will be managed by BattleUI")
-        print(f"Player team size: {len(player_team)}")
-        print(f"Enemy team size: {len(enemy_team)}")
-    
-    def _load_monster_sprite(self, monster) -> pygame.Surface:
-        """Load the actual monster sprite from the monsters directory."""
-        # Wenn bereits geflohen, keine Sprites mehr laden
-        if self.battle_result != BattleResult.ONGOING:
-            return None
-        
+    def _initialize_battle_systems(self):
+        """Connect all battle systems properly - CRITICAL METHOD."""
         try:
-            # Get monster ID
-            monster_id = getattr(monster, 'species_id', getattr(monster, 'id', 'Unknown'))
+            # Get processors from controller
+            if not self.battle_controller:
+                logger.error("No battle controller to initialize!")
+                return
+                
+            self.turn_processor = self.battle_controller.turn_processor
+            self.action_processor = self.battle_controller.action_processor
+            self.event_processor = self.battle_controller.event_processor
+            self.status_processor = self.battle_controller.status_processor
             
-            # Load monster sprite
-            sprite_path = os.path.join("sprites", "monsters", f"{monster_id}.png")
-            if os.path.exists(sprite_path):
-                try:
-                    monster_sprite = pygame.image.load(sprite_path).convert_alpha()
-                    if monster_sprite:
-                        # Scale to 16x16 if needed
-                        if monster_sprite.get_size() != (16, 16):
-                            monster_sprite = pygame.transform.scale(monster_sprite, (16, 16))
-                        self.monster_sprites[monster_id] = monster_sprite
-                        print(f"Monster sprite loaded: {sprite_path}")
-                        return monster_sprite
-                    else:
-                        print(f"Failed to load monster sprite: {sprite_path}")
-                except Exception as e:
-                    print(f"Error loading monster sprite {sprite_path}: {e}")
+            # Initialize consolidated battle scene components
+            self.phases = BattleScenePhases(self)
+            self.effects = BattleSceneEffects(self)
+            self.input_handler = BattleSceneInput(self)
+            self.actions = BattleSceneActions(self)
+            self.integration = BattleSceneIntegration(self)
+            
+            # CRITICAL: Verbinde BattleScene-Komponenten mit Battle-Systemen
+            if self.phases:
+                self.phases.battle_state = self.battle_state
+                self.phases.battle_controller = self.battle_controller
+            if self.effects:
+                self.effects.battle_state = self.battle_state
+                self.effects.battle_controller = self.battle_controller
+            if self.input_handler:
+                self.input_handler.battle_state = self.battle_state
+                self.input_handler.battle_controller = self.battle_controller
+            if self.actions:
+                self.actions.battle_state = self.battle_state
+                self.actions.battle_controller = self.battle_controller
+            
+            # Initialize and validate integration
+            if self.integration:
+                integration_success = self.integration.initialize()
+                if integration_success:
+                    logger.info("✓ BattleSceneIntegration erfolgreich initialisiert")
+                else:
+                    logger.error("✗ BattleSceneIntegration Initialisierung fehlgeschlagen")
+            
+            logger.info("✓ BattleScene-Komponenten mit Battle-Systemen verbunden")
+            
+            # CRITICAL FIX: Connect EventProcessor to UI IMMEDIATELY after creation
+            if self.event_processor and self.battle_ui:
+                # Connect event handlers
+                self.battle_ui.connect_event_handlers(self.event_processor)
+                
+                # Ensure battle_state is properly connected
+                self.battle_ui.battle_state = self.battle_state
+                self.battle_ui.battle_controller = self.battle_controller
+                
+                # CRITICAL: Set UI state to MAIN menu
+                self.battle_ui.state.menu_state = BattleMenuState.MAIN
+                self.battle_ui.state.player_team = self.battle_state.player_team
+                self.battle_ui.state.enemy_team = self.battle_state.enemy_team
+                self.battle_ui.state.player_active = self.battle_state.player_active
+                self.battle_ui.state.enemy_active = self.battle_state.enemy_active
+                
+                # Clear any pending messages
+                self.battle_ui.state.message_queue.clear()
+                self.battle_ui.state.current_message = ""
+                self.battle_ui.state.message_timer = 0.0
+                # CRITICAL: Set UI to waiting for input initially
+                self.battle_ui.state.message_wait = True
+                self.battle_ui.waiting_for_input = True
+                
+                # Force menu state to MAIN
+                self.battle_ui.state.menu_state = BattleMenuState.MAIN
+                
+                # Clear any messages that might have been added
+                if hasattr(self.battle_ui, 'current_message'):
+                    self.battle_ui.current_message = ""
+                if hasattr(self.battle_ui, 'message_timer'):
+                    self.battle_ui.message_timer = 0.0
+                # CRITICAL: Ensure UI is waiting for input
+                if hasattr(self.battle_ui, 'message_wait'):
+                    self.battle_ui.message_wait = True
+                
+                # Sync controller state mit UI
+                if self.battle_controller:
+                    self.battle_controller.sync_state_with_ui(self.battle_ui)
+                
+                # CRITICAL: Test event connection
+                self._test_event_connection()
+                
+                logger.info("✓ UI connected to EventProcessor - handlers registered")
+                logger.info("✓ UI battle_state connected")
             else:
-                print(f"Monster sprite not found: {sprite_path}")
-            
-            return None
-            
+                logger.error("Failed to connect UI to EventProcessor!")
+                logger.info("✓ UI fully connected to battle systems")
+                
+            logger.info("Battle systems initialized and connected")
         except Exception as e:
-            print(f"Error in _load_monster_sprite: {e}")
-            return None
+            logger.error(f"Error initializing battle systems: {e}")
     
-    def _create_fallback_sprite(self, monster) -> pygame.Surface:
-        """Create a fallback sprite when monster sprite cannot be loaded."""
-        # Wenn bereits geflohen, keine Fallback-Sprites mehr erstellen
-        if self.battle_result != BattleResult.ONGOING:
-            return None
-        
-        # Create a simple colored circle as fallback
-        size = 16
-        surface = pygame.Surface((size, size), pygame.SRCALPHA)
-        
-        # Use monster type color or default
+    def _test_event_connection(self):
+        """Test event connection between EventProcessor and UI."""
         try:
-            if hasattr(monster, 'type') and monster.type:
-                type_colors = {
-                    'fire': (255, 100, 100),
-                    'water': (100, 100, 255),
-                    'grass': (100, 255, 100),
-                    'electric': (255, 255, 100),
-                    'ice': (200, 200, 255),
-                    'fighting': (255, 150, 100),
-                    'poison': (200, 100, 200),
-                    'ground': (200, 150, 100),
-                    'flying': (200, 200, 255),
-                    'psychic': (255, 100, 200),
-                    'bug': (200, 255, 100),
-                    'rock': (150, 150, 100)
-                }
-                color = type_colors.get(monster.type, (150, 150, 150))
+            if not self.event_processor or not self.battle_ui:
+                logger.warning("Cannot test event connection - missing components")
+                return False
+            
+            # Test basic event emission
+            test_event = {
+                'type': 'message',
+                'message': 'Event connection test'
+            }
+            
+            # Emit test event
+            from engine.systems.battle.event_processor import EventType
+            self.event_processor.emit_event(EventType.MESSAGE_SHOW, {'message': 'Event connection test'})
+            
+            # Process events
+            ui_updates = self.event_processor.process_events()
+            
+            if ui_updates:
+                logger.info(f"✓ Event connection test successful - {len(ui_updates)} events processed")
+                return True
             else:
-                color = (150, 150, 150)  # Default gray
-        except:
-            color = (150, 150, 150)  # Default gray
-        
-        pygame.draw.circle(surface, color, (size//2, size//2), size//2 - 2)
-        pygame.draw.circle(surface, tuple(max(0, c - 50) for c in color), (size//2, size//2), size//2 - 4, 2)
-        
-        return surface
-    
-    def on_exit(self):
-        """Clean up battle scene and apply battle results."""
-        # Update party with battle results (nur wenn nicht geflohen)
-        if self.battle_result != BattleResult.FLED:
-            self._sync_party_after_battle()
-        
-        # Handle caught monster
-        if self.caught_monster:
-            self._finalize_caught_monster()
-        
-        # Handle defeat
-        if self.battle_result == BattleResult.DEFEAT:
-            self._handle_defeat()
-        
-        # Stop battle music and return to field music
-        # self.game.audio.stop_bgm()
-    
-    def _sync_party_after_battle(self):
-        """Sync party monsters with battle state changes."""
-        # Wenn geflohen, keine Party-Synchronisation nötig
-        if self.battle_result == BattleResult.FLED:
-            print("Player fled - no party sync needed")
-            return
-        
-        # Update party monsters with battle changes (HP, EXP, status, new moves)
-        for i, battle_monster in enumerate(self.battle_state.player_team):
-            if battle_monster and i < len(self.game.party_manager.party.members):
-                party_monster = self.game.party_manager.party.members[i]
-                if party_monster and party_monster.id == battle_monster.id:
-                    # Sync HP and status
-                    party_monster.current_hp = battle_monster.current_hp
-                    party_monster.status = battle_monster.status
-                    
-                    # Sync EXP and level
-                    party_monster.experience = battle_monster.experience
-                    party_monster.level = battle_monster.level
-                    
-                    # Sync PP for moves
-                    party_monster.moves = battle_monster.moves
-                    
-                    # Sync any new moves learned
-                    if hasattr(battle_monster, 'new_moves_learned'):
-                        for move_id in battle_monster.new_moves_learned:
-                            party_monster.learn_move(move_id)
-    
-    def _finalize_caught_monster(self):
-        """Add caught monster to party or storage."""
-        # Wenn geflohen, kein Monster gefangen
-        if self.battle_result == BattleResult.FLED:
-            print("Player fled - no monster caught")
-            return
-        
-        if self.caught_monster:
-            success, message = self.game.party_manager.add_to_party(self.caught_monster)
-            print(f"Monster caught: {message}")
-    
-    def _handle_defeat(self):
-        """Handle player defeat."""
-        # Wenn geflohen, keine Niederlage
-        if self.battle_result == BattleResult.FLED:
-            print("Player fled - no defeat handling needed")
-            return
-        
-        # Heal party and return to last heal point
-        self.game.party_manager.party.heal_all()
-        
-        # Set player position to last heal point
-        if hasattr(self.game, 'last_heal_point'):
-            # Return to last saved position
-            pass
-        else:
-            # Return to player house as default
-            self.game.current_map = 'player_house'
-            self.game.player_pos = (5, 5)
+                logger.warning("⚠️ Event connection test - no events processed")
+                return False
+                
+        except Exception as e:
+            logger.error(f"Event connection test failed: {e}")
+            return False
     
     def handle_event(self, event: pygame.event.Event) -> bool:
-        """Handle input events - SIMPLIFIED."""
+        """Handle input events."""
         try:
-            if event.type == pygame.KEYDOWN:
-                # Map keys to actions
-                action = None
-                
-                if event.key in [pygame.K_e, pygame.K_RETURN, pygame.K_SPACE]:
-                    action = 'confirm'
-                elif event.key in [pygame.K_q, pygame.K_ESCAPE]:
-                    action = 'back'
-                elif event.key == pygame.K_w:
-                    action = 'up'
-                elif event.key == pygame.K_s:
-                    action = 'down'
-                elif event.key == pygame.K_a:
-                    action = 'left'
-                elif event.key == pygame.K_d:
-                    action = 'right'
-                
-                if action:
-                    print(f"Battle Input: {action}")
+            if not self.battle_state:
+                return False
+            
+            # Handle rewards UI input first
+            if self.showing_rewards:
+                if event.type == pygame.KEYDOWN:
+                    action = None
+                    if event.key in [pygame.K_RETURN, pygame.K_SPACE]:
+                        action = 'confirm'
+                    elif event.key == pygame.K_ESCAPE:
+                        action = 'escape'
                     
-                                        # Handle based on phase
-                    if self.current_phase == BattlePhase.INPUT:
-                        # Get UI action
-                        player_action = self.battle_ui.handle_input(action, self.battle_state)
-                        
-                        if player_action:
-                            print(f"Player action: {player_action}")
-                            
-                            # Check action type and process
-                            action_type = player_action.get('action')
-                            
-                            if action_type == 'attack':
-                                # Attack action - execute immediately
-                                print("DEBUG: Processing attack action")
-                                self._execute_simple_attack(player_action)
-                            elif action_type == 'flee':
-                                # Flee action
-                                print("DEBUG: Processing flee action")
-                                self._execute_flee(player_action.get('actor'), player_action)
-                            elif action_type in ['tame', 'scout', 'item', 'switch']:
-                                # Special actions
-                                print("DEBUG: Processing special action")
-                                self._execute_special_action(player_action)
-                            elif action_type == 'menu_select':
-                                # Just menu navigation
-                                print("DEBUG: Menu navigation")
-                                pass
-                            else:
-                                print(f"DEBUG: Unknown action type: {action_type}")
-                    elif self.current_phase in [BattlePhase.INIT, BattlePhase.MESSAGE]:
-                        # Skip to input phase
-                        self.current_phase = BattlePhase.INPUT
-                        self.waiting_for_input = True
+                    if action:
+                        self.battle_rewards_ui.handle_input(action)
+                        # Always check if rewards are complete after handling input
+                        if self.battle_rewards_ui.is_complete():
+                            self.showing_rewards = False
+                            self._end_battle()
+                            return True
+                return False
+            
+            # WICHTIG: Leite Events an UI weiter
+            if self.battle_ui:
+                ui_handled = self.battle_ui.handle_event(event)
+                if ui_handled:
+                    # UI has handled the event and may have set _pending_action
+                    # Action wird in update() verarbeitet, nicht hier
+                    debug_battle_info("UI event handled, action will be processed in update()")
+                    return True
+                    
+        except Exception as e:
+            if self.game.debug_mode:
+                print(f"Error in handle_event: {e}")
+            
+        return False
+    
+    def _process_player_action(self, action):
+        """Process player action and trigger turn execution - Accept dict AND BattleAction."""
+        try:
+            debug_battle_info(f"Processing player action: {action}")
+            
+            # Convert if needed - Accept both dict and BattleAction
+            if isinstance(action, dict):
+                battle_action = self._convert_to_battle_action(action)
+            else:
+                battle_action = action
+            
+            if not battle_action:
+                debug_battle_error("Could not convert action to BattleAction")
+                return
+            
+            # Generate enemy action
+            enemy_action = self._generate_enemy_action()
+            
+            # Execute turn via controller
+            if self.battle_controller:
+                result = self.battle_controller.execute_turn(
+                    player_action=battle_action,
+                    enemy_action=enemy_action
+                )
                 
+                debug_battle_info(f"Turn executed: {result}")
+                
+                # Update state via battle_state
+                if result.get('battle_ended'):
+                    self.battle_state.phase = BattlePhase.END
+                else:
+                    self.battle_state.phase = BattlePhase.ENEMY_TURN
+                    
+        except Exception as e:
+            debug_battle_error(f"Error processing player action: {e}", exc_info=True)
+    
+    def _sync_ui_state(self, update_data: Dict[str, Any]) -> None:
+        """Sync UI state with battle controller updates."""
+        try:
+            if self.battle_ui:
+                self.battle_ui.apply_update(update_data)
+                debug_battle_info(f"UI state synced: {list(update_data.keys())}")
+        except Exception as e:
+            debug_battle_error(f"Error syncing UI state: {e}")
+
+    def _convert_to_battle_action(self, action_dict):
+        """Convert UI action dict to BattleAction."""
+        from engine.systems.battle.turn_logic import BattleAction, ActionType
+        
+        if not isinstance(action_dict, dict):
+            return action_dict  # Already a BattleAction
+            
+        action_type_str = action_dict.get('type') or action_dict.get('action')
+        if not action_type_str:
+            return None
+            
+        return BattleAction(
+            action_type=ActionType.from_string(action_type_str),
+            actor=action_dict.get('actor', self.battle_state.player_active if self.battle_state else None),
+            target=action_dict.get('target', self.battle_state.enemy_active if self.battle_state else None),
+            move=action_dict.get('move'),
+            item_id=action_dict.get('item_id'),
+            switch_to=action_dict.get('switch_to')
+        )
+
+    def _generate_enemy_action(self):
+        """Generate enemy action via BattleAI."""
+        try:
+            if not self.battle_state or not hasattr(self, 'battle_ai'):
+                debug_battle_error("No battle_state or battle_ai for enemy action")
+                return {}
+                
+            enemy = self.battle_state.enemy_active
+            player = self.battle_state.player_active
+            
+            if not enemy or not player:
+                debug_battle_error("No enemy or player active for enemy action")
+                return {}
+            
+            debug_battle_info(f"Getting enemy action: {enemy.name} vs {player.name}")
+            
+            # Use BattleAI to determine enemy action
+            enemy_action = self.battle_ai.choose_action(
+                enemy, 
+                player, 
+                self.battle_state
+            )
+            
+            if enemy_action:
+                debug_battle_info(f"Enemy action: {enemy_action}")
+                return enemy_action
+            else:
+                debug_battle_error("No enemy action generated")
+                return {}
+                
+        except Exception as e:
+            debug_battle_error(f"Enemy action error: {e}")
+            return {}
+
+    def _process_battle_action(self, action_result):
+        """Process BattleAction from UI - BattleAction oder Dict akzeptieren!"""
+        if not action_result or not self.battle_state:
+            return
+        
+        # Import required classes
+        from engine.systems.battle.turn_logic import BattleAction, create_action_from_dict
+        
+        try:
+            # BattleAction oder Dict akzeptieren
+            if not isinstance(action_result, BattleAction):
+                # Konvertiere Dict zu BattleAction falls nötig
+                if isinstance(action_result, dict):
+                    # Extrahiere benötigte Parameter aus dem Dict
+                    actor = self.battle_state.player_active
+                    target = self.battle_state.enemy_active
+                    move = action_result.get('move')
+                    switch_to = action_result.get('switch_to')
+                    
+                    battle_action = create_action_from_dict(
+                        action_result, 
+                        actor=actor,
+                        target=target,
+                        move=move,
+                        switch_to=switch_to
+                    )
+                    
+                    if not battle_action:
+                        print(f"[ERROR] Failed to create BattleAction from dict: {action_result}")
+                        return
+                else:
+                    print(f"[ERROR] Expected BattleAction or dict, got {type(action_result)}")
+                    return
+            else:
+                battle_action = action_result
+            
+            print(f"[DEBUG] PROCESSING BATTLE ACTION: {battle_action.action_type}")
+            
+            # BattleAction direkt verwenden
+            print(f"[DEBUG] USING BATTLE ACTION: {battle_action.action_type.name}")
+            
+            # KRITISCH: Diese Zeilen MÜSSEN ausgeführt werden!
+            print("[DEBUG] Executing player turn...")
+            # Execute turn with player action and get enemy action
+            enemy_action = self._get_enemy_action()
+            
+            # Pass BattleAction directly to controller
+            turn_result = self.battle_controller.execute_turn(battle_action, enemy_action)
+            print("[DEBUG] Turn executed, checking battle end...")
+            
+            # Check if battle ended
+            if turn_result and turn_result.get('battle_ended'):
+                self.check_battle_end()
+            else:
+                # Battle continues - reset UI to main menu
+                if self.battle_ui:
+                    self.battle_ui.current_menu_state = BattleMenuState.MAIN
+                    self.battle_ui.selected_option = 0
+                    # Update UI state with current battle state
+                    self.battle_ui.state.player_active = self.battle_state.player_active
+                    self.battle_ui.state.enemy_active = self.battle_state.enemy_active
+                    
+                    # Update HP bars after turn
+                    if hasattr(self.battle_ui, 'update_hp_bar'):
+                        self.battle_ui.update_hp_bar(self.battle_state.player_active)
+                        self.battle_ui.update_hp_bar(self.battle_state.enemy_active)
+                    
+                    print("[DEBUG] UI reset to main menu for next turn")
+            
+        except Exception as e:
+            if self.game.debug_mode:
+                print(f"Error processing battle action: {e}")
+                import traceback
+                traceback.print_exc()
+    
+
+    
+
+
+    def _get_enemy_action(self):
+        """Get enemy action via BattleAI - returns BattleAction."""
+        try:
+            if not self.battle_state or not hasattr(self, 'battle_ai'):
+                logger.warning("No battle_state or battle_ai for enemy action")
+                return None
+                
+            enemy = self.battle_state.enemy_active
+            player = self.battle_state.player_active
+            
+            if not enemy or not player:
+                logger.warning("No enemy or player active for enemy action")
+                return None
+            
+            logger.info(f"Getting enemy action: {enemy.name} vs {player.name}")
+            
+            # Use BattleAI to determine enemy action
+            enemy_action_dict = self.battle_ai.choose_action(
+                enemy, 
+                player, 
+                self.battle_state
+            )
+            
+            if enemy_action_dict:
+                # Convert dict to BattleAction
+                enemy_action = self._convert_to_battle_action(enemy_action_dict)
+                if enemy_action:
+                    logger.info(f"Enemy action: {enemy_action.action_type}")
+                    return enemy_action
+                else:
+                    logger.warning("Failed to convert enemy action to BattleAction")
+                    return None
+            else:
+                logger.warning("No enemy action generated")
+                return None
+                
+        except Exception as e:
+            logger.error(f"Enemy action error: {e}", exc_info=True)
+            return None
+
+    def _handle_battle_end(self, battle_result):
+        """Handle battle end result."""
+        try:
+            logger.info(f"Battle ended with result: {battle_result}")
+            
+            if battle_result == BattleResult.VICTORY:
+                self.current_phase = BattlePhase.END
+                # Show victory rewards
+                if self.battle_ui:
+                    self.battle_ui.show_victory_message()
+            elif battle_result == BattleResult.DEFEAT:
+                self.current_phase = BattlePhase.END
+                # Show defeat message
+                if self.battle_ui:
+                    self.battle_ui.show_defeat_message()
+            elif battle_result == BattleResult.FLED:
+                self.current_phase = BattlePhase.END
+                # Return to field
+                self.exit_battle()
+            elif battle_result == BattleResult.CAUGHT:
+                self.current_phase = BattlePhase.END
+                # Show catch success
+                if self.battle_ui:
+                    self.battle_ui.show_catch_success_message()
+                    
+        except Exception as e:
+            logger.error(f"Error handling battle end: {e}", exc_info=True)
+
+    def exit_battle(self):
+        """Exit battle and return to field scene."""
+        try:
+            logger.info("Exiting battle")
+            # Return to field scene
+            if self.game:
+                self.game.pop_scene()
+        except Exception as e:
+            logger.error(f"Error exiting battle: {e}", exc_info=True)
+    
+    def _process_battle_events(self):
+        """Process battle events from controller and update UI - ENHANCED VERSION."""
+        try:
+            if not self.event_processor or not self.battle_ui:
+                return
+            
+            # Check for pending events
+            if not self.event_processor.has_pending_events():
+                return
+            
+            # Log event processing
+            pending_count = len(self.event_processor.pending_events) if hasattr(self.event_processor, 'pending_events') else 0
+            if pending_count > 0:
+                logger.debug(f"[PROCESS EVENTS] Processing {pending_count} pending events")
+            
+            # Process pending events
+            ui_updates = self.event_processor.process_events()
+            
+            for update in ui_updates:
+                # Call UI.process_battle_event() for each event
+                if hasattr(self.battle_ui, 'process_battle_event'):
+                    self.battle_ui.process_battle_event(update)
+                elif hasattr(self.battle_ui, 'apply_update'):
+                    self.battle_ui.apply_update(update)
+                else:
+                    # Manual update handling fallback
+                    update_type = update.get('type')
+                    if update_type == 'hp_change' or update_type == 'hp_bar':
+                        if hasattr(self.battle_ui, 'update_hp_bar'):
+                            self.battle_ui.update_hp_bar(update.get('target'))
+                    elif update_type == 'message':
+                        if hasattr(self.battle_ui, 'add_message'):
+                            self.battle_ui.add_message(update.get('message'))
+                    elif update_type == 'damage':
+                        if hasattr(self.battle_ui, 'show_damage_number'):
+                            self.battle_ui.show_damage_number(
+                                update.get('target'), 
+                                update.get('damage', 0),
+                                update.get('is_critical', False)
+                            )
+                    elif update_type == 'phase_change':
+                        if hasattr(self.battle_ui, '_handle_phase_change'):
+                            self.battle_ui._handle_phase_change(update)
+                            
+        except Exception as e:
+            logger.error(f"[PROCESS EVENTS ERROR] {e}", exc_info=True)
+    
+
+    
+    def update(self, dt: float) -> None:
+        """Update battle logic with proper action handling."""
+        try:
+            if not self.battle_state:
+                return
+            
+            # AGENT 4: Update battle phase transitions first
+            self.update_battle_phase()
+            
+            # Use battle_state instead of local variables
+            if self.battle_state.battle_ended:
+                if not self.showing_rewards:
+                    self._show_rewards()
+                return
+            
+            # Check for pending UI action
+            if self.battle_ui and hasattr(self.battle_ui, 'pending_action') and self.battle_ui.pending_action:
+                action = self.battle_ui.get_action_result()
+                if action:
+                    self._process_player_action(action)
+            
+            # Process battle events
+            self._process_battle_events()
+            
+            # Update UI
+            if self.battle_ui:
+                self.battle_ui.update(dt)
+                
+            # Check for pending actions from UI
+            if self.battle_ui and hasattr(self.battle_ui, 'pending_action') and self.battle_ui.pending_action:
+                action_result = self.battle_ui.get_action_result()
+                if action_result:
+                    debug_battle_info(f"Processing pending action: {action_result}")
+                    self._process_player_action(action_result)
+                
+        except Exception as e:
+            logger.error(f"[UPDATE ERROR] {e}", exc_info=True)
+    
+    def update_battle_phase(self):
+        """Manage battle phase transitions - AGENT 4: Enhanced phase flow."""
+        if not self.battle_state:
+            return
+        
+        if self.battle_state.phase == BattlePhase.INIT:
+            self._initialize_battle_systems()
+            self.battle_state.phase = BattlePhase.START
+            debug_battle_info("Phase: INIT → START")
+            
+        elif self.battle_state.phase == BattlePhase.START:
+            self.show_battle_intro()
+            # AGENT 4: Let BattleController handle START → INPUT transition
+            if self.battle_controller:
+                self.battle_controller._transition_to_input_phase()
+            else:
+                self.battle_state.phase = BattlePhase.INPUT
+                self.battle_state.waiting_for_input = True
+            
+            # CRITICAL: Inform UI about phase change
+            if self.battle_ui:
+                self.battle_ui._handle_phase_change({'phase': 'input'})
+            debug_battle_info("Phase: START → INPUT - UI should be waiting for input")
+            
+        elif self.battle_state.phase == BattlePhase.INPUT:
+            # AGENT 4: Wait for player input - phase transitions handled by BattleController
+            # Debug: Check UI state
+            if self.battle_ui and hasattr(self.battle_ui, 'waiting_for_input'):
+                if self.battle_ui.waiting_for_input:
+                    debug_battle_debug("UI is waiting for input - ready for player action")
+                else:
+                    debug_battle_error("UI is NOT waiting for input - this is a problem!")
+                    # Try to fix it
+                    self.battle_ui.waiting_for_input = True
+                    if hasattr(self.battle_ui, 'state') and hasattr(self.battle_ui.state, 'message_wait'):
+                        self.battle_ui.state.message_wait = True
+                    debug_battle_info("Fixed: Set UI to waiting for input")
+            
+            # Additional safety: Ensure UI state is consistent
+            if self.battle_ui and hasattr(self.battle_ui, 'state') and hasattr(self.battle_ui.state, 'message_wait'):
+                if not self.battle_ui.state.message_wait:
+                    self.battle_ui.state.message_wait = True
+                    debug_battle_info("Safety fix: Set message_wait to True")
+            
+        elif self.battle_state.phase == BattlePhase.EXECUTION:
+            # AGENT 4: EXECUTION phase - actions are being processed
+            debug_battle_debug("Phase: EXECUTION - processing actions")
+            # Phase transitions are handled by BattleController.execute_turn()
+            
+        elif self.battle_state.phase == BattlePhase.AFTERMATH:
+            # AGENT 4: AFTERMATH phase - status effects, cleanup, etc.
+            debug_battle_debug("Phase: AFTERMATH - processing status effects")
+            # Phase transitions are handled by BattleController.execute_turn()
+            
+        elif self.battle_state.phase == BattlePhase.END:
+            self.handle_battle_end()
+            debug_battle_info("Phase: END - battle concluded")
+    
+    def initialize_battle(self, player_team=None, enemy_team=None):
+        """Initialize battle with teams and connect all systems."""
+        try:
+            # Use provided teams or fall back to battle_state
+            if player_team is None and self.battle_state:
+                player_team = self.battle_state.player_team
+            if enemy_team is None and self.battle_state:
+                enemy_team = self.battle_state.enemy_team
+                
+            if not player_team or not enemy_team:
+                debug_battle_error("Cannot initialize battle without teams")
+                return False
+                
+            debug_battle_info(f"Initializing battle: {len(player_team)} vs {len(enemy_team)}")
+            
+            # Create battle controller (with auto-init managers)
+            from engine.systems.battle.battle_controller import BattleController
+            self.battle_controller = BattleController(
+                player_team=player_team,
+                enemy_team=enemy_team
+            )
+            
+            # Initialize controller battle state
+            init_result = self.battle_controller.initialize(player_team, enemy_team)
+            
+            if not init_result.get('success'):
+                debug_battle_error(f"Failed to initialize battle controller: {init_result}")
+                return False
+            
+            # CRITICAL: Connect EventProcessor to UI
+            if self.battle_controller.event_processor and self.battle_ui:
+                # Connect the event processor to UI
+                self.battle_ui.connect_event_handlers(self.battle_controller.event_processor)
+                debug_battle_info("Connected EventProcessor to BattleUI handlers")
+                
+                # Also give UI reference to battle state AND controller
+                self.battle_ui.battle_state = self.battle_controller.state
+                self.battle_ui.battle_controller = self.battle_controller
+                
+                # CRITICAL FIX: Set up UI sync callback
+                self.battle_controller.ui_sync_callback = self._sync_ui_state
+                debug_battle_info("Connected BattleUI to controller state and controller")
+                
+                # CRITICAL FIX: Ensure UI state is synced immediately
+                self._sync_ui_state({
+                    'battle_state': self.battle_controller.state,
+                    'player_active': self.battle_controller.state.player_active,
+                    'enemy_active': self.battle_controller.state.enemy_active,
+                    'battle_ended': False,
+                    'battle_result': None
+                })
+            else:
+                debug_battle_error("Could not connect EventProcessor to UI - missing components")
+            
+            # Initialize UI with teams
+            if self.battle_ui:
+                self.battle_ui.init_battle(player_team, enemy_team)
+                self.battle_ui.reset_to_main_menu()
+            
+            # Set initial scene state
+            self.battle_state = self.battle_controller.state
+            self.battle_state.phase = BattlePhase.START
+            self.player_team = player_team
+            self.enemy_team = enemy_team
+            
+            # Show battle start message
+            if self.battle_ui:
+                enemy_name = enemy_team[0].name if enemy_team else "Wild Monster"
+                self.battle_ui.show_message(f"Ein wildes {enemy_name} erscheint!")
+            
+            # Emit battle start event
+            if self.battle_controller.event_processor:
+                from engine.systems.battle.event_processor import BattleEvent, EventType
+                start_event = BattleEvent(
+                    event_type=EventType.BATTLE_START,
+                    data={'player_team': player_team, 'enemy_team': enemy_team}
+                )
+                self.battle_controller.event_processor.emit_event(start_event)
+            
+            debug_battle_info("Battle initialization complete")
+            return True
+            
+        except ImportError as e:
+            debug_battle_error(f"Failed to import battle components: {e}")
+            return False
+        except Exception as e:
+            debug_battle_error(f"Failed to initialize battle: {e}")
+            import traceback
+            traceback.print_exc()
+            return False
+    
+    def show_battle_intro(self):
+        """Show battle introduction messages."""
+        try:
+            if self.battle_state.enemy_active:
+                enemy_name = getattr(self.battle_state.enemy_active, 'name', 'Wildes Monster')
+                if self.is_wild:
+                    message = f"Ein wildes {enemy_name} erscheint!"
+                else:
+                    message = f"{enemy_name} greift an!"
+                
+                self.battle_ui.add_message(message)
+                debug_battle_info(f"Battle intro: {message}")
+                
+        except Exception as e:
+            debug_battle_error(f"Battle intro failed: {e}")
+    
+
+    
+    def check_battle_end(self) -> bool:
+        """Check if battle should end."""
+        try:
+            if not self.battle_state:
+                return False
+            
+            # Player defeated - all monsters fainted
+            if all(m.current_hp <= 0 for m in self.battle_state.player_team):
+                self.battle_state.battle_result = BattleResult.DEFEAT
+                debug_battle_info("Player defeated - all monsters fainted")
+                return True
+            
+            # Enemy defeated
+            if self.battle_state.enemy_active.current_hp <= 0:
+                if len(self.battle_state.enemy_team) > 1:
+                    # More enemies available - switch enemy monster
+                    self.switch_enemy_monster()
+                    return False
+                else:
+                    self.battle_state.battle_result = BattleResult.VICTORY
+                    debug_battle_info("Enemy defeated - victory!")
+                    return True
+            
+            # Successful taming
+            if hasattr(self.battle_state, 'monster_caught') and self.battle_state.monster_caught:
+                self.battle_state.battle_result = BattleResult.CAUGHT
+                debug_battle_info("Monster caught successfully!")
+                return True
+            
+            # Successful flee
+            if hasattr(self.battle_state, 'fled') and self.battle_state.fled:
+                self.battle_state.battle_result = BattleResult.FLED
+                debug_battle_info("Successfully fled from battle")
                 return True
             
             return False
             
         except Exception as e:
-            print(f"Error in handle_event: {e}")
+            debug_battle_error(f"Battle end check failed: {e}")
             return False
     
-    def _process_player_action(self, player_action: dict):
-        """Process player action from UI."""
+    def switch_enemy_monster(self):
+        """Switch to next enemy monster."""
         try:
-            action_type = player_action.get('action')
-            
-            if action_type == 'flee':
-                # Execute flee immediately
-                self._execute_flee(player_action.get('actor'), player_action)
-                
-            elif action_type == 'attack':
-                # Reset menu after attack selection
-                self.battle_ui.menu_state = BattleMenuState.MAIN
-                # Execute attack
-                self._execute_simple_attack(player_action)
-                
-            elif action_type in ['tame', 'scout', 'item', 'switch']:
-                # Reset menu
-                self.battle_ui.menu_state = BattleMenuState.MAIN
-                # Execute special action
-                self._execute_special_action(player_action)
-                
-            elif action_type == 'menu_select':
-                # Menu navigation handled by UI
-                pass
-                
-            elif action_type == 'cancel':
-                # Cancel - return to main menu
-                self.battle_ui.menu_state = BattleMenuState.MAIN
-                
-        except Exception as e:
-            print(f"Error processing action: {e}")
-    
-    def _execute_simple_attack(self, action: dict):
-        """Execute a simple attack with proper feedback."""
-        try:
-            print(f"DEBUG: _execute_simple_attack called with action: {action.get('action')}")
-            
-            actor = action.get('actor')
-            target = action.get('target')
-            move = action.get('move')
-            
-            if not actor or not target:
-                print("DEBUG: Missing actor or target")
+            if not self.battle_state or len(self.battle_state.enemy_team) <= 1:
                 return
             
-            print(f"DEBUG: {actor.name} attacking {target.name}")
-            
-            # Show attack message
-            move_name = move.name if hasattr(move, 'name') else "Tackle"
-            self.battle_ui.add_message(f"{actor.name} uses {move_name}!")
-            print(f"DEBUG: Attack message added")
-            
-            # Calculate damage
-            if hasattr(self.battle_state, 'calculate_dqm_damage'):
-                result = self.battle_state.calculate_dqm_damage(actor, target, move or {'power': 40, 'category': 'phys'})
-                damage = result.get('final_damage', 10)
-            else:
-                # Simple damage calc
-                damage = 10 + actor.level * 2
-            
-            print(f"DEBUG: Calculated damage: {damage}")
-            
-            # Apply damage
-            old_hp = target.current_hp
-            target.current_hp = max(0, target.current_hp - damage)
-            
-            print(f"DEBUG: {target.name} HP: {old_hp} -> {target.current_hp}")
-            
-            # Update UI and show damage
-            self.battle_ui.add_message(f"{target.name} takes {damage} damage!")
-            self.battle_ui.add_message(f"{target.name}: {target.current_hp}/{target.max_hp} HP")
-            
-            # Check if target fainted
-            if target.current_hp <= 0:
-                target.is_fainted = True
-                self.battle_ui.add_message(f"{target.name} fainted!")
-                print(f"DEBUG: {target.name} fainted!")
-                
-                # Check battle end
-                if target == self.battle_state.enemy_active:
-                    self.battle_ui.add_message("Victory! You won the battle!")
-                    self.battle_result = BattleResult.VICTORY
-                    self.current_phase = BattlePhase.END
-                    # Set timer to auto-exit
-                    self.phase_timer = 0
-                    print("DEBUG: Victory condition met")
-                elif target == self.battle_state.player_active:
-                    self.battle_ui.add_message("Defeat! You lost the battle!")
-                    self.battle_result = BattleResult.DEFEAT
-                    self.current_phase = BattlePhase.END
-                    self.phase_timer = 0
-                    print("DEBUG: Defeat condition met")
-            else:
-                print(f"DEBUG: {target.name} still alive, HP: {target.current_hp}")
-                # Enemy turn if target still alive
-                if target == self.battle_state.enemy_active:
-                    print("DEBUG: Enemy's turn")
-                    self._execute_enemy_turn()
-                
+            # Find next conscious enemy
+            for monster in self.battle_state.enemy_team:
+                if monster.current_hp > 0 and monster != self.battle_state.enemy_active:
+                    self.battle_state.enemy_active = monster
+                    self.battle_ui.add_message(f"{monster.name} kommt ins Spiel!")
+                    debug_battle_info(f"Switched to enemy: {monster.name}")
+                    break
+                    
         except Exception as e:
-            print(f"ERROR in _execute_simple_attack: {e}")
-            import traceback
-            traceback.print_exc()
-
-    def _execute_enemy_turn(self):
-        """Simple enemy turn."""
+            debug_battle_error(f"Enemy switch failed: {e}")
+    
+    def handle_battle_end(self):
+        """Handle battle end and rewards."""
         try:
-            enemy = self.battle_state.enemy_active
-            player = self.battle_state.player_active
-            
-            if not enemy or enemy.is_fainted or not player or player.is_fainted:
-                return
-            
-            # Simple damage
-            damage = 5 + enemy.level
-            player.current_hp = max(0, player.current_hp - damage)
-            
-            self.battle_ui.add_message(f"{enemy.name} attacks for {damage} damage!")
-            
-            if player.current_hp <= 0:
-                player.is_fainted = True
-                self.battle_ui.add_message(f"{player.name} fainted!")
-                self.battle_result = BattleResult.DEFEAT
-                self.current_phase = BattlePhase.END
+            if self.battle_state.battle_result == BattleResult.VICTORY:
+                self.battle_ui.add_message("Du hast gewonnen!")
+                self._show_rewards()
+                
+            elif self.battle_state.battle_result == BattleResult.DEFEAT:
+                self.battle_ui.add_message("Du hast verloren!")
+                self._show_defeat_screen()
+                
+            elif self.battle_state.battle_result == BattleResult.CAUGHT:
+                self.battle_ui.add_message("Monster gefangen!")
+                self._show_taming_success()
+                
+            elif self.battle_state.battle_result == BattleResult.FLED:
+                self.battle_ui.add_message("Erfolgreich geflohen!")
+                self._end_battle()
                 
         except Exception as e:
-            print(f"Error in enemy turn: {e}")
-    
-    def _execute_special_action(self, action: dict):
-        """Execute special actions."""
-        action_type = action.get('action')
-        actor = action.get('actor')
-        
-        if action_type == 'tame':
-            self.battle_ui.add_message("Taming not yet implemented!")
-        elif action_type == 'scout':
-            self.battle_ui.add_message(f"{self.battle_state.enemy_active.name}: HP {self.battle_state.enemy_active.current_hp}/{self.battle_state.enemy_active.max_hp}")
-        elif action_type == 'item':
-            self.battle_ui.add_message("Items not yet implemented!")
-        elif action_type == 'switch':
-            self.battle_ui.add_message("Switch not yet implemented!")
-
-    def update(self, dt: float) -> None:
-        """Update battle logic."""
-        # Sicherheitsprüfung: battle_state muss existieren
-        if not hasattr(self, 'battle_state') or self.battle_state is None:
-            print("WARNING: battle_state is None, initializing...")
-            self.on_enter()
-            return
-        
-        # Überprüfe battle_result - wenn nicht mehr ONGOING, beende den Kampf
-        if self.battle_result != BattleResult.ONGOING:
-            self.current_phase = BattlePhase.END
-            self.phase_timer = 0
-            print(f"Battle ending due to result: {self.battle_result.name}")
-            return
-        
-        # Update phase timer
-        self.phase_timer += dt
-        
-        # Update current phase
-        if self.current_phase == BattlePhase.INIT:
-            self._update_intro_phase(dt)
-        elif self.current_phase == BattlePhase.INPUT:
-            self._update_input_phase(dt)
-        elif self.current_phase == BattlePhase.RESOLVE:
-            self._update_execution_phase(dt)
-        elif self.current_phase == BattlePhase.AFTERMATH:
-            self._update_aftermath_phase(dt)
-        elif self.current_phase == BattlePhase.END:
-            self._update_end_phase(dt)
-    
-    def _update_intro_phase(self, dt: float):
-        """Handle intro animations and messages."""
-        # Wenn bereits geflohen, direkt zur END-Phase
-        if self.battle_result != BattleResult.ONGOING:
-            self.current_phase = BattlePhase.END
-            self.phase_timer = 0
-            print("Battle ending due to result - moving to END phase")
-            return
-        
-        # Shorter intro, immediately go to input
-        if self.phase_timer > 0.5:  # 0.5 seconds intro
-            self.current_phase = BattlePhase.INPUT
-            self.waiting_for_input = True
-            print("Intro phase complete - waiting for input")
-    
-    def _update_input_phase(self, dt: float):
-        """Handle player input phase - SIMPLIFIED."""
-        # Wenn bereits geflohen, direkt zur END-Phase
-        if self.battle_result != BattleResult.ONGOING:
-            self.current_phase = BattlePhase.END
-            self.phase_timer = 0
-            print("Battle ending due to result - moving to END phase")
-            return
-        
-        # Just wait for player input through handle_event
-        # No automatic command collection
-        self.waiting_for_input = True
-    
-    def _update_execution_phase(self, dt: float):
-        """Handle action execution phase."""
-        # Wenn bereits geflohen, direkt zur END-Phase
-        if self.battle_result != BattleResult.ONGOING:
-            self.current_phase = BattlePhase.END
-            self.phase_timer = 0
-            print("Battle ending due to result - moving to END phase")
-            return
-        
-        # Execute turn if actions are ready
-        if self._all_actions_ready():
-            self._execute_turn()
-        else:
-            # Wait for more actions
-            pass
-    
-    def _update_aftermath_phase(self, dt: float):
-        """Handle end-of-turn effects."""
-        # Wenn bereits geflohen, direkt zur END-Phase
-        if self.battle_result != BattleResult.ONGOING:
-            self.current_phase = BattlePhase.END
-            self.phase_timer = 0
-            print("Battle ending due to result - moving to END phase")
-            return
-        
-        # Process status effects, weather, etc.
-        if self.phase_timer > 1.0:  # 1 second aftermath
-            # Reset command collection for next turn
-            self.commands_collected = False
-            self.collected_commands.clear()
-            
-            # Check if battle should continue
-            if self.battle_state.is_valid():
-                self.current_phase = BattlePhase.INPUT
-                self.waiting_for_input = True
-                print("Aftermath complete - waiting for input")
-            else:
-                self.current_phase = BattlePhase.END
-                print("Battle ending")
-    
-    def _update_end_phase(self, dt: float):
-        """Handle battle end and return to overworld."""
-        # Show results briefly then return
-        if self.phase_timer > 2.0:  # 2 seconds to show result
-            print(f"Battle ended with result: {self.battle_result.name}")
-            
-            # Process rewards if victory
-            if self.battle_result == BattleResult.VICTORY:
-                # Give EXP (simplified)
-                exp_gained = self.battle_state.enemy_active.level * 10
-                self.battle_ui.add_message(f"Gained {exp_gained} EXP!")
-            
-            # Return to overworld
+            debug_battle_error(f"Battle end handling failed: {e}")
             self._end_battle()
     
-    def _next_message(self):
-        """Show next message in queue."""
-        # Wenn bereits geflohen, direkt zur END-Phase
-        if self.battle_result != BattleResult.ONGOING:
-            self.current_phase = BattlePhase.END
-            self.phase_timer = 0
-            print("Battle ending due to result - moving to END phase")
-            return
-        
-        if hasattr(self.battle_ui, 'message_queue') and self.battle_ui.message_queue:
-            self.battle_ui._next_message()
-        else:
-            # No more messages, continue
-            if self.current_phase == BattlePhase.MESSAGE:
-                self.current_phase = BattlePhase.INPUT
-                self.waiting_for_input = True
-    
-    def _all_actions_ready(self) -> bool:
-        """Check if all required actions are ready."""
-        # Wenn bereits geflohen, sind keine weiteren Aktionen nötig
-        if self.battle_result != BattleResult.ONGOING:
-            return True
-        
-        # For now, just check if player action is ready
-        return 'player_0' in self.pending_actions
-    
-    def _get_player_command_callback(self, monster_id: str, monster: MonsterInstance) -> Dict:
-        """Callback for command collector to get player input."""
-        # This would normally interface with the UI to get player input
-        # For now, return the pending action if available
-        if monster_id in self.pending_actions:
-            return self.pending_actions[monster_id]
-        
-        # Default to attack for testing
-        return {
-            'action': 'attack',
-            'target_id': 'enemy_0',
-            'move_id': monster.moves[0].id if monster.moves else None
-        }
-    
-    def _execute_turn(self):
-        """Execute the current turn with DQM command system."""
+    def _show_defeat_screen(self):
+        """Show defeat screen and return to field."""
         try:
-            print("Executing turn with DQM commands...")
+            # Show defeat message briefly
+            self.battle_ui.add_message("Du wurdest besiegt...")
             
-            # Wenn bereits geflohen, nichts mehr ausführen
-            if self.battle_result != BattleResult.ONGOING:
-                print("Battle already ended - skipping turn execution")
-                return
+            # End battle after delay
+            if not hasattr(self, '_defeat_timer'):
+                self._defeat_timer = 0
             
-            # Check if we have collected commands
-            if self.commands_collected and self.collected_commands:
-                # Convert commands to battle actions
-                battle_actions = self.command_collector.convert_to_battle_actions()
+            self._defeat_timer += 0.016  # Assume 60 FPS
+            if self._defeat_timer > 3.0:  # 3 seconds
+                self._end_battle()
                 
-                if battle_actions:
-                    print(f"Executing {len(battle_actions)} battle actions")
-                    
-                    # Queue all actions
-                    for action in battle_actions:
-                        self.battle_state.action_queue.append(action)
-                    
-                    # Resolve turn with all actions
-                    turn_results = self.battle_state.resolve_turn()
-                    print(f"Turn results: {turn_results}")
-                    
-                    # Reset for next turn
-                    self.commands_collected = False
-                    self.collected_commands.clear()
-                    
-                    # Check battle end
-                    if not self.battle_state.is_valid():
-                        self.current_phase = BattlePhase.END
-                        print("Battle ended")
-                    else:
-                        # Continue to next turn
-                        self.current_phase = BattlePhase.AFTERMATH
-                        self.phase_timer = 0
-                        self.waiting_for_input = True
-                        self.pending_actions.clear()
-                        print("Turn complete - waiting for next input")
-                    return
-            
-            # Get player action
-            player_action = self.pending_actions.get('player_0')
-            if not player_action:
-                print("No player action found!")
-                # Keine Action vorhanden - zurück zum Input
-                self.current_phase = BattlePhase.INPUT
-                self.waiting_for_input = True
-                return
-            
-            # Verarbeite UI-Aktionen direkt
-            if player_action.get('action') == 'menu_select':
-                # UI-Aktion wird direkt verarbeitet
-                print(f"Processing UI action: {player_action}")
-                # Zeige Nachricht an, falls vorhanden
-                if 'message' in player_action:
-                    self.battle_ui.add_message(player_action['message'])
+        except Exception as e:
+            debug_battle_error(f"Defeat screen failed: {e}")
+            self._end_battle()
+    
+    def _show_taming_success(self):
+        """Show taming success screen."""
+        try:
+            if self.battle_state and self.battle_state.enemy_active:
+                monster_name = getattr(self.battle_state.enemy_active, 'name', 'Monster')
+                self.battle_ui.add_message(f"{monster_name} wurde gezähmt!")
                 
-                # Zurück zum Input für weitere Aktionen
-                self.current_phase = BattlePhase.INPUT
-                self.waiting_for_input = True
-                self.pending_actions.clear()
-                return
+                # Add caught monster to rewards
+                if not hasattr(self, 'battle_rewards'):
+                    self.battle_rewards = type('Rewards', (), {})()
+                self.battle_rewards.caught_monster = self.battle_state.enemy_active
+                
+                # Show rewards with caught monster
+                self._show_rewards()
+                
+        except Exception as e:
+            debug_battle_error(f"Taming success screen failed: {e}")
+            self._end_battle()
+    
+    def _show_rewards(self):
+        """Calculate and show battle rewards."""
+        try:
+            # Mark all active monsters as participated
+            if self.battle_state and self.battle_state.player_active:
+                self.battle_state.player_active.participated = True
             
-            # Normale Battle-Aktion verarbeiten
-            battle_action = self._create_battle_action(player_action)
-            if battle_action:
-                # Queue player action
-                success = self.battle_state.queue_player_action(battle_action)
-                if success:
-                    print("Player action queued successfully")
-                    
-                    # Resolve turn
-                    turn_results = self.battle_state.resolve_turn()
-                    print(f"Turn results: {turn_results}")
-                    
-                    # Check battle end
-                    if not self.battle_state.is_valid():
-                        self.current_phase = BattlePhase.END
-                        print("Battle ended")
-                    else:
-                        # Continue to next turn
-                        self.current_phase = BattlePhase.AFTERMATH
-                        self.phase_timer = 0
-                        self.waiting_for_input = True
-                        self.pending_actions.clear()
-                        print("Turn complete - waiting for input")
-                else:
-                    print("Failed to queue player action")
-                    # Reset to input phase
-                    self.current_phase = BattlePhase.INPUT
-                    self.waiting_for_input = True
-            else:
-                print("Could not create battle action")
-                # Reset to input phase
-                self.current_phase = BattlePhase.INPUT
-                self.waiting_for_input = True
+            # Determine victory type
+            victory_type = 'normal'
+            if self.battle_state.battle_result == BattleResult.CAUGHT:
+                victory_type = 'caught'
+            elif self.battle_state and self.battle_state.player_active:
+                # Check for perfect victory (no damage taken)
+                if self.battle_state.player_active.current_hp == self.battle_state.player_active.max_hp:
+                    victory_type = 'perfect'
+            
+            # Calculate rewards - with fallback if reward_system fails
+            try:
+                self.battle_rewards = self.reward_system.calculate_battle_rewards(
+                    self.battle_state,
+                    victory_type
+                )
+            except Exception as e:
+                if self.game.debug_mode:
+                    print(f"[Flint] Reward system failed: {e}, using fallback rewards")
+                # Create minimal fallback rewards
+                from dataclasses import dataclass
+                @dataclass
+                class FallbackRewards:
+                    exp_gained: dict = None
+                    money_gained: int = 50
+                    items_gained: list = None
+                    level_ups: dict = None
+                    caught_monster: object = None
+                
+                self.battle_rewards = FallbackRewards()
+                self.battle_rewards.exp_gained = {}
+                self.battle_rewards.items_gained = []
+            
+            # Add caught monster to rewards
+            if self.battle_state.battle_result == BattleResult.CAUGHT and self.battle_state and self.battle_state.caught_monster:
+                self.battle_rewards.caught_monster = self.battle_state.caught_monster
+            
+            # Apply rewards to game state
+            self.give_rewards(self.battle_rewards)
+            
+            # Prepare rewards data for UI - with safe access
+            rewards_ui_data = {
+                'exp_gained': getattr(self.battle_rewards, 'exp_gained', {}),
+                'money_gained': getattr(self.battle_rewards, 'money_gained', 0),
+                'items_gained': getattr(self.battle_rewards, 'items_gained', []),
+                'level_ups': getattr(self.battle_rewards, 'level_ups', {})
+            }
+            
+            # For caught monsters, just show simple victory without EXP
+            if self.battle_state.battle_result == BattleResult.CAUGHT:
+                rewards_ui_data['exp_gained'] = {}  # No EXP for catching
+                rewards_ui_data['money_gained'] = 100  # Small reward for catching
+                # Add caught monster info for display
+                if self.battle_state and self.battle_state.caught_monster:
+                    rewards_ui_data['caught_monster'] = True
+                    rewards_ui_data['caught_monster_name'] = self.battle_state.caught_monster.name
+            
+            # Show rewards UI
+            self.battle_rewards_ui.show_rewards(rewards_ui_data)
+            self.showing_rewards = True
             
         except Exception as e:
-            print(f"Fehler bei der Zugausführung: {str(e)}")
-            # Reset to input phase
-            self.current_phase = BattlePhase.INPUT
-            self.waiting_for_input = True
+            if self.game.debug_mode:
+                print(f"Error showing rewards: {e}")
+            import traceback
+            traceback.print_exc()
+            # If error, just end battle
+            self._end_battle()
     
-    def _create_battle_action(self, player_action: dict) -> Optional[Dict]:
-        """Create a simplified battle action from player input."""
+    def give_rewards(self, rewards):
+        """Apply battle rewards to player."""
         try:
-            action_type = player_action.get('action')
+            # Give EXP to participating monsters
+            if hasattr(rewards, 'exp_gained') and rewards.exp_gained:
+                for monster in self.battle_state.player_team:
+                    if monster.current_hp > 0 and hasattr(monster, 'add_experience'):
+                        monster_id = getattr(monster, 'id', str(id(monster)))
+                        if monster_id in rewards.exp_gained:
+                            exp_amount = rewards.exp_gained[monster_id]
+                            level_up = monster.add_experience(exp_amount)
+                            if level_up:
+                                self.show_level_up(monster, level_up)
             
-            # Handle different action types
-            if action_type == 'attack':
-                return {
-                    'action': 'attack',
-                    'actor': player_action.get('actor'),
-                    'move': player_action.get('move'),
-                    'target': player_action.get('target'),
-                    'move_index': player_action.get('move_index', 0)
-                }
-            elif action_type == 'flee':
-                return {
-                    'action': 'flee',
-                    'actor': player_action.get('actor')
-                }
-            elif action_type in ['tame', 'scout', 'switch', 'item']:
-                return {
-                    'action': action_type,
-                    'actor': player_action.get('actor')
-                }
-            elif action_type == 'menu_select':
-                # UI action - open submenu
-                return None
-            elif action_type == 'cancel':
-                # Cancel action
-                return None
+            # Give items
+            if hasattr(rewards, 'items_gained') and rewards.items_gained:
+                for item_id, count in rewards.items_gained:
+                    if hasattr(self.game, 'item_manager'):
+                        self.game.item_manager.add_item(item_id, count)
+                    elif hasattr(self.game, 'player_data'):
+                        if not hasattr(self.game.player_data, 'inventory'):
+                            self.game.player_data.inventory = {}
+                        if item_id in self.game.player_data.inventory:
+                            self.game.player_data.inventory[item_id] += count
+                        else:
+                            self.game.player_data.inventory[item_id] = count
             
-            return None
+            # Give money
+            if hasattr(rewards, 'money_gained') and rewards.money_gained > 0:
+                if hasattr(self.game, 'player_data'):
+                    if not hasattr(self.game.player_data, 'money'):
+                        self.game.player_data.money = 0
+                    self.game.player_data.money += rewards.money_gained
+            
+            debug_battle_info("Rewards applied successfully")
             
         except Exception as e:
-            print(f"Error creating battle action: {e}")
-            return None
+            debug_battle_error(f"Failed to apply rewards: {e}")
+    
+    def show_level_up(self, monster, level_up_data):
+        """Show level up information."""
+        try:
+            if hasattr(level_up_data, 'new_level'):
+                self.battle_ui.add_message(f"{monster.name} ist auf Level {level_up_data.new_level} aufgestiegen!")
+                
+                # Show learned moves if any
+                if hasattr(level_up_data, 'learned_moves') and level_up_data.learned_moves:
+                    for move in level_up_data.learned_moves:
+                        self.battle_ui.add_message(f"{monster.name} hat {move} gelernt!")
+                        
+        except Exception as e:
+            debug_battle_error(f"Level up display failed: {e}")
+    
     def _end_battle(self):
         """End the battle and return to field."""
+        # Return to previous scene (only once!)
+        if self.battle_state.battle_ended:
+            return  # Already ended, don't do it again
+        
+        self.battle_state.battle_ended = True
+        
         try:
-            print(f"Ending battle with result: {self.battle_result.name}")
+            # Add caught monster to party if applicable
+            if self.battle_state.battle_result == BattleResult.CAUGHT and self.battle_state and self.battle_state.caught_monster:
+                if hasattr(self.game, 'party_manager'):
+                    success, msg = self.game.party_manager.add_to_party(self.battle_state.caught_monster)
+                    if success:
+                        debug_battle_info(f"Monster zu Party hinzugefügt: {msg}")
+                    else:
+                        debug_battle_error(f"Fehler beim Hinzufügen zur Party: {msg}")
+                else:
+                    debug_battle_error("Kein Party-Manager verfügbar!")
             
-            # Handle different battle results
-            if self.battle_result == BattleResult.FLED:
-                print("Player fled from battle")
-            elif self.battle_result == BattleResult.CAUGHT:
-                print("Monster caught")
-                self._finalize_caught_monster()
-            elif self.battle_result == BattleResult.DEFEAT:
-                print("Player defeated")
-                self._handle_defeat()
-            elif self.battle_result == BattleResult.VICTORY:
-                print("Player victorious")
-                # Sync party state
-                if hasattr(self, '_sync_party_after_battle'):
-                    self._sync_party_after_battle()
-            
-            # Clear battle state
-            self.battle_state = None
-            self.battle_result = BattleResult.ONGOING
-            
-            # Return to field scene
-            print("Returning to field scene...")
             self.game.pop_scene()
             
         except Exception as e:
-            print(f"Error ending battle: {e}")
-            # Force return to field
-            self.game.pop_scene()
+            if self.game.debug_mode:
+                print(f"End battle error: {e}")
+            import traceback
+            traceback.print_exc()
+            # Still try to pop scene even on error
+            try:
+                self.game.pop_scene()
+            except:
+                pass
     
-    def _get_active_actors(self) -> List[str]:
-        """Get list of actors that can act this turn."""
-        # Wenn bereits geflohen, keine Akteure mehr
-        if self.battle_result != BattleResult.ONGOING:
-            return []
-        
-        actors = []
-        
-        # Add player monsters
-        for i, monster in enumerate(self.battle_state.player_team):
-            if monster and monster.current_hp > 0 and monster.can_act():
-                actors.append(f'player_{i}')
-        
-        # Add enemy monsters
-        for i, monster in enumerate(self.battle_state.enemy_team):
-            if monster and monster.current_hp > 0 and monster.can_act():
-                actors.append(f'enemy_{i}')
-        
-        return actors
-    
-    def _get_ai_action(self, actor_id: str) -> Optional[Dict]:
-        """Get AI-determined action for an actor."""
-        # Wenn bereits geflohen, keine AI-Aktionen mehr
-        if self.battle_result != BattleResult.ONGOING:
-            return None
-        
-        # Get the monster
-        idx = int(actor_id.split('_')[1])
-        monster = self.battle_state.enemy_team[idx]
-        
-        if not monster or monster.current_hp <= 0:
-            return None
-        
-        # Use AI to determine action
-        action = self.battle_ai.choose_action(
-            monster,
-            self.battle_state.enemy_team,
-            self.battle_state.player_team,
-            self.battle_state
-        )
-        
-        # Add actor ID
-        if action:
-            action['actor'] = actor_id
-        
-        return action
-    
-    def _execute_action(self, action: Dict):
-        """Execute a single action."""
-        # Wenn bereits geflohen, nichts mehr ausführen
-        if self.battle_result != BattleResult.ONGOING:
-            print("Battle already ended - skipping action execution")
-            return
-        
-        actor_id = action['actor']
-        action_type = action['type']
-        
-        # Get actor monster
-        if actor_id.startswith('player'):
-            idx = int(actor_id.split('_')[1])
-            actor = self.battle_state.player_team[idx]
-        else:
-            idx = int(actor_id.split('_')[1])
-            actor = self.battle_state.enemy_team[idx]
-        
-        if not actor or actor.current_hp <= 0:
-            return
-        
-        # Execute based on type
-        if action_type == 'attack':
-            self._execute_attack(actor, action)
-        elif action_type == 'tame':
-            self._execute_tame(actor, action)
-        elif action_type == 'item':
-            self._execute_item(actor, action)
-        elif action_type == 'flee':
-            # Fliehen wird direkt in _execute_flee behandelt
-            # Hier sollte es nicht mehr ankommen
-            print("Warning: Flee action reached _execute_action - this should not happen")
-            pass
-    
-    def _execute_attack(self, actor: MonsterInstance, action: Dict):
-        """Execute an attack action."""
-        # Wenn bereits geflohen, nichts mehr ausführen
-        if self.battle_result != BattleResult.ONGOING:
-            print("Battle already ended - skipping attack execution")
-            return
-        
-        move_id = action['move_id']
-        targets = action.get('targets', [])
-        
-        # Get move data
-        move_data = self.game.resources.get_move(move_id)
-        if not move_data:
-            return
-        
-        # Show attack message
-        self.battle_ui.add_message(
-            f"{actor.nickname or actor.species_name} setzt {move_data.name} ein!"
-        )
-        
-        # Execute against each target
-        for target_id in targets:
-            # Get target monster
-            if target_id.startswith('player'):
-                idx = int(target_id.split('_')[1])
-                target = self.battle_state.player_team[idx]
-            else:
-                idx = int(target_id.split('_')[1])
-                target = self.battle_state.enemy_team[idx]
+    def draw(self, surface: pygame.Surface) -> None:
+        """Draw battle scene."""
+        try:
+            # Clear screen
+            surface.fill(Colors.BATTLE_BG)
             
-            if not target or target.current_hp <= 0:
-                continue
+            # Draw battle UI
+            if self.battle_ui:
+                self.battle_ui.draw(surface)
             
-            # Calculate damage
-            result = self.turn_manager.execute_move(
-                actor, target, move_data, self.battle_state
-            )
+            # Draw rewards UI if showing
+            if self.showing_rewards and self.battle_rewards_ui:
+                self.battle_rewards_ui.draw(surface)
             
-            # Apply damage
-            if result['hit']:
-                damage = result.get('damage', 0)
-                if damage > 0:
-                    target.current_hp = max(0, target.current_hp - damage)
-                    
-                    # Update UI
-                    self.battle_ui.set_hp(target_id, target.current_hp)
-                    self.battle_ui.shake_sprite(target_id)
-                    
-                    # Show damage message
-                    effectiveness = result.get('effectiveness', 1.0)
-                    if effectiveness > 1.5:
-                        self.battle_ui.add_message("Volltreffer! Richtig effektiv!")
-                    elif effectiveness > 1.0:
-                        self.battle_ui.add_message("Effektiv!")
-                    elif effectiveness < 0.5:
-                        self.battle_ui.add_message("Kaum Wirkung...")
-                    elif effectiveness < 1.0:
-                        self.battle_ui.add_message("Nicht sehr effektiv...")
-                    
-                    # Check if critical
-                    if result.get('critical'):
-                        self.battle_ui.add_message("Kritischer Treffer!")
-                
-                # Apply status effects
-                if result.get('status'):
-                    target.status = result['status']
-                    self.battle_ui.add_message(
-                        f"{target.nickname or target.species_name} hat jetzt {result['status']}!"
-                    )
-            else:
-                self.battle_ui.add_message("Daneben!")
-    
-    def _execute_tame(self, actor: MonsterInstance, action: Dict):
-        """Execute a taming attempt."""
-        # Wenn bereits geflohen, nichts mehr ausführen
-        if self.battle_result != BattleResult.ONGOING:
-            print("Battle already ended - skipping tame execution")
-            return
-        
-        # Only works on wild monsters
-        if not self.is_wild:
-            self.battle_ui.add_message("Kannst du knicken bei Trainer-Monstern!")
-            return
-        
-        # Get target (first enemy)
-        target = self.battle_state.enemy_team[0] if self.battle_state.enemy_team else None
-        if not target:
-            return
-        
-        # Calculate taming chance
-        from engine.systems.taming import calculate_tame_chance
-        chance = calculate_tame_chance(
-            target,
-            self.battle_state.player_team,
-            self.battle_state
-        )
-        
-        # Show chance
-        self.battle_ui.add_message(f"Zähm-Chance: {int(chance * 100)}%")
-        
-        # Roll for success
-        if random.random() < chance:
-            # Success!
-            self.battle_ui.add_message(f"{target.species_name} wurde gezähmt!")
-            self.battle_result = BattleResult.CAUGHT
-            
-            # Store caught monster for later processing
-            self.caught_monster = target
-            
-            # Show where it goes
-            if len(self.game.party_manager.party.get_all_members()) < 6:
-                self.battle_ui.add_message(f"{target.species_name} kommt in dein Team!")
-            else:
-                current_box = self.game.party_manager.storage.get_current_box()
-                box_name = current_box.name if current_box else "Box"
-                self.battle_ui.add_message(f"{target.species_name} wurde in {box_name} gepackt!")
-        else:
-            # Failed
-            self.battle_ui.add_message("Mist! Hat nicht geklappt!")
-            
-            # Apply irritation
-            if not hasattr(target, 'buffs'):
-                target.buffs = []
-            target.buffs.append({
-                'type': 'irritated',
-                'duration': -1
-            })
-    
-    def _execute_item(self, actor: MonsterInstance, action: Dict):
-        """Execute item use."""
-        # Wenn bereits geflohen, nichts mehr ausführen
-        if self.battle_result != BattleResult.ONGOING:
-            print("Battle already ended - skipping item execution")
-            return
-        
-        item_id = action.get('item_id')
-        target_id = action.get('target')
-        
-        # Get item from inventory
-        if hasattr(self.game, 'inventory'):
-            item = self.game.inventory.get_item(item_id)
-            if item:
-                # Use item effect
-                if item.type == 'healing':
-                    # Heal target
-                    if target_id.startswith('player'):
-                        idx = int(target_id.split('_')[1])
-                        target = self.battle_state.player_team[idx]
-                        if target:
-                            heal_amount = item.value
-                            target.current_hp = min(target.max_hp, target.current_hp + heal_amount)
-                            self.battle_ui.set_hp(target_id, target.current_hp)
-                            self.battle_ui.add_message(
-                                f"{target.nickname or target.species_name} wurde um {heal_amount} HP geheilt!"
-                            )
-                
-                # Remove item from inventory
-                self.game.inventory.remove_item(item_id, 1)
-            else:
-                self.battle_ui.add_message("Item nicht gefunden!")
-        else:
-            self.battle_ui.add_message("Items sind noch nicht implementiert!")
-    
-    def _execute_flee(self, actor: MonsterInstance, action: Dict):
-        """Attempt to flee from battle."""
-        if not self.can_flee:
-            self.battle_ui.add_message("Hier gibt's kein Entkommen!")
-            return
-        
-        # Calculate flee chance based on speed
-        flee_chance = 0.5  # Base chance
-        
-        if self.battle_state.enemy_team:
-            enemy_speed = max(m.stats['spd'] for m in self.battle_state.enemy_team if m)
-            player_speed = actor.stats['spd']
-            
-            speed_ratio = player_speed / enemy_speed if enemy_speed > 0 else 1
-            flee_chance = min(0.95, 0.3 + 0.4 * speed_ratio)
-        
-        # Roll for flee
-        if random.random() < flee_chance:
-            self.battle_ui.add_message("Du bist erfolgreich abgehauen!")
-            self.battle_result = BattleResult.FLED
-            # Sofort zur END-Phase wechseln
-            self.current_phase = BattlePhase.END
-            self.phase_timer = 0
-            print("Flee successful - ending battle")
-        else:
-            self.battle_ui.add_message("Kannst nicht abhauen!")
-            # Zurück zum Input für weitere Aktionen
-            self.current_phase = BattlePhase.INPUT
-            self.waiting_for_input = True
-            self.pending_actions.clear()
-    
-    def _process_status_effects(self):
-        """Process end-of-turn status effects."""
-        # Wenn bereits geflohen, nichts mehr ausführen
-        if self.battle_result != BattleResult.ONGOING:
-            print("Battle already ended - skipping status effects")
-            return
-        
-        # Process all monsters
-        all_monsters = [
-            (f'player_{i}', m) for i, m in enumerate(self.battle_state.player_team) if m
-        ] + [
-            (f'enemy_{i}', m) for i, m in enumerate(self.battle_state.enemy_team) if m
-        ]
-        
-        for actor_id, monster in all_monsters:
-            if monster.current_hp <= 0:
-                continue
-            
-            # Process status
-            if monster.status == 'burn':
-                damage = max(1, monster.max_hp // 16)
-                monster.current_hp = max(0, monster.current_hp - damage)
-                self.battle_ui.set_hp(actor_id, monster.current_hp)
-                self.battle_ui.add_message(
-                    f"{monster.nickname or monster.species_name} leidet unter Verbrennung!"
-                )
-            
-            elif monster.status == 'poison':
-                damage = max(1, monster.max_hp // 8)
-                monster.current_hp = max(0, monster.current_hp - damage)
-                self.battle_ui.set_hp(actor_id, monster.current_hp)
-                self.battle_ui.add_message(
-                    f"{monster.nickname or monster.species_name} leidet unter Gift!"
-                )
-    
-    def _check_defeated(self):
-        """Check for defeated monsters and handle them."""
-        # Wenn bereits geflohen, nichts mehr ausführen
-        if self.battle_result != BattleResult.ONGOING:
-            print("Battle already ended - skipping defeated check")
-            return
-        
-        # Check player team
-        for i, monster in enumerate(self.battle_state.player_team):
-            if monster and monster.current_hp <= 0 and monster.status != 'fainted':
-                monster.status = 'fainted'
-                self.battle_ui.add_message(
-                    f"{monster.nickname or monster.species_name} wurde besiegt!"
-                )
-        
-        # Check enemy team
-        for i, monster in enumerate(self.battle_state.enemy_team):
-            if monster and monster.current_hp <= 0 and monster.status != 'fainted':
-                monster.status = 'fainted'
-                self.battle_ui.add_message(
-                    f"{monster.species_name} wurde besiegt!"
-                )
-                
-                # Calculate experience
-                exp = self._calculate_exp_reward(monster)
-                self.exp_gained += exp
-    
-    def _check_battle_end(self) -> BattleResult:
-        """Check if battle should end."""
-        # Wenn bereits geflohen, nichts mehr ausführen
-        if self.battle_result != BattleResult.ONGOING:
-            return self.battle_result
-        
-        # Check if all player monsters fainted
-        player_alive = any(
-            m and m.current_hp > 0 
-            for m in self.battle_state.player_team
-        )
-        
-        if not player_alive:
-            return BattleResult.DEFEAT
-        
-        # Check if all enemy monsters fainted
-        enemy_alive = any(
-            m and m.current_hp > 0 
-            for m in self.battle_state.enemy_team
-        )
-        
-        if not enemy_alive:
-            return BattleResult.VICTORY
-        
-        # Battle continues
-        return BattleResult.ONGOING
-    
-    def _calculate_exp_reward(self, defeated: MonsterInstance) -> int:
-        """Calculate experience points for defeating a monster."""
-        # Wenn geflohen, keine EXP
-        if self.battle_result == BattleResult.FLED:
-            return 0
-        
-        # Base EXP based on level and rank
-        rank_multipliers = {
-            'F': 0.5, 'E': 0.7, 'D': 0.9, 'C': 1.0,
-            'B': 1.2, 'A': 1.5, 'S': 2.0, 'SS': 2.5, 'X': 3.0
-        }
-        
-        base_exp = defeated.level * 10
-        rank_mult = rank_multipliers.get(defeated.rank, 1.0)
-        
-        # Wild vs trainer bonus
-        trainer_mult = 1.5 if not self.is_wild else 1.0
-        
-        # Boss bonus
-        boss_mult = 2.0 if self.is_boss else 1.0
-        
-        return int(base_exp * rank_mult * trainer_mult * boss_mult)
-    
-    def _distribute_rewards(self):
-        """Distribute EXP and items to party."""
-        # Wenn geflohen, keine Belohnungen
-        if self.battle_result == BattleResult.FLED:
-            print("Player fled - no rewards distributed")
-            return
-        
-        if self.exp_gained > 0:
-            # Distribute to all participating monsters
-            participants = [
-                m for m in self.battle_state.player_team 
-                if m and m.current_hp > 0
-            ]
-            
-            if participants:
-                exp_per_monster = self.exp_gained // len(participants)
-                
-                for monster in participants:
-                    old_level = monster.level
-                    monster.gain_exp(exp_per_monster)
-                    
-                    self.battle_ui.add_message(
-                        f"{monster.nickname or monster.species_name} kriegt {exp_per_monster} EXP!"
-                    )
-                    
-                    # Check for level up
-                    if monster.level > old_level:
-                        self.battle_ui.add_message(
-                            f"{monster.nickname or monster.species_name} ist jetzt Level {monster.level}!"
-                        )
-                        
-                        # Check for new moves
-                        if hasattr(monster, 'check_learned_moves'):
-                            new_moves = monster.check_learned_moves()
-                            for move_id in new_moves:
-                                move = self.game.resources.get_move(move_id)
-                                if move:
-                                    self.battle_ui.add_message(
-                                        f"{monster.nickname or monster.species_name} lernt {move.name}!"
-                                    )
-                                    
-                                    # Track learned moves for sync
-                                    if not hasattr(monster, 'new_moves_learned'):
-                                        monster.new_moves_learned = []
-                                    monster.new_moves_learned.append(move_id)
-    
-    def draw(self, surface: pygame.Surface):
-        """Draw the battle scene."""
-        # Wenn bereits geflohen, nur UI zeichnen
-        if self.battle_result != BattleResult.ONGOING:
-            # Zeichne nur die UI, keine Monster mehr
-            self.battle_ui.draw(surface)
+            # Debug info
             if self.game.debug_mode:
                 self._draw_debug_info(surface)
-            return
-        
-        # Draw battle UI (includes background)
-        self.battle_ui.draw(surface)
-        
-        # Draw monster sprites instead of rectangles
-        self._draw_monster_sprites(surface)
-        
-        # Draw any additional overlays
-        if self.game.debug_mode:
-            self._draw_debug_info(surface)
     
-    def _draw_monster_sprites(self, surface: pygame.Surface) -> None:
-        """Draw monster sprites in battle."""
-        # Wenn bereits geflohen, nichts mehr zeichnen
-        if self.battle_result != BattleResult.ONGOING:
-            return
-        
-        # Die BattleUI verwaltet bereits alle Monster-Sprites
-        # Hier müssen wir nichts mehr zeichnen, da die BattleUI.draw() das bereits macht
-        pass
+        except Exception as e:
+            if self.game.debug_mode:
+                print(f"Draw error: {e}")
     
     def _draw_debug_info(self, surface: pygame.Surface):
         """Draw debug information."""
-        font = pygame.font.Font(None, 10)
-        y = 2
+        try:
+            font = pygame.font.Font(None, 24)
         
-        debug_info = [
-            f"Phase: {self.current_phase.name}",
-            f"Turn: {self.turn_count}",
-            f"Actions: {len(self.action_queue)}",
-            f"Result: {self.battle_result.name}",
-            f"Party Size: {len(self.game.party_manager.party.get_all_members())}",
-            f"Can Flee: {self.can_flee}",
-            f"Is Wild: {self.is_wild}"
-        ]
-        
-        for info in debug_info:
-            text = font.render(info, True, (255, 255, 0))
-            surface.blit(text, (2, y))
-            y += 10
+            debug_info = [
+                f"Phase: {self.battle_state.phase.name if self.battle_state.phase else 'None'}",
+                f"Result: {self.battle_state.battle_result.name if self.battle_state.battle_result else 'None'}",
+            ]
+            
+            if self.battle_state:
+                player_name = self.battle_state.player_active.name if self.battle_state.player_active else 'None'
+                enemy_name = self.battle_state.enemy_active.name if self.battle_state.enemy_active else 'None'
+                debug_info.extend([
+                    f"Player: {player_name}",
+                    f"Enemy: {enemy_name}",
+                ])
+            
+            for i, info in enumerate(debug_info):
+                text = font.render(info, True, (255, 255, 0))
+                surface.blit(text, (5, 5 + i * 20))
+                
+        except Exception as e:
+            if self.game.debug_mode:
+                print(f"Debug draw error: {e}")

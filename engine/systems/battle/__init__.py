@@ -3,33 +3,43 @@ Battle System Package for Untold Story
 Main battle system with all fixes and improvements
 """
 
-from .battle_system import (
-    BattleState,
+from .battle_state import BattleState
+from .battle_controller import BattleController
+from .turn_processor import TurnProcessor
+from .action_processor import ActionProcessor
+from .event_processor import EventProcessor
+from .status_processor import StatusProcessor
+from .battle_validation import BattleValidator
+
+from .battle_enums import (
     BattleType,
     BattlePhase,
     BattleCommand,
     AIPersonality,
-    TensionState
+    BattleResult
 )
 
 from .turn_logic import BattleAction, ActionType, TurnOrder
-
-from .turn_logic import TurnOrder
 from .battle_ai import BattleAI
-from .battle_effects import ItemEffectHandler
-from .damage_calc import DamageCalculationPipeline
+# ItemEffectHandler removed - use ItemEffectExecutor from engine.systems.items
+
 
 __all__ = [
     'BattleState',
+    'BattleController',
+    'TurnProcessor',
+    'ActionProcessor',
+    'EventProcessor',
+    'StatusProcessor',
+    'BattleValidator',
     'BattleType', 
     'BattlePhase',
     'BattleCommand',
     'AIPersonality',
-    'TensionState',
+    'BattleResult',
     'BattleAction',
     'ActionType',
     'TurnOrder',
     'BattleAI',
-    'ItemEffectHandler',
-    'DamageCalculationPipeline'
+    # 'ItemEffectHandler' removed - use ItemEffectExecutor from engine.systems.items
 ]

@@ -21,13 +21,14 @@ def initialize_sprite_system():
     from engine.graphics.sprite_manager import SpriteManager
     from engine.world.tmx_init import initialize_tmx_support
     
-    print("Initializing sprite system...")
+    from engine.debug import debug_system_info
+    # Initializing sprite system
     
     # Create sprite manager (aber NICHT _ensure_loaded aufrufen!)
     sprite_manager = SpriteManager.get()
     
     # WICHTIG: Zuerst TMX-Support initialisieren
-    print("Initializing TMX support FIRST...")
+    # Initializing TMX support FIRST
     initialize_tmx_support()
     
     # Dann erst den Rest laden
@@ -39,11 +40,12 @@ def initialize_sprite_system():
                     len(sprite_manager._monster))
     
     # Add GID count if available
+    from engine.debug import debug_system_info
     if hasattr(sprite_manager, 'gid_to_surface'):
         gid_count = len(sprite_manager.gid_to_surface)
-        print(f"Sprite system initialized with {total_sprites} sprites and {gid_count} TMX GIDs")
+        debug_system_info("Sprite system initialized with {} sprites and {} TMX GIDs", total_sprites, gid_count)
     else:
-        print(f"Sprite system initialized with {total_sprites} sprites")
+        debug_system_info("Sprite system initialized with {} sprites", total_sprites)
     
     return sprite_manager
 
@@ -51,11 +53,13 @@ def initialize_sprite_system():
 def initialize_tile_system():
     """Initialisiert das Tile-System mit Placeholder-Tiles"""
     from engine.world.tiles import TILE_SIZE
+    from engine.debug import debug_system_info
     
-    print("Initializing tile system...")
+    # Initializing tile system
     
     # Das Tile-System wird jetzt komplett über den SpriteManager verwaltet
-    print(f"Tile system initialized with {TILE_SIZE}x{TILE_SIZE} tiles")
+    # Tile system initialized
+
 
 
 def main() -> int:
@@ -106,15 +110,11 @@ def main() -> int:
         # Set the sprite manager in the game using the new method
         game.set_sprite_manager(sprite_manager)
         
-        # Test ob Manager existieren
-        print(f"Story Manager: {hasattr(game, 'story_manager')}")
-        print(f"Party Manager: {hasattr(game, 'party_manager')}")
-        print(f"Sprite Manager: {hasattr(game, 'sprite_manager')}")
-        print(f"Graphics Manager: {hasattr(game, 'graphics_manager')}")
-        print(f"Tile Renderer: {hasattr(game, 'tile_renderer')}")
+        # Game initialized successfully
         
     except Exception as e:
-        print(f"Failed to initialize game: {e}", file=sys.stderr)
+        from engine.debug import debug_system_error
+        debug_system_error("Failed to initialize game: {}", e)
         pygame.quit()
         return 1
     
@@ -122,10 +122,12 @@ def main() -> int:
     try:
         exit_code = game.run()
     except KeyboardInterrupt:
-        print("\nGame interrupted by user")
+        from engine.debug import debug_system_info
+        debug_system_info("Game interrupted by user")
         exit_code = 0
     except Exception as e:
-        print(f"Fatal error during game execution: {e}", file=sys.stderr)
+        from engine.debug import debug_system_error
+        debug_system_error("Fatal error during game execution: {}", e)
         import traceback
         traceback.print_exc()
         exit_code = 1
@@ -139,17 +141,19 @@ def main() -> int:
 if __name__ == "__main__":
     # Check Python version
     if sys.version_info < (3, 13):
-        print(f"Python 3.13+ required, found {sys.version}", file=sys.stderr)
+        from engine.debug import debug_system_error
+        debug_system_error("Python 3.13+ required, found {}", sys.version)
         sys.exit(1)
     
     # Check pygame-ce version
     try:
         pygame_version = tuple(map(int, pygame.version.ver.split('.')[:2]))
         if pygame_version < (2, 5):
-            print(f"pygame-ce 2.5+ required, found {pygame.version.ver}", file=sys.stderr)
+            debug_system_error("pygame-ce 2.5+ required, found {}", pygame.version.ver)
             sys.exit(1)
     except (AttributeError, ValueError):
-        print("Warning: Could not verify pygame version", file=sys.stderr)
+        from engine.debug import debug_system_error
+        debug_system_error("Warning: Could not verify pygame version")
     
     # Run the game
     sys.exit(main())

@@ -23,7 +23,9 @@ class BattlePhase(Enum):
     INIT = "init"              # Battle initialization
     START = "start"            # Battle start animations
     INPUT = "input"            # Waiting for player input
+    ENEMY_TURN = "enemy_turn"  # Enemy AI turn processing
     ORDER = "order"            # Determining turn order
+    EXECUTION = "execution"    # Executing actions (alias for RESOLVE)
     RESOLVE = "resolve"        # Executing actions
     AFTERMATH = "aftermath"    # Processing end-of-turn effects
     SWITCH = "switch"          # Monster switching
@@ -42,10 +44,8 @@ class BattleCommand(Enum):
     ITEM = "item"            # Item benutzen
     FLEE = "flee"            # Flucht versuchen
     
-    # DQM Special Commands
-    PSYCHE_UP = "psyche"      # Aufladen für nächste Runde (2x Schaden)
-    MEDITATE = "meditate"     # MP wiederherstellen
-    INTIMIDATE = "intimidate" # Gegner-Stats senken
+    # DQM Special Commands removed - system simplified
+
 
 
 class AIPersonality(Enum):
@@ -56,3 +56,14 @@ class AIPersonality(Enum):
     WISE = "wise"             # Analysiert Typen-Effektivität
     HEALER = "healer"         # Priorisiert Heilung
     RECKLESS = "reckless"     # Hoher Schaden, ignoriert Verteidigung
+
+
+class BattleResult(Enum):
+    """Possible battle outcomes - Unified definition."""
+    ONGOING = "ongoing"       # Battle noch im Gange
+    VICTORY = "victory"       # Spieler hat gewonnen  
+    DEFEAT = "defeat"         # Spieler hat verloren
+    FLED = "fled"            # Spieler ist geflohen
+    CAUGHT = "caught"        # Monster wurde gefangen/gezähmt (DQM)
+    TIMEOUT = "timeout"      # Battle-Timeout
+    DRAW = "draw"           # Unentschieden

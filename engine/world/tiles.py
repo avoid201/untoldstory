@@ -8,6 +8,41 @@ import pygame
 # Einheitliche Tile-Kante in Pixeln (GBC-/Pokémon-Stil)
 TILE_SIZE: int = 16
 
+# Entity Movement Constants
+ENTITY_SPEED: float = 60.0  # Standard-Geschwindigkeit für 16x16 Tiles
+ENTITY_INTERACTION_RANGE: float = 1.5  # Multiplier for TILE_SIZE
+
+# Player Movement Constants
+PLAYER_MOVE_SPEED: float = 7.5  # Tiles pro Sekunde (Gehen)
+PLAYER_RUN_MULTIPLIER: float = 1.5  # Running speed multiplier
+PLAYER_JUMP_MULTIPLIER: float = 1.5  # Jump speed multiplier
+PLAYER_JUMP_HEIGHT: float = 0.5  # Jump height as TILE_SIZE multiplier
+
+# NPC Movement Constants
+NPC_MOVEMENT_SPEED: float = 30.0  # Pixels per second (slower than player)
+NPC_MOVEMENT_DELAY: float = 2.0   # Seconds between movements
+NPC_MOVEMENT_COOLDOWN: float = 2.0  # Seconds between movements in manager
+
+# Pathfinding Constants
+PATHFINDING_COOLDOWN: float = 0.5  # Halbe Sekunde zwischen Pathfinding-Versuchen
+PATHFINDING_MAX_EXPANSIONS: int = 256  # Max nodes to check
+
+# Animation Constants
+ANIMATION_SPEED_MULTIPLIER: float = 1.0  # Default animation speed
+ANIMATION_SPEED_FAST: float = 1.5  # Fast animation speed
+
+# Camera Constants
+CAMERA_SHAKE_INTENSITY: float = 0.0  # Default shake intensity
+CAMERA_SHAKE_DURATION: float = 0.0   # Default shake duration
+CAMERA_LERP_FACTOR: float = 1.0      # Camera lerp factor
+
+# Map Constants
+MAP_CACHE_TTL: float = 300.0  # 5 Minuten Cache-Lebensdauer
+MAP_RENDER_TIME: float = 0.0  # Default render time
+
+# Sound Constants
+SOUND_VOLUME_DEFAULT: float = 0.5  # Default sound volume
+
 
 class TileType(IntEnum):
     """Common tile type IDs for collision and interaction."""

@@ -10,7 +10,7 @@ import time
 
 # Import refactored components
 from engine.core.event_processor import EventProcessor
-from engine.core.debug_overlay import DebugOverlayManager
+from engine.debug import debug, debug_system_info, debug_system_error
 
 
 class Game:
@@ -65,18 +65,21 @@ class Game:
         self.mouse_pos = (0, 0)  # Logical coordinates
         self.mouse_buttons = pygame.mouse.get_pressed()
         
+        # Debug flags (muss vor init_input_system stehen)
+        self.debug_overlay_enabled = False
+        self.show_grid = False
+        self.show_fps = True
+        self.debug_mode = False  # Debug-Modus für erweiterte Debug-Funktionen
+        
         # Initialize input system  
         self.init_input_system()
         
         # Initialize refactored components
         self.event_processor = EventProcessor(self)
-        self.debug_overlay_manager = DebugOverlayManager(self)
         
-        # Debug flags
-        self.debug_overlay_enabled = False
-        self.show_grid = False
-        self.show_fps = True
-        self.debug_mode = False  # Debug-Modus für erweiterte Debug-Funktionen
+        # Initialize debug system
+        from engine.debug import debug
+        debug.set_game_instance(self)
         
         # Game state
         self.running = False
@@ -87,7 +90,8 @@ class Game:
         try:
             self.debug_font = pygame.font.Font(None, 16)
         except:
-            print("Warning: Could not load debug font")
+            if self.debug_mode:
+                print("Warning: Could not load debug font")
         
         # Initialize managers
         from engine.systems.story import StoryManager
@@ -95,6 +99,10 @@ class Game:
         from engine.core.resources import ResourceManager
         from engine.systems.cutscene import CutsceneManager
         from engine.ui.transitions import TransitionManager
+        from engine.systems.settings import SettingsManager
+        from engine.systems.items import Inventory
+        from engine.systems.quests import QuestManager
+        from engine.systems.world_state import world_state
         # AudioManager is optional; provide a no-op fallback if missing
         from engine.audio.audio_manager import AudioManager
         
@@ -102,6 +110,9 @@ class Game:
         self.story_manager = StoryManager()
         self.party_manager = PartyManager(self)
         self.cutscene_manager = CutsceneManager(self)
+        self.inventory = Inventory()  # Initialize player inventory
+        self.quest_manager = QuestManager()  # Initialize quest system
+        self.world_state = world_state  # Global world state manager
         # Provide a simple transition controller with a start() API
         class _SimpleTransitionManager:
             def __init__(self, game: 'Game') -> None:
@@ -123,7 +134,8 @@ class Game:
                         duration=duration,
                     )
                 except Exception as e:
-                    print(f"Warning: Could not start transition: {e}")
+                    if self.debug_mode:
+                        print(f"Warning: Could not start transition: {e}")
 
             def create_transition(self, transition_type, game: 'Game', from_scene: Optional['Scene'], 
                                 to_scene: 'Scene', duration: float = 0.5, **kwargs) -> Optional['TransitionScene']:
@@ -139,14 +151,23 @@ class Game:
                         **kwargs
                     )
                 except Exception as e:
-                    print(f"Warning: Could not create transition: {e}")
+                    if self.debug_mode:
+                        print(f"Warning: Could not create transition: {e}")
                     return None
         
         self.transition_manager = _SimpleTransitionManager(self)
+        self.settings_manager = SettingsManager()
         self.audio_manager = AudioManager()
+        
+        # Apply initial settings
+        self.settings_manager.apply_audio_settings(self.audio_manager)
         
         # Story-System für neues Spiel initialisieren
         self._init_story_system()
+        
+        # Initialize DQM systems
+        from engine.systems.battle.dqm_integration import setup_dqm_systems
+        setup_dqm_systems(self)
         
         # Initialize graphics system
         from engine.world.tiles import TILE_SIZE
@@ -154,7 +175,8 @@ class Game:
         def initialize_graphics():
             """Initialisiert das Grafik-System"""
             # Das Grafik-System wird jetzt komplett über den SpriteManager verwaltet
-            print(f"Graphics system initialized with {TILE_SIZE}x{TILE_SIZE} tiles")
+            if self.debug_mode:
+                print(f"Graphics system initialized with {TILE_SIZE}x{TILE_SIZE} tiles")
         
         # Rufe die Grafik-Initialisierung auf
         initialize_graphics()
@@ -170,9 +192,11 @@ class Game:
         try:
             from engine.devtools.input_debug import get_input_debugger
             self.input_debugger = get_input_debugger()
-            print("🔍 INPUT DEBUGGER: Erweiterte Debug-Funktionen geladen")
+            if self.debug_mode:
+                print("🔍 INPUT DEBUGGER: Erweiterte Debug-Funktionen geladen")
         except ImportError as e:
-            print(f"⚠️  WARNING: Erweiterte Input-Debug-Funktionen nicht verfügbar: {e}")
+            if self.debug_mode:
+                print(f"⚠️  WARNING: Erweiterte Input-Debug-Funktionen nicht verfügbar: {e}")
             self.input_debugger = None
         
         # Create helper methods for scenes - THESE ARE OVERRIDDEN BELOW!
@@ -181,7 +205,7 @@ class Game:
         # self.is_key_just_released = self.input_manager.is_just_released
         self.get_movement = self.input_manager.get_movement_vector
         
-        print("Input system initialized")
+        debug_system_info("Input system initialized")
     
     def _init_story_system(self):
         """Initialisiert das Story-System für neues Spiel"""
@@ -189,7 +213,7 @@ class Game:
         if self.story_manager:
             self.story_manager.set_flag('game_started', True)
             self.story_manager.set_flag('first_awakening', True)
-            print("Story-System initialisiert - Neues Spiel gestartet")
+            debug_system_info("Story-System initialisiert - Neues Spiel gestartet")
     
     def set_sprite_manager(self, sprite_manager) -> None:
         """Setzt den SpriteManager für das Spiel"""
@@ -203,7 +227,7 @@ class Game:
         total_sprites = (len(sprite_manager._tiles) + len(sprite_manager._objects) + 
                         len(sprite_manager._player_dir_map) + len(sprite_manager._npc_dir_map) + 
                         len(sprite_manager._monster))
-        print(f"SpriteManager gesetzt: {total_sprites} Sprites verfügbar")
+        debug_system_info("SpriteManager gesetzt: {} Sprites verfügbar", total_sprites)
     
     def run(self) -> int:
         """
@@ -299,13 +323,13 @@ class Game:
             if scene.is_visible:
                 scene.draw(self.logical_surface)
         
-        # Draw debug overlay using DebugOverlayManager
-        if self.debug_overlay_enabled:
-            self.debug_overlay_manager.draw_debug_overlay(self.logical_surface)
+        # Draw debug overlay using new debug system
+        if self.debug_overlay_enabled and debug.overlay:
+            debug.overlay.draw_debug_overlay(self.logical_surface)
         
-        # Draw FPS counter using DebugOverlayManager
-        if self.show_fps:
-            self.debug_overlay_manager.draw_fps_counter(self.logical_surface)
+        # Draw FPS counter using new debug system
+        if self.show_fps and debug.overlay:
+            debug.overlay.draw_fps(self.logical_surface)
     
     def _present(self) -> None:
         """Scale and present the logical surface to the screen."""
@@ -367,7 +391,8 @@ class Game:
             # Restore previous scene if initialization fails
             if self.scene_stack:
                 self.scene_stack[-1].resume()
-            print(f"Failed to initialize scene {scene_class.__name__}: {str(e)}")
+            if self.debug_mode:
+                print(f"Failed to initialize scene {scene_class.__name__}: {str(e)}")
             raise
     
     def pop_scene(self, result: Optional[Dict[str, Any]] = None) -> None:
@@ -422,7 +447,8 @@ class Game:
                 new_scene.enter(**kwargs)
                 self.replace_scene(new_scene)
         except Exception as e:
-            print(f"Failed to change to scene {scene_class.__name__}: {str(e)}")
+            if self.debug_mode:
+                print(f"Failed to change to scene {scene_class.__name__}: {str(e)}")
             raise
     
     def replace_scene(self, new_scene: 'Scene') -> None:
@@ -458,7 +484,8 @@ class Game:
             return self.input_manager.is_pressed(action)
         
         # Fallback to old system (should not be used)
-        print(f"⚠️ Warning: Using fallback input system for action '{action}'")
+        if self.debug_mode:
+            print(f"⚠️ Warning: Using fallback input system for action '{action}'")
         return False
     
     def is_key_just_pressed(self, action: str) -> bool:
@@ -476,7 +503,8 @@ class Game:
             return self.input_manager.is_just_pressed(action)
         
         # Fallback to old system (should not be used)
-        print(f"⚠️ Warning: Using fallback input system for action '{action}'")
+        if self.debug_mode:
+            print(f"⚠️ Warning: Using fallback input system for action '{action}'")
         return False
     
     def start_transition(self, transition_type: str, duration: float = 0.5, **kwargs) -> None:

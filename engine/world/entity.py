@@ -7,8 +7,8 @@ import pygame
 from typing import Optional, Tuple, Dict, Any, List
 from enum import Enum
 from dataclasses import dataclass
-from engine.world.tiles import TILE_SIZE, world_to_tile, tile_to_world
-import os
+from engine.world.tiles import TILE_SIZE, world_to_tile, tile_to_world, ENTITY_SPEED, ENTITY_INTERACTION_RANGE
+# os import removed - not used
 
 
 class Direction(Enum):
@@ -91,7 +91,7 @@ class Entity:
         # Position and physics
         self.x = x
         self.y = y
-        self.speed = 60.0  # Standard-Geschwindigkeit für 16x16 Tiles
+        self.speed = ENTITY_SPEED
         
         # Collision
         self.width = width
@@ -107,7 +107,7 @@ class Entity:
         self.direction = Direction.DOWN
         self.moving = False
         self.interactable = False
-        self.interaction_range = TILE_SIZE * 1.5
+        self.interaction_range = TILE_SIZE * ENTITY_INTERACTION_RANGE
         
         # Sprite and animation
         self.sprite_config = sprite_config
@@ -126,8 +126,6 @@ class Entity:
         self.properties: Dict[str, Any] = {}
         self.active = True
         self.visible = True
-        self.moving = False
-        self.direction = Direction.DOWN  # Standardmäßig nach unten schauen
     
     def _load_sprite(self, sprite_path: str) -> bool:
         """Load sprite from path."""
@@ -141,7 +139,7 @@ class Entity:
                     if sprite:
                         self.sprite_config.surface = sprite
                         self.sprite_surface = sprite
-                        print(f"Entity-Sprite geladen via SpriteManager: {sprite_path} ({sprite.get_size()})")
+                        # Entity sprite loaded via SpriteManager
                         return True
             
             # Fallback: Lade den Sprite direkt
@@ -151,17 +149,17 @@ class Entity:
                     # Sprites sind 16x16, keine Skalierung nötig
                     self.sprite_config.surface = sprite
                     self.sprite_surface = sprite
-                    print(f"Entity-Sprite direkt geladen: {sprite_path} ({sprite.get_size()})")
+                    # Entity sprite loaded directly
                     return True
                 else:
-                    print(f"Entity-Sprite konnte nicht geladen werden: {sprite_path}")
+                    # Entity sprite could not be loaded
                     return False
             else:
-                print(f"Entity-Sprite-Datei nicht gefunden: {sprite_path}")
+                # Entity sprite file not found
                 return False
                 
         except Exception as e:
-            print(f"Fehler beim Laden des Entity-Sprites {sprite_path}: {e}")
+            # Entity sprite loading error
             return False
     
     def get_rect(self) -> pygame.Rect:
@@ -360,7 +358,7 @@ class Entity:
                 surface.blit(debug_surface, (debug_rect.x, debug_rect.y - 20))
                 
         except Exception as e:
-            print(f"Fehler beim Zeichnen des Entity-Sprites: {e}")
+            # Entity sprite drawing error
             # Zeichne einen Fallback-Rechteck
             fallback_rect = pygame.Rect(screen_x - 8, screen_y - 8, 16, 16)
             pygame.draw.rect(surface, (255, 0, 255), fallback_rect)  # Magenta

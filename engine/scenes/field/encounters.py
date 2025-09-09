@@ -181,7 +181,7 @@ class FieldEncounterSystem:
             "growth": {"curve": "medium_fast", "yield": 40},
             "capture_rate": 255,
             "traits": [],
-            "learnset": []
+            "talents": []
         }
     
     def _transition_to_battle(self, wild_monster: MonsterInstance) -> None:

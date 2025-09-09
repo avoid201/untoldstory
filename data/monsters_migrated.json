@@ -1,0 +1,36 @@
+[
+  {
+    "id": 1,
+    "name": "Glutstummel",
+    "era": "present",
+    "rank": "F",
+    "types": [
+      "Feuer"
+    ],
+    "base_stats": {
+      "hp": 40,
+      "atk": 54,
+      "def": 38,
+      "mag": 24,
+      "res": 20,
+      "spd": 44
+    },
+    "growth": {
+      "curve": "fast",
+      "yield": 48
+    },
+    "capture_rate": 249,
+    "traits": [
+      "Entflammbar"
+    ],
+    "evolution": null,
+    "description": "Ein kleiner, flackernder Feuerball mit Beinchen. Glutstummel hüpft durch die Gegend und hinterlässt überall kleine Brandflecken. Die Ruhrpottler haben sich längst dran gewöhnt - dat Vieh is halt 'n bisschen heißblütig, aber harmlos.",
+    "starting_talents": ["fire_i", "physical_i"],
+    "learnable_talents": ["fire_ii", "physical_ii", "defense_i"],
+    "talent_learning_levels": {
+      "fire_ii": 15,
+      "physical_ii": 20,
+      "defense_i": 25
+    }
+  }
+]

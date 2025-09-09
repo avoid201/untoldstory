@@ -154,9 +154,19 @@ class UnifiedMapSystem:
         tmx_path = f"assets/maps/{map_id}.tmx"
         if os.path.exists(tmx_path):
             print(f"[MapSystem] Lade TMX-Map: {tmx_path}")
-            # TODO: TMX-Loader implementieren wenn nötig
-            # Momentan nutzen wir nur JSON
-            pass
+            # TMX-Support ist bereits über Enhanced Map Manager verfügbar
+            # Verwende Enhanced Map Manager für TMX-Visual-Daten
+            try:
+                from engine.world.enhanced_map_manager import EnhancedMapManager
+                if hasattr(self.game, 'enhanced_map_manager'):
+                    print("[MapSystem] TMX-Support über Enhanced Map Manager aktiviert")
+                    # Enhanced Map Manager kann TMX-Daten verarbeiten
+                    return self.game.enhanced_map_manager.load_map(map_id)
+            except ImportError:
+                print("[MapSystem] Enhanced Map Manager nicht verfügbar, verwende JSON-Fallback")
+            
+            # Fallback: JSON-basierte Maps
+            print("[MapSystem] Verwende JSON-basierte Map-Loading")
         
         # Fallback: Versuche direkt über MapLoader
         return MapLoader.load_map(map_id)

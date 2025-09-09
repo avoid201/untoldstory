@@ -427,7 +427,7 @@ class StarterScene(Scene):
         self.logger.info(f"{len(self.starters)} Starter bereit")
     
     def _create_starter_monster(self, data: dict) -> MonsterInstance:
-        """Create a starter monster with robust fallback system."""
+        """Create a starter monster with Talent-System integration."""
         monster = None
         
         # Try to load from database first using safe method
@@ -441,6 +441,18 @@ class StarterScene(Scene):
                     5
                 )
                 self.logger.info(f"Erfolgreich geladen: {monster.species_name}")
+                
+                # Validiere Talents
+                if not monster.validate_talents():
+                    self.logger.warning(f"Talent-Validierung für {monster.name} fehlgeschlagen")
+                
+                # Validiere Moves
+                if not monster.moves:
+                    self.logger.warning(f"Keine Moves für {monster.name} geladen")
+                    monster.moves = [monster._create_fallback_move()]
+                
+                self.logger.info(f"Starter-Monster {monster.name} mit {len(monster.talents)} Talents und {len(monster.moves)} Moves erstellt")
+                
             except Exception as e:
                 self.logger.error(f"Fehler beim Erstellen von Monster {data['name']}: {e}")
         else:
@@ -451,11 +463,7 @@ class StarterScene(Scene):
             self.logger.info(f"Nutze Fallback für: {data['name']} (ID: {data['id']})")
             monster = self._create_fallback_starter(data)
         
-        # Ensure monster has correct species_name
-        if hasattr(monster, 'species_name'):
-            monster.species_name = data['name']
-        elif hasattr(monster, 'species') and hasattr(monster.species, 'name'):
-            monster.species.name = data['name']
+        # species_name wird automatisch aus species.name geholt
         
         # Validate monster creation
         if not monster:
@@ -465,31 +473,10 @@ class StarterScene(Scene):
         return monster
     
     def _add_default_moves(self, monster: MonsterInstance) -> None:
-        """Add default moves to a monster if it has none."""
-        try:
-            from engine.systems.moves import move_registry
-            
-            default_moves = ["Rempler", "Kratzer", "Biss"]
-            monster.moves = []
-            
-            for move_name in default_moves:
-                try:
-                    move = move_registry.create_move_instance_by_name(move_name)
-                    if move:
-                        monster.moves.append(move)
-                        self.logger.info(f"✅ Move {move_name} zu {monster.species_name} hinzugefügt")
-                    else:
-                        self.logger.warning(f"⚠️  Move {move_name} nicht gefunden")
-                except Exception as e:
-                    self.logger.warning(f"⚠️  Konnte Move {move_name} nicht hinzufügen: {e}")
-            
-            if not monster.moves:
-                self.logger.warning(f"⚠️  Keine Standard-Moves verfügbar, erstelle Dummy-Moves")
-                self._create_dummy_moves(monster)
-                
-        except Exception as e:
-            self.logger.error(f"❌ Fehler beim Hinzufügen von Standard-Moves: {e}")
-            self._create_dummy_moves(monster)
+        """Entferne - Moves kommen jetzt über Talents."""
+        # Diese Methode kann entfernt werden
+        self.logger.debug("_add_default_moves() aufgerufen - nicht mehr benötigt mit Talent-System")
+        pass
     
     def _create_dummy_moves(self, monster: MonsterInstance) -> None:
         """Create dummy moves as last resort."""
@@ -527,7 +514,7 @@ class StarterScene(Scene):
             # Check basic properties
             if not hasattr(monster, 'species_name') or not monster.species_name:
                 self.logger.warning(f"⚠️  Starter {i} hat keinen species_name")
-                monster.species_name = self.starter_data[i]['name']
+                # species_name wird automatisch aus species.name geholt
             
             if not hasattr(monster, 'level') or monster.level != 5:
                 self.logger.warning(f"⚠️  Starter {i} hat falsches Level: {getattr(monster, 'level', 'N/A')}")
@@ -694,21 +681,15 @@ class StarterScene(Scene):
             species = MonsterSpecies(
                 id=data['id'],
                 name=data['name'],
-                era='past',
-                rank=MonsterRank.E,
                 types=data['types'],
                 base_stats=base_stats,
+                rank=MonsterRank.E,
                 growth_curve=GrowthCurve.MEDIUM_FAST,
-                base_exp_yield=64,
-                capture_rate=255,
-                traits=[],
-                learnset=[(1, "Rempler")],
-                evolution=None,
                 description="Ein Monster."
             )
             
             monster = MonsterInstance(species, level=5)
-            monster.species_name = data['name']
+            # species_name wird automatisch aus species.name geholt
             
             # Add dummy moves
             self._create_dummy_moves(monster)
@@ -759,21 +740,15 @@ class StarterScene(Scene):
             species = MonsterSpecies(
                 id=data['id'],
                 name=data['name'],
-                era='past',
-                rank=MonsterRank.E,
                 types=data['types'],
                 base_stats=base_stats,
+                rank=MonsterRank.E,
                 growth_curve=GrowthCurve.MEDIUM_FAST,
-                base_exp_yield=64,
-                capture_rate=255,
-                traits=[],
-                learnset=[(1, "Rempler")],
-                evolution=None,
                 description=data['description']
             )
             
             monster = MonsterInstance(species, level=5)
-            monster.species_name = data['name']
+            # species_name wird automatisch aus species.name geholt
             
             self.logger.info(f"Notfall-Fallback erstellt: {monster.species_name}")
             return monster
@@ -792,21 +767,15 @@ class StarterScene(Scene):
             species = MonsterSpecies(
                 id=data['id'],
                 name=data['name'],
-                era='past',
-                rank=MonsterRank.E,
                 types=['Bestie'],
                 base_stats=base_stats,
+                rank=MonsterRank.E,
                 growth_curve=GrowthCurve.MEDIUM_FAST,
-                base_exp_yield=64,
-                capture_rate=255,
-                traits=[],
-                learnset=[(1, "Rempler")],
-                evolution=None,
                 description="Ein Monster."
             )
             
             monster = MonsterInstance(species, level=5)
-            monster.species_name = data['name']
+            # species_name wird automatisch aus species.name geholt
             
             self.logger.info(f"Basis-Monster erstellt: {monster.species_name}")
             return monster
@@ -825,44 +794,45 @@ class StarterScene(Scene):
         # Angepasste Stats basierend auf dem Monster-Typ für bessere Starter
         if data['name'] == 'Sumpfschrecke':
             base_stats = BaseStats(hp=45, atk=28, def_=50, mag=25, res=33, spd=30)
-            learnset = [(1, "Rempler"), (5, "Giftstachel"), (10, "Blubber")]
+            talents = [{"talent_id": "water_i", "learned_at_level": 1, "current_tier": 1, "experience": 0}]
         elif data['name'] == 'Kraterkröte':
             base_stats = BaseStats(hp=52, atk=27, def_=51, mag=29, res=28, spd=19)
-            learnset = [(1, "Rempler"), (5, "Härtner"), (10, "Steinwurf")]
+            talents = [{"talent_id": "earth_i", "learned_at_level": 1, "current_tier": 1, "experience": 0}]
         elif data['name'] == 'Säbelzahnkaninchen':
             base_stats = BaseStats(hp=48, atk=54, def_=23, mag=22, res=26, spd=36)
-            learnset = [(1, "Biss"), (5, "Kratzer"), (10, "Krallenhieb")]
+            talents = [{"talent_id": "physical_i", "learned_at_level": 1, "current_tier": 1, "experience": 0}]
         elif data['name'] == 'Irrlicht':
             base_stats = BaseStats(hp=28, atk=23, def_=33, mag=46, res=31, spd=31)
-            learnset = [(1, "Spukball"), (5, "Verwirrung"), (10, "Fluch")]
+            talents = [{"talent_id": "mystic_i", "learned_at_level": 1, "current_tier": 1, "experience": 0}]
         else:
             # Generic fallback
             base_stats = BaseStats(hp=45, atk=28, def_=50, mag=25, res=33, spd=30)
-            learnset = [(1, "Rempler"), (5, "Kratzer"), (10, "Biss")]
+            talents = [{"talent_id": "physical_i", "learned_at_level": 1, "current_tier": 1, "experience": 0}]
         
         species = MonsterSpecies(
             id=data['id'],
             name=data['name'],
-            era='past',
-            rank=MonsterRank.E,
             types=data['types'],
             base_stats=base_stats,
+            rank=MonsterRank.E,
             growth_curve=GrowthCurve.MEDIUM_FAST,
-            base_exp_yield=80,
-            capture_rate=200,
-            traits=[],
-            learnset=learnset,
-            evolution=None,
+            talents=talents,  # Verwende Talents statt learnset
             description=data['description']
         )
         
         # Create monster instance
         monster = MonsterInstance(species, level=5)
         
-        # Stelle sicher dass das Monster den species_name hat
-        monster.species_name = data['name']
+        # Validiere Talents
+        if not monster.validate_talents():
+            self.logger.warning(f"Talent-Validierung für {monster.name} fehlgeschlagen")
         
-        self.logger.info(f"Fallback-Monster erstellt: {monster.species_name} mit {len(monster.moves)} Moves")
+        # Validiere Moves
+        if not monster.moves:
+            self.logger.warning(f"Keine Moves für {monster.name} geladen")
+            monster.moves = [monster._create_fallback_move()]
+        
+        self.logger.info(f"Fallback-Monster erstellt: {monster.species_name} mit {len(monster.talents)} Talents und {len(monster.moves)} Moves")
         return monster
     
     def show_intro_dialogue(self):

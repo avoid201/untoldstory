@@ -3,9 +3,12 @@ Battle UI Style Configuration for Untold Story.
 CSS-like styling system for battle interface elements.
 """
 
+import logging
 from typing import Dict, Tuple, Any
 from dataclasses import dataclass
 from engine.core.config import Colors
+
+logger = logging.getLogger(__name__)
 
 
 @dataclass
@@ -237,7 +240,7 @@ def set_battle_theme(theme_name: str) -> None:
     if theme_name in theme_methods:
         current_battle_style = theme_methods[theme_name]()
     else:
-        print(f"Warning: Unknown theme '{theme_name}', using default")
+        logger.warning(f"Unknown theme '{theme_name}', using default")
 
 
 def get_current_style() -> BattleStyle:

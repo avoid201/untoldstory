@@ -63,7 +63,7 @@ class SaveMetadata:
 class SaveSystem:
     """Handles saving and loading game data."""
     
-    SAVE_VERSION = "1.0.0"
+    SAVE_VERSION = "3.0.0"
     SAVE_DIR = "saves"
     MAX_SLOTS = 3
     MAX_BACKUPS = 3
@@ -96,12 +96,12 @@ class SaveSystem:
             True if save successful
         """
         if not 1 <= slot <= self.MAX_SLOTS:
-            print(f"Invalid save slot: {slot}")
+            logger.error(f"Invalid save slot: {slot}")
             return False
         
         # Validate game data
         if not self._validate_game_data(game_data):
-            print("Invalid game data structure")
+            logger.error("Invalid game data structure")
             return False
         
         # Check available disk space (need ~2x size for temporary files)
@@ -268,9 +268,9 @@ class SaveSystem:
             json_str = json_bytes.decode('utf-8')
             save_data = json.loads(json_str)
             
-            # Verify version compatibility
+            # Verify version compatibility (only v3 supported)
             if not self._check_version_compatibility(save_data['version']):
-                raise ValueError(f"Inkompatible Spielstandversion: {save_data['version']}")
+                raise ValueError(f"Unsupported save version: {save_data['version']}. Only v3.x.x saves are supported.")
             
             # Verify checksum
             stored_checksum = save_data['metadata']['checksum']
@@ -468,12 +468,15 @@ class SaveSystem:
     
     def _check_version_compatibility(self, save_version: str) -> bool:
         """Check if save version is compatible."""
-        # Simple version check - could be more sophisticated
-        major_current = int(self.SAVE_VERSION.split('.')[0])
-        major_save = int(save_version.split('.')[0])
+        # Only support save format v3 (3.x.x)
+        # Parse version numbers more efficiently
+        current_parts = self.SAVE_VERSION.split('.')
+        save_parts = save_version.split('.')
+        major_current = int(current_parts[0])
+        major_save = int(save_parts[0])
         
-        # Only major version needs to match
-        return major_current == major_save
+        # Only v3 saves are supported
+        return major_current == major_save == 3
     
     def export_save(self, slot: int, export_path: str) -> bool:
         """
@@ -539,7 +542,107 @@ class SaveSystem:
 class GameStateSerializer:
     """Serializes and deserializes complete game state."""
     
+
     @staticmethod
+    def serialize_monster(monster) -> Dict[str, Any]:
+        """Serialize monster with talent support."""
+        if not monster:
+            return None
+            
+        return {
+            'species_id': monster.species.id,
+            'level': monster.level,
+            'experience': monster.experience,
+            'current_hp': monster.current_hp,
+            'nickname': monster.nickname,
+            'is_shiny': monster.is_shiny,
+            'stat_stages': {
+                'hp': monster.stat_stages.hp,
+                'atk': monster.stat_stages.atk,
+                'def': monster.stat_stages.def_,
+                'mag': monster.stat_stages.mag,
+                'res': monster.stat_stages.res,
+                'spd': monster.stat_stages.spd
+            },
+            'talents': [
+                {
+                    'talent_id': talent.talent_id,
+                    'current_tier': talent.current_tier.value,
+                    'experience': talent.experience,
+                    'is_learned': talent.is_learned
+                }
+                for talent in monster.talents
+            ],
+            'learned_talents': [talent.talent_id for talent in monster.talents if talent.is_learned],
+            'talent_experience': {
+                talent.talent_id: talent.experience 
+                for talent in monster.talents
+            }
+        }
+    
+    @staticmethod
+    def deserialize_monster(monster_data: Dict[str, Any]) -> 'MonsterInstance':
+        """Deserialize monster with talent support."""
+        if not monster_data:
+            return None
+            
+        from engine.systems.monster_instance import MonsterInstance
+        from engine.systems.monsters import get_monster_database
+        
+        # Lade Species
+        species_id = monster_data.get('species_id')
+        monster_db = get_monster_database()
+        species = monster_db.get_species_by_id(species_id)
+        
+        if not species:
+            print(f"Species {species_id} nicht gefunden")
+            return None
+        
+        # Erstelle Monster-Instanz
+        monster = MonsterInstance(
+            species=species,
+            level=monster_data.get('level', 1),
+            experience=monster_data.get('experience', 0),
+            nickname=monster_data.get('nickname', ''),
+            is_shiny=monster_data.get('is_shiny', False)
+        )
+        
+        # Setze HP
+        monster.current_hp = monster_data.get('current_hp', monster.max_hp)
+        
+        # Setze Stat-Stages
+        stat_stages = monster_data.get('stat_stages', {})
+        monster.stat_stages.hp = stat_stages.get('hp', 0)
+        monster.stat_stages.atk = stat_stages.get('atk', 0)
+        monster.stat_stages.def_ = stat_stages.get('def', 0)
+        monster.stat_stages.mag = stat_stages.get('mag', 0)
+        monster.stat_stages.res = stat_stages.get('res', 0)
+        monster.stat_stages.spd = stat_stages.get('spd', 0)
+        
+        # Lade Talents
+        talents_data = monster_data.get('talents', [])
+        talent_experience = monster_data.get('talent_experience', {})
+        
+        for talent_data in talents_data:
+            talent_id = talent_data.get('talent_id')
+            current_tier = talent_data.get('current_tier', 1)
+            experience = talent_data.get('experience', 0)
+            is_learned = talent_data.get('is_learned', False)
+            
+            # Erstelle Talent-Instanz
+            talent_instance = TalentInstance(
+                talent_id=talent_id,
+                current_tier=TalentTier(current_tier),
+                experience=experience,
+                is_learned=is_learned
+            )
+            
+            # Füge zu Monster hinzu
+            monster.talents.append(talent_instance)
+        
+        return monster
+
+        @staticmethod
     def serialize(game) -> Dict[str, Any]:
         """
         Serialize complete game state.
@@ -556,6 +659,7 @@ class GameStateSerializer:
         from engine.systems.quests import QuestManager
         from engine.systems.items import Inventory
         from engine.systems.monsters import MonsterSpecies
+from engine.systems.talent_system import TalentInstance, TalentTier
         
         state = {
             'version': SaveSystem.SAVE_VERSION,
@@ -579,6 +683,9 @@ class GameStateSerializer:
             
             # Inventory
             'inventory': game.inventory.to_dict() if hasattr(game, 'inventory') else {},
+            
+            # World state
+            'world_state': game.world_state.to_dict() if hasattr(game, 'world_state') else {},
             
             # Settings
             'settings': {
@@ -605,6 +712,7 @@ class GameStateSerializer:
         from engine.systems.quests import QuestManager
         from engine.systems.items import Inventory
         from engine.systems.monsters import MonsterSpecies
+from engine.systems.talent_system import TalentInstance, TalentTier
         
         # Restore player data
         player_data = state.get('player', {})
@@ -630,6 +738,10 @@ class GameStateSerializer:
         # Restore inventory
         if 'inventory' in state:
             game.inventory = Inventory.from_dict(state['inventory'])
+        
+        # Restore world state
+        if 'world_state' in state and hasattr(game, 'world_state'):
+            game.world_state.from_dict(state['world_state'])
         
         # Restore settings
         settings = state.get('settings', {})

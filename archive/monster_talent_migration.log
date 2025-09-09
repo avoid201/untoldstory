@@ -1,0 +1,623 @@
+2025-09-07 10:20:20,702 - INFO - 🚀 Starte Monster Talent Migration...
+2025-09-07 10:20:20,702 - INFO - Lade data/monsters.json...
+2025-09-07 10:20:20,706 - INFO - Lade data/talents.json...
+2025-09-07 10:20:20,707 - INFO - Gefunden: 151 Monster, 20 Talente
+2025-09-07 10:20:20,709 - INFO - Backup erstellt: data/monsters_backup_talents_20250907_102020.json
+2025-09-07 10:20:20,709 - INFO - Starte Migration aller Monster...
+2025-09-07 10:20:20,709 - INFO - Migriere Monster 1/151: Glutstummel
+2025-09-07 10:20:20,709 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,709 - INFO - Migriere Monster 2/151: Böllerling
+2025-09-07 10:20:20,709 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,709 - INFO - Migriere Monster 3/151: Urmolch
+2025-09-07 10:20:20,709 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,709 - INFO - Migriere Monster 4/151: Bierlementar
+2025-09-07 10:20:20,709 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,709 - INFO - Migriere Monster 5/151: Kohlekumpel
+2025-09-07 10:20:20,710 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,710 - INFO - Migriere Monster 6/151: Kieselkrabbler
+2025-09-07 10:20:20,710 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,710 - INFO - Migriere Monster 7/151: Flugratte
+2025-09-07 10:20:20,710 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,710 - INFO - Migriere Monster 8/151: Wolkenfurz
+2025-09-07 10:20:20,710 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,710 - INFO - Migriere Monster 9/151: Unkrautling
+2025-09-07 10:20:20,710 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,710 - INFO - Migriere Monster 10/151: Pommespanzer
+2025-09-07 10:20:20,710 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,710 - INFO - Migriere Monster 11/151: Imbissköter
+2025-09-07 10:20:20,710 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,710 - INFO - Migriere Monster 12/151: Stubentiger
+2025-09-07 10:20:20,710 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,710 - INFO - Migriere Monster 13/151: Kabelkriecher
+2025-09-07 10:20:20,710 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,710 - INFO - Migriere Monster 14/151: Wattwurm
+2025-09-07 10:20:20,710 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,710 - INFO - Migriere Monster 15/151: Wabbelpudding
+2025-09-07 10:20:20,710 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,710 - INFO - Migriere Monster 16/151: Rabatzgnom
+2025-09-07 10:20:20,711 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,711 - INFO - Migriere Monster 17/151: Kakerlak
+2025-09-07 10:20:20,711 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,711 - INFO - Migriere Monster 18/151: Bazillenschleuder
+2025-09-07 10:20:20,711 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,711 - INFO - Migriere Monster 19/151: Kellergeist
+2025-09-07 10:20:20,711 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,711 - INFO - Migriere Monster 20/151: Spukball
+2025-09-07 10:20:20,711 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,711 - INFO - Migriere Monster 21/151: Flammimp
+2025-09-07 10:20:20,711 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,711 - INFO - Migriere Monster 22/151: Feuermolch
+2025-09-07 10:20:20,711 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,711 - INFO - Migriere Monster 23/151: Kloakrake
+2025-09-07 10:20:20,711 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,711 - INFO - Migriere Monster 24/151: Sumpfschrecke
+2025-09-07 10:20:20,711 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,711 - INFO - Migriere Monster 25/151: Felsfresser
+2025-09-07 10:20:20,711 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,711 - INFO - Migriere Monster 26/151: Kraterkröte
+2025-09-07 10:20:20,711 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,712 - INFO - Migriere Monster 27/151: Sturmkrähe
+2025-09-07 10:20:20,712 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,712 - INFO - Migriere Monster 28/151: Segelfalter
+2025-09-07 10:20:20,712 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,712 - INFO - Migriere Monster 29/151: Schnappblume
+2025-09-07 10:20:20,712 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,712 - INFO - Migriere Monster 30/151: Urfarn
+2025-09-07 10:20:20,712 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,712 - INFO - Migriere Monster 31/151: Straßenkeiler
+2025-09-07 10:20:20,712 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,712 - INFO - Migriere Monster 32/151: Säbelzahnkaninchen
+2025-09-07 10:20:20,712 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,712 - INFO - Migriere Monster 33/151: Batteriefresser
+2025-09-07 10:20:20,713 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,713 - INFO - Migriere Monster 34/151: Plasmakröte
+2025-09-07 10:20:20,713 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,713 - INFO - Migriere Monster 35/151: Flimmergeist
+2025-09-07 10:20:20,713 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,713 - INFO - Migriere Monster 36/151: Wirrwicht
+2025-09-07 10:20:20,713 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,713 - INFO - Migriere Monster 37/151: Eiterbeule
+2025-09-07 10:20:20,713 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,713 - INFO - Migriere Monster 38/151: Rattenkönig
+2025-09-07 10:20:20,713 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,713 - INFO - Migriere Monster 39/151: Spiegelpuppe
+2025-09-07 10:20:20,713 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,713 - INFO - Migriere Monster 40/151: Irrlicht
+2025-09-07 10:20:20,713 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,713 - INFO - Migriere Monster 41/151: Vulkanodon
+2025-09-07 10:20:20,713 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,713 - INFO - Migriere Monster 42/151: Flammenwerwolf
+2025-09-07 10:20:20,713 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,713 - INFO - Migriere Monster 43/151: Teichschreck
+2025-09-07 10:20:20,713 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,713 - INFO - Migriere Monster 44/151: Urhai
+2025-09-07 10:20:20,713 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,714 - INFO - Migriere Monster 45/151: Betonbrocken
+2025-09-07 10:20:20,714 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,714 - INFO - Migriere Monster 46/151: Urochs
+2025-09-07 10:20:20,714 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,714 - INFO - Migriere Monster 47/151: Sturmfalke
+2025-09-07 10:20:20,714 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,714 - INFO - Migriere Monster 48/151: Schrottgeier
+2025-09-07 10:20:20,714 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,714 - INFO - Migriere Monster 49/151: Schlingwurzel
+2025-09-07 10:20:20,715 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,715 - INFO - Migriere Monster 50/151: Urzeitbaum
+2025-09-07 10:20:20,715 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,715 - INFO - Migriere Monster 51/151: Kanal-Kroko
+2025-09-07 10:20:20,715 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,715 - INFO - Migriere Monster 52/151: Urwolf
+2025-09-07 10:20:20,715 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,715 - INFO - Migriere Monster 53/151: Stromschlange
+2025-09-07 10:20:20,715 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,715 - INFO - Migriere Monster 54/151: Laserauge
+2025-09-07 10:20:20,715 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,715 - INFO - Migriere Monster 55/151: Psychohuhn
+2025-09-07 10:20:20,716 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,716 - INFO - Migriere Monster 56/151: Kuddelmuddel
+2025-09-07 10:20:20,716 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,716 - INFO - Migriere Monster 57/151: Madenhaufen
+2025-09-07 10:20:20,717 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,717 - INFO - Migriere Monster 58/151: Seuchengeist
+2025-09-07 10:20:20,717 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,718 - INFO - Migriere Monster 59/151: Dschinnling
+2025-09-07 10:20:20,718 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,718 - INFO - Migriere Monster 60/151: Poltertopf
+2025-09-07 10:20:20,718 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,718 - INFO - Migriere Monster 61/151: Glutdrache
+2025-09-07 10:20:20,718 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,718 - INFO - Migriere Monster 62/151: Lavahund
+2025-09-07 10:20:20,718 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,718 - INFO - Migriere Monster 63/151: Kohlenfresser
+2025-09-07 10:20:20,718 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,718 - INFO - Migriere Monster 64/151: Kanalwüterich
+2025-09-07 10:20:20,718 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,718 - INFO - Migriere Monster 65/151: Bergmannsgeist
+2025-09-07 10:20:20,718 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,718 - INFO - Migriere Monster 66/151: Stahlwerksturm
+2025-09-07 10:20:20,718 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,718 - INFO - Migriere Monster 67/151: Industriedschungel
+2025-09-07 10:20:20,718 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,719 - INFO - Migriere Monster 68/151: Ruhrpott-Räuber
+2025-09-07 10:20:20,719 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,719 - INFO - Migriere Monster 69/151: Steckdosen-Schreck
+2025-09-07 10:20:20,719 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,719 - INFO - Migriere Monster 70/151: Verkehrschaos
+2025-09-07 10:20:20,719 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,719 - INFO - Migriere Monster 71/151: Kneipen-Keime
+2025-09-07 10:20:20,719 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,719 - INFO - Migriere Monster 72/151: Spukhaus-Geist
+2025-09-07 10:20:20,719 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,719 - INFO - Migriere Monster 73/151: Zeitfrost-Wanderer
+2025-09-07 10:20:20,719 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,720 - INFO - Migriere Monster 74/151: Industrie-Roboter
+2025-09-07 10:20:20,720 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,720 - INFO - Migriere Monster 75/151: Zeitblitz-Falke
+2025-09-07 10:20:20,720 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,720 - INFO - Migriere Monster 76/151: Zukunftsgift-Ranke
+2025-09-07 10:20:20,720 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,720 - INFO - Migriere Monster 77/151: Zeitschatten-Wolf
+2025-09-07 10:20:20,720 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,720 - INFO - Migriere Monster 78/151: Zeitchaos-Geist
+2025-09-07 10:20:20,721 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,721 - INFO - Migriere Monster 79/151: Zeitplasma-Drache
+2025-09-07 10:20:20,721 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,721 - INFO - Migriere Monster 80/151: Zukunftsspuk
+2025-09-07 10:20:20,721 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,721 - INFO - Migriere Monster 81/151: Kohlenofen-Kaiser
+2025-09-07 10:20:20,721 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,721 - INFO - Migriere Monster 82/151: Kanal-Kaiser
+2025-09-07 10:20:20,721 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,721 - INFO - Migriere Monster 83/151: Bergmanns-Kaiser
+2025-09-07 10:20:20,721 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,721 - INFO - Migriere Monster 84/151: Sturm-Kaiser
+2025-09-07 10:20:20,722 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,722 - INFO - Migriere Monster 85/151: Garten-Kaiser
+2025-09-07 10:20:20,722 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,722 - INFO - Migriere Monster 86/151: Wildnis-Kaiser
+2025-09-07 10:20:20,722 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,722 - INFO - Migriere Monster 87/151: Strom-Tyrann
+2025-09-07 10:20:20,722 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,722 - INFO - Migriere Monster 88/151: Verkehrs-Chaos
+2025-09-07 10:20:20,722 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,722 - INFO - Migriere Monster 89/151: Kneipen-Seuche
+2025-09-07 10:20:20,722 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,722 - INFO - Migriere Monster 90/151: Spukhaus-Tyrann
+2025-09-07 10:20:20,722 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,722 - INFO - Migriere Monster 91/151: Urzeit-Feuerherrscher
+2025-09-07 10:20:20,722 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,722 - INFO - Migriere Monster 92/151: Urzeit-Wasserherrscher
+2025-09-07 10:20:20,722 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,723 - INFO - Migriere Monster 93/151: Urzeit-Erdherrscher
+2025-09-07 10:20:20,723 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,723 - INFO - Migriere Monster 94/151: Urzeit-Luftherrscher
+2025-09-07 10:20:20,723 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,723 - INFO - Migriere Monster 95/151: Urzeit-Pflanzenherrscher
+2025-09-07 10:20:20,723 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,723 - INFO - Migriere Monster 96/151: Urzeit-Bestienherrscher
+2025-09-07 10:20:20,723 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,723 - INFO - Migriere Monster 97/151: Urzeit-Energieherrscher
+2025-09-07 10:20:20,723 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,723 - INFO - Migriere Monster 98/151: Urzeit-Chaosherrscher
+2025-09-07 10:20:20,724 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,724 - INFO - Migriere Monster 99/151: Urzeit-Seuchenherrscher
+2025-09-07 10:20:20,724 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,724 - INFO - Migriere Monster 100/151: Urzeit-Mystischer Herrscher
+2025-09-07 10:20:20,725 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,725 - INFO - Migriere Monster 101/151: Kohlenfeuer-Gott
+2025-09-07 10:20:20,725 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,725 - INFO - Migriere Monster 102/151: Kanalgott
+2025-09-07 10:20:20,725 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,725 - INFO - Migriere Monster 103/151: Bergmanns-Gott
+2025-09-07 10:20:20,725 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,725 - INFO - Migriere Monster 104/151: Sturm-Gott
+2025-09-07 10:20:20,725 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,725 - INFO - Migriere Monster 105/151: Garten-Gott
+2025-09-07 10:20:20,725 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,725 - INFO - Migriere Monster 106/151: Wildnis-Gott
+2025-09-07 10:20:20,725 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,725 - INFO - Migriere Monster 107/151: Strom-Gott
+2025-09-07 10:20:20,725 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,725 - INFO - Migriere Monster 108/151: Verkehrs-Chaosgott
+2025-09-07 10:20:20,725 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,725 - INFO - Migriere Monster 109/151: Kneipen-Seuchengott
+2025-09-07 10:20:20,725 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,726 - INFO - Migriere Monster 110/151: Spukhaus-Gott
+2025-09-07 10:20:20,726 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,726 - INFO - Migriere Monster 111/151: Urzeit-Feuerkaiser
+2025-09-07 10:20:20,726 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,726 - INFO - Migriere Monster 112/151: Urzeit-Wasserkaiser
+2025-09-07 10:20:20,726 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,726 - INFO - Migriere Monster 113/151: Urzeit-Erdkaiser
+2025-09-07 10:20:20,726 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,726 - INFO - Migriere Monster 114/151: Urzeit-Luftkaiser
+2025-09-07 10:20:20,726 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,726 - INFO - Migriere Monster 115/151: Urzeit-Pflanzenkaiser
+2025-09-07 10:20:20,726 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,726 - INFO - Migriere Monster 116/151: Urzeit-Bestienkaiser
+2025-09-07 10:20:20,726 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,726 - INFO - Migriere Monster 117/151: Urzeit-Energiekaiser
+2025-09-07 10:20:20,726 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,726 - INFO - Migriere Monster 118/151: Urzeit-Chaoskaiser
+2025-09-07 10:20:20,726 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,726 - INFO - Migriere Monster 119/151: Urzeit-Seuchenkaiser
+2025-09-07 10:20:20,726 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,727 - INFO - Migriere Monster 120/151: Urzeit-Mystischer Kaiser
+2025-09-07 10:20:20,727 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,727 - INFO - Migriere Monster 121/151: Feuerlord
+2025-09-07 10:20:20,727 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,727 - INFO - Migriere Monster 122/151: Wasserlord
+2025-09-07 10:20:20,727 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,727 - INFO - Migriere Monster 123/151: Erdlord
+2025-09-07 10:20:20,727 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,727 - INFO - Migriere Monster 124/151: Luftlord
+2025-09-07 10:20:20,727 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,727 - INFO - Migriere Monster 125/151: Pflanzenlord
+2025-09-07 10:20:20,727 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,727 - INFO - Migriere Monster 126/151: Bestienlord
+2025-09-07 10:20:20,727 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,727 - INFO - Migriere Monster 127/151: Energielord
+2025-09-07 10:20:20,727 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,727 - INFO - Migriere Monster 128/151: Chaoslord
+2025-09-07 10:20:20,727 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,727 - INFO - Migriere Monster 129/151: Seuchenlord
+2025-09-07 10:20:20,728 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,728 - INFO - Migriere Monster 130/151: Mystischer Lord
+2025-09-07 10:20:20,728 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,728 - INFO - Migriere Monster 131/151: Feuerkaiser
+2025-09-07 10:20:20,728 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,728 - INFO - Migriere Monster 132/151: Wasserkaiser
+2025-09-07 10:20:20,728 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,728 - INFO - Migriere Monster 133/151: Erdkaiser
+2025-09-07 10:20:20,728 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,729 - INFO - Migriere Monster 134/151: Luftkaiser
+2025-09-07 10:20:20,729 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,729 - INFO - Migriere Monster 135/151: Feuerfürst
+2025-09-07 10:20:20,729 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,729 - INFO - Migriere Monster 136/151: Wasserfürst
+2025-09-07 10:20:20,729 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,729 - INFO - Migriere Monster 137/151: Erdfürst
+2025-09-07 10:20:20,729 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,729 - INFO - Migriere Monster 138/151: Luftfürst
+2025-09-07 10:20:20,729 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,729 - INFO - Migriere Monster 139/151: Pflanzenfürst
+2025-09-07 10:20:20,730 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,730 - INFO - Migriere Monster 140/151: Erdfürst
+2025-09-07 10:20:20,730 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,730 - INFO - Migriere Monster 141/151: Luftfürst
+2025-09-07 10:20:20,730 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,730 - INFO - Migriere Monster 142/151: Pflanzenfürst
+2025-09-07 10:20:20,730 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,730 - INFO - Migriere Monster 143/151: Feuerfürst
+2025-09-07 10:20:20,730 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,730 - INFO - Migriere Monster 144/151: Wasserfürst
+2025-09-07 10:20:20,730 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,730 - INFO - Migriere Monster 145/151: Bestienfürst
+2025-09-07 10:20:20,730 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,730 - INFO - Migriere Monster 146/151: Energiefürst
+2025-09-07 10:20:20,730 - ERROR - physical_i Talent existiert nicht in talents.json!
+2025-09-07 10:20:20,730 - INFO - Migriere Monster 147/151: Zeitgott
+2025-09-07 10:20:20,730 - WARNING - Unbekannter Type 'Göttlich' für Monster Zeitgott
+2025-09-07 10:20:20,730 - INFO - Migriere Monster 148/151: Raumdämon
+2025-09-07 10:20:20,731 - WARNING - Unbekannter Type 'Teuflisch' für Monster Raumdämon
+2025-09-07 10:20:20,731 - INFO - Migriere Monster 149/151: Lichtgöttin
+2025-09-07 10:20:20,731 - WARNING - Unbekannter Type 'Göttlich' für Monster Lichtgöttin
+2025-09-07 10:20:20,731 - INFO - Migriere Monster 150/151: Schattenlord
+2025-09-07 10:20:20,731 - WARNING - Unbekannter Type 'Teuflisch' für Monster Schattenlord
+2025-09-07 10:20:20,731 - INFO - Migriere Monster 151/151: Chaosgott
+2025-09-07 10:20:20,731 - WARNING - Unbekannter Type 'Göttlich' für Monster Chaosgott
+2025-09-07 10:20:20,731 - INFO - Validiere Migration...
+2025-09-07 10:20:20,732 - ERROR - Monster Glutstummel hat keine talents!
+2025-09-07 10:20:20,732 - ERROR - Monster Böllerling hat keine talents!
+2025-09-07 10:20:20,732 - ERROR - Monster Urmolch hat keine talents!
+2025-09-07 10:20:20,732 - ERROR - Monster Bierlementar hat keine talents!
+2025-09-07 10:20:20,732 - ERROR - Monster Kohlekumpel hat keine talents!
+2025-09-07 10:20:20,733 - ERROR - Monster Kieselkrabbler hat keine talents!
+2025-09-07 10:20:20,733 - ERROR - Monster Flugratte hat keine talents!
+2025-09-07 10:20:20,733 - ERROR - Monster Wolkenfurz hat keine talents!
+2025-09-07 10:20:20,733 - ERROR - Monster Unkrautling hat keine talents!
+2025-09-07 10:20:20,733 - ERROR - Monster Pommespanzer hat keine talents!
+2025-09-07 10:20:20,733 - ERROR - Monster Imbissköter hat keine talents!
+2025-09-07 10:20:20,733 - ERROR - Monster Stubentiger hat keine talents!
+2025-09-07 10:20:20,733 - ERROR - Monster Kabelkriecher hat keine talents!
+2025-09-07 10:20:20,733 - ERROR - Monster Wattwurm hat keine talents!
+2025-09-07 10:20:20,733 - ERROR - Monster Wabbelpudding hat keine talents!
+2025-09-07 10:20:20,734 - ERROR - Monster Rabatzgnom hat keine talents!
+2025-09-07 10:20:20,734 - ERROR - Monster Kakerlak hat keine talents!
+2025-09-07 10:20:20,734 - ERROR - Monster Bazillenschleuder hat keine talents!
+2025-09-07 10:20:20,735 - ERROR - Monster Kellergeist hat keine talents!
+2025-09-07 10:20:20,735 - ERROR - Monster Spukball hat keine talents!
+2025-09-07 10:20:20,735 - ERROR - Monster Flammimp hat keine talents!
+2025-09-07 10:20:20,735 - ERROR - Monster Feuermolch hat keine talents!
+2025-09-07 10:20:20,735 - ERROR - Monster Kloakrake hat keine talents!
+2025-09-07 10:20:20,735 - ERROR - Monster Sumpfschrecke hat keine talents!
+2025-09-07 10:20:20,735 - ERROR - Monster Felsfresser hat keine talents!
+2025-09-07 10:20:20,735 - ERROR - Monster Kraterkröte hat keine talents!
+2025-09-07 10:20:20,735 - ERROR - Monster Sturmkrähe hat keine talents!
+2025-09-07 10:20:20,735 - ERROR - Monster Segelfalter hat keine talents!
+2025-09-07 10:20:20,735 - ERROR - Monster Schnappblume hat keine talents!
+2025-09-07 10:20:20,735 - ERROR - Monster Urfarn hat keine talents!
+2025-09-07 10:20:20,735 - ERROR - Monster Straßenkeiler hat keine talents!
+2025-09-07 10:20:20,736 - ERROR - Monster Säbelzahnkaninchen hat keine talents!
+2025-09-07 10:20:20,736 - ERROR - Monster Batteriefresser hat keine talents!
+2025-09-07 10:20:20,736 - ERROR - Monster Plasmakröte hat keine talents!
+2025-09-07 10:20:20,736 - ERROR - Monster Flimmergeist hat keine talents!
+2025-09-07 10:20:20,736 - ERROR - Monster Wirrwicht hat keine talents!
+2025-09-07 10:20:20,736 - ERROR - Monster Eiterbeule hat keine talents!
+2025-09-07 10:20:20,736 - ERROR - Monster Rattenkönig hat keine talents!
+2025-09-07 10:20:20,736 - ERROR - Monster Spiegelpuppe hat keine talents!
+2025-09-07 10:20:20,736 - ERROR - Monster Irrlicht hat keine talents!
+2025-09-07 10:20:20,736 - ERROR - Monster Vulkanodon hat keine talents!
+2025-09-07 10:20:20,736 - ERROR - Monster Flammenwerwolf hat keine talents!
+2025-09-07 10:20:20,736 - ERROR - Monster Teichschreck hat keine talents!
+2025-09-07 10:20:20,736 - ERROR - Monster Urhai hat keine talents!
+2025-09-07 10:20:20,736 - ERROR - Monster Betonbrocken hat keine talents!
+2025-09-07 10:20:20,736 - ERROR - Monster Urochs hat keine talents!
+2025-09-07 10:20:20,736 - ERROR - Monster Sturmfalke hat keine talents!
+2025-09-07 10:20:20,736 - ERROR - Monster Schrottgeier hat keine talents!
+2025-09-07 10:20:20,736 - ERROR - Monster Schlingwurzel hat keine talents!
+2025-09-07 10:20:20,736 - ERROR - Monster Urzeitbaum hat keine talents!
+2025-09-07 10:20:20,736 - ERROR - Monster Kanal-Kroko hat keine talents!
+2025-09-07 10:20:20,736 - ERROR - Monster Urwolf hat keine talents!
+2025-09-07 10:20:20,736 - ERROR - Monster Stromschlange hat keine talents!
+2025-09-07 10:20:20,736 - ERROR - Monster Laserauge hat keine talents!
+2025-09-07 10:20:20,736 - ERROR - Monster Psychohuhn hat keine talents!
+2025-09-07 10:20:20,737 - ERROR - Monster Kuddelmuddel hat keine talents!
+2025-09-07 10:20:20,737 - ERROR - Monster Madenhaufen hat keine talents!
+2025-09-07 10:20:20,737 - ERROR - Monster Seuchengeist hat keine talents!
+2025-09-07 10:20:20,737 - ERROR - Monster Dschinnling hat keine talents!
+2025-09-07 10:20:20,737 - ERROR - Monster Poltertopf hat keine talents!
+2025-09-07 10:20:20,737 - ERROR - Monster Glutdrache hat keine talents!
+2025-09-07 10:20:20,737 - ERROR - Monster Lavahund hat keine talents!
+2025-09-07 10:20:20,737 - ERROR - Monster Kohlenfresser hat keine talents!
+2025-09-07 10:20:20,737 - ERROR - Monster Kanalwüterich hat keine talents!
+2025-09-07 10:20:20,737 - ERROR - Monster Bergmannsgeist hat keine talents!
+2025-09-07 10:20:20,737 - ERROR - Monster Stahlwerksturm hat keine talents!
+2025-09-07 10:20:20,737 - ERROR - Monster Industriedschungel hat keine talents!
+2025-09-07 10:20:20,737 - ERROR - Monster Ruhrpott-Räuber hat keine talents!
+2025-09-07 10:20:20,737 - ERROR - Monster Steckdosen-Schreck hat keine talents!
+2025-09-07 10:20:20,737 - ERROR - Monster Verkehrschaos hat keine talents!
+2025-09-07 10:20:20,737 - ERROR - Monster Kneipen-Keime hat keine talents!
+2025-09-07 10:20:20,737 - ERROR - Monster Spukhaus-Geist hat keine talents!
+2025-09-07 10:20:20,737 - ERROR - Monster Zeitfrost-Wanderer hat keine talents!
+2025-09-07 10:20:20,737 - ERROR - Monster Industrie-Roboter hat keine talents!
+2025-09-07 10:20:20,737 - ERROR - Monster Zeitblitz-Falke hat keine talents!
+2025-09-07 10:20:20,737 - ERROR - Monster Zukunftsgift-Ranke hat keine talents!
+2025-09-07 10:20:20,737 - ERROR - Monster Zeitschatten-Wolf hat keine talents!
+2025-09-07 10:20:20,737 - ERROR - Monster Zeitchaos-Geist hat keine talents!
+2025-09-07 10:20:20,737 - ERROR - Monster Zeitplasma-Drache hat keine talents!
+2025-09-07 10:20:20,737 - ERROR - Monster Zukunftsspuk hat keine talents!
+2025-09-07 10:20:20,738 - ERROR - Monster Kohlenofen-Kaiser hat keine talents!
+2025-09-07 10:20:20,738 - ERROR - Monster Kanal-Kaiser hat keine talents!
+2025-09-07 10:20:20,738 - ERROR - Monster Bergmanns-Kaiser hat keine talents!
+2025-09-07 10:20:20,738 - ERROR - Monster Sturm-Kaiser hat keine talents!
+2025-09-07 10:20:20,738 - ERROR - Monster Garten-Kaiser hat keine talents!
+2025-09-07 10:20:20,738 - ERROR - Monster Wildnis-Kaiser hat keine talents!
+2025-09-07 10:20:20,738 - ERROR - Monster Strom-Tyrann hat keine talents!
+2025-09-07 10:20:20,738 - ERROR - Monster Verkehrs-Chaos hat keine talents!
+2025-09-07 10:20:20,738 - ERROR - Monster Kneipen-Seuche hat keine talents!
+2025-09-07 10:20:20,738 - ERROR - Monster Spukhaus-Tyrann hat keine talents!
+2025-09-07 10:20:20,738 - ERROR - Monster Urzeit-Feuerherrscher hat keine talents!
+2025-09-07 10:20:20,738 - ERROR - Monster Urzeit-Wasserherrscher hat keine talents!
+2025-09-07 10:20:20,738 - ERROR - Monster Urzeit-Erdherrscher hat keine talents!
+2025-09-07 10:20:20,738 - ERROR - Monster Urzeit-Luftherrscher hat keine talents!
+2025-09-07 10:20:20,738 - ERROR - Monster Urzeit-Pflanzenherrscher hat keine talents!
+2025-09-07 10:20:20,738 - ERROR - Monster Urzeit-Bestienherrscher hat keine talents!
+2025-09-07 10:20:20,738 - ERROR - Monster Urzeit-Energieherrscher hat keine talents!
+2025-09-07 10:20:20,738 - ERROR - Monster Urzeit-Chaosherrscher hat keine talents!
+2025-09-07 10:20:20,738 - ERROR - Monster Urzeit-Seuchenherrscher hat keine talents!
+2025-09-07 10:20:20,738 - ERROR - Monster Urzeit-Mystischer Herrscher hat keine talents!
+2025-09-07 10:20:20,738 - ERROR - Monster Kohlenfeuer-Gott hat keine talents!
+2025-09-07 10:20:20,738 - ERROR - Monster Kanalgott hat keine talents!
+2025-09-07 10:20:20,738 - ERROR - Monster Bergmanns-Gott hat keine talents!
+2025-09-07 10:20:20,739 - ERROR - Monster Sturm-Gott hat keine talents!
+2025-09-07 10:20:20,739 - ERROR - Monster Garten-Gott hat keine talents!
+2025-09-07 10:20:20,739 - ERROR - Monster Wildnis-Gott hat keine talents!
+2025-09-07 10:20:20,739 - ERROR - Monster Strom-Gott hat keine talents!
+2025-09-07 10:20:20,739 - ERROR - Monster Verkehrs-Chaosgott hat keine talents!
+2025-09-07 10:20:20,739 - ERROR - Monster Kneipen-Seuchengott hat keine talents!
+2025-09-07 10:20:20,740 - ERROR - Monster Spukhaus-Gott hat keine talents!
+2025-09-07 10:20:20,740 - ERROR - Monster Urzeit-Feuerkaiser hat keine talents!
+2025-09-07 10:20:20,740 - ERROR - Monster Urzeit-Wasserkaiser hat keine talents!
+2025-09-07 10:20:20,740 - ERROR - Monster Urzeit-Erdkaiser hat keine talents!
+2025-09-07 10:20:20,740 - ERROR - Monster Urzeit-Luftkaiser hat keine talents!
+2025-09-07 10:20:20,741 - ERROR - Monster Urzeit-Pflanzenkaiser hat keine talents!
+2025-09-07 10:20:20,741 - ERROR - Monster Urzeit-Bestienkaiser hat keine talents!
+2025-09-07 10:20:20,741 - ERROR - Monster Urzeit-Energiekaiser hat keine talents!
+2025-09-07 10:20:20,741 - ERROR - Monster Urzeit-Chaoskaiser hat keine talents!
+2025-09-07 10:20:20,741 - ERROR - Monster Urzeit-Seuchenkaiser hat keine talents!
+2025-09-07 10:20:20,741 - ERROR - Monster Urzeit-Mystischer Kaiser hat keine talents!
+2025-09-07 10:20:20,741 - ERROR - Monster Feuerlord hat keine talents!
+2025-09-07 10:20:20,741 - ERROR - Monster Wasserlord hat keine talents!
+2025-09-07 10:20:20,741 - ERROR - Monster Erdlord hat keine talents!
+2025-09-07 10:20:20,741 - ERROR - Monster Luftlord hat keine talents!
+2025-09-07 10:20:20,741 - ERROR - Monster Pflanzenlord hat keine talents!
+2025-09-07 10:20:20,741 - ERROR - Monster Bestienlord hat keine talents!
+2025-09-07 10:20:20,741 - ERROR - Monster Energielord hat keine talents!
+2025-09-07 10:20:20,741 - ERROR - Monster Chaoslord hat keine talents!
+2025-09-07 10:20:20,741 - ERROR - Monster Seuchenlord hat keine talents!
+2025-09-07 10:20:20,741 - ERROR - Monster Mystischer Lord hat keine talents!
+2025-09-07 10:20:20,741 - ERROR - Monster Feuerkaiser hat keine talents!
+2025-09-07 10:20:20,741 - ERROR - Monster Wasserkaiser hat keine talents!
+2025-09-07 10:20:20,741 - ERROR - Monster Erdkaiser hat keine talents!
+2025-09-07 10:20:20,741 - ERROR - Monster Luftkaiser hat keine talents!
+2025-09-07 10:20:20,741 - ERROR - Monster Feuerfürst hat keine talents!
+2025-09-07 10:20:20,741 - ERROR - Monster Wasserfürst hat keine talents!
+2025-09-07 10:20:20,742 - ERROR - Monster Erdfürst hat keine talents!
+2025-09-07 10:20:20,742 - ERROR - Monster Luftfürst hat keine talents!
+2025-09-07 10:20:20,742 - ERROR - Monster Pflanzenfürst hat keine talents!
+2025-09-07 10:20:20,742 - ERROR - Monster Erdfürst hat keine talents!
+2025-09-07 10:20:20,742 - ERROR - Monster Luftfürst hat keine talents!
+2025-09-07 10:20:20,742 - ERROR - Monster Pflanzenfürst hat keine talents!
+2025-09-07 10:20:20,742 - ERROR - Monster Feuerfürst hat keine talents!
+2025-09-07 10:20:20,742 - ERROR - Monster Wasserfürst hat keine talents!
+2025-09-07 10:20:20,742 - ERROR - Monster Bestienfürst hat keine talents!
+2025-09-07 10:20:20,742 - ERROR - Monster Energiefürst hat keine talents!
+2025-09-07 10:20:20,742 - ERROR - Monster Zeitgott hat keine talents!
+2025-09-07 10:20:20,742 - ERROR - Monster Raumdämon hat keine talents!
+2025-09-07 10:20:20,742 - ERROR - Monster Lichtgöttin hat keine talents!
+2025-09-07 10:20:20,742 - ERROR - Monster Schattenlord hat keine talents!
+2025-09-07 10:20:20,742 - ERROR - Monster Chaosgott hat keine talents!
+2025-09-07 10:20:20,742 - ERROR - ❌ 151 Validierungsfehler gefunden!
+2025-09-07 10:20:20,742 - ERROR - Migration-Validierung fehlgeschlagen!
+2025-09-07 10:21:04,108 - INFO - 🚀 Starte Monster Talent Migration...
+2025-09-07 10:21:04,109 - INFO - Lade data/monsters.json...
+2025-09-07 10:21:04,114 - INFO - Lade data/talents.json...
+2025-09-07 10:21:04,116 - INFO - Gefunden: 151 Monster, 20 Talente
+2025-09-07 10:21:04,118 - INFO - Backup erstellt: data/monsters_backup_talents_20250907_102104.json
+2025-09-07 10:21:04,118 - INFO - Starte Migration aller Monster...
+2025-09-07 10:21:04,118 - INFO - Migriere Monster 1/151: Glutstummel
+2025-09-07 10:21:04,118 - INFO - Migriere Monster 2/151: Böllerling
+2025-09-07 10:21:04,118 - INFO - Migriere Monster 3/151: Urmolch
+2025-09-07 10:21:04,118 - INFO - Migriere Monster 4/151: Bierlementar
+2025-09-07 10:21:04,118 - INFO - Migriere Monster 5/151: Kohlekumpel
+2025-09-07 10:21:04,118 - INFO - Migriere Monster 6/151: Kieselkrabbler
+2025-09-07 10:21:04,118 - INFO - Migriere Monster 7/151: Flugratte
+2025-09-07 10:21:04,118 - INFO - Migriere Monster 8/151: Wolkenfurz
+2025-09-07 10:21:04,118 - INFO - Migriere Monster 9/151: Unkrautling
+2025-09-07 10:21:04,118 - INFO - Migriere Monster 10/151: Pommespanzer
+2025-09-07 10:21:04,118 - INFO - Migriere Monster 11/151: Imbissköter
+2025-09-07 10:21:04,119 - INFO - Migriere Monster 12/151: Stubentiger
+2025-09-07 10:21:04,119 - INFO - Migriere Monster 13/151: Kabelkriecher
+2025-09-07 10:21:04,119 - INFO - Migriere Monster 14/151: Wattwurm
+2025-09-07 10:21:04,119 - INFO - Migriere Monster 15/151: Wabbelpudding
+2025-09-07 10:21:04,119 - INFO - Migriere Monster 16/151: Rabatzgnom
+2025-09-07 10:21:04,119 - INFO - Migriere Monster 17/151: Kakerlak
+2025-09-07 10:21:04,119 - INFO - Migriere Monster 18/151: Bazillenschleuder
+2025-09-07 10:21:04,119 - INFO - Migriere Monster 19/151: Kellergeist
+2025-09-07 10:21:04,119 - INFO - Migriere Monster 20/151: Spukball
+2025-09-07 10:21:04,119 - INFO - Migriere Monster 21/151: Flammimp
+2025-09-07 10:21:04,119 - INFO - Migriere Monster 22/151: Feuermolch
+2025-09-07 10:21:04,119 - INFO - Migriere Monster 23/151: Kloakrake
+2025-09-07 10:21:04,119 - INFO - Migriere Monster 24/151: Sumpfschrecke
+2025-09-07 10:21:04,119 - INFO - Migriere Monster 25/151: Felsfresser
+2025-09-07 10:21:04,119 - INFO - Migriere Monster 26/151: Kraterkröte
+2025-09-07 10:21:04,119 - INFO - Migriere Monster 27/151: Sturmkrähe
+2025-09-07 10:21:04,120 - INFO - Migriere Monster 28/151: Segelfalter
+2025-09-07 10:21:04,120 - INFO - Migriere Monster 29/151: Schnappblume
+2025-09-07 10:21:04,120 - INFO - Migriere Monster 30/151: Urfarn
+2025-09-07 10:21:04,120 - INFO - Migriere Monster 31/151: Straßenkeiler
+2025-09-07 10:21:04,120 - INFO - Migriere Monster 32/151: Säbelzahnkaninchen
+2025-09-07 10:21:04,120 - INFO - Migriere Monster 33/151: Batteriefresser
+2025-09-07 10:21:04,120 - INFO - Migriere Monster 34/151: Plasmakröte
+2025-09-07 10:21:04,120 - INFO - Migriere Monster 35/151: Flimmergeist
+2025-09-07 10:21:04,120 - INFO - Migriere Monster 36/151: Wirrwicht
+2025-09-07 10:21:04,120 - INFO - Migriere Monster 37/151: Eiterbeule
+2025-09-07 10:21:04,120 - INFO - Migriere Monster 38/151: Rattenkönig
+2025-09-07 10:21:04,120 - INFO - Migriere Monster 39/151: Spiegelpuppe
+2025-09-07 10:21:04,120 - INFO - Migriere Monster 40/151: Irrlicht
+2025-09-07 10:21:04,121 - INFO - Migriere Monster 41/151: Vulkanodon
+2025-09-07 10:21:04,121 - INFO - Migriere Monster 42/151: Flammenwerwolf
+2025-09-07 10:21:04,121 - INFO - Migriere Monster 43/151: Teichschreck
+2025-09-07 10:21:04,122 - INFO - Migriere Monster 44/151: Urhai
+2025-09-07 10:21:04,122 - INFO - Migriere Monster 45/151: Betonbrocken
+2025-09-07 10:21:04,122 - INFO - Migriere Monster 46/151: Urochs
+2025-09-07 10:21:04,122 - INFO - Migriere Monster 47/151: Sturmfalke
+2025-09-07 10:21:04,122 - INFO - Migriere Monster 48/151: Schrottgeier
+2025-09-07 10:21:04,122 - INFO - Migriere Monster 49/151: Schlingwurzel
+2025-09-07 10:21:04,122 - INFO - Migriere Monster 50/151: Urzeitbaum
+2025-09-07 10:21:04,122 - INFO - Migriere Monster 51/151: Kanal-Kroko
+2025-09-07 10:21:04,122 - INFO - Migriere Monster 52/151: Urwolf
+2025-09-07 10:21:04,122 - INFO - Migriere Monster 53/151: Stromschlange
+2025-09-07 10:21:04,122 - INFO - Migriere Monster 54/151: Laserauge
+2025-09-07 10:21:04,122 - INFO - Migriere Monster 55/151: Psychohuhn
+2025-09-07 10:21:04,122 - INFO - Migriere Monster 56/151: Kuddelmuddel
+2025-09-07 10:21:04,123 - INFO - Migriere Monster 57/151: Madenhaufen
+2025-09-07 10:21:04,123 - INFO - Migriere Monster 58/151: Seuchengeist
+2025-09-07 10:21:04,123 - INFO - Migriere Monster 59/151: Dschinnling
+2025-09-07 10:21:04,123 - INFO - Migriere Monster 60/151: Poltertopf
+2025-09-07 10:21:04,123 - INFO - Migriere Monster 61/151: Glutdrache
+2025-09-07 10:21:04,123 - INFO - Migriere Monster 62/151: Lavahund
+2025-09-07 10:21:04,123 - INFO - Migriere Monster 63/151: Kohlenfresser
+2025-09-07 10:21:04,123 - INFO - Migriere Monster 64/151: Kanalwüterich
+2025-09-07 10:21:04,123 - INFO - Migriere Monster 65/151: Bergmannsgeist
+2025-09-07 10:21:04,123 - INFO - Migriere Monster 66/151: Stahlwerksturm
+2025-09-07 10:21:04,123 - INFO - Migriere Monster 67/151: Industriedschungel
+2025-09-07 10:21:04,123 - INFO - Migriere Monster 68/151: Ruhrpott-Räuber
+2025-09-07 10:21:04,123 - INFO - Migriere Monster 69/151: Steckdosen-Schreck
+2025-09-07 10:21:04,123 - INFO - Migriere Monster 70/151: Verkehrschaos
+2025-09-07 10:21:04,123 - INFO - Migriere Monster 71/151: Kneipen-Keime
+2025-09-07 10:21:04,123 - INFO - Migriere Monster 72/151: Spukhaus-Geist
+2025-09-07 10:21:04,124 - INFO - Migriere Monster 73/151: Zeitfrost-Wanderer
+2025-09-07 10:21:04,124 - INFO - Migriere Monster 74/151: Industrie-Roboter
+2025-09-07 10:21:04,124 - INFO - Migriere Monster 75/151: Zeitblitz-Falke
+2025-09-07 10:21:04,124 - INFO - Migriere Monster 76/151: Zukunftsgift-Ranke
+2025-09-07 10:21:04,124 - INFO - Migriere Monster 77/151: Zeitschatten-Wolf
+2025-09-07 10:21:04,124 - INFO - Migriere Monster 78/151: Zeitchaos-Geist
+2025-09-07 10:21:04,124 - INFO - Migriere Monster 79/151: Zeitplasma-Drache
+2025-09-07 10:21:04,124 - INFO - Migriere Monster 80/151: Zukunftsspuk
+2025-09-07 10:21:04,124 - INFO - Migriere Monster 81/151: Kohlenofen-Kaiser
+2025-09-07 10:21:04,124 - INFO - Migriere Monster 82/151: Kanal-Kaiser
+2025-09-07 10:21:04,124 - INFO - Migriere Monster 83/151: Bergmanns-Kaiser
+2025-09-07 10:21:04,124 - INFO - Migriere Monster 84/151: Sturm-Kaiser
+2025-09-07 10:21:04,124 - INFO - Migriere Monster 85/151: Garten-Kaiser
+2025-09-07 10:21:04,124 - INFO - Migriere Monster 86/151: Wildnis-Kaiser
+2025-09-07 10:21:04,124 - INFO - Migriere Monster 87/151: Strom-Tyrann
+2025-09-07 10:21:04,124 - INFO - Migriere Monster 88/151: Verkehrs-Chaos
+2025-09-07 10:21:04,124 - INFO - Migriere Monster 89/151: Kneipen-Seuche
+2025-09-07 10:21:04,124 - INFO - Migriere Monster 90/151: Spukhaus-Tyrann
+2025-09-07 10:21:04,125 - INFO - Migriere Monster 91/151: Urzeit-Feuerherrscher
+2025-09-07 10:21:04,125 - INFO - Migriere Monster 92/151: Urzeit-Wasserherrscher
+2025-09-07 10:21:04,125 - INFO - Migriere Monster 93/151: Urzeit-Erdherrscher
+2025-09-07 10:21:04,125 - INFO - Migriere Monster 94/151: Urzeit-Luftherrscher
+2025-09-07 10:21:04,125 - INFO - Migriere Monster 95/151: Urzeit-Pflanzenherrscher
+2025-09-07 10:21:04,125 - INFO - Migriere Monster 96/151: Urzeit-Bestienherrscher
+2025-09-07 10:21:04,125 - INFO - Migriere Monster 97/151: Urzeit-Energieherrscher
+2025-09-07 10:21:04,125 - INFO - Migriere Monster 98/151: Urzeit-Chaosherrscher
+2025-09-07 10:21:04,125 - INFO - Migriere Monster 99/151: Urzeit-Seuchenherrscher
+2025-09-07 10:21:04,125 - INFO - Migriere Monster 100/151: Urzeit-Mystischer Herrscher
+2025-09-07 10:21:04,125 - INFO - Migriere Monster 101/151: Kohlenfeuer-Gott
+2025-09-07 10:21:04,125 - INFO - Migriere Monster 102/151: Kanalgott
+2025-09-07 10:21:04,125 - INFO - Migriere Monster 103/151: Bergmanns-Gott
+2025-09-07 10:21:04,125 - INFO - Migriere Monster 104/151: Sturm-Gott
+2025-09-07 10:21:04,125 - INFO - Migriere Monster 105/151: Garten-Gott
+2025-09-07 10:21:04,125 - INFO - Migriere Monster 106/151: Wildnis-Gott
+2025-09-07 10:21:04,125 - INFO - Migriere Monster 107/151: Strom-Gott
+2025-09-07 10:21:04,125 - INFO - Migriere Monster 108/151: Verkehrs-Chaosgott
+2025-09-07 10:21:04,125 - INFO - Migriere Monster 109/151: Kneipen-Seuchengott
+2025-09-07 10:21:04,126 - INFO - Migriere Monster 110/151: Spukhaus-Gott
+2025-09-07 10:21:04,126 - INFO - Migriere Monster 111/151: Urzeit-Feuerkaiser
+2025-09-07 10:21:04,126 - INFO - Migriere Monster 112/151: Urzeit-Wasserkaiser
+2025-09-07 10:21:04,126 - INFO - Migriere Monster 113/151: Urzeit-Erdkaiser
+2025-09-07 10:21:04,126 - INFO - Migriere Monster 114/151: Urzeit-Luftkaiser
+2025-09-07 10:21:04,126 - INFO - Migriere Monster 115/151: Urzeit-Pflanzenkaiser
+2025-09-07 10:21:04,126 - INFO - Migriere Monster 116/151: Urzeit-Bestienkaiser
+2025-09-07 10:21:04,126 - INFO - Migriere Monster 117/151: Urzeit-Energiekaiser
+2025-09-07 10:21:04,127 - INFO - Migriere Monster 118/151: Urzeit-Chaoskaiser
+2025-09-07 10:21:04,127 - INFO - Migriere Monster 119/151: Urzeit-Seuchenkaiser
+2025-09-07 10:21:04,127 - INFO - Migriere Monster 120/151: Urzeit-Mystischer Kaiser
+2025-09-07 10:21:04,127 - INFO - Migriere Monster 121/151: Feuerlord
+2025-09-07 10:21:04,127 - INFO - Migriere Monster 122/151: Wasserlord
+2025-09-07 10:21:04,127 - INFO - Migriere Monster 123/151: Erdlord
+2025-09-07 10:21:04,127 - INFO - Migriere Monster 124/151: Luftlord
+2025-09-07 10:21:04,127 - INFO - Migriere Monster 125/151: Pflanzenlord
+2025-09-07 10:21:04,127 - INFO - Migriere Monster 126/151: Bestienlord
+2025-09-07 10:21:04,128 - INFO - Migriere Monster 127/151: Energielord
+2025-09-07 10:21:04,128 - INFO - Migriere Monster 128/151: Chaoslord
+2025-09-07 10:21:04,128 - INFO - Migriere Monster 129/151: Seuchenlord
+2025-09-07 10:21:04,128 - INFO - Migriere Monster 130/151: Mystischer Lord
+2025-09-07 10:21:04,128 - INFO - Migriere Monster 131/151: Feuerkaiser
+2025-09-07 10:21:04,128 - INFO - Migriere Monster 132/151: Wasserkaiser
+2025-09-07 10:21:04,128 - INFO - Migriere Monster 133/151: Erdkaiser
+2025-09-07 10:21:04,128 - INFO - Migriere Monster 134/151: Luftkaiser
+2025-09-07 10:21:04,128 - INFO - Migriere Monster 135/151: Feuerfürst
+2025-09-07 10:21:04,128 - INFO - Migriere Monster 136/151: Wasserfürst
+2025-09-07 10:21:04,128 - INFO - Migriere Monster 137/151: Erdfürst
+2025-09-07 10:21:04,128 - INFO - Migriere Monster 138/151: Luftfürst
+2025-09-07 10:21:04,129 - INFO - Migriere Monster 139/151: Pflanzenfürst
+2025-09-07 10:21:04,129 - INFO - Migriere Monster 140/151: Erdfürst
+2025-09-07 10:21:04,129 - INFO - Migriere Monster 141/151: Luftfürst
+2025-09-07 10:21:04,129 - INFO - Migriere Monster 142/151: Pflanzenfürst
+2025-09-07 10:21:04,129 - INFO - Migriere Monster 143/151: Feuerfürst
+2025-09-07 10:21:04,129 - INFO - Migriere Monster 144/151: Wasserfürst
+2025-09-07 10:21:04,129 - INFO - Migriere Monster 145/151: Bestienfürst
+2025-09-07 10:21:04,130 - INFO - Migriere Monster 146/151: Energiefürst
+2025-09-07 10:21:04,130 - INFO - Migriere Monster 147/151: Zeitgott
+2025-09-07 10:21:04,130 - INFO - Migriere Monster 148/151: Raumdämon
+2025-09-07 10:21:04,130 - INFO - Migriere Monster 149/151: Lichtgöttin
+2025-09-07 10:21:04,130 - INFO - Migriere Monster 150/151: Schattenlord
+2025-09-07 10:21:04,130 - INFO - Migriere Monster 151/151: Chaosgott
+2025-09-07 10:21:04,130 - INFO - Validiere Migration...
+2025-09-07 10:21:04,130 - INFO - ✅ Migration erfolgreich validiert!
+2025-09-07 10:21:04,145 - INFO - Migrierte Daten gespeichert: data/monsters_migrated.json
+2025-09-07 10:21:04,145 - INFO - 🎉 Migration erfolgreich abgeschlossen!

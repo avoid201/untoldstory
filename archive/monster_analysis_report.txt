@@ -1,0 +1,25 @@
+🎮 MONSTER JSON ANALYSE BERICHT
+============================================================
+Datum: 2025-09-07 10:50:26
+Datei: data/monsters.json
+
+📋 DATENSTRUKTUR:
+  Gesamt Monster: 151
+  Verfügbare Felder: id, name, era, rank, types, base_stats, growth, capture_rate, traits, evolution, description, talents
+
+🎯 MIGRATIONS-STATUS:
+  Migriert: 151
+  Nicht migriert: 0
+  Nur Learnset: 0
+  Nur Talents: 151
+
+📚 LEARNSET ANALYSE:
+  Monster mit Learnset: 0
+  Gesamt Moves: 0
+
+🎭 TALENT ANALYSE:
+  Gesamt Talents: 200
+  Monster mit Talents: 151
+
+🔍 PROBLEME:
+  Gefundene Probleme: 0

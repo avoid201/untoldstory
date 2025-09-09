@@ -11,7 +11,7 @@ from enum import Enum
 from dataclasses import dataclass
 
 from engine.world.entity import Entity, Direction
-from engine.world.tiles import TILE_SIZE, world_to_tile, tile_to_world
+from engine.world.tiles import TILE_SIZE, world_to_tile, tile_to_world, NPC_MOVEMENT_SPEED, NPC_MOVEMENT_DELAY
 from engine.world.pathfinding_mixin import PathfindingMixin
 
 
@@ -36,8 +36,8 @@ class NPCConfig:
     facing: Optional[str] = "down"
     movement_radius: int = 2
     patrol_path: Optional[List[Tuple[int, int]]] = None
-    movement_speed: float = 30.0  # Pixels per second (slower than player)
-    movement_delay: float = 2.0   # Seconds between movements
+    movement_speed: float = NPC_MOVEMENT_SPEED  # Pixels per second (slower than player)
+    movement_delay: float = NPC_MOVEMENT_DELAY   # Seconds between movements
 
 
 class NPC(Entity, PathfindingMixin):
@@ -120,7 +120,7 @@ class NPC(Entity, PathfindingMixin):
     def set_area(self, area) -> None:
         """Setzt die Area-Referenz für Pathfinding. MUSS von FieldScene aufgerufen werden!"""
         self.current_area = area
-        print(f"[NPC] {self.name} - Area gesetzt für Pathfinding!")
+        # Area set for pathfinding
     
     def set_player_reference(self, player) -> None:
         """Setzt Player-Referenz für FOLLOW/FLEE patterns."""
@@ -204,6 +204,7 @@ class NPC(Entity, PathfindingMixin):
                     area=self.current_area, 
                     home_radius=self.config.movement_radius or 3
                 )
+                # Starting intelligent wandering
         elif self.movement_pattern == MovementPattern.FOLLOW:
             # NEU: Spieler folgen!
             if self.player_ref and self.current_area:
@@ -213,6 +214,7 @@ class NPC(Entity, PathfindingMixin):
                     min_distance=2,
                     max_distance=5
                 )
+                # Following player
         elif self.movement_pattern == MovementPattern.FLEE:
             # NEU: Vor Spieler wegrennen!
             if self.player_ref and self.current_area:
@@ -238,6 +240,7 @@ class NPC(Entity, PathfindingMixin):
                     flee_y = npc_tile[1] + dy
                     
                     self.find_path_to(flee_x, flee_y, self.current_area)
+                    # Fleeing from player
     
     def _try_random_movement(self) -> None:
         """Try random movement within radius."""
@@ -408,14 +411,14 @@ class NPC(Entity, PathfindingMixin):
         new_sprite = self.sprite_manager.get_npc_sprite(self.config.sprite_name, direction_str)
         if new_sprite:
             self.sprite_surface = new_sprite
-            print(f"[NPC] {self.name} updated sprite to {self.config.sprite_name}_{direction_str}")
+            # Sprite updated
         else:
             # Fallback: try to get any available direction
             for fallback_dir in ["down", "up", "left", "right"]:
                 fallback_sprite = self.sprite_manager.get_npc_sprite(self.config.sprite_name, fallback_dir)
                 if fallback_sprite:
                     self.sprite_surface = fallback_sprite
-                    print(f"[NPC] {self.name} fallback sprite: {self.config.sprite_name}_{fallback_dir}")
+                    # Using fallback sprite
                     break
     
     @classmethod
@@ -454,8 +457,8 @@ class NPC(Entity, PathfindingMixin):
             facing=config_dict.get("facing", "down"),
             movement_radius=config_dict.get("movement_radius", 2),
             patrol_path=[tuple(point) for point in config_dict.get("patrol_path", [])] if config_dict.get("patrol_path") else None,
-            movement_speed=config_dict.get("movement_speed", 30.0),
-            movement_delay=config_dict.get("movement_delay", 2.0)
+            movement_speed=config_dict.get("movement_speed", NPC_MOVEMENT_SPEED),
+            movement_delay=config_dict.get("movement_delay", NPC_MOVEMENT_DELAY)
         )
         
         return cls(config, sprite_surface)

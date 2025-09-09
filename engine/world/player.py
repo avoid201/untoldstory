@@ -5,7 +5,7 @@ from typing import Optional, List, Tuple, Callable
 import pygame
 
 from engine.world.entity import Entity, Direction, EntitySprite
-from engine.world.tiles import TILE_SIZE, world_to_tile
+from engine.world.tiles import TILE_SIZE, world_to_tile, PLAYER_MOVE_SPEED, ANIMATION_SPEED_MULTIPLIER, ANIMATION_SPEED_FAST
 from engine.world.movement_states import MovementState
 from engine.world.ledge_handler import LedgeHandler
 from engine.items.running_shoes import RunningShoes
@@ -67,7 +67,7 @@ class Player(Entity):
         # Movement timing (Pokémon Crystal Gefühl)
         # Crystal: ~8 Frames pro Tile bei ~60 FPS => ~0.133s pro Tile => ~7.5 Tiles/s
         self.move_progress = 0.0      # 0.0 = at current tile, 1.0 = at target tile
-        self.move_speed = 7.5         # Tiles pro Sekunde (Gehen)
+        self.move_speed = PLAYER_MOVE_SPEED
         # run_speed wird dynamisch über RunningShoes.get_running_speed_multiplier() berechnet
         # Turn-Verzögerung wird nicht erzwungen; kurzer Tap dreht nur
         self.turn_delay = 0.0
@@ -98,7 +98,7 @@ class Player(Entity):
         
         # Animation
         self.footstep_frame = 0
-        self.animation_speed_multiplier = 1.0
+        self.animation_speed_multiplier = ANIMATION_SPEED_MULTIPLIER
         
         # Game reference for RunningShoes
         self._game_ref = None
@@ -118,12 +118,14 @@ class Player(Entity):
             if player_sprite:
                 self.sprite_config.surface = player_sprite
                 self.sprite_surface = player_sprite
-                print(f"✅ Player sprite geladen: {player_sprite.get_size()}")
+                # Player sprite loaded successfully
             else:
-                print("❌ Player sprite nicht im SpriteManager gefunden")
+                # Player sprite not found in SpriteManager
+                pass
             
         except Exception as e:
-            print(f"❌ Fehler beim Laden des Player-Sprites: {e}")
+            # Player sprite loading error
+            pass
     
     def set_collision_map(self, collision_layer: List[List[int]], 
                          width: int, height: int) -> None:
@@ -143,9 +145,9 @@ class Player(Entity):
         # Store game reference for RunningShoes
         self._game_ref = game
         
-        # Debug: Zeige dass handle_input aufgerufen wird
+        # Debug: Zeige dass handle_input aufgerufen wird (nur einmal)
         if not hasattr(self, '_handle_input_called'):
-            print(f"🎮 handle_input() wird aufgerufen! State={self.movement_state}")
+            # Player Movement System activated
             self._handle_input_called = True
         
         # Don't process input if locked
@@ -179,7 +181,10 @@ class Player(Entity):
         # Debug: Zeige Input wenn erkannt (reduziert)
         if pressed_left or pressed_right or pressed_up or pressed_down:
             if not hasattr(self, '_last_input_combo') or self._last_input_combo != (pressed_left, pressed_right, pressed_up, pressed_down):
-                print(f"🎮 INPUT: ←{pressed_left} →{pressed_right} ↑{pressed_up} ↓{pressed_down}")
+                # Nur bei Debug-Modus ausgeben
+                if hasattr(game, 'debug_mode') and game.debug_mode:
+                    # Input processed
+                    pass
                 self._last_input_combo = (pressed_left, pressed_right, pressed_up, pressed_down)
         
         # Helper: Prüfe, ob die jeweilige Richtung in diesem Frame getappt wurde
@@ -278,10 +283,10 @@ class Player(Entity):
             # Set movement state
             if self.is_running:
                 self.movement_state = MovementState.RUNNING
-                self.animation_speed_multiplier = 1.5
+                self.animation_speed_multiplier = ANIMATION_SPEED_FAST
             else:
                 self.movement_state = MovementState.WALKING
-                self.animation_speed_multiplier = 1.0
+                self.animation_speed_multiplier = ANIMATION_SPEED_MULTIPLIER
             
             # Update direction
             self.direction = Direction.from_vector(dx, dy)
@@ -539,6 +544,11 @@ class Player(Entity):
         # Check for random encounters
         if self.encounter_callback:
             self.encounter_callback(self.grid_x, self.grid_y, self.steps_since_encounter)
+        
+        # Debug: Zeige Tile-Events bei Debug-Modus
+        if hasattr(self, '_game_ref') and hasattr(self._game_ref, 'debug_mode') and self._game_ref.debug_mode:
+            # Tile events processed
+            pass
     
     def _try_interact(self) -> None:
         """Try to interact with the tile in front of the player."""
@@ -632,7 +642,8 @@ class Player(Entity):
                 self.sprite_surface = player_sprite
             
         except Exception as e:
-            print(f"Fehler beim Aktualisieren des Player-Sprites: {e}")
+            # Player sprite update error
+            pass
     
     def draw(self, surface: pygame.Surface, camera_offset: Tuple[float, float]) -> None:
         """Custom draw method for player to bypass complex frame logic."""

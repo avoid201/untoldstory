@@ -1,0 +1,178 @@
+{
+  "timestamp": "2025-09-03 16:03:18",
+  "overall_score": 100.0,
+  "test_results": {
+    "map_loading": {
+      "total_maps_found": 16,
+      "loaded_maps": [
+        {
+          "id": "penny",
+          "format": "JSON",
+          "width": 8,
+          "height": 14,
+          "layers": 2,
+          "warps": 0,
+          "triggers": 0
+        },
+        {
+          "id": "rival_house",
+          "format": "JSON",
+          "width": 8,
+          "height": 6,
+          "layers": 2,
+          "warps": 0,
+          "triggers": 0
+        },
+        {
+          "id": "kohlenstadt",
+          "format": "JSON",
+          "width": 30,
+          "height": 50,
+          "layers": 1,
+          "warps": 0,
+          "triggers": 0
+        },
+        {
+          "id": "player_house",
+          "format": "JSON",
+          "width": 8,
+          "height": 6,
+          "layers": 1,
+          "warps": 0,
+          "triggers": 0
+        },
+        {
+          "id": "doenerbude",
+          "format": "JSON",
+          "width": 6,
+          "height": 6,
+          "layers": 2,
+          "warps": 0,
+          "triggers": 0
+        },
+        {
+          "id": "penny",
+          "format": "TMX",
+          "width": 8,
+          "height": 14,
+          "layers": 2,
+          "warps": 0,
+          "triggers": 0
+        },
+        {
+          "id": "route1",
+          "format": "TMX",
+          "width": 32,
+          "height": 12,
+          "layers": 2,
+          "warps": 0,
+          "triggers": 0
+        },
+        {
+          "id": "museum",
+          "format": "TMX",
+          "width": 12,
+          "height": 6,
+          "layers": 1,
+          "warps": 0,
+          "triggers": 0
+        }
+      ],
+      "failed_maps": [],
+      "success_rate": 100.0
+    },
+    "layer_rendering": {
+      "Tile Layer 1": {
+        "render_time_ms": 14.734983444213867,
+        "tile_count": 384,
+        "non_empty_tiles": 384,
+        "width": 32,
+        "height": 12
+      },
+      "collision": {
+        "render_time_ms": 0.6930828094482422,
+        "tile_count": 384,
+        "non_empty_tiles": 0,
+        "width": 32,
+        "height": 12
+      }
+    },
+    "tmx_tileset_integration": {
+      "penny": {
+        "tilesets_loaded": 0,
+        "gid_mappings": 0,
+        "success": true
+      },
+      "route1": {
+        "tilesets_loaded": 0,
+        "gid_mappings": 0,
+        "success": true
+      },
+      "museum": {
+        "tilesets_loaded": 0,
+        "gid_mappings": 0,
+        "success": true
+      }
+    },
+    "map_performance": {
+      "Small": {
+        "width": 20,
+        "height": 20,
+        "total_tiles": 400,
+        "no_cull_time_ms": 15.814065933227539,
+        "cull_time_ms": 5.797863006591797,
+        "culling_speedup": 2.7275680565836007
+      },
+      "Medium": {
+        "width": 50,
+        "height": 50,
+        "total_tiles": 2500,
+        "no_cull_time_ms": 85.09588241577148,
+        "cull_time_ms": 76.38096809387207,
+        "culling_speedup": 1.1140979819892936
+      },
+      "Large": {
+        "width": 100,
+        "height": 100,
+        "total_tiles": 10000,
+        "no_cull_time_ms": 222.11694717407227,
+        "cull_time_ms": 147.5069522857666,
+        "culling_speedup": 1.505806633057966
+      },
+      "Huge": {
+        "width": 200,
+        "height": 200,
+        "total_tiles": 40000,
+        "no_cull_time_ms": 285.28428077697754,
+        "cull_time_ms": 291.9280529022217,
+        "culling_speedup": 0.9772417482349002
+      }
+    },
+    "warp_trigger_loading": {
+      "route1": {
+        "warps": 0,
+        "triggers": 0,
+        "warp_details": [],
+        "trigger_details": []
+      },
+      "kohlenstadt": {
+        "warps": 0,
+        "triggers": 0,
+        "warp_details": [],
+        "trigger_details": []
+      },
+      "museum": {
+        "warps": 0,
+        "triggers": 0,
+        "warp_details": [],
+        "trigger_details": []
+      },
+      "player_house": {
+        "warps": 0,
+        "triggers": 0,
+        "warp_details": [],
+        "trigger_details": []
+      }
+    }
+  }
+}

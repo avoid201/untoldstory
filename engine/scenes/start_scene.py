@@ -40,6 +40,7 @@ class StartScene(Scene):
         self.title_text = "UNTOLD STORY"
         self.subtitle_text = "Eine Reise durch die Zeit"  # "A Journey Through Time" in German
         self.prompt_text = "Drücke ENTER für Hauptmenü"
+        self.debug_prompt_text = "Drücke D für Debug-Modus"
         self.version_text = "v0.1.0 Alpha"
         
         # Animation state
@@ -122,6 +123,16 @@ class StartScene(Scene):
             if event.key in [pygame.K_RETURN, pygame.K_SPACE, pygame.K_e]:
                 if not self.transitioning and self.intro_complete:
                     self._start_game()
+                    return True
+                elif not self.intro_complete:
+                    # Skip intro animation
+                    self.logo_scale = 1.0
+                    self.intro_complete = True
+                    return True
+            
+            elif event.key == pygame.K_d:
+                if not self.transitioning and self.intro_complete:
+                    self._start_debug_mode()
                     return True
                 elif not self.intro_complete:
                     # Skip intro animation
@@ -237,8 +248,16 @@ class StartScene(Scene):
             prompt_surface.set_alpha(int(self.prompt_alpha))
             prompt_rect = prompt_surface.get_rect()
             prompt_rect.centerx = surface.get_width() // 2
-            prompt_rect.centery = 130
+            prompt_rect.centery = 120
             surface.blit(prompt_surface, prompt_rect)
+            
+            # Draw debug prompt
+            debug_prompt_surface = self.prompt_font.render(self.debug_prompt_text, True, (200, 200, 100))
+            debug_prompt_surface.set_alpha(int(self.prompt_alpha))
+            debug_prompt_rect = debug_prompt_surface.get_rect()
+            debug_prompt_rect.centerx = surface.get_width() // 2
+            debug_prompt_rect.centery = 140
+            surface.blit(debug_prompt_surface, debug_prompt_rect)
         
         # Draw version in corner
         if self.subtitle_font:
@@ -330,6 +349,29 @@ class StartScene(Scene):
         self.game.replace_scene(main_menu_scene)
         
         print(f"[StartScene] Wechsel zum Hauptmenü - Spieler kann 'Neues Spiel' wählen (Transition: {self.transitioning})")
+    
+    def _start_debug_mode(self) -> None:
+        """Start debug mode with monster selection."""
+        if self.transitioning:
+            return
+        
+        self.transitioning = True
+        
+        # Play confirmation sound
+        try:
+            sound = resources.load_sound("game_start.wav", volume=0.7)
+            sound.play()
+        except:
+            pass
+        
+        # Transition to debug monster selection scene
+        from engine.scenes.debug_monster_scene import DebugMonsterScene
+        
+        # Create Debug Monster Selection Scene and switch
+        debug_scene = DebugMonsterScene(self.game)
+        self.game.replace_scene(debug_scene)
+        
+        print(f"[StartScene] Wechsel zum Debug-Modus - Monster-Auswahl (Transition: {self.transitioning})")
     
     def _on_awakening_complete(self):
         """Callback wenn awakening-Cutscene beendet ist"""

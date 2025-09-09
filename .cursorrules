@@ -1,50 +1,175 @@
-# Untold Story - 2D RPG Development Rules
+# Untold Story - Battle System Refactoring Rules
 
 ## Project Context
-- 2D RPG in Python with pygame-ce
+- 2D JRPG in Python with pygame-ce
 - Monster taming/battling system (DQM + Pokemon inspired)
 - Ruhrpott setting with German dialogue using local slang
 - Turn-based combat with 12 types, 9 ranks (F-X)
+- mastermap.md for AI orientation help with the code
 
 ## Code Standards
-- Python 3.13.5 with pygame-ce 2.5+
-- Use type hints everywhere
+- Python 3.13.5 with pygame-ce 2.5+ on mac
 - Dataclasses for data structures
 - All code/comments in English
 - All in-game text in German (Ruhrpott dialect)
+- Max line length: 120 characters
+- Use type hints for all function signatures
+- Docstrings for all public methods and classes
 
-## Key Systems
-- Grid-based movement (16x16 tiles)
-- Battle system with phases: Intro → Input → Execution → Aftermath → End
-- Taming system (DQM-style, not pokeballs)
-- Party max 6, Storage boxes for extras
-- Synthesis system for monster fusion
-- Save/Load with JSON→ZIP
+## Refactoring-Specific Rules
 
-## Important Reminders
-- Use 'attacker/defender/multiplier' not 'atk/def/x'
-- Logical resolution 320×180, scale to 1280×720
-- No DQM size system - all monsters take 1 slot
-- Resources should be cached
-- Fail gracefully when assets missing
+### Import Management
+- Immer zuerst prüfen, wie die Imports in anderen Dateien heißen!
+- Always use absolute imports from project root: `from engine.systems.battle import X`
+- Never use relative imports (no `from . import` or `from ..`)
+- Check if imported file exists before importing
+- Group imports: stdlib → pygame → project imports
 
-## File Structure
-- engine/core/ - Game loop, scenes, resources
-- engine/systems/ - Game mechanics
-- engine/ui/ - UI components  
-- engine/world/ - Maps, entities, camera
-- data/ - JSON data files
-- assets/ - Graphics, audio
+### Archiving Protocol
+- Before modifying: Check if file should be archived
+- Archive path: `archive/[original_path]/[filename]_old.py`
+- Add header comment: `# ARCHIVED: [date] - Replaced by [new_file]`
+- Never delete without archiving first
 
-## When making changes
-- Keep modules focused and split large systems
-- Add debug features behind TAB key
-- Make systems data-driven via JSON
-- Use deterministic RNG for testing
-- Always handle edge cases
+### Singleton Pattern Implementation
+```python
+class SomeSingleton:
+    _instance = None
+    
+    def __new__(cls):
+        if cls._instance is None:
+            cls._instance = super().__new__(cls)
+        return cls._instance
+    
+    def __init__(self):
+        if not hasattr(self, '_initialized'):
+            self._initialized = True
+            # Actual initialization here
+Battle System Specific
+Damage Calculator Rules
 
-## Dialogue Examples
-- "Ey, wat machste denn da?"
-- "Läuft bei dir, Kollege!"
-- "Dat kannste knicken!"
-- "Scheiße gelaufen, wa?"
+Always use UnifiedDamageCalculator after refactoring
+Never instantiate new calculators, use singleton
+Formula must match DQM: ((atk * 2 - def) * power / 50 + 2) * type_mult
+
+Status System Rules
+
+Only one StatusCondition enum system-wide
+Location after refactor: engine/systems/battle/status_effects_dqm.py
+Status effects: BURN, POISON, PARALYSIS, SLEEP, FREEZE, CONFUSION, FLINCH
+
+Monster Instance Rules
+
+Never modify base stats directly
+Use stat_stages for temporary modifications (-6 to +6)
+HP can never exceed max_hp
+Level range: 1-100
+
+Battle Controller Methods (Post-Refactor)
+python# Required interface methods:
+def initialize(self, player_team: List[MonsterInstance], enemy_team: List[MonsterInstance])
+def execute_turn(self, player_action: BattleAction, enemy_action: BattleAction)  
+def get_battle_state(self) -> Dict[str, Any]
+def is_battle_over(self) -> bool
+def get_winner(self) -> Optional[str]  # "player" or "enemy"
+Data Validation
+JSON Data Loading
+
+Always provide defaults for missing fields
+Validate data types on load
+Log warnings for invalid data, don't crash
+
+Move Data Defaults
+pythonmove_defaults = {
+    'drain_percent': 0,
+    'recoil_percent': 0,
+    'multi_hit_min': 1,
+    'multi_hit_max': 1,
+    'priority': 0,
+    'accuracy': 100,
+    'crit_rate': 0,
+    'effects': []
+}
+Error Handling
+
+Never let battle system crash the game
+Always provide fallback values
+Log errors with context: logger.error(f"Battle System: {error_msg}")
+Battle-critical errors should end battle gracefully
+
+Testing Checklist After Changes
+
+Can start battle without errors?
+Can execute basic attack?
+Can switch monsters?
+Can use items?
+Can tame monsters with meat?
+Battle ends correctly on victory/defeat?
+No memory leaks (scenes properly removed)?
+
+File Dependencies Map
+yamlbattle_dependencies:
+  battle_controller:
+    needs: [turn_logic, battle_enums, battle_ai, battle_actions]
+    provides: [BattleController, battle coordination]
+  
+  battle_scene:
+    needs: [battle_controller, battle_ui, battle_events]
+    provides: [Scene management, event handling]
+  
+  battle_ui:
+    needs: [battle_controller state, ResourceManager]
+    provides: [Visual interface, user input]
+  
+  unified_damage_calculator:
+    needs: [TypeChart, move data, monster stats]
+    provides: [All damage calculations]
+Naming Conventions
+
+Classes: PascalCase (BattleController)
+Methods: snake_case (execute_turn)
+Constants: UPPER_SNAKE_CASE (MAX_TEAM_SIZE)
+Private methods: _leading_underscore (_calculate_damage)
+
+Key Systems Integration Points
+
+Game.run() → Scene.update() → BattleController.update()
+BattleController → DamageCalculator → TypeChart
+BattleScene → BattleUI → ResourceManager
+MeatSystem → ItemSystem → BattleController
+
+Important Reminders
+
+No DQM size system - all monsters take 1 slot
+Battle format is 1v1, not 3v3
+Team size is 6 monsters
+Meat is used BEFORE taming, effects persist
+Type chart has 12 types, not Pokemon's 18
+Rank system: F, E, D, C, B, A, S, SS, X
+
+Common Pitfalls to Avoid
+
+Creating new instances of singletons
+Circular imports (use TYPE_CHECKING)
+Forgetting to archive old files
+Direct battle_ui → battle_controller access
+Mixing old and new status systems
+Using wrong damage calculator
+Not handling missing JSON fields
+
+File Structure
+Refer to MASTERMAP_UNTOLD_STORY_2025-08-31.md
+Dialogue Examples (for UI text)
+
+"Ey, wat machste denn da?"
+"Läuft bei dir, Kollege!"
+"Dat kannste knicken!"
+"Scheiße gelaufen, wa?"
+
+When Complete
+
+All imports resolved
+No duplicate functionality
+Single source of truth for each system
+Old files archived in archive/
+Battle flow: Init → Start → Input → Execute → Aftermath → End

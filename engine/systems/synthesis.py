@@ -6,7 +6,6 @@ Combines two parent monsters to create a new offspring with inherited traits.
 from typing import TYPE_CHECKING, Optional, List, Tuple, Dict, Set
 from dataclasses import dataclass
 import random
-import math
 
 if TYPE_CHECKING:
     from engine.systems.monster_instance import MonsterInstance
@@ -320,11 +319,18 @@ class SynthesisCalculator:
         if move.type in species.types:
             return True
         
-        # Check if in natural learnset
-        if hasattr(species, 'learnset'):
-            for learn_data in species.learnset:
-                if learn_data['move'] == move.id:
-                    return True
+        # Check if in natural talents
+        if hasattr(species, 'talents'):
+            try:
+                from engine.systems.talent_system import get_talent_database
+                talent_db = get_talent_database()
+                
+                for talent_data in species.talents:
+                    talent = talent_db.get_talent(talent_data['talent_id'])
+                    if talent and talent.has_move(move.id):
+                        return True
+            except Exception:
+                pass
         
         # Special moves might have restrictions
         if hasattr(move, 'inheritable') and not move.inheritable:

@@ -280,7 +280,7 @@ class FieldStorySystem:
     
     def _trigger_timerift_event(self) -> None:
         """Zeitrisse erscheinen - Scheiße wird ernst!"""
-        # TODO: Implementiere später für Mid-Game
+        # Placeholder for future mid-game events
         print("[Story] Zeitriss-Event - noch nicht implementiert")
     
     def _find_npc_by_name(self, name: str):

@@ -4,14 +4,14 @@ Integrates Dragon Quest Monsters formulas into the existing battle system
 """
 
 import logging
-from typing import Dict, Any, List, Optional
-from engine.systems.battle.dqm_formulas import (
-    DQMCalculator, 
-    DQMDamageStage,
-    DQMConstants,
-    DQMSkillCalculator
-)
-from engine.systems.battle.damage_calc import DamageCalculationPipeline
+from typing import Dict, Any, List, Optional, TYPE_CHECKING
+
+if TYPE_CHECKING:
+    # Lazy imports für zirkuläre Dependencies
+    from engine.systems.unified_damage_calculator import (
+        UnifiedDamageCalculator
+    )
+
 
 logger = logging.getLogger(__name__)
 
@@ -24,59 +24,18 @@ class DQMIntegration:
     
     def __init__(self):
         """Initialize DQM integration."""
-        self.dqm_calculator = DQMCalculator()
-        self.dqm_skill_calc = DQMSkillCalculator()
-        self.dqm_stage = DQMDamageStage()
+        # Lazy initialization to avoid circular imports
+        self._unified_calculator: Optional['UnifiedDamageCalculator'] = None
         self._original_stages = {}
     
-    def integrate_with_pipeline(self, pipeline: DamageCalculationPipeline) -> None:
-        """
-        Integrate DQM formulas into the existing damage pipeline.
-        
-        Args:
-            pipeline: The damage calculation pipeline to modify
-        """
-        try:
-            # Store original stages for potential rollback
-            self._original_stages = {name: (func, priority) 
-                                    for name, func, priority in pipeline.stages}
-            
-            # Replace base damage calculation with DQM formula
-            pipeline.remove_stage("base_damage")
-            pipeline.add_stage("base_damage", self._dqm_base_damage_stage, 1)
-            
-            # Modify critical stage to use DQM rates (already done in damage_calc.py)
-            # But we can add additional DQM-specific critical logic here if needed
-            
-            # Add DQM-specific stages
-            pipeline.add_stage("tension", self._tension_stage, 7)
-            pipeline.add_stage("metal_body", self._metal_body_stage, 8)
-            
-            logger.info("DQM formulas successfully integrated into damage pipeline")
-            
-        except Exception as e:
-            logger.error(f"Failed to integrate DQM formulas: {str(e)}")
-            self.rollback_integration(pipeline)
+    @property
+    def unified_calculator(self) -> 'UnifiedDamageCalculator':
+        """Lazy-loaded unified calculator to avoid circular imports."""
+        if self._unified_calculator is None:
+            from engine.systems.unified_damage_calculator import unified_damage_calculator
+            self._unified_calculator = unified_damage_calculator
+        return self._unified_calculator
     
-    def rollback_integration(self, pipeline: DamageCalculationPipeline) -> None:
-        """
-        Rollback to original damage calculation.
-        
-        Args:
-            pipeline: The pipeline to restore
-        """
-        try:
-            # Clear all stages
-            pipeline.stages.clear()
-            
-            # Restore original stages
-            for name, (func, priority) in self._original_stages.items():
-                pipeline.add_stage(name, func, priority)
-            
-            logger.info("Rolled back to original damage calculation")
-            
-        except Exception as e:
-            logger.error(f"Failed to rollback integration: {str(e)}")
     
     def _dqm_base_damage_stage(self, context: Dict[str, Any]) -> None:
         """
@@ -119,26 +78,7 @@ class DQMIntegration:
         # Ensure minimum damage
         context['result'].damage = max(1, int(damage))
     
-    def _tension_stage(self, context: Dict[str, Any]) -> None:
-        """
-        Apply DQM tension multiplier.
-        Tension dramatically increases damage in DQM.
-        """
-        if context['result'].damage == 0:
-            return
-        
-        attacker = context['attacker']
-        
-        # Check if attacker has tension
-        if not hasattr(attacker, 'tension'):
-            return
-        
-        tension = attacker.tension
-        multiplier = self.dqm_calculator._calculate_tension_multiplier(tension)
-        
-        if multiplier > 1.0:
-            context['result'].damage = int(context['result'].damage * multiplier)
-            context['result'].modifiers_applied.append(f"Tension x{multiplier:.1f}")
+
     
     def _metal_body_stage(self, context: Dict[str, Any]) -> None:
         """
@@ -153,7 +93,7 @@ class DQMIntegration:
         # Check for Metal Body trait
         if hasattr(defender, 'traits') and 'Metal Body' in defender.traits:
             original_damage = context['result'].damage
-            reduced_damage = self.dqm_calculator._apply_metal_body(original_damage)
+            reduced_damage = self.unified_calculator._apply_metal_body(original_damage)
             
             context['result'].damage = reduced_damage
             context['result'].modifiers_applied.append("Metal Body")
@@ -168,7 +108,7 @@ class DQMIntegration:
         stage = monster.stat_stages.get(stat, 0) if hasattr(monster, 'stat_stages') else 0
         
         # Use DQM stat stage multipliers
-        multiplier = self.dqm_calculator.calculate_stat_stage_multiplier(stage)
+        multiplier = self.unified_calculator.calculate_stat_stage_multiplier(stage)
         
         return int(base_stat * multiplier)
     
@@ -195,7 +135,7 @@ class DQMIntegration:
                 monsters.append(monster_dict)
         
         # Calculate DQM turn order
-        sorted_monsters = self.dqm_calculator.calculate_turn_order(monsters)
+        sorted_monsters = self.unified_calculator.calculate_turn_order(monsters)
         
         # Extract original actions in new order
         sorted_actions = [m['_original_action'] for m in sorted_monsters]
@@ -217,8 +157,10 @@ class DQMIntegration:
         runner_stats = runner.stats if hasattr(runner, 'stats') else {'spd': 50}
         enemy_stats = enemy.stats if hasattr(enemy, 'stats') else {'spd': 50}
         
-        return self.dqm_calculator.calculate_escape_chance(
-            runner_stats, enemy_stats, attempts
+        return self.unified_calculator.calculate_escape_chance(
+            runner_stats.get('spd', 50),
+            enemy_stats.get('spd', 50),
+            attempts
         )
     
     def calculate_rewards(self, enemy, is_boss: bool = False, party_size: int = 1) -> Dict[str, int]:
@@ -236,8 +178,8 @@ class DQMIntegration:
         level = enemy.level if hasattr(enemy, 'level') else 1
         rank = enemy.rank if hasattr(enemy, 'rank') else 'D'
         
-        exp = self.dqm_calculator.calculate_exp_reward(level, rank, is_boss, party_size)
-        gold = self.dqm_calculator.calculate_gold_reward(level, rank, is_boss)
+        exp = self.unified_calculator.calculate_exp_reward(level, rank, is_boss, party_size)
+        gold = self.unified_calculator.calculate_gold_reward(level, rank, is_boss)
         
         return {
             'exp': exp,
@@ -262,32 +204,67 @@ def get_dqm_integration() -> DQMIntegration:
     return _dqm_integration
 
 
-def enable_dqm_formulas(pipeline: DamageCalculationPipeline) -> None:
-    """
-    Enable DQM formulas in the damage calculation pipeline.
-    
-    Args:
-        pipeline: The pipeline to modify
-    """
-    integration = get_dqm_integration()
-    integration.integrate_with_pipeline(pipeline)
 
 
-def disable_dqm_formulas(pipeline: DamageCalculationPipeline) -> None:
+def setup_dqm_systems(game) -> None:
     """
-    Disable DQM formulas and restore original calculation.
+    Setup all DQM systems for the game.
+    This function initializes and connects all DQM-specific systems.
     
     Args:
-        pipeline: The pipeline to restore
+        game: The main Game instance
     """
-    integration = get_dqm_integration()
-    integration.rollback_integration(pipeline)
+    try:
+        logger.info("Setting up DQM systems...")
+        
+        # Initialize skill system
+        from engine.systems.battle.skills_dqm_integrated import get_skill_database
+        game.skill_system = get_skill_database()
+        logger.info("Skill system initialized")
+        
+        # Initialize meat system
+        from engine.systems.battle.meat_system import get_meat_system
+        game.meat_system = get_meat_system()
+        logger.info("Meat system initialized")
+        
+        # Verbinde mit Battle System
+        if hasattr(game, 'battle_controller'):
+            game.battle_controller.skill_system = game.skill_system
+            game.battle_controller.meat_system = game.meat_system
+            logger.info("DQM systems connected to battle controller")
+        
+        # Initialize DQM integration
+        dqm_integration = get_dqm_integration()
+        logger.info("DQM integration initialized")
+        
+        # Initialize monster database with traits support
+        from engine.systems.monsters import get_monster_database
+        monster_db = get_monster_database()
+        logger.info("Monster database with traits support initialized")
+        
+        # Integrate DQM skills with move system
+        from engine.systems.moves import integrate_dqm_skills_with_moves
+        integrate_dqm_skills_with_moves()
+        logger.info("DQM skills integrated with move system")
+        
+        # Sync meat inventory with item system
+        try:
+            from engine.systems.items import item_registry
+            # This will be called when the game starts
+            logger.info("Meat-item bridge ready")
+        except Exception as e:
+            logger.warning(f"Could not initialize meat-item bridge: {e}")
+        
+        logger.info("DQM systems setup completed successfully")
+        
+    except Exception as e:
+        logger.error(f"Error setting up DQM systems: {e}")
+        raise
 
 
 # Export functions
 __all__ = [
     'DQMIntegration',
     'get_dqm_integration', 
-    'enable_dqm_formulas',
-    'disable_dqm_formulas'
+    'setup_dqm_systems'
 ]

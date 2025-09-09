@@ -1,6 +1,7 @@
 """
-Map Loading and Normalization for Untold Story
+Enhanced Map Loading and Management for Untold Story
 Handles both simple internal JSON format and Tiled JSON export format
+Consolidated from map_loader.py and enhanced_map_manager.py
 """
 
 import json
@@ -50,7 +51,19 @@ class MapData:
 
 
 class MapLoader:
-    """Handles loading and normalization of map data."""
+    """Enhanced map loading and management system with interaction handling."""
+    
+    def __init__(self, game=None):
+        """Initialize the MapLoader with optional game reference."""
+        self.game = game
+        self.current_area: Optional[Any] = None
+        self.current_map_id: str = ""
+        
+        # Map transition callbacks
+        self.on_map_enter_callbacks = {}
+        self.on_map_exit_callbacks = {}
+        
+        # MapLoader initialized with enhanced functionality
     
     @staticmethod
     def load_map(map_id: str) -> MapData:
@@ -80,13 +93,15 @@ class MapLoader:
             else:
                 return MapLoader._load_simple_map(map_id, map_json)
         except Exception as e:
-            print(f"Could not load JSON map for {map_id}: {e}")
+            # JSON map loading failed
+            pass
         
         # Try loading .tmx file as fallback (legacy)
         try:
             return MapLoader._load_tmx_file(map_id)
         except (FileNotFoundError, ValueError) as e:
-            print(f"Could not load .tmx file for {map_id}: {e}")
+            # TMX file loading failed
+            pass
         
         raise ValueError(f"Could not load map {map_id} in any format")
     
@@ -395,3 +410,184 @@ class MapLoader:
                     args=properties
                 ))
         return triggers
+    
+    def load_map_with_interactions(self, map_id: str, spawn_x: int = None, spawn_y: int = None):
+        """
+        Load a complete map with both visual and interaction data.
+        
+        Args:
+            map_id: Map identifier
+            spawn_x: Optional spawn X position in tiles
+            spawn_y: Optional spawn Y position in tiles
+            
+        Returns:
+            Fully configured Area object
+        """
+        # Loading map with interactions
+        
+        # Call exit callback for previous map
+        if self.current_map_id and self.current_map_id in self.on_map_exit_callbacks:
+            self.on_map_exit_callbacks[self.current_map_id]()
+        
+        # Step 1: Load map data
+        # Step 1: Loading map data
+        map_data = self.load_map(map_id)
+        
+        # Step 2: Create Area from map data
+        # Step 2: Creating Area object
+        from engine.world.area import Area
+        area = Area(map_id)
+        area.map_data = map_data
+        
+        # Step 3: Setup warps and triggers
+        # Step 3: Setting up warps and triggers
+        area.warps = map_data.warps
+        area.triggers = map_data.triggers
+        
+        # Store references
+        self.current_area = area
+        self.current_map_id = map_id
+        
+        # Position player if coordinates provided
+        if spawn_x is not None and spawn_y is not None and self.game and hasattr(self.game, 'player'):
+            self.game.player.set_tile_position(spawn_x, spawn_y)
+            # Step 4: Player positioned
+        
+        # Call enter callback for new map
+        if map_id in self.on_map_enter_callbacks:
+            self.on_map_enter_callbacks[map_id]()
+        
+        # Map loaded successfully
+        
+        return area
+    
+    def check_interaction(self, tile_x: int, tile_y: int) -> bool:
+        """
+        Check for and execute interaction at a tile position.
+        
+        Args:
+            tile_x: Tile X coordinate
+            tile_y: Tile Y coordinate
+            
+        Returns:
+            True if interaction was found and executed
+        """
+        if not self.current_area:
+            return False
+        
+        # Check triggers
+        for trigger in self.current_area.triggers:
+            if trigger.x == tile_x and trigger.y == tile_y:
+                self._execute_trigger(trigger)
+                return True
+        
+        return False
+    
+    def check_warp(self, tile_x: int, tile_y: int) -> bool:
+        """
+        Check for and execute warp at a tile position.
+        
+        Args:
+            tile_x: Tile X coordinate
+            tile_y: Tile Y coordinate
+            
+        Returns:
+            True if warp was found and executed
+        """
+        if not self.current_area:
+            return False
+        
+        for warp in self.current_area.warps:
+            if warp.x == tile_x and warp.y == tile_y:
+                self._execute_warp(warp)
+                return True
+        
+        return False
+    
+    def _execute_trigger(self, trigger):
+        """Execute a trigger event."""
+        # Executing trigger
+        
+        if trigger.event == 'cutscene':
+            self._start_cutscene(trigger.args.get('cutscene_id'))
+        elif trigger.event == 'battle':
+            self._start_battle(trigger.args)
+        elif trigger.event == 'dialog':
+            self._show_dialog(trigger.args.get('dialog_id'))
+    
+    def _execute_warp(self, warp):
+        """Execute a warp to another map."""
+        # Warping to destination
+        
+        if self.game:
+            # Load new map
+            self.load_map_with_interactions(
+                warp.to_map,
+                warp.to_x,
+                warp.to_y
+            )
+    
+    def _start_cutscene(self, cutscene_id: str):
+        """Start a cutscene."""
+        if self.game and hasattr(self.game, 'cutscene_manager'):
+            try:
+                self.game.cutscene_manager.start_cutscene(cutscene_id)
+                # Cutscene started
+            except Exception as e:
+                # Cutscene error
+                pass
+    
+    def _start_battle(self, battle_args: Dict):
+        """Start a battle."""
+        # Starting battle
+        
+        if self.game and hasattr(self.game, 'scene_manager'):
+            try:
+                from engine.scenes.battle_scene import BattleScene
+                battle_scene = BattleScene(self.game)
+                battle_scene.setup_battle(battle_args)
+                self.game.push_scene(battle_scene)
+                # Battle scene pushed
+            except Exception as e:
+                # Battle integration error
+                pass
+    
+    def _show_dialog(self, dialog_id: str):
+        """Show a dialog sequence."""
+        if self.game and hasattr(self.game, 'current_scene'):
+            try:
+                dialog_file = Path("data/dialogs/events") / f"{dialog_id}.json"
+                if dialog_file.exists():
+                    with open(dialog_file, 'r', encoding='utf-8') as f:
+                        dialog_data = json.load(f)
+                    
+                    from engine.ui.dialogue import DialoguePage
+                    pages = []
+                    for page in dialog_data.get('pages', []):
+                        pages.append(DialoguePage(
+                            page.get('text', '...'),
+                            page.get('speaker')
+                        ))
+                    
+                    if pages and hasattr(self.game.current_scene, 'dialogue_box'):
+                        self.game.current_scene.dialogue_box.show_dialogue(pages)
+            except Exception as e:
+                # Dialog loading failed
+                pass
+    
+    def get_collision_at(self, x: int, y: int) -> bool:
+        """
+        Check collision at pixel coordinates.
+        
+        Args:
+            x: X position in pixels
+            y: Y position in pixels
+            
+        Returns:
+            True if position is blocked
+        """
+        if not self.current_area:
+            return True
+        
+        # Delegate to area's collision system for consistency
+        return self.current_area.get_collision_at(x, y)

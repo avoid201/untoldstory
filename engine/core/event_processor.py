@@ -21,6 +21,7 @@ class DebugKeyConfig:
     f5: int = pygame.K_F5
     f6: int = pygame.K_F6
     f7: int = pygame.K_F7
+    f8: int = pygame.K_F8
 
 
 class EventProcessor:
@@ -42,7 +43,8 @@ class EventProcessor:
             self.debug_keys.f4: self._show_current_input_status,
             self.debug_keys.f5: self._export_input_analysis,
             self.debug_keys.f6: self._find_unhandled_inputs,
-            self.debug_keys.f7: self._find_performance_issues
+            self.debug_keys.f7: self._find_performance_issues,
+            self.debug_keys.f8: self._show_debug_help
         }
     
     def process_events(self) -> None:
@@ -93,15 +95,22 @@ class EventProcessor:
     def _toggle_debug_overlay(self) -> None:
         """Debug-Overlay ein-/ausschalten"""
         self.game.debug_overlay_enabled = not self.game.debug_overlay_enabled
+        self.game.debug_mode = self.game.debug_overlay_enabled  # Synchronisiere debug_mode
+        
+        # Aktiviere/deaktiviere Debug-System
+        from engine.debug import debug, debug_system_info
+        debug.enabled = self.game.debug_mode
+        
         status = "aktiviert" if self.game.debug_overlay_enabled else "deaktiviert"
-        print(f"🔍 DEBUG: Debug-Overlay {status}")
+        debug_system_info("Debug-System {} (TAB-Taste)", status)
     
     def _toggle_grid(self) -> None:
         """Grid ein-/ausschalten"""
         if self.game.debug_overlay_enabled:
             self.game.show_grid = not self.game.show_grid
             status = "angezeigt" if self.game.show_grid else "versteckt"
-            print(f"🔍 DEBUG: Grid {status}")
+            # Debug-Output nur bei aktiviertem Debug-Modus
+            # print(f"🔍 DEBUG: Grid {status}")
     
     def _show_input_summary(self) -> None:
         """Input-Log Zusammenfassung anzeigen"""
@@ -124,19 +133,21 @@ class EventProcessor:
         if hasattr(self.game, 'input_manager'):
             self.game.input_manager.debug_enabled = not self.game.input_manager.debug_enabled
             status = "aktiviert" if self.game.input_manager.debug_enabled else "deaktiviert"
-            print(f"🔍 INPUT DEBUG: Vollständiger Debug {status}")
+            # Debug-Output nur bei aktiviertem Debug-Modus
+            # print(f"🔍 INPUT DEBUG: Vollständiger Debug {status}")
     
     def _show_current_input_status(self) -> None:
         """Aktuelle Input-Status anzeigen"""
         if hasattr(self.game, 'input_manager'):
             debug_info = self.game.input_manager.get_input_debug_info()
-            print("\n🔍 AKTUELLER INPUT-STATUS:")
-            print(f"  Gedrückte Tasten: {debug_info['pressed_keys']}")
-            print(f"  Gerade gedrückt: {debug_info['just_pressed']}")
-            print(f"  Gerade losgelassen: {debug_info['just_released']}")
-            print(f"  Gebufferte Inputs: {debug_info['buffered_inputs']}")
-            print(f"  Combo-Buffer: {debug_info['combo_buffer']}")
-            print(f"  Repeat-Timer: {debug_info['repeat_timers']}")
+            # Debug-Output nur bei aktiviertem Debug-Modus
+            # print("\n🔍 AKTUELLER INPUT-STATUS:")
+            # print(f"  Gedrückte Tasten: {debug_info['pressed_keys']}")
+            # print(f"  Gerade gedrückt: {debug_info['just_pressed']}")
+            # print(f"  Gerade losgelassen: {debug_info['just_released']}")
+            # print(f"  Gebufferte Inputs: {debug_info['buffered_inputs']}")
+            # print(f"  Combo-Buffer: {debug_info['combo_buffer']}")
+            # print(f"  Repeat-Timer: {debug_info['repeat_timers']}")
     
     def _export_input_analysis(self) -> None:
         """Erweiterte Input-Analyse exportieren"""
@@ -156,8 +167,11 @@ class EventProcessor:
         if hasattr(self.game, 'input_debugger') and self.game.input_debugger:
             slow_events = self.game.input_debugger.find_performance_issues()
             print(f"\n🔍 PERFORMANCE-PROBLEME: {len(slow_events)} Events > 16ms")
-            for event in slow_events[-5:]:  # Letzte 5
-                print(f"  Frame {event.frame}: {event.event_type} {event.key_name} - {event.processing_time*1000:.2f}ms")
+    
+    def _show_debug_help(self) -> None:
+        """Zeigt Debug-Hilfe an"""
+        from engine.debug import debug
+        debug.print_debug_help()
     
     def _log_input_event(self, event: pygame.event.Event, processing_time: float) -> None:
         """Loggt Input-Events für Debug-Zwecke"""

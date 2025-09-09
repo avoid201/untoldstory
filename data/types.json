@@ -9,9 +9,11 @@
     "Energie",
     "Chaos",
     "Seuche",
-    "Mystik",
+    "Mystisch",
     "Gottheit",
-    "Teufel"
+    "Teufel",
+    "Göttlich",
+    "Teuflisch"
   ],
   "chart": [
     {"attacker": "Feuer", "defender": "Wasser", "multiplier": 0.5},
@@ -49,7 +51,7 @@
     {"attacker": "Pflanze", "defender": "Bestie", "multiplier": 0.5},
     
     {"attacker": "Bestie", "defender": "Pflanze", "multiplier": 2.0},
-    {"attacker": "Bestie", "defender": "Mystik", "multiplier": 1.5},
+    {"attacker": "Bestie", "defender": "Mystisch", "multiplier": 1.5},
     {"attacker": "Bestie", "defender": "Feuer", "multiplier": 0.5},
     {"attacker": "Bestie", "defender": "Luft", "multiplier": 0.5},
     {"attacker": "Bestie", "defender": "Bestie", "multiplier": 0.5},
@@ -60,11 +62,11 @@
     {"attacker": "Energie", "defender": "Luft", "multiplier": 2.0},
     {"attacker": "Energie", "defender": "Chaos", "multiplier": 2.0},
     {"attacker": "Energie", "defender": "Energie", "multiplier": 0.5},
-    {"attacker": "Energie", "defender": "Mystik", "multiplier": 1.5},
+    {"attacker": "Energie", "defender": "Mystisch", "multiplier": 1.5},
     {"attacker": "Energie", "defender": "Bestie", "multiplier": 1.5},
     
     {"attacker": "Chaos", "defender": "Energie", "multiplier": 0.5},
-    {"attacker": "Chaos", "defender": "Mystik", "multiplier": 2.0},
+    {"attacker": "Chaos", "defender": "Mystisch", "multiplier": 2.0},
     {"attacker": "Chaos", "defender": "Seuche", "multiplier": 1.5},
     {"attacker": "Chaos", "defender": "Chaos", "multiplier": 0.5},
     {"attacker": "Chaos", "defender": "Gottheit", "multiplier": 0.5},
@@ -77,20 +79,28 @@
     {"attacker": "Seuche", "defender": "Seuche", "multiplier": 0.5},
     {"attacker": "Seuche", "defender": "Erde", "multiplier": 0.5},
     
-    {"attacker": "Mystik", "defender": "Bestie", "multiplier": 0.5},
-    {"attacker": "Mystik", "defender": "Energie", "multiplier": 0.5},
-    {"attacker": "Mystik", "defender": "Chaos", "multiplier": 0.5},
-    {"attacker": "Mystik", "defender": "Seuche", "multiplier": 2.0},
-    {"attacker": "Mystik", "defender": "Mystik", "multiplier": 0.5},
-    {"attacker": "Mystik", "defender": "Teufel", "multiplier": 2.0},
+    {"attacker": "Mystisch", "defender": "Bestie", "multiplier": 0.5},
+    {"attacker": "Mystisch", "defender": "Energie", "multiplier": 0.5},
+    {"attacker": "Mystisch", "defender": "Chaos", "multiplier": 0.5},
+    {"attacker": "Mystisch", "defender": "Seuche", "multiplier": 2.0},
+    {"attacker": "Mystisch", "defender": "Mystisch", "multiplier": 0.5},
+    {"attacker": "Mystisch", "defender": "Teufel", "multiplier": 2.0},
     
     {"attacker": "Gottheit", "defender": "Chaos", "multiplier": 2.0},
     {"attacker": "Gottheit", "defender": "Seuche", "multiplier": 2.0},
     {"attacker": "Gottheit", "defender": "Teufel", "multiplier": 2.0},
-    {"attacker": "Gottheit", "defender": "Mystik", "multiplier": 1.5},
+    {"attacker": "Gottheit", "defender": "Mystisch", "multiplier": 1.5},
     {"attacker": "Gottheit", "defender": "Gottheit", "multiplier": 0.5},
     
-    {"attacker": "Teufel", "defender": "Mystik", "multiplier": 0.5},
+    {"attacker": "Teufel", "defender": "Mystisch", "multiplier": 0.5},
+    
+    {"attacker": "Göttlich", "defender": "Teuflisch", "multiplier": 2.0},
+    {"attacker": "Göttlich", "defender": "Göttlich", "multiplier": 0.5},
+    {"attacker": "Göttlich", "defender": "Gottheit", "multiplier": 1.5},
+    
+    {"attacker": "Teuflisch", "defender": "Göttlich", "multiplier": 2.0},
+    {"attacker": "Teuflisch", "defender": "Teuflisch", "multiplier": 0.5},
+    {"attacker": "Teuflisch", "defender": "Teufel", "multiplier": 1.5},
     {"attacker": "Teufel", "defender": "Gottheit", "multiplier": 0.5},
     {"attacker": "Teufel", "defender": "Pflanze", "multiplier": 1.5},
     {"attacker": "Teufel", "defender": "Bestie", "multiplier": 1.5},
@@ -106,9 +116,9 @@
     "Pflanze": "Natürlich und regenerativ, schwach gegen Feuer und Seuche",
     "Bestie": "Wild und instinktiv, stark gegen Pflanze",
     "Energie": "Elektrisch und technologisch, stark gegen Luft und Chaos",
-    "Chaos": "Unberechenbar und zerstörerisch, stark gegen Mystik",
+    "Chaos": "Unberechenbar und zerstörerisch, stark gegen Mystisch",
     "Seuche": "Giftig und korrumpierend, stark gegen Pflanze und Bestie",
-    "Mystik": "Magisch und geheimnisvoll, stark gegen Seuche",
+    "Mystisch": "Magisch und geheimnisvoll, stark gegen Seuche",
     "Gottheit": "Heilig und mächtig, nur bei Legendären",
     "Teufel": "Dunkel und verdorben, nur bei Legendären"
   },
@@ -122,7 +132,7 @@
     "Energie": [255, 255, 100],
     "Chaos": [150, 50, 150],
     "Seuche": [100, 50, 100],
-    "Mystik": [200, 100, 200],
+    "Mystisch": [200, 100, 200],
     "Gottheit": [255, 255, 200],
     "Teufel": [100, 50, 50]
   },
@@ -136,7 +146,7 @@
     "Energie": ["MAGICAL", "ARTIFICIAL"],
     "Chaos": ["MAGICAL", "CORRUPTED"],
     "Seuche": ["CORRUPTED"],
-    "Mystik": ["MAGICAL"],
+    "Mystisch": ["MAGICAL"],
     "Gottheit": ["MAGICAL", "LEGENDARY"],
     "Teufel": ["MAGICAL", "LEGENDARY", "CORRUPTED"]
   },
@@ -144,7 +154,7 @@
     "Feuer,Erde": 1.1,
     "Wasser,Luft": 1.1,
     "Pflanze,Wasser": 1.1,
-    "Energie,Mystik": 1.15,
+    "Energie,Mystisch": 1.15,
     "Chaos,Seuche": 1.2
   },
   "weather_effects": {
@@ -163,7 +173,7 @@
       "Luft": 1.2
     },
     "fog": {
-      "Mystik": 1.3,
+      "Mystisch": 1.3,
       "Energie": 0.7
     }
   },
@@ -175,7 +185,7 @@
       "Energie": 1.3
     },
     "psychic": {
-      "Mystik": 1.3
+      "Mystisch": 1.3
     },
     "misty": {
       "Chaos": 0.5
