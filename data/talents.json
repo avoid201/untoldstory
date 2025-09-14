@@ -1,0 +1,892 @@
+{
+  "talents": [
+    {
+      "id": "fire_ii",
+      "name": "Feuer II",
+      "category": "elemental",
+      "description": "Fortgeschrittene Feuer-Attacken",
+      "moves": [
+        {
+          "move_id": "ember",
+          "tier_requirement": 1,
+          "level_requirement": 1,
+          "description": "Kleine Feuerkugel"
+        },
+        {
+          "move_id": "flamethrower",
+          "tier_requirement": 2,
+          "level_requirement": 15,
+          "description": "Mittlere Feuerkugel"
+        },
+        {
+          "move_id": "flamethrower",
+          "tier_requirement": 3,
+          "level_requirement": 35,
+          "description": "Große Feuerkugel"
+        },
+        {
+          "move_id": "flamethrower",
+          "tier_requirement": 4,
+          "level_requirement": 60,
+          "description": "Massive Feuerkugel"
+        }
+      ],
+      "prerequisites": [
+        "fire_i"
+      ],
+      "max_tier": 4,
+      "is_inheritable": true,
+      "synthesis_bonus": 1.2,
+      "passive_abilities": [
+        "fire_resistance",
+        "burn_immunity",
+        "attack_boost",
+        "critical_boost",
+        "status_immunity"
+      ]
+    },
+    {
+      "id": "ice_ii",
+      "name": "Eis II",
+      "category": "elemental",
+      "description": "Fortgeschrittene Eis-Attacken",
+      "moves": [
+        {
+          "move_id": "crack",
+          "tier_requirement": 1,
+          "level_requirement": 1,
+          "description": "Eissplitter"
+        },
+        {
+          "move_id": "crackle",
+          "tier_requirement": 2,
+          "level_requirement": 18,
+          "description": "Eisspeer"
+        },
+        {
+          "move_id": "kacrack",
+          "tier_requirement": 3,
+          "level_requirement": 38,
+          "description": "Eisberg"
+        },
+        {
+          "move_id": "kacrackle",
+          "tier_requirement": 4,
+          "level_requirement": 65,
+          "description": "Absolute Zero"
+        }
+      ],
+      "prerequisites": [
+        "ice_i"
+      ],
+      "max_tier": 4,
+      "is_inheritable": true,
+      "synthesis_bonus": 1.2,
+      "passive_abilities": [
+        "attack_boost",
+        "critical_boost",
+        "status_immunity"
+      ]
+    },
+    {
+      "id": "thunder_ii",
+      "name": "Blitz II",
+      "category": "elemental",
+      "description": "Fortgeschrittene Blitz-Attacken",
+      "moves": [
+        {
+          "move_id": "zap",
+          "tier_requirement": 1,
+          "level_requirement": 1,
+          "description": "Blitzschlag"
+        },
+        {
+          "move_id": "zapple",
+          "tier_requirement": 2,
+          "level_requirement": 20,
+          "description": "Starker Blitz"
+        },
+        {
+          "move_id": "kazap",
+          "tier_requirement": 3,
+          "level_requirement": 40,
+          "description": "Gewaltiger Blitz"
+        },
+        {
+          "move_id": "kazapple",
+          "tier_requirement": 4,
+          "level_requirement": 70,
+          "description": "Göttlicher Blitz"
+        }
+      ],
+      "prerequisites": [
+        "thunder_i"
+      ],
+      "max_tier": 4,
+      "is_inheritable": true,
+      "synthesis_bonus": 1.2,
+      "passive_abilities": [
+        "attack_boost",
+        "critical_boost",
+        "status_immunity"
+      ]
+    },
+    {
+      "id": "heal_ii",
+      "name": "Heil II",
+      "category": "healing",
+      "description": "Fortgeschrittene Heilungs-Skills",
+      "moves": [
+        {
+          "move_id": "heal",
+          "tier_requirement": 1,
+          "level_requirement": 1,
+          "description": "Heilt 30 HP"
+        },
+        {
+          "move_id": "midheal",
+          "tier_requirement": 2,
+          "level_requirement": 18,
+          "description": "Heilt 75 HP"
+        },
+        {
+          "move_id": "fullheal",
+          "tier_requirement": 3,
+          "level_requirement": 40,
+          "description": "Heilt alle HP"
+        },
+        {
+          "move_id": "omniheal",
+          "tier_requirement": 4,
+          "level_requirement": 70,
+          "description": "Heilt alle HP aller Verbündeten"
+        }
+      ],
+      "prerequisites": [
+        "heal_i"
+      ],
+      "max_tier": 4,
+      "is_inheritable": true,
+      "synthesis_bonus": 1.3,
+      "passive_abilities": [
+        "regeneration",
+        "mana_regeneration",
+        "attack_boost",
+        "critical_boost",
+        "status_immunity"
+      ]
+    },
+    {
+      "id": "physical_ii",
+      "name": "Körperlich II",
+      "category": "physical",
+      "description": "Fortgeschrittene körperliche Attacken",
+      "moves": [
+        {
+          "move_id": "tackle",
+          "tier_requirement": 1,
+          "level_requirement": 1,
+          "description": "Kratzer"
+        },
+        {
+          "move_id": "bite",
+          "tier_requirement": 1,
+          "level_requirement": 5,
+          "description": "Biss"
+        },
+        {
+          "move_id": "headbutt",
+          "tier_requirement": 2,
+          "level_requirement": 15,
+          "description": "Kopfnuss"
+        },
+        {
+          "move_id": "tackle",
+          "tier_requirement": 1,
+          "level_requirement": 1,
+          "description": "Rempler"
+        },
+        {
+          "move_id": "body_slam",
+          "tier_requirement": 3,
+          "level_requirement": 30,
+          "description": "Körpereinsatz"
+        },
+        {
+          "move_id": "mega_punch",
+          "tier_requirement": 4,
+          "level_requirement": 50,
+          "description": "Mega-Schlag"
+        }
+      ],
+      "prerequisites": [
+        "physical_i"
+      ],
+      "max_tier": 4,
+      "is_inheritable": true,
+      "synthesis_bonus": 1.1,
+      "passive_abilities": [
+        "attack_boost",
+        "critical_boost",
+        "status_immunity"
+      ]
+    },
+    {
+      "id": "earth_i",
+      "name": "Erde I",
+      "category": "elemental",
+      "description": "Erd-basierte Attacken",
+      "moves": [
+        {
+          "move_id": "rock_throw",
+          "tier_requirement": 1,
+          "level_requirement": 1,
+          "description": "Steinwurf"
+        },
+        {
+          "move_id": "earthquake",
+          "tier_requirement": 2,
+          "level_requirement": 20,
+          "description": "Erdbeben"
+        },
+        {
+          "move_id": "mud_slap",
+          "tier_requirement": 1,
+          "level_requirement": 8,
+          "description": "Lehmschuss"
+        },
+        {
+          "move_id": "sandstorm",
+          "tier_requirement": 3,
+          "level_requirement": 35,
+          "description": "Sandsturm"
+        }
+      ],
+      "prerequisites": [],
+      "max_tier": 3,
+      "is_inheritable": true,
+      "synthesis_bonus": 1.0,
+      "passive_abilities": [
+        "earth_resistance",
+        "attack_boost",
+        "critical_boost"
+      ]
+    },
+    {
+      "id": "water_i",
+      "name": "Wasser I",
+      "category": "elemental",
+      "description": "Wasser-basierte Attacken",
+      "moves": [
+        {
+          "move_id": "water_gun",
+          "tier_requirement": 1,
+          "level_requirement": 1,
+          "description": "Wasserstrahl"
+        },
+        {
+          "move_id": "bubble_beam",
+          "tier_requirement": 2,
+          "level_requirement": 15,
+          "description": "Blubbstrahl"
+        },
+        {
+          "move_id": "hydro_pump",
+          "tier_requirement": 3,
+          "level_requirement": 35,
+          "description": "Hydropumpe"
+        },
+        {
+          "move_id": "tsunami",
+          "tier_requirement": 4,
+          "level_requirement": 60,
+          "description": "Tsunami"
+        }
+      ],
+      "prerequisites": [],
+      "max_tier": 4,
+      "is_inheritable": true,
+      "synthesis_bonus": 1.0,
+      "passive_abilities": [
+        "water_resistance",
+        "attack_boost",
+        "critical_boost",
+        "status_immunity"
+      ]
+    },
+    {
+      "id": "plant_i",
+      "name": "Pflanze I",
+      "category": "elemental",
+      "description": "Pflanzen-basierte Attacken",
+      "moves": [
+        {
+          "move_id": "vine_whip",
+          "tier_requirement": 1,
+          "level_requirement": 1,
+          "description": "Rankenhieb"
+        },
+        {
+          "move_id": "razor_leaf",
+          "tier_requirement": 2,
+          "level_requirement": 12,
+          "description": "Rasierblatt"
+        },
+        {
+          "move_id": "solar_beam",
+          "tier_requirement": 3,
+          "level_requirement": 30,
+          "description": "Solarstrahl"
+        },
+        {
+          "move_id": "petal_dance",
+          "tier_requirement": 4,
+          "level_requirement": 50,
+          "description": "Blättertanz"
+        }
+      ],
+      "prerequisites": [],
+      "max_tier": 4,
+      "is_inheritable": true,
+      "synthesis_bonus": 1.0,
+      "passive_abilities": [
+        "plant_resistance",
+        "attack_boost",
+        "critical_boost",
+        "status_immunity"
+      ]
+    },
+    {
+      "id": "beast_i",
+      "name": "Bestie I",
+      "category": "physical",
+      "description": "Bestien-basierte Attacken",
+      "moves": [
+        {
+          "move_id": "roar",
+          "tier_requirement": 1,
+          "level_requirement": 1,
+          "description": "Brüllen"
+        },
+        {
+          "move_id": "claw_slash",
+          "tier_requirement": 2,
+          "level_requirement": 10,
+          "description": "Klauenhieb"
+        },
+        {
+          "move_id": "feral_rage",
+          "tier_requirement": 3,
+          "level_requirement": 25,
+          "description": "Wilder Zorn"
+        },
+        {
+          "move_id": "beast_roar",
+          "tier_requirement": 4,
+          "level_requirement": 45,
+          "description": "Bestienbrüllen"
+        }
+      ],
+      "prerequisites": [],
+      "max_tier": 4,
+      "is_inheritable": true,
+      "synthesis_bonus": 1.1,
+      "passive_abilities": [
+        "beast_resistance",
+        "attack_boost",
+        "critical_boost",
+        "status_immunity"
+      ]
+    },
+    {
+      "id": "energy_i",
+      "name": "Energie I",
+      "category": "elemental",
+      "description": "Energie-basierte Attacken",
+      "moves": [
+        {
+          "move_id": "energy_ball",
+          "tier_requirement": 1,
+          "level_requirement": 1,
+          "description": "Energieball"
+        },
+        {
+          "move_id": "plasma_beam",
+          "tier_requirement": 2,
+          "level_requirement": 18,
+          "description": "Plasmastrahl"
+        },
+        {
+          "move_id": "nuclear_blast",
+          "tier_requirement": 3,
+          "level_requirement": 40,
+          "description": "Kernschlag"
+        },
+        {
+          "move_id": "cosmic_ray",
+          "tier_requirement": 4,
+          "level_requirement": 70,
+          "description": "Kosmischer Strahl"
+        }
+      ],
+      "prerequisites": [],
+      "max_tier": 4,
+      "is_inheritable": true,
+      "synthesis_bonus": 1.2,
+      "passive_abilities": [
+        "energy_resistance",
+        "attack_boost",
+        "critical_boost",
+        "status_immunity"
+      ]
+    },
+    {
+      "id": "chaos_i",
+      "name": "Chaos I",
+      "category": "elemental",
+      "description": "Chaos-basierte Attacken",
+      "moves": [
+        {
+          "move_id": "chaos_bolt",
+          "tier_requirement": 1,
+          "level_requirement": 1,
+          "description": "Chaosblitz"
+        },
+        {
+          "move_id": "entropy_wave",
+          "tier_requirement": 2,
+          "level_requirement": 20,
+          "description": "Entropiewelle"
+        },
+        {
+          "move_id": "reality_tear",
+          "tier_requirement": 3,
+          "level_requirement": 45,
+          "description": "Realitätsriss"
+        },
+        {
+          "move_id": "void_storm",
+          "tier_requirement": 4,
+          "level_requirement": 75,
+          "description": "Leerensturm"
+        }
+      ],
+      "prerequisites": [],
+      "max_tier": 4,
+      "is_inheritable": true,
+      "synthesis_bonus": 1.3,
+      "passive_abilities": [
+        "chaos_resistance",
+        "attack_boost",
+        "critical_boost",
+        "status_immunity"
+      ]
+    },
+    {
+      "id": "plague_i",
+      "name": "Seuche I",
+      "category": "elemental",
+      "description": "Seuchen-basierte Attacken",
+      "moves": [
+        {
+          "move_id": "poison_gas",
+          "tier_requirement": 1,
+          "level_requirement": 1,
+          "description": "Giftgas"
+        },
+        {
+          "move_id": "toxic_cloud",
+          "tier_requirement": 2,
+          "level_requirement": 15,
+          "description": "Giftwolke"
+        },
+        {
+          "move_id": "plague_wind",
+          "tier_requirement": 3,
+          "level_requirement": 35,
+          "description": "Seuchenwind"
+        },
+        {
+          "move_id": "death_breath",
+          "tier_requirement": 4,
+          "level_requirement": 60,
+          "description": "Todesatem"
+        }
+      ],
+      "prerequisites": [],
+      "max_tier": 4,
+      "is_inheritable": true,
+      "synthesis_bonus": 1.2,
+      "passive_abilities": [
+        "attack_boost",
+        "critical_boost",
+        "status_immunity"
+      ]
+    },
+    {
+      "id": "mystic_i",
+      "name": "Mystik I",
+      "category": "elemental",
+      "description": "Mystische Attacken",
+      "moves": [
+        {
+          "move_id": "mystic_bolt",
+          "tier_requirement": 1,
+          "level_requirement": 1,
+          "description": "Mystischer Blitz"
+        },
+        {
+          "move_id": "arcane_blast",
+          "tier_requirement": 2,
+          "level_requirement": 18,
+          "description": "Arkanschlag"
+        },
+        {
+          "move_id": "spell_weave",
+          "tier_requirement": 3,
+          "level_requirement": 40,
+          "description": "Zaubergewebe"
+        },
+        {
+          "move_id": "reality_shift",
+          "tier_requirement": 4,
+          "level_requirement": 70,
+          "description": "Realitätsverschiebung"
+        }
+      ],
+      "prerequisites": [],
+      "max_tier": 4,
+      "is_inheritable": true,
+      "synthesis_bonus": 1.3,
+      "passive_abilities": [
+        "mystic_resistance",
+        "attack_boost",
+        "critical_boost",
+        "status_immunity"
+      ]
+    },
+    {
+      "id": "divine_i",
+      "name": "Gottheit I",
+      "category": "elemental",
+      "description": "Göttliche Attacken",
+      "moves": [
+        {
+          "move_id": "holy_light",
+          "tier_requirement": 1,
+          "level_requirement": 1,
+          "description": "Heiliges Licht"
+        },
+        {
+          "move_id": "divine_judgment",
+          "tier_requirement": 2,
+          "level_requirement": 25,
+          "description": "Göttliches Urteil"
+        },
+        {
+          "move_id": "celestial_beam",
+          "tier_requirement": 3,
+          "level_requirement": 50,
+          "description": "Himmlischer Strahl"
+        },
+        {
+          "move_id": "apocalypse",
+          "tier_requirement": 4,
+          "level_requirement": 80,
+          "description": "Apokalypse"
+        }
+      ],
+      "prerequisites": [],
+      "max_tier": 4,
+      "is_inheritable": true,
+      "synthesis_bonus": 1.4,
+      "passive_abilities": [
+        "divine_resistance",
+        "attack_boost",
+        "critical_boost",
+        "status_immunity"
+      ]
+    },
+    {
+      "id": "demon_i",
+      "name": "Teufel I",
+      "category": "elemental",
+      "description": "Teuflische Attacken",
+      "moves": [
+        {
+          "move_id": "hellfire",
+          "tier_requirement": 1,
+          "level_requirement": 1,
+          "description": "Höllenfeuer"
+        },
+        {
+          "move_id": "demon_claw",
+          "tier_requirement": 2,
+          "level_requirement": 20,
+          "description": "Dämonenklaue"
+        },
+        {
+          "move_id": "soul_rend",
+          "tier_requirement": 3,
+          "level_requirement": 45,
+          "description": "Seelenriss"
+        },
+        {
+          "move_id": "infernal_storm",
+          "tier_requirement": 4,
+          "level_requirement": 75,
+          "description": "Höllensturm"
+        }
+      ],
+      "prerequisites": [],
+      "max_tier": 4,
+      "is_inheritable": true,
+      "synthesis_bonus": 1.3,
+      "passive_abilities": [
+        "attack_boost",
+        "critical_boost",
+        "status_immunity"
+      ]
+    },
+    {
+      "id": "support_ii",
+      "name": "Unterstützung II",
+      "category": "support",
+      "description": "Fortgeschrittene Unterstützungs-Skills",
+      "moves": [
+        {
+          "move_id": "buff",
+          "tier_requirement": 1,
+          "level_requirement": 1,
+          "description": "Erhöht ATK"
+        },
+        {
+          "move_id": "kabuff",
+          "tier_requirement": 1,
+          "level_requirement": 1,
+          "description": "Erhöht DEF"
+        },
+        {
+          "move_id": "oomph",
+          "tier_requirement": 2,
+          "level_requirement": 20,
+          "description": "Verdoppelt ATK"
+        },
+        {
+          "move_id": "insulatle",
+          "tier_requirement": 2,
+          "level_requirement": 25,
+          "description": "Erhöht Feuer/Eis-Resistenz"
+        },
+        {
+          "move_id": "bounce",
+          "tier_requirement": 3,
+          "level_requirement": 40,
+          "description": "Reflektiert nächsten Angriff"
+        },
+        {
+          "move_id": "barrier",
+          "tier_requirement": 4,
+          "level_requirement": 60,
+          "description": "Schutzschild für alle Verbündeten"
+        }
+      ],
+      "prerequisites": [
+        "buff_i"
+      ],
+      "max_tier": 4,
+      "is_inheritable": true,
+      "synthesis_bonus": 1.2,
+      "passive_abilities": [
+        "speed_boost",
+        "accuracy_boost",
+        "attack_boost",
+        "critical_boost",
+        "status_immunity"
+      ]
+    },
+    {
+      "id": "debuff_ii",
+      "name": "Schwächung II",
+      "category": "support",
+      "description": "Fortgeschrittene Schwächungs-Skills",
+      "moves": [
+        {
+          "move_id": "sap",
+          "tier_requirement": 1,
+          "level_requirement": 1,
+          "description": "Senkt DEF eines Gegners"
+        },
+        {
+          "move_id": "kasap",
+          "tier_requirement": 2,
+          "level_requirement": 20,
+          "description": "Senkt DEF aller Gegner"
+        },
+        {
+          "move_id": "blunt",
+          "tier_requirement": 1,
+          "level_requirement": 1,
+          "description": "Senkt ATK eines Gegners"
+        },
+        {
+          "move_id": "curse",
+          "tier_requirement": 3,
+          "level_requirement": 35,
+          "description": "Verflucht Gegner"
+        },
+        {
+          "move_id": "hex",
+          "tier_requirement": 4,
+          "level_requirement": 55,
+          "description": "Verhext alle Gegner"
+        }
+      ],
+      "prerequisites": [
+        "debuff_i"
+      ],
+      "max_tier": 4,
+      "is_inheritable": true,
+      "synthesis_bonus": 1.2,
+      "passive_abilities": [
+        "attack_boost",
+        "critical_boost",
+        "status_immunity"
+      ]
+    },
+    {
+      "id": "status_ii",
+      "name": "Status II",
+      "category": "support",
+      "description": "Fortgeschrittene Status-Effekte",
+      "moves": [
+        {
+          "move_id": "snooze",
+          "tier_requirement": 1,
+          "level_requirement": 1,
+          "description": "Versetzt Gegner in Schlaf"
+        },
+        {
+          "move_id": "kasnooze",
+          "tier_requirement": 2,
+          "level_requirement": 25,
+          "description": "Tiefschlaf für alle Gegner"
+        },
+        {
+          "move_id": "paralyze",
+          "tier_requirement": 2,
+          "level_requirement": 15,
+          "description": "Lähmung"
+        },
+        {
+          "move_id": "confuse",
+          "tier_requirement": 3,
+          "level_requirement": 30,
+          "description": "Verwirrung"
+        },
+        {
+          "move_id": "charm",
+          "tier_requirement": 4,
+          "level_requirement": 50,
+          "description": "Verzauberung"
+        }
+      ],
+      "prerequisites": [
+        "status_i"
+      ],
+      "max_tier": 4,
+      "is_inheritable": true,
+      "synthesis_bonus": 1.2,
+      "passive_abilities": [
+        "attack_boost",
+        "critical_boost",
+        "status_immunity"
+      ]
+    },
+    {
+      "id": "breath_master",
+      "name": "Atem-Meister",
+      "category": "breath",
+      "description": "Meister aller Atem-Attacken",
+      "moves": [
+        {
+          "move_id": "dragon_breath",
+          "tier_requirement": 1,
+          "level_requirement": 1,
+          "description": "Drachenatem"
+        },
+        {
+          "move_id": "elemental_breath",
+          "tier_requirement": 2,
+          "level_requirement": 25,
+          "description": "Elementaratem"
+        },
+        {
+          "move_id": "primal_roar",
+          "tier_requirement": 3,
+          "level_requirement": 50,
+          "description": "Urzeitbrüllen"
+        },
+        {
+          "move_id": "world_breaker",
+          "tier_requirement": 4,
+          "level_requirement": 80,
+          "description": "Weltenbrecher"
+        }
+      ],
+      "prerequisites": [
+        "fire_breath",
+        "ice_breath"
+      ],
+      "max_tier": 4,
+      "is_inheritable": true,
+      "synthesis_bonus": 1.5,
+      "passive_abilities": [
+        "attack_boost",
+        "critical_boost",
+        "status_immunity"
+      ]
+    },
+    {
+      "id": "synthesis_master",
+      "name": "Synthese-Meister",
+      "category": "synthesis",
+      "description": "Spezielle Talents für Synthesis",
+      "moves": [
+        {
+          "move_id": "genetic_boost",
+          "tier_requirement": 1,
+          "level_requirement": 1,
+          "description": "Genetischer Boost"
+        },
+        {
+          "move_id": "evolution_catalyst",
+          "tier_requirement": 2,
+          "level_requirement": 30,
+          "description": "Evolutionskatalysator"
+        },
+        {
+          "move_id": "perfect_fusion",
+          "tier_requirement": 3,
+          "level_requirement": 60,
+          "description": "Perfekte Fusion"
+        },
+        {
+          "move_id": "transcendence",
+          "tier_requirement": 4,
+          "level_requirement": 90,
+          "description": "Transzendenz"
+        }
+      ],
+      "prerequisites": [],
+      "max_tier": 4,
+      "is_inheritable": false,
+      "synthesis_bonus": 2.0,
+      "passive_abilities": [
+        "attack_boost",
+        "critical_boost",
+        "status_immunity"
+      ]
+    }
+  ]
+}

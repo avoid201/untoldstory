@@ -7,6 +7,9 @@ from typing import List, Dict, Any, Callable, Optional
 from dataclasses import dataclass
 import pygame
 
+# Export CutsceneAction für andere Module
+__all__ = ['Cutscene', 'CutsceneAction', 'CutsceneManager']
+
 
 @dataclass
 class CutsceneAction:
@@ -154,6 +157,73 @@ class Cutscene:
                 self._next_action()
                 return False
         
+        elif action.action_type == 'open_door':
+            # Door Open-Action
+            if not hasattr(self, '_door_opened'):
+                self._door_opened = True
+                door_id = action.params.get('door_id')
+                map_id = action.params.get('map_id')
+                
+                print(f"Opening door {door_id} on map {map_id}")
+                
+                # Update world state
+                from engine.systems.world_state import world_state
+                world_state.set_door_state(map_id, door_id, True)
+                
+                # Update map visuals if possible
+                if hasattr(self.game, 'current_scene') and hasattr(self.game.current_scene, 'update_door_visual'):
+                    self.game.current_scene.update_door_visual(door_id, True)
+                
+                self._next_action()
+                return False
+                
+        elif action.action_type == 'close_door':
+            # Door Close-Action
+            if not hasattr(self, '_door_closed'):
+                self._door_closed = True
+                door_id = action.params.get('door_id')
+                map_id = action.params.get('map_id')
+                
+                print(f"Closing door {door_id} on map {map_id}")
+                
+                # Update world state
+                from engine.systems.world_state import world_state
+                world_state.set_door_state(map_id, door_id, False)
+                
+                # Update map visuals if possible
+                if hasattr(self.game, 'current_scene') and hasattr(self.game.current_scene, 'update_door_visual'):
+                    self.game.current_scene.update_door_visual(door_id, False)
+                
+                self._next_action()
+                return False
+                
+        elif action.action_type == 'toggle_switch':
+            # Switch Toggle-Action
+            if not hasattr(self, '_switch_toggled'):
+                self._switch_toggled = True
+                switch_id = action.params.get('switch_id')
+                map_id = action.params.get('map_id')
+                
+                print(f"Toggling switch {switch_id} on map {map_id}")
+                
+                # Update world state
+                from engine.systems.world_state import world_state
+                new_state = world_state.toggle_switch(map_id, switch_id)
+                
+                print(f"Switch {switch_id} is now {'ON' if new_state else 'OFF'}")
+                
+                # Update map visuals if possible
+                if hasattr(self.game, 'current_scene') and hasattr(self.game.current_scene, 'update_switch_visual'):
+                    self.game.current_scene.update_switch_visual(switch_id, new_state)
+                
+                # Execute switch effects if configured
+                switch_effects = action.params.get('effects', [])
+                for effect in switch_effects:
+                    self._execute_switch_effect(effect, new_state)
+                
+                self._next_action()
+                return False
+        
         else:
             # Unbekannte Action - überspringe
             print(f"Unbekannte Cutscene-Action: {action.action_type}")
@@ -176,6 +246,12 @@ class Cutscene:
             delattr(self, '_spawn_done')
         if hasattr(self, '_scene_changed'):
             delattr(self, '_scene_changed')
+        if hasattr(self, '_door_opened'):
+            delattr(self, '_door_opened')
+        if hasattr(self, '_door_closed'):
+            delattr(self, '_door_closed')
+        if hasattr(self, '_switch_toggled'):
+            delattr(self, '_switch_toggled')
     
     def complete(self):
         """Beendet die Cutscene"""
@@ -183,6 +259,72 @@ class Cutscene:
         self.completed = True
         if self.on_complete:
             self.on_complete()
+    
+    def _execute_switch_effect(self, effect: Dict[str, Any], switch_state: bool):
+        """Execute a switch effect based on the switch state."""
+        try:
+            effect_type = effect.get('type')
+            
+            if effect_type == 'door':
+                # Switch controls a door
+                door_id = effect.get('door_id')
+                map_id = effect.get('map_id')
+                
+                if door_id and map_id:
+                    from engine.systems.world_state import world_state
+                    world_state.set_door_state(map_id, door_id, switch_state)
+                    
+                    if hasattr(self.game, 'current_scene'):
+                        if hasattr(self.game.current_scene, 'update_door_visual'):
+                            self.game.current_scene.update_door_visual(door_id, switch_state)
+                    
+                    state_text = "geöffnet" if switch_state else "geschlossen"
+                    print(f"Door {door_id} wurde {state_text}")
+            
+            elif effect_type == 'bridge':
+                # Switch controls a bridge
+                bridge_id = effect.get('bridge_id')
+                map_id = effect.get('map_id')
+                
+                if bridge_id and map_id:
+                    from engine.systems.world_state import world_state
+                    world_state.set_object_state(map_id, bridge_id, 'bridge', 'extended' if switch_state else 'retracted')
+                    
+                    state_text = "ausgefahren" if switch_state else "eingefahren"
+                    print(f"Bridge {bridge_id} wurde {state_text}")
+            
+            elif effect_type == 'platform':
+                # Switch controls a moving platform
+                platform_id = effect.get('platform_id')
+                map_id = effect.get('map_id')
+                
+                if platform_id and map_id:
+                    from engine.systems.world_state import world_state
+                    world_state.set_object_state(map_id, platform_id, 'platform', 'up' if switch_state else 'down')
+                    
+                    state_text = "oben" if switch_state else "unten"
+                    print(f"Platform {platform_id} ist jetzt {state_text}")
+            
+            elif effect_type == 'message':
+                # Switch shows a message
+                message = effect.get('message', '')
+                if message and hasattr(self.game, 'current_scene'):
+                    if hasattr(self.game.current_scene, 'show_message'):
+                        self.game.current_scene.show_message(message)
+                        
+            elif effect_type == 'sound':
+                # Switch plays a sound
+                sound_file = effect.get('sound_file')
+                if sound_file:
+                    try:
+                        from engine.core.resources import resources
+                        sound = resources.load_sound(sound_file, volume=0.7)
+                        sound.play()
+                    except:
+                        pass  # Ignore sound errors
+                        
+        except Exception as e:
+            print(f"Error executing switch effect: {e}")
 
 
 class CutsceneManager:

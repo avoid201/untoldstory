@@ -1,0 +1,99 @@
+{
+  "monster_database": {
+    "load_time": 0.009368181228637695,
+    "total_species": 151,
+    "starters_count": 4,
+    "legendaries_count": 12,
+    "fossils_count": 0,
+    "present_count": 151,
+    "f_rank_count": 20,
+    "fire_count": 18,
+    "validation": {
+      "valid": true,
+      "issues": [],
+      "warnings": [],
+      "total_species": 151,
+      "species_with_descriptions": 151
+    }
+  },
+  "monster_instances": {
+    "creation_success": true,
+    "stats_calculation": true,
+    "battle_summary": true,
+    "status_application": true,
+    "stat_stages": true,
+    "stat_reset": true,
+    "offensive_effectiveness": true,
+    "defensive_effectiveness": true,
+    "friendship_system": true
+  },
+  "move_system": {
+    "total_moves": 40,
+    "move_retrieval": true,
+    "move_validation": true,
+    "move_usage": true,
+    "effects_count": 0
+  },
+  "type_system": {
+    "total_types": 12,
+    "single_effectiveness": 2.0,
+    "dual_effectiveness": 1.0,
+    "api_effectiveness": true,
+    "performance": {
+      "cache_hits": 8,
+      "cache_misses": 42,
+      "cache_hit_rate": 0.16,
+      "avg_calculation_time": 3.6273683820452007e-06,
+      "matrix_initialized": true,
+      "numpy_available": true,
+      "cache_size": 42
+    }
+  },
+  "performance": {
+    "monster_creation": {
+      "time": 0.01429605484008789,
+      "monsters": 100,
+      "rate": 6994.936793302425
+    },
+    "type_calculations": {
+      "time": 2.6226043701171875e-05,
+      "calculations": 36,
+      "rate": 1372681.309090909
+    },
+    "database_queries": {
+      "time": 0.004854679107666016,
+      "queries": 150,
+      "rate": 30898.025734210783
+    }
+  },
+  "validation": {
+    "monster_database": {
+      "valid": true,
+      "issues": [],
+      "warnings": [],
+      "total_species": 151,
+      "species_with_descriptions": 151
+    },
+    "moves": {
+      "total": 40,
+      "invalid": 0,
+      "invalid_list": []
+    },
+    "types": {
+      "expected": 12,
+      "found": 12,
+      "missing": [],
+      "extra": []
+    }
+  },
+  "errors": [
+    "Status effects test failed: 'str' object has no attribute 'value'",
+    "Move execution test failed: name 'test_monster' is not defined",
+    "Type system API test failed: 'TypeChart' object has no attribute 'get_type_coverage_analysis'",
+    "Monster-Move integration test failed: 'integration'",
+    "Monster-Type integration test failed: 'integration'",
+    "Battle simulation test failed: 'integration'"
+  ],
+  "warnings": [],
+  "total_time": 0.03249001502990723
+}

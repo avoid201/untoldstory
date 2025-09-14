@@ -128,18 +128,16 @@ class InteractionManager:
                 self.interactions_cache[map_id] = interactions
                 self.active_interactions = interactions
                 
-                print(f"[InteractionManager] Loaded interactions for {map_id}:")
-                print(f"  - NPCs: {len(interactions.npcs)}")
-                print(f"  - Warps: {len(interactions.warps)}")
-                print(f"  - Objects: {len(interactions.objects)}")
-                print(f"  - Triggers: {len(interactions.triggers)}")
-                
+                # Interactions loaded successfully
+                print(f"[InteractionManager] Interactions für {map_id} geladen")
                 return interactions
                 
             except Exception as e:
-                print(f"[InteractionManager] Error loading {interaction_file}: {e}")
+                # Interaction loading error
+                print(f"[InteractionManager] Fehler beim Laden der Interactions für {map_id}: {e}")
         else:
-            print(f"[InteractionManager] No interaction file for {map_id}, creating empty")
+            # No interaction file found - creating empty
+            print(f"[InteractionManager] Keine Interaction-Datei für {map_id} gefunden - erstelle leere")
         
         # Return empty interaction data
         empty = InteractionData(map_id=map_id)
@@ -261,7 +259,8 @@ class InteractionManager:
                         # Fallback: Prüfe Story-Flags
                         return self.game.story_manager.get_flag(f"has_item_{condition_value}")
                 except Exception as e:
-                    print(f"Fehler beim Item-Check: {e}")
+                    # Item check error
+                    print(f"[InteractionManager] Item-Check Fehler: {e}")
                     return False
                 
             elif condition_type == 'variable':
@@ -442,4 +441,4 @@ class InteractionManager:
         with open(interaction_file, 'w', encoding='utf-8') as f:
             json.dump(default_data, f, indent=2)
         
-        print(f"[InteractionManager] Created default interaction file: {interaction_file}")
+        print(f"[InteractionManager] Standard-Interaction-Datei für {map_id} erstellt")

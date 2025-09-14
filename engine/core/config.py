@@ -4,8 +4,9 @@ Central configuration and constants for the game.
 
 from enum import Enum, auto
 from typing import Dict, Tuple, Any
-import os
+# os import removed - not used in this file
 from pathlib import Path
+import pygame
 
 
 # Game Info
@@ -73,12 +74,17 @@ class Colors:
     UI_UNSELECTED = (150, 150, 150)
     UI_DISABLED = (80, 80, 80)
     
+    # Battle Colors
+    BATTLE_BG = (50, 50, 70)  # Battle background color
+    
     # HP Bar Colors
     HP_HIGH = (0, 200, 0)
     HP_MED = (200, 200, 0)
     HP_LOW = (200, 0, 0)
     
     # Additional Colors
+    LIGHT_GRAY = (200, 200, 200)
+    DARK_GRAY = (100, 100, 100)
     LIGHT_GREEN = (150, 255, 150)
     LIGHT_BLUE = (150, 150, 255)
     LIGHT_RED = (255, 150, 150)
@@ -98,29 +104,47 @@ class Colors:
 # Input Mapping
 class InputConfig:
     """Input configuration."""
-    # Movement
-    MOVE_UP = ['w', 'up']
-    MOVE_DOWN = ['s', 'down']
-    MOVE_LEFT = ['a', 'left']
-    MOVE_RIGHT = ['d', 'right']
-    
-    # Actions
-    CONFIRM = ['e', 'return', 'space']
-    CANCEL = ['q', 'escape']
-    INTERACT = ['e', 'return', 'space']
-    RUN = ['lshift', 'rshift']
-    
-    # Menu
-    PAUSE = ['escape', 'p']
-    INVENTORY = ['i']
-    PARTY = ['m']
-    QUESTS = ['j']
-    
-    # Debug
-    DEBUG_TOGGLE = ['tab']
-    GRID_TOGGLE = ['g']
-    FPS_TOGGLE = ['f3']
-    SCREENSHOT = ['f12']
+    def __init__(self):
+        # Movement keys (pygame key constants)
+        self.move_up = pygame.K_w
+        self.move_down = pygame.K_s
+        self.move_left = pygame.K_a
+        self.move_right = pygame.K_d
+        
+        # Alternative movement keys
+        self.alt_up = pygame.K_UP
+        self.alt_down = pygame.K_DOWN
+        self.alt_left = pygame.K_LEFT
+        self.alt_right = pygame.K_RIGHT
+        
+        # Action buttons
+        self.button_a = pygame.K_e
+        self.button_b = pygame.K_q
+        self.button_x = pygame.K_i
+        self.button_y = pygame.K_m
+        
+        # Alternative action keys
+        self.alt_confirm = pygame.K_RETURN
+        self.alt_cancel = pygame.K_ESCAPE
+        self.alt_run = pygame.K_LSHIFT
+        
+        # System keys
+        self.pause = pygame.K_ESCAPE
+        self.debug = pygame.K_TAB
+        
+        # Legacy attributes for compatibility
+        self.MOVE_UP = [self.move_up, self.alt_up]
+        self.MOVE_DOWN = [self.move_down, self.alt_down]
+        self.MOVE_LEFT = [self.move_left, self.alt_left]
+        self.MOVE_RIGHT = [self.move_right, self.alt_right]
+        self.CONFIRM = [self.button_a, self.alt_confirm]
+        self.CANCEL = [self.button_b, self.alt_cancel]
+        self.INTERACT = [self.button_a, self.alt_confirm]
+        self.RUN = [self.button_b, self.alt_run]
+        self.PAUSE = [self.pause]
+        self.INVENTORY = [self.button_x]
+        self.PARTY = [self.button_y]
+        self.DEBUG_TOGGLE = [self.debug]
 
 
 # Battle Configuration
@@ -339,27 +363,9 @@ class BalanceConfig:
     WILD_MONSTER_LEVEL_VARIANCE = 2  # +/- levels
 
 
-# Debug Settings
-class DebugConfig:
-    """Debug configuration."""
-    SHOW_FPS = False
-    SHOW_COLLISION = False
-    SHOW_GRID = False
-    SHOW_COORDINATES = False
-    SHOW_ENTITY_INFO = False
-    
-    # Cheats (for development)
-    INFINITE_MONEY = False
-    INFINITE_HP = False
-    ONE_HIT_KILL = False
-    NO_RANDOM_ENCOUNTERS = False
-    FAST_TEXT = False
-    UNLOCK_ALL_AREAS = False
-    
-    # Logging
-    LOG_LEVEL = "INFO"  # DEBUG, INFO, WARNING, ERROR
-    LOG_TO_FILE = True
-    LOG_TO_CONSOLE = True
+# Debug Settings - Moved to engine/debug/debug_system.py
+# Import from unified debug configuration
+from engine.debug import debug
 
 
 # Network Settings (for future multiplayer)
@@ -448,13 +454,18 @@ CAMERA_FOLLOW_SPEED = 8.0    # Kamera-Geschwindigkeit für 16x16 Tiles
 # Font Configuration
 class Fonts:
     """Font configuration for the game."""
-    # Default font sizes
+    # Default font sizes - optimized for pixel game readability
     TINY = 8
     SMALL = 12
     NORMAL = 16
     LARGE = 20
     HUGE = 24
     TITLE = 32
+    
+    # Battle UI specific font sizes
+    MOVE_NAME = 18
+    MONSTER_NAME = 20
+    MENU_TITLE = 22
     
     # Font families
     DEFAULT = None  # pygame default

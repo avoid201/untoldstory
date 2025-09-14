@@ -10,7 +10,7 @@ import random
 from pathlib import Path
 from typing import Dict, List, Optional, Any, Tuple
 from engine.world.entity import Entity, EntitySprite, Direction
-from engine.world.tiles import TILE_SIZE
+from engine.world.tiles import TILE_SIZE, NPC_MOVEMENT_COOLDOWN
 from engine.ui.dialogue import DialoguePage
 
 
@@ -56,7 +56,7 @@ class ManagedNPC(Entity):
         self.patrol_route = npc_data.route
         self.patrol_index = 0
         self.movement_timer = 0
-        self.movement_cooldown = 2.0  # Seconds between movements
+        self.movement_cooldown = NPC_MOVEMENT_COOLDOWN
         
         # Set initial facing direction
         self.set_facing(npc_data.facing)
@@ -73,7 +73,8 @@ class ManagedNPC(Entity):
                     self.sprite_surface = sprite
                     self.sprite_config.surface = sprite
         except Exception as e:
-            print(f"[ManagedNPC] Failed to load sprite {self.npc_data.sprite}: {e}")
+            # Sprite loading failed - using fallback
+            pass
     
     def set_facing(self, direction_str: str):
         """Set the NPC's facing direction."""
@@ -122,38 +123,22 @@ class ManagedNPC(Entity):
                 dy = target[1] - current_tile[1]
                 
                 if dx > 0:
-                    self._try_move(Direction.RIGHT)
+                    self.x += TILE_SIZE
+                    self.direction = Direction.RIGHT
                 elif dx < 0:
-                    self._try_move(Direction.LEFT)
+                    self.x -= TILE_SIZE
+                    self.direction = Direction.LEFT
                 elif dy > 0:
-                    self._try_move(Direction.DOWN)
+                    self.y += TILE_SIZE
+                    self.direction = Direction.DOWN
                 elif dy < 0:
-                    self._try_move(Direction.UP)
+                    self.y -= TILE_SIZE
+                    self.direction = Direction.UP
                 else:
                     # Reached waypoint, move to next
                     self.patrol_index = (self.patrol_index + 1) % len(self.patrol_route)
     
-    def _try_move(self, direction: Direction):
-        """Try to move in a direction with collision checking."""
-        # Calculate new position
-        dx, dy = 0, 0
-        if direction == Direction.UP:
-            dy = -TILE_SIZE
-        elif direction == Direction.DOWN:
-            dy = TILE_SIZE
-        elif direction == Direction.LEFT:
-            dx = -TILE_SIZE
-        elif direction == Direction.RIGHT:
-            dx = TILE_SIZE
-        
-        new_x = self.x + dx
-        new_y = self.y + dy
-        
-        # TODO: Check collision with map
-        # For now, just move and update direction
-        self.x = new_x
-        self.y = new_y
-        self.direction = direction
+    # _try_move method removed - redundant with NPC class implementation
     
     def get_dialogue_pages(self) -> List[DialoguePage]:
         """Get dialogue pages for this NPC."""
@@ -173,7 +158,8 @@ class ManagedNPC(Entity):
                 return pages
                 
             except Exception as e:
-                print(f"[ManagedNPC] Failed to load dialog {dialog_file}: {e}")
+                # Dialog loading failed - using default
+                pass
         
         # Default dialog
         return [DialoguePage(f"Hello! I'm {self.name}.", self.name)]
@@ -209,8 +195,15 @@ class ManagedNPC(Entity):
                         if not story.get_flag(cond_value):
                             return False
             elif cond_type == 'has_item':
-                # TODO: Check inventory
-                pass
+                # Check player inventory using the integrated inventory system
+                item_id = condition.get('item')
+                quantity = condition.get('quantity', 1)
+                
+                if hasattr(self.game, 'inventory') and self.game.inventory:
+                    return self.game.inventory.has_item(item_id, quantity)
+                else:
+                    # Inventory system not available for item check
+                    return False
         
         return True
     
@@ -275,9 +268,9 @@ class NPCManager:
             area.entities.append(npc)
             area.npcs.append(npc)
             
-            print(f"[NPCManager] Spawned NPC: {npc_data.id} at {npc_data.position}")
+            # NPC spawned successfully
         
-        print(f"[NPCManager] Total NPCs spawned: {len(self.active_npcs)}")
+        # All NPCs spawned
     
     def _check_spawn_conditions(self, conditions: Dict) -> bool:
         """Check if spawn conditions are met."""
@@ -357,4 +350,4 @@ class NPCManager:
         with open(dialog_file, 'w', encoding='utf-8') as f:
             json.dump(default_dialog, f, indent=2)
         
-        print(f"[NPCManager] Created default dialog file: {dialog_file}")
+        # Default dialog file created

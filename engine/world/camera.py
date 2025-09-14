@@ -7,6 +7,7 @@ import pygame
 from typing import Optional, Tuple
 from dataclasses import dataclass
 from ..core.config import CAMERA_DEADZONE_WIDTH, CAMERA_DEADZONE_HEIGHT, CAMERA_FOLLOW_SPEED
+from .tiles import CAMERA_SHAKE_INTENSITY, CAMERA_SHAKE_DURATION, CAMERA_LERP_FACTOR
 
 
 @dataclass
@@ -61,19 +62,15 @@ class Camera:
         self._update_deadzone()
         
         # Camera shake
-        self.shake_intensity: float = 0.0
-        self.shake_duration: float = 0.0
+        self.shake_intensity: float = CAMERA_SHAKE_INTENSITY
+        self.shake_duration: float = CAMERA_SHAKE_DURATION
         self.shake_offset_x: float = 0.0
         self.shake_offset_y: float = 0.0
         
         # Follow target
-        self.follow_target: Optional[pygame.Rect] = None
-        self.follow_entity = None  # NEU: Entity-Referenz
-        self.follow_rect = None    # Fallback für Rect
+        self.follow_entity = None  # Entity-Referenz für following
         self.follow_offset_x: int = 0
         self.follow_offset_y: int = 0
-        
-        # Konfiguration wird jetzt über CameraConfig gehandhabt
     
     def _update_deadzone(self) -> None:
         """Update the deadzone rectangle based on current config."""
@@ -170,8 +167,10 @@ class Camera:
         
         if self.config.smooth_follow:
             # Sanftes Nachziehen mit konfigurierbarer Geschwindigkeit
-            self.x += (target_cam_x - self.x) * (self.config.follow_speed / 60.0)  # 60 FPS als Basis
-            self.y += (target_cam_y - self.y) * (self.config.follow_speed / 60.0)  # 60 FPS als Basis
+            # Verwende dt für framerate-unabhängige Bewegung
+            lerp_factor = min(CAMERA_LERP_FACTOR, self.config.follow_speed * dt)
+            self.x += (target_cam_x - self.x) * lerp_factor
+            self.y += (target_cam_y - self.y) * lerp_factor
         else:
             # Direktes Setzen
             self.x = target_cam_x

@@ -3,7 +3,7 @@ Party management system for monster teams.
 Handles active party of 6 and storage boxes.
 """
 
-from typing import TYPE_CHECKING, List, Optional, Dict, Tuple
+from typing import TYPE_CHECKING, List, Optional, Dict, Tuple, Any
 from dataclasses import dataclass, field
 import json
 
@@ -634,6 +634,67 @@ class PartyManager:
             return False, "Konnte Monster nicht zum Team hinzufügen!"
         
         return True, f"{monster.nickname or monster.species_name} is jetzt im Team!"
+    
+    def switch_active_monster(self, new_index: int) -> Dict[str, Any]:
+        """
+        Switch active monster in battle.
+        
+        Args:
+            new_index: Index of monster to switch to (0-5)
+            
+        Returns:
+            Dictionary with success status, messages, and monster info
+        """
+        if new_index < 0 or new_index >= Party.MAX_SIZE:
+            return {'success': False, 'message': 'Ungültiger Index!'}
+        
+        new_monster = self.party.members[new_index]
+        if not new_monster:
+            return {'success': False, 'message': 'Kein Monster an dieser Position!'}
+        
+        if new_monster.current_hp <= 0:
+            return {'success': False, 'message': 'Monster ist ohnmächtig!'}
+        
+        if new_index == self.party.active_index:
+            return {'success': False, 'message': 'Monster ist bereits aktiv!'}
+        
+        old_active = self.party.active_index
+        old_monster = self.party.get_active()
+        
+        # Switch active monster
+        self.party.active_index = new_index
+        
+        # Reset stat stages for switched out monster (DQM-style)
+        if old_monster:
+            old_monster.reset_stat_stages()
+        
+        return {
+            'success': True,
+            'old_monster': old_monster,
+            'new_monster': new_monster,
+            'old_index': old_active,
+            'new_index': new_index,
+            'message': f"{new_monster.name}, du bist dran!"
+        }
+    
+    def get_switchable_monsters(self) -> List[Tuple[int, 'MonsterInstance']]:
+        """
+        Get list of monsters that can be switched to in battle.
+        
+        Returns:
+            List of (index, monster) tuples for conscious monsters
+        """
+        switchable = []
+        
+        for i, monster in enumerate(self.party.members):
+            if monster and monster.current_hp > 0 and i != self.party.active_index:
+                switchable.append((i, monster))
+        
+        return switchable
+    
+    def can_switch(self) -> bool:
+        """Check if player can switch monsters."""
+        return bool(self.get_switchable_monsters())
     
     def heal_party_at_center(self) -> str:
         """Heal all party members (used at healing centers)."""

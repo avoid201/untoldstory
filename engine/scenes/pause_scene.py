@@ -148,29 +148,30 @@ class PauseScene(Scene):
     
     def _open_inventory(self) -> None:
         """Open inventory submenu."""
-        from engine.ui.menus import InventoryMenu
-        self.submenu = InventoryMenu(self.game)
+        from engine.ui.menu_system import EnhancedInventoryMenu
+        self.submenu = EnhancedInventoryMenu(self.game)
         self.in_submenu = True
         self.submenu_type = 'inventory'
     
     def _open_party(self) -> None:
         """Open party submenu."""
-        from engine.ui.menus import PartyMenu
-        self.submenu = PartyMenu(self.game)
+        from engine.ui.menu_system import EnhancedPartyMenu
+        self.submenu = EnhancedPartyMenu(self.game)
         self.in_submenu = True
         self.submenu_type = 'party'
     
     def _open_quests(self) -> None:
         """Open quest log."""
-        from engine.ui.menus import QuestMenu
-        self.submenu = QuestMenu(self.game)
+        from engine.ui.menu_system import EnhancedQuestMenu
+        self.submenu = EnhancedQuestMenu(self.game)
         self.in_submenu = True
         self.submenu_type = 'quests'
     
     def _save_game(self) -> None:
         """Open save menu."""
-        from engine.ui.menus import SaveMenu
-        self.submenu = SaveMenu(self.game)
+        from engine.ui.menu_system import EnhancedSaveMenu
+        self.submenu = EnhancedSaveMenu(self.game)
+        self.submenu.set_mode('save')
         self.in_submenu = True
         self.submenu_type = 'save'
     
@@ -249,31 +250,49 @@ class PauseScene(Scene):
     def _handle_option_selection(self, index: int, item: str) -> None:
         """Handle option selection in options menu."""
         if "Musik" in item:
-            # Toggle Musik
-            if "An" in item:
-                self.submenu.items[index] = "Musik: Aus"
-                # TODO: Implementiere Musik-Aus
-            else:
+            # Toggle Musik über Settings-Manager
+            music_enabled = self.game.settings_manager.toggle_music()
+            if music_enabled:
                 self.submenu.items[index] = "Musik: An"
-                # TODO: Implementiere Musik-An
+            else:
+                self.submenu.items[index] = "Musik: Aus"
+            
+            # Apply audio settings and save
+            self.game.settings_manager.apply_audio_settings(self.game.audio_manager)
+            if not music_enabled:
+                # Stop current music
+                if hasattr(self.game, 'audio_manager'):
+                    self.game.audio_manager.stop_music()
+            else:
+                # Resume music if available
+                if hasattr(self.game, 'audio_manager'):
+                    self.game.audio_manager.resume_music()
+            self.game.settings_manager.save_settings()
                 
         elif "Sound" in item:
-            # Toggle Sound
-            if "An" in item:
-                self.submenu.items[index] = "Sound: Aus"
-                # TODO: Implementiere Sound-Aus
-            else:
+            # Toggle Sound über Settings-Manager
+            sound_enabled = self.game.settings_manager.toggle_sound()
+            if sound_enabled:
                 self.submenu.items[index] = "Sound: An"
-                # TODO: Implementiere Sound-An
+            else:
+                self.submenu.items[index] = "Sound: Aus"
+            
+            # Apply audio settings and save
+            self.game.settings_manager.apply_audio_settings(self.game.audio_manager)
+            self.game.settings_manager.save_settings()
                 
         elif "Geschwindigkeit" in item:
-            # Cycle through speeds
-            speeds = ["Langsam", "Normal", "Schnell"]
-            current_speed = item.split(": ")[1]
-            current_index = speeds.index(current_speed)
-            next_index = (current_index + 1) % len(speeds)
-            self.submenu.items[index] = f"Geschwindigkeit: {speeds[next_index]}"
-            # TODO: Implementiere Geschwindigkeits-Änderung
+            # Cycle through text speeds via Settings-Manager
+            new_speed = self.game.settings_manager.cycle_text_speed()
+            speed_mapping = {
+                "slow": "Langsam",
+                "normal": "Normal",
+                "fast": "Schnell"
+            }
+            speed_display = speed_mapping.get(new_speed.value, "Normal")
+            self.submenu.items[index] = f"Geschwindigkeit: {speed_display}"
+            # Save settings
+            self.game.settings_manager.save_settings()
             
         elif "Zurück" in item:
             # Return to pause menu
@@ -282,12 +301,17 @@ class PauseScene(Scene):
     def _quit_to_menu(self) -> None:
         """Quit to main menu."""
         # Save confirmation dialog
-        from engine.ui.menus import ConfirmDialog
-        dialog = ConfirmDialog(
+        from engine.ui.menu_system import EnhancedConfirmDialog
+        def confirm_callback(result: bool) -> None:
+            if result:
+                self._confirm_quit()
+            else:
+                self._close_submenu()
+        
+        dialog = EnhancedConfirmDialog(
+            self.game,
             "Zum Hauptmenü zurückkehren?",
-            "Nicht gespeicherter Fortschritt geht verloren!",
-            yes_callback=self._confirm_quit,
-            no_callback=self._close_submenu
+            confirm_callback
         )
         self.submenu = dialog
         self.in_submenu = True
@@ -402,7 +426,13 @@ class PauseScene(Scene):
         
         # Money
         if hasattr(self.game, 'inventory'):
-            money_text = f"Geld: {self.game.inventory.money}€"
+            # Check for money in different locations
+            money = 0
+            if hasattr(self.game, 'player_data') and hasattr(self.game.player_data, 'money'):
+                money = self.game.player_data.money
+            elif hasattr(self.game, 'inventory') and hasattr(self.game.inventory, 'money'):
+                money = self.game.inventory.money
+            money_text = f"Geld: {money}€"
             money_surf = self.small_font.render(money_text, True, self.unselected_color)
             surface.blit(money_surf, (self.status_x + 10, self.status_y + 58))
         

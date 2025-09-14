@@ -114,8 +114,25 @@ class FieldInteractionSystem:
     def _collect_hidden_item(self, key: str, item: dict) -> None:
         """Sammelt ein verstecktes Item."""
         hidden_items = self.scene.game_variables.get('hidden_items', {})
+        item_data = hidden_items[key]
         hidden_items[key]['found'] = True
-        # TODO: Zu Inventar hinzufügen
+        
+        # Zu Inventar hinzufügen
+        if hasattr(self.scene.game, 'inventory') and self.scene.game.inventory:
+            item_id = item_data.get('item_id', 'item')
+            quantity = item_data.get('quantity', 1)
+            item_name = item_data.get('name', item_id)
+            
+            success = self.scene.game.inventory.add_item(item_id, quantity)
+            if success:
+                print(f"[Inventory] {item_name} x{quantity} wurde zum Inventar hinzugefügt!")
+                # Optional: Message-System für Player-Feedback
+                if hasattr(self.scene, 'show_message'):
+                    self.scene.show_message(f"Du hast {item_name} x{quantity} gefunden!")
+            else:
+                print(f"[Inventory] Inventar ist voll! Konnte {item_name} nicht hinzufügen.")
+        else:
+            print(f"[Inventory] Kein Inventar-System verfügbar!")
     
     def _interact_with_entity(self, entity) -> None:
         """

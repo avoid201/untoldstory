@@ -3,11 +3,25 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "player_house.tmx",
+    "activeFile": "/Users/leon/Desktop/museum.tmx",
     "expandedProjectPaths": [
     ],
     "file.lastUsedOpenFilter": "All Files (*)",
     "fileStates": {
+        "/Users/assets/gfx/tiles/tiles_building1.tsx": {
+            "scaleInDock": 1
+        },
+        "/Users/assets/gfx/tiles/tiles_interior1.tsx": {
+            "scaleInDock": 1
+        },
+        "/Users/leon/Desktop/museum.tmx": {
+            "scale": 1.70703125,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 159.92677345537757,
+                "y": 95.78032036613273
+            }
+        },
         "/Users/leon/Desktop/untold_story/assets/gfx/tiles/tiles_building1.tsx": {
             "scaleInDock": 1
         },
@@ -40,11 +54,11 @@
             "expandedObjectLayers": [
                 3
             ],
-            "scale": 2.5586,
+            "scale": 1.1101,
             "selectedLayer": 1,
             "viewCenter": {
-                "x": 168.06065817243802,
-                "y": 769.7568983037597
+                "x": 239.61805242770916,
+                "y": 400.41437708314555
             }
         },
         "museum.tmx": {
@@ -57,6 +71,9 @@
                 "x": 95.94896331738437,
                 "y": 48.14460393407763
             }
+        },
+        "object_tiles.tsx": {
+            "scaleInDock": 1
         },
         "penny.tmx": {
             "expandedObjectLayers": [
@@ -122,12 +139,24 @@
     "map.width": 8,
     "openFiles": [
         "tiles.tsx",
-        "player_house.tmx"
+        "player_house.tmx",
+        "kohlenstadt.tmx",
+        "route1.tmx",
+        "doenerbude.tmx",
+        "penny.tmx",
+        "museum.tmx",
+        "/Users/leon/Desktop/museum.tmx"
     ],
     "project": "tiled_project_untold_story.tiled-project",
     "recentFiles": [
-        "player_house Kopie.tmx",
+        "tiles.tsx",
         "player_house.tmx",
-        "tiles.tsx"
+        "kohlenstadt.tmx",
+        "route1.tmx",
+        "doenerbude.tmx",
+        "penny.tmx",
+        "museum.tmx",
+        "/Users/leon/Desktop/museum.tmx",
+        "player_house Kopie.tmx"
     ]
 }

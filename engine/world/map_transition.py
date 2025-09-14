@@ -5,6 +5,7 @@ Behandelt das Laden neuer Maps und Positionierung des Spielers
 
 from typing import Dict, Any, Optional
 from engine.world.entity import Direction
+from engine.world.tiles import SOUND_VOLUME_DEFAULT
 
 
 class MapTransition:
@@ -27,12 +28,12 @@ class MapTransition:
         spawn_point = warp_data.get('spawn_point', 'default')
         
         if not target_map:
-            print("Warning: No target map specified for transition")
+            # Warning: No target map specified for transition
             return
         
         # Play warp sound (optional)
         try:
-            sound = game.resources.load_sound("warp.wav", volume=0.5)
+            sound = game.resources.load_sound("warp.wav", volume=SOUND_VOLUME_DEFAULT)
             sound.play()
         except:
             pass

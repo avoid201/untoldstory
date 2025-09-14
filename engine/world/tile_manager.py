@@ -85,21 +85,21 @@ class TileManager:
         if npcs_file.exists():
             with open(npcs_file, 'r', encoding='utf-8') as f:
                 self.npcs_data = json.load(f)
-            print(f"[TileManager] NPCs geladen: {len(self.npcs_data)} Maps")
+            # NPCs loaded successfully
         
         # Warps laden
         warps_file = game_data_path / "warps.json"
         if warps_file.exists():
             with open(warps_file, 'r', encoding='utf-8') as f:
                 self.warps_data = json.load(f)
-            print(f"[TileManager] Warps geladen: {len(self.warps_data)} Maps")
+            # Warps loaded successfully
         
         # Dialoge laden
         dialogues_file = game_data_path / "dialogues.json"
         if dialogues_file.exists():
             with open(dialogues_file, 'r', encoding='utf-8') as f:
                 self.dialogues_data = json.load(f)
-            print(f"[TileManager] Dialoge geladen: {len(self.dialogues_data)} Einträge")
+            # Dialogues loaded successfully
     
     def load_tmx_map(self, tmx_path: Path) -> Dict:
         """
@@ -111,7 +111,7 @@ class TileManager:
         Returns:
             Dictionary mit allen Map-Daten
         """
-        print(f"[TileManager] Lade TMX: {tmx_path}")
+        # Loading TMX map
         
         # Parse TMX
         tree = ET.parse(tmx_path)
@@ -168,7 +168,7 @@ class TileManager:
     def _load_tsx_tileset(self, tsx_path: Path, firstgid: int) -> Optional[Dict]:
         """Lädt ein TSX-Tileset"""
         if not tsx_path.exists():
-            print(f"[TileManager] TSX nicht gefunden: {tsx_path}")
+            # TSX file not found
             return None
         
         try:
@@ -211,7 +211,7 @@ class TileManager:
                         break
             
             if not image_path.exists():
-                print(f"[TileManager] Tileset-Bild nicht gefunden: {image_path}")
+                # Tileset image not found
                 return tileset_data
             
             # Lade und zerschneide Tileset
@@ -233,11 +233,11 @@ class TileManager:
                         if properties.get('collision', False):
                             self.tiles[gid].collision = True
             
-            print(f"[TileManager] Tileset geladen: {tileset_data['name']} ({tileset_data['tile_count']} Tiles)")
+            # Tileset loaded successfully
             return tileset_data
             
         except Exception as e:
-            print(f"[TileManager] Fehler beim Laden von TSX {tsx_path}: {e}")
+            # TSX loading error
             return None
     
     def _extract_tiles(self, surface: pygame.Surface, tileset_data: Dict, firstgid: int):

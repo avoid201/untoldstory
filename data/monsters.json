@@ -23,22 +23,14 @@
     "traits": [
       "Entflammbar"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Kratzer"
-      },
-      {
-        "level": 5,
-        "move": "Funken"
-      },
-      {
-        "level": 10,
-        "move": "Feuerball"
-      }
-    ],
     "evolution": null,
-    "description": "Ein kleiner, flackernder Feuerball mit Beinchen. Glutstummel hüpft durch die Gegend und hinterlässt überall kleine Brandflecken. Die Ruhrpottler haben sich längst dran gewöhnt - dat Vieh is halt 'n bisschen heißblütig, aber harmlos."
+    "description": "Ein kleiner, flackernder Feuerball mit Beinchen. Glutstummel hüpft durch die Gegend und hinterlässt überall kleine Brandflecken. Die Ruhrpottler haben sich längst dran gewöhnt - dat Vieh is halt 'n bisschen heißblütig, aber harmlos.",
+    "starting_talents": [
+      "fire_i",
+      "physical_i"
+    ],
+    "learnable_talents": [],
+    "talent_learning_levels": {}
   },
   {
     "id": 2,
@@ -64,22 +56,14 @@
     "traits": [
       "Hitzkopf"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Rempler"
-      },
-      {
-        "level": 4,
-        "move": "Funken"
-      },
-      {
-        "level": 9,
-        "move": "Flammenwurf"
-      }
-    ],
     "evolution": null,
-    "description": "Ein rundlicher Feuerball mit 'nem Temperament wie 'ne Dampflok. Böllerling explodiert bei jeder Kleinigkeit und schießt Funken in alle Richtungen. Trotz seiner defensiven Natur is er immer bereit für 'ne Rauferei."
+    "description": "Ein rundlicher Feuerball mit 'nem Temperament wie 'ne Dampflok. Böllerling explodiert bei jeder Kleinigkeit und schießt Funken in alle Richtungen. Trotz seiner defensiven Natur is er immer bereit für 'ne Rauferei.",
+    "starting_talents": [
+      "fire_i",
+      "physical_i"
+    ],
+    "learnable_talents": [],
+    "talent_learning_levels": {}
   },
   {
     "id": 3,
@@ -105,22 +89,14 @@
     "traits": [
       "Glitschig"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Rempler"
-      },
-      {
-        "level": 5,
-        "move": "Blubber"
-      },
-      {
-        "level": 10,
-        "move": "Wasserstrahl"
-      }
-    ],
     "evolution": null,
-    "description": "Ein prähistorischer Molch mit schuppiger Haut und großen Kiemen. Urmolch schwimmt elegant durch das Wasser und kann sogar an Land überleben. Seine magischen Fähigkeiten haben ihn in der Urzeit zu einem gefürchteten Raubtier gemacht."
+    "description": "Ein prähistorischer Molch mit schuppiger Haut und großen Kiemen. Urmolch schwimmt elegant durch das Wasser und kann sogar an Land überleben. Seine magischen Fähigkeiten haben ihn in der Urzeit zu einem gefürchteten Raubtier gemacht.",
+    "starting_talents": [
+      "water_i",
+      "physical_i"
+    ],
+    "learnable_talents": [],
+    "talent_learning_levels": {}
   },
   {
     "id": 4,
@@ -146,22 +122,14 @@
     "traits": [
       "Besoffen"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Rempler"
-      },
-      {
-        "level": 5,
-        "move": "Blubber"
-      },
-      {
-        "level": 7,
-        "move": "Giftwolke"
-      }
-    ],
     "evolution": null,
-    "description": "Ein lebendiges Bierwesen, das aus dem Schaum der besten Ruhrpott-Brauereien entstanden is. Bierelementar torkelt durch die Kneipen und hinterlässt überall Pfützen aus Bier. Die Wirtinnen lieben ihn, weil er immer für Stimmung sorgt."
+    "description": "Ein lebendiges Bierwesen, das aus dem Schaum der besten Ruhrpott-Brauereien entstanden is. Bierelementar torkelt durch die Kneipen und hinterlässt überall Pfützen aus Bier. Die Wirtinnen lieben ihn, weil er immer für Stimmung sorgt.",
+    "starting_talents": [
+      "water_i",
+      "physical_i"
+    ],
+    "learnable_talents": [],
+    "talent_learning_levels": {}
   },
   {
     "id": 5,
@@ -187,22 +155,13 @@
     "traits": [
       "Stur"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Rempler"
-      },
-      {
-        "level": 4,
-        "move": "Lehmschuss"
-      },
-      {
-        "level": 8,
-        "move": "Steinwurf"
-      }
-    ],
     "evolution": null,
-    "description": "Ein kleiner Erdgeist, der aussieht wie 'n Klumpen Kohle mit Beinchen. Kohlekumpel buddelt sich durch den Boden und sammelt überall Steine und Mineralien. Die Bergleute haben ihn adoptiert - er is halt 'n bisschen stur, aber zuverlässig."
+    "description": "Ein kleiner Erdgeist, der aussieht wie 'n Klumpen Kohle mit Beinchen. Kohlekumpel buddelt sich durch den Boden und sammelt überall Steine und Mineralien. Die Bergleute haben ihn adoptiert - er is halt 'n bisschen stur, aber zuverlässig.",
+    "starting_talents": [
+      "physical_i"
+    ],
+    "learnable_talents": [],
+    "talent_learning_levels": {}
   },
   {
     "id": 6,
@@ -228,22 +187,13 @@
     "traits": [
       "Robust"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Rempler"
-      },
-      {
-        "level": 5,
-        "move": "Härtner"
-      },
-      {
-        "level": 9,
-        "move": "Steinwurf"
-      }
-    ],
     "evolution": null,
-    "description": "Ein prähistorischer Krebs mit einem Panzer aus purem Granit. Kieselkrabbler krabbelt langsam aber sicher durch die Gegend und kann jeden Angriff abprallen lassen. In der Urzeit war er der Tank der Dinosaurier-Herde."
+    "description": "Ein prähistorischer Krebs mit einem Panzer aus purem Granit. Kieselkrabbler krabbelt langsam aber sicher durch die Gegend und kann jeden Angriff abprallen lassen. In der Urzeit war er der Tank der Dinosaurier-Herde.",
+    "starting_talents": [
+      "physical_i"
+    ],
+    "learnable_talents": [],
+    "talent_learning_levels": {}
   },
   {
     "id": 7,
@@ -269,22 +219,13 @@
     "traits": [
       "Flatterhaft"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Kratzer"
-      },
-      {
-        "level": 5,
-        "move": "Windstoß"
-      },
-      {
-        "level": 9,
-        "move": "Wirbelwind"
-      }
-    ],
     "evolution": null,
-    "description": "Eine Ratte mit kleinen Flügeln, die durch die Lüfte schwebt. Flugratte ist unberechenbar und wechselt ständig die Richtung. Die Ruhrpottler haben sich dran gewöhnt - sie is halt 'n bisschen nervös, aber harmlos."
+    "description": "Eine Ratte mit kleinen Flügeln, die durch die Lüfte schwebt. Flugratte ist unberechenbar und wechselt ständig die Richtung. Die Ruhrpottler haben sich dran gewöhnt - sie is halt 'n bisschen nervös, aber harmlos.",
+    "starting_talents": [
+      "physical_i"
+    ],
+    "learnable_talents": [],
+    "talent_learning_levels": {}
   },
   {
     "id": 8,
@@ -310,22 +251,13 @@
     "traits": [
       "Flatterhaft"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Giftwolke"
-      },
-      {
-        "level": 3,
-        "move": "Windstoß"
-      },
-      {
-        "level": 7,
-        "move": "Wirbelwind"
-      }
-    ],
     "evolution": null,
-    "description": "Ein klitzekleine Wolke, die nach ordentlich Gammel stinkt. Schwebt durch die Gegend und verteilt üblen Geruch – dat zieht dir die Schuh aus, ehrlich."
+    "description": "Ein klitzekleine Wolke, die nach ordentlich Gammel stinkt. Schwebt durch die Gegend und verteilt üblen Geruch – dat zieht dir die Schuh aus, ehrlich.",
+    "starting_talents": [
+      "physical_i"
+    ],
+    "learnable_talents": [],
+    "talent_learning_levels": {}
   },
   {
     "id": 9,
@@ -351,22 +283,14 @@
     "traits": [
       "Wuchernd"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Kratzer"
-      },
-      {
-        "level": 5,
-        "move": "Rankenhieb"
-      },
-      {
-        "level": 9,
-        "move": "Blattsturm"
-      }
-    ],
     "evolution": null,
-    "description": "Ein kleines Unkraut-Monster, das überall wuchert wo es nicht hingehört. Unkrautling klettert an Wänden hoch und verstopft Regenrinnen. Die Gärtner fluchen über ihn, aber er is halt unverwüstlich."
+    "description": "Ein kleines Unkraut-Monster, das überall wuchert wo es nicht hingehört. Unkrautling klettert an Wänden hoch und verstopft Regenrinnen. Die Gärtner fluchen über ihn, aber er is halt unverwüstlich.",
+    "starting_talents": [
+      "nature_i",
+      "physical_i"
+    ],
+    "learnable_talents": [],
+    "talent_learning_levels": {}
   },
   {
     "id": 10,
@@ -392,22 +316,14 @@
     "traits": [
       "Knusprig"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Rempler"
-      },
-      {
-        "level": 3,
-        "move": "Härtner"
-      },
-      {
-        "level": 7,
-        "move": "Rankenhieb"
-      }
-    ],
     "evolution": null,
-    "description": "Ein Monster dat aussieht wie 'ne wandelnde Pommes-Schale. Findste oft anne Pommesbude oder inne Nähe von Dönerbuden."
+    "description": "Ein Monster dat aussieht wie 'ne wandelnde Pommes-Schale. Findste oft anne Pommesbude oder inne Nähe von Dönerbuden.",
+    "starting_talents": [
+      "nature_i",
+      "physical_i"
+    ],
+    "learnable_talents": [],
+    "talent_learning_levels": {}
   },
   {
     "id": 11,
@@ -433,22 +349,13 @@
     "traits": [
       "Gefräßig"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Biss"
-      },
-      {
-        "level": 4,
-        "move": "Heulen"
-      },
-      {
-        "level": 8,
-        "move": "Kratzer"
-      }
-    ],
     "evolution": null,
-    "description": "Ein struppiger Hund, der bei jeder Pommesbude bettelt. Klaut schon mal 'ne Currywurst vom Grill, wenn de nich aufpasst."
+    "description": "Ein struppiger Hund, der bei jeder Pommesbude bettelt. Klaut schon mal 'ne Currywurst vom Grill, wenn de nich aufpasst.",
+    "starting_talents": [
+      "physical_i"
+    ],
+    "learnable_talents": [],
+    "talent_learning_levels": {}
   },
   {
     "id": 12,
@@ -474,22 +381,13 @@
     "traits": [
       "Eigensinnig"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Kratzer"
-      },
-      {
-        "level": 3,
-        "move": "Kopfnuss"
-      },
-      {
-        "level": 7,
-        "move": "Kratzfurie"
-      }
-    ],
     "evolution": null,
-    "description": "Sieht aus wie 'ne dicke Hauskatze, liegt faul auffe Couch rum. Aber pass auf, dat Ding kratzt dir ruckzuck dat ganze Sofa kaputt, wenn et schlechte Laune hat."
+    "description": "Sieht aus wie 'ne dicke Hauskatze, liegt faul auffe Couch rum. Aber pass auf, dat Ding kratzt dir ruckzuck dat ganze Sofa kaputt, wenn et schlechte Laune hat.",
+    "starting_talents": [
+      "physical_i"
+    ],
+    "learnable_talents": [],
+    "talent_learning_levels": {}
   },
   {
     "id": 13,
@@ -515,22 +413,13 @@
     "traits": [
       "Unter Strom"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Rempler"
-      },
-      {
-        "level": 4,
-        "move": "Funkenschlag"
-      },
-      {
-        "level": 8,
-        "move": "Magnetfeld"
-      }
-    ],
     "evolution": null,
-    "description": "Dit kleine Mistvieh wohnt in Stromleitungen und verursacht ständig Kurzschlüsse. Kommt aus jeder Steckdose gekrochen und legt die ganze Bude lahm, ehrlich."
+    "description": "Dit kleine Mistvieh wohnt in Stromleitungen und verursacht ständig Kurzschlüsse. Kommt aus jeder Steckdose gekrochen und legt die ganze Bude lahm, ehrlich.",
+    "starting_talents": [
+      "physical_i"
+    ],
+    "learnable_talents": [],
+    "talent_learning_levels": {}
   },
   {
     "id": 14,
@@ -556,22 +445,13 @@
     "traits": [
       "Unter Strom"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Rempler"
-      },
-      {
-        "level": 3,
-        "move": "Funken"
-      },
-      {
-        "level": 7,
-        "move": "Donnerblitz"
-      }
-    ],
     "evolution": null,
-    "description": "Ein elektrischer Wurm, der sich durch Stromleitungen schlängelt. Wattwurm saugt Energie aus Steckdosen und hinterlässt überall kleine Stromschläge. Die Elektriker haben ihn adoptiert - er is halt 'n bisschen aufgeladen, aber nützlich."
+    "description": "Ein elektrischer Wurm, der sich durch Stromleitungen schlängelt. Wattwurm saugt Energie aus Steckdosen und hinterlässt überall kleine Stromschläge. Die Elektriker haben ihn adoptiert - er is halt 'n bisschen aufgeladen, aber nützlich.",
+    "starting_talents": [
+      "physical_i"
+    ],
+    "learnable_talents": [],
+    "talent_learning_levels": {}
   },
   {
     "id": 15,
@@ -597,22 +477,13 @@
     "traits": [
       "Unberechenbar"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Rempler"
-      },
-      {
-        "level": 5,
-        "move": "Verwirrung"
-      },
-      {
-        "level": 9,
-        "move": "Chaosblitz"
-      }
-    ],
     "evolution": null,
-    "description": "Ein wabbeliger Pudding, der sich in alle Richtungen verformt. Wabbelpudding springt chaotisch durch die Gegend und hinterlässt überall klebrige Flecken. Die Ruhrpottler haben sich dran gewöhnt - er is halt 'n bisschen unberechenbar, aber harmlos."
+    "description": "Ein wabbeliger Pudding, der sich in alle Richtungen verformt. Wabbelpudding springt chaotisch durch die Gegend und hinterlässt überall klebrige Flecken. Die Ruhrpottler haben sich dran gewöhnt - er is halt 'n bisschen unberechenbar, aber harmlos.",
+    "starting_talents": [
+      "physical_i"
+    ],
+    "learnable_talents": [],
+    "talent_learning_levels": {}
   },
   {
     "id": 16,
@@ -638,22 +509,13 @@
     "traits": [
       "Durchgeknallt"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Kratzer"
-      },
-      {
-        "level": 4,
-        "move": "Heulen"
-      },
-      {
-        "level": 8,
-        "move": "Wahnsinn"
-      }
-    ],
     "evolution": null,
-    "description": "Ein kleiner, verrückter Gnom, der ständig Radau macht. Rabatzgnom läuft durch die Gegend und verursacht Chaos wo er nur kann. Die Ruhrpottler haben ihn adoptiert - er is halt 'n bisschen durchgeknallt, aber unterhaltsam."
+    "description": "Ein kleiner, verrückter Gnom, der ständig Radau macht. Rabatzgnom läuft durch die Gegend und verursacht Chaos wo er nur kann. Die Ruhrpottler haben ihn adoptiert - er is halt 'n bisschen durchgeknallt, aber unterhaltsam.",
+    "starting_talents": [
+      "physical_i"
+    ],
+    "learnable_talents": [],
+    "talent_learning_levels": {}
   },
   {
     "id": 17,
@@ -679,22 +541,13 @@
     "traits": [
       "Unkaputtbar"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Kratzer"
-      },
-      {
-        "level": 5,
-        "move": "Giftstachel"
-      },
-      {
-        "level": 9,
-        "move": "Härtner"
-      }
-    ],
     "evolution": null,
-    "description": "Ein überdimensionaler Kakerlak. Dat Ding überlebt alles – selbst 'nen Atombombe künnt ihn nich kleinkriegen. Läuft seelenruhig durch jede Küche und frisst den Bodenbelag weg."
+    "description": "Ein überdimensionaler Kakerlak. Dat Ding überlebt alles – selbst 'nen Atombombe künnt ihn nich kleinkriegen. Läuft seelenruhig durch jede Küche und frisst den Bodenbelag weg.",
+    "starting_talents": [
+      "physical_i"
+    ],
+    "learnable_talents": [],
+    "talent_learning_levels": {}
   },
   {
     "id": 18,
@@ -720,22 +573,13 @@
     "traits": [
       "Ansteckend"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Giftwolke"
-      },
-      {
-        "level": 4,
-        "move": "Heulen"
-      },
-      {
-        "level": 7,
-        "move": "Pesthauch"
-      }
-    ],
     "evolution": null,
-    "description": "Läuft rum und verteilt Rotz und Keime überall. Wenn dat Vieh niest, nimm besser Reißaus – sonst liegste morgen mit Fieber flach, ne."
+    "description": "Läuft rum und verteilt Rotz und Keime überall. Wenn dat Vieh niest, nimm besser Reißaus – sonst liegste morgen mit Fieber flach, ne.",
+    "starting_talents": [
+      "physical_i"
+    ],
+    "learnable_talents": [],
+    "talent_learning_levels": {}
   },
   {
     "id": 19,
@@ -761,22 +605,13 @@
     "traits": [
       "Unheimlich"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Spukball"
-      },
-      {
-        "level": 4,
-        "move": "Hypnose"
-      },
-      {
-        "level": 8,
-        "move": "Fluch"
-      }
-    ],
     "evolution": null,
-    "description": "Ein kleiner, unheimlicher Geist, der in Kellern und dunklen Ecken haust. Kellergeist spukt durch alte Häuser und erschreckt die Bewohner mit seinen mystischen Kräften. Die Ruhrpottler haben sich dran gewöhnt - er is halt 'n bisschen gruselig, aber harmlos."
+    "description": "Ein kleiner, unheimlicher Geist, der in Kellern und dunklen Ecken haust. Kellergeist spukt durch alte Häuser und erschreckt die Bewohner mit seinen mystischen Kräften. Die Ruhrpottler haben sich dran gewöhnt - er is halt 'n bisschen gruselig, aber harmlos.",
+    "starting_talents": [
+      "physical_i"
+    ],
+    "learnable_talents": [],
+    "talent_learning_levels": {}
   },
   {
     "id": 20,
@@ -802,22 +637,13 @@
     "traits": [
       "Geisterhaft"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Spukball"
-      },
-      {
-        "level": 3,
-        "move": "Verwirrung"
-      },
-      {
-        "level": 7,
-        "move": "Schattenhieb"
-      }
-    ],
     "evolution": null,
-    "description": "Ein prähistorischer Geist, der als schwebender Ball aus mystischer Energie erscheint. Spukball fliegt durch die Luft und verbreitet Angst und Schrecken. In der Urzeit war er der Bote der alten Götter."
+    "description": "Ein prähistorischer Geist, der als schwebender Ball aus mystischer Energie erscheint. Spukball fliegt durch die Luft und verbreitet Angst und Schrecken. In der Urzeit war er der Bote der alten Götter.",
+    "starting_talents": [
+      "physical_i"
+    ],
+    "learnable_talents": [],
+    "talent_learning_levels": {}
   },
   {
     "id": 21,
@@ -843,26 +669,20 @@
     "traits": [
       "Hitzkopf"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Rempler"
-      },
-      {
-        "level": 5,
-        "move": "Funken"
-      },
-      {
-        "level": 10,
-        "move": "Feuerball"
-      },
-      {
-        "level": 15,
-        "move": "Flammenwurf"
-      }
-    ],
     "evolution": null,
-    "description": "Ein kleiner Feuergeist mit spitzen Ohren und glühenden Augen. Flammimp tanzt durch die Gegend und hinterlässt überall kleine Feuerstellen. Die Ruhrpottler haben ihn adoptiert - er is halt 'n bisschen heißblütig, aber nützlich für's Grillen."
+    "description": "Ein kleiner Feuergeist mit spitzen Ohren und glühenden Augen. Flammimp tanzt durch die Gegend und hinterlässt überall kleine Feuerstellen. Die Ruhrpottler haben ihn adoptiert - er is halt 'n bisschen heißblütig, aber nützlich für's Grillen.",
+    "starting_talents": [
+      "fire_i",
+      "physical_i"
+    ],
+    "learnable_talents": [
+      "defense_i",
+      "heal_i"
+    ],
+    "talent_learning_levels": {
+      "defense_i": 10,
+      "heal_i": 15
+    }
   },
   {
     "id": 22,
@@ -888,26 +708,20 @@
     "traits": [
       "Hitzkopf"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Kratzer"
-      },
-      {
-        "level": 4,
-        "move": "Härtner"
-      },
-      {
-        "level": 8,
-        "move": "Feuerball"
-      },
-      {
-        "level": 12,
-        "move": "Hitzewelle"
-      }
-    ],
     "evolution": null,
-    "description": "Ein Molch, dessen Haut permanent brennt und glüht. Feuermolch schwimmt durch heiße Quellen und hinterlässt überall kleine Brandflecken. Die Ruhrpottler haben ihn adoptiert - er is halt 'n bisschen heiß, aber nützlich für's Heizen."
+    "description": "Ein Molch, dessen Haut permanent brennt und glüht. Feuermolch schwimmt durch heiße Quellen und hinterlässt überall kleine Brandflecken. Die Ruhrpottler haben ihn adoptiert - er is halt 'n bisschen heiß, aber nützlich für's Heizen.",
+    "starting_talents": [
+      "fire_i",
+      "physical_i"
+    ],
+    "learnable_talents": [
+      "defense_i",
+      "heal_i"
+    ],
+    "talent_learning_levels": {
+      "defense_i": 10,
+      "heal_i": 15
+    }
   },
   {
     "id": 23,
@@ -933,26 +747,20 @@
     "traits": [
       "Glitschig"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Rempler"
-      },
-      {
-        "level": 5,
-        "move": "Blubber"
-      },
-      {
-        "level": 10,
-        "move": "Wasserstrahl"
-      },
-      {
-        "level": 15,
-        "move": "Giftwolke"
-      }
-    ],
     "evolution": null,
-    "description": "Dat Monster gehört hier zum Alltag. Dat schwimmt in unsren Kanälen rum, als wär et ganz normal. Die Leute im Revier gucken schon gar nich mehr hin, wenn dat Vieh vorbeikommt."
+    "description": "Dat Monster gehört hier zum Alltag. Dat schwimmt in unsren Kanälen rum, als wär et ganz normal. Die Leute im Revier gucken schon gar nich mehr hin, wenn dat Vieh vorbeikommt.",
+    "starting_talents": [
+      "water_i",
+      "physical_i"
+    ],
+    "learnable_talents": [
+      "defense_i",
+      "heal_i"
+    ],
+    "talent_learning_levels": {
+      "defense_i": 10,
+      "heal_i": 15
+    }
   },
   {
     "id": 24,
@@ -978,26 +786,20 @@
     "traits": [
       "Glitschig"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Rempler"
-      },
-      {
-        "level": 5,
-        "move": "Giftstachel"
-      },
-      {
-        "level": 10,
-        "move": "Blubber"
-      },
-      {
-        "level": 15,
-        "move": "Wellenritt"
-      }
-    ],
     "evolution": null,
-    "description": "Dat urzeitliche Vieh galt lange als ausgestorben. Es kam wohl damals schon aus'm Ozean gekrochen und hat die Urzeit unsicher gemacht. Jetzt is dat wieder da und treibt hier sein Unwesen."
+    "description": "Dat urzeitliche Vieh galt lange als ausgestorben. Es kam wohl damals schon aus'm Ozean gekrochen und hat die Urzeit unsicher gemacht. Jetzt is dat wieder da und treibt hier sein Unwesen.",
+    "starting_talents": [
+      "water_i",
+      "physical_i"
+    ],
+    "learnable_talents": [
+      "defense_i",
+      "heal_i"
+    ],
+    "talent_learning_levels": {
+      "defense_i": 10,
+      "heal_i": 15
+    }
   },
   {
     "id": 25,
@@ -1023,26 +825,19 @@
     "traits": [
       "Stur"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Rempler"
-      },
-      {
-        "level": 4,
-        "move": "Lehmschuss"
-      },
-      {
-        "level": 8,
-        "move": "Steinwurf"
-      },
-      {
-        "level": 12,
-        "move": "Erdbeben"
-      }
-    ],
     "evolution": null,
-    "description": "Felsfresser hockt irgendwo im Dreck un kloppt sich durch den Tag. Die Ruhrpottler sagen: 'Dat Vieh is wie 'n Bergmann im Urlaub - buddelt sich durch alles durch!' Findste oft inne Nähe von Baustellen oder wo mal 'n Haus abgerissen wurde."
+    "description": "Felsfresser hockt irgendwo im Dreck un kloppt sich durch den Tag. Die Ruhrpottler sagen: 'Dat Vieh is wie 'n Bergmann im Urlaub - buddelt sich durch alles durch!' Findste oft inne Nähe von Baustellen oder wo mal 'n Haus abgerissen wurde.",
+    "starting_talents": [
+      "physical_i"
+    ],
+    "learnable_talents": [
+      "defense_i",
+      "heal_i"
+    ],
+    "talent_learning_levels": {
+      "defense_i": 10,
+      "heal_i": 15
+    }
   },
   {
     "id": 26,
@@ -1068,26 +863,19 @@
     "traits": [
       "Robust"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Rempler"
-      },
-      {
-        "level": 5,
-        "move": "Härtner"
-      },
-      {
-        "level": 10,
-        "move": "Steinwurf"
-      },
-      {
-        "level": 15,
-        "move": "Erdbeben"
-      }
-    ],
     "evolution": null,
-    "description": "Dat urzeitliche Vieh galt lange als ausgestorben. Schon zu Dino-Zeiten war dat ein echter Brocken von 'nem Vieh. Jetzt is dat wieder da und treibt hier sein Unwesen."
+    "description": "Dat urzeitliche Vieh galt lange als ausgestorben. Schon zu Dino-Zeiten war dat ein echter Brocken von 'nem Vieh. Jetzt is dat wieder da und treibt hier sein Unwesen.",
+    "starting_talents": [
+      "physical_i"
+    ],
+    "learnable_talents": [
+      "defense_i",
+      "heal_i"
+    ],
+    "talent_learning_levels": {
+      "defense_i": 10,
+      "heal_i": 15
+    }
   },
   {
     "id": 27,
@@ -1113,26 +901,19 @@
     "traits": [
       "Flatterhaft"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Biss"
-      },
-      {
-        "level": 5,
-        "move": "Windstoß"
-      },
-      {
-        "level": 10,
-        "move": "Wirbelwind"
-      },
-      {
-        "level": 15,
-        "move": "Orkan"
-      }
-    ],
     "evolution": null,
-    "description": "Dat Monster gehört hier zum Alltag. Flattert überall in der Gegend rum, aber kein Mensch guckt mehr hin. Die Leute im Revier gucken schon gar nich mehr hin, wenn dat Vieh vorbeikommt."
+    "description": "Dat Monster gehört hier zum Alltag. Flattert überall in der Gegend rum, aber kein Mensch guckt mehr hin. Die Leute im Revier gucken schon gar nich mehr hin, wenn dat Vieh vorbeikommt.",
+    "starting_talents": [
+      "physical_i"
+    ],
+    "learnable_talents": [
+      "defense_i",
+      "heal_i"
+    ],
+    "talent_learning_levels": {
+      "defense_i": 10,
+      "heal_i": 15
+    }
   },
   {
     "id": 28,
@@ -1158,26 +939,19 @@
     "traits": [
       "Verstrahlt"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Giftwolke"
-      },
-      {
-        "level": 5,
-        "move": "Windstoß"
-      },
-      {
-        "level": 10,
-        "move": "Wirbelwind"
-      },
-      {
-        "level": 15,
-        "move": "Orkan"
-      }
-    ],
     "evolution": null,
-    "description": "Dit Vieh stammt aus 'ner kaputten Zukunft. Et ist durch 'nen Zeitriss in unsere Welt geplumst und keiner blickt so richtig, wat dat überhaupt is. Die Luft in seiner Zukunft muss total im Eimer sein, dat Biest is richtig zäh gegen Gestank und Staub. Man weiß kaum wat über dat Wesen, außer dass et verdammt zäh is."
+    "description": "Dit Vieh stammt aus 'ner kaputten Zukunft. Et ist durch 'nen Zeitriss in unsere Welt geplumst und keiner blickt so richtig, wat dat überhaupt is. Die Luft in seiner Zukunft muss total im Eimer sein, dat Biest is richtig zäh gegen Gestank und Staub. Man weiß kaum wat über dat Wesen, außer dass et verdammt zäh is.",
+    "starting_talents": [
+      "physical_i"
+    ],
+    "learnable_talents": [
+      "defense_i",
+      "heal_i"
+    ],
+    "talent_learning_levels": {
+      "defense_i": 10,
+      "heal_i": 15
+    }
   },
   {
     "id": 29,
@@ -1203,26 +977,20 @@
     "traits": [
       "Dornig"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Rempler"
-      },
-      {
-        "level": 5,
-        "move": "Rankenhieb"
-      },
-      {
-        "level": 10,
-        "move": "Samenbombe"
-      },
-      {
-        "level": 15,
-        "move": "Blattsturm"
-      }
-    ],
     "evolution": null,
-    "description": "Schnappblume wächst und wuchert in jedem zweiten Garten, aber keinen kratzt dat. Die Ruhrpottler sagen: 'Dat Vieh is wie Unkraut, nur dat et beißt und sich wehrt!' Findste oft inne Nähe von verwilderten Gärten oder wo keiner mehr mäht."
+    "description": "Schnappblume wächst und wuchert in jedem zweiten Garten, aber keinen kratzt dat. Die Ruhrpottler sagen: 'Dat Vieh is wie Unkraut, nur dat et beißt und sich wehrt!' Findste oft inne Nähe von verwilderten Gärten oder wo keiner mehr mäht.",
+    "starting_talents": [
+      "nature_i",
+      "physical_i"
+    ],
+    "learnable_talents": [
+      "defense_i",
+      "heal_i"
+    ],
+    "talent_learning_levels": {
+      "defense_i": 10,
+      "heal_i": 15
+    }
   },
   {
     "id": 30,
@@ -1248,26 +1016,20 @@
     "traits": [
       "Wuchernd"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Rempler"
-      },
-      {
-        "level": 5,
-        "move": "Härtner"
-      },
-      {
-        "level": 10,
-        "move": "Rankenhieb"
-      },
-      {
-        "level": 15,
-        "move": "Blattsturm"
-      }
-    ],
     "evolution": null,
-    "description": "Dat urzeitliche Vieh galt lange als ausgestorben. Dat Ding is quasi 'ne lebendige Fossilie von 'ner Pflanze aus der Urzeit. Jetzt is dat wieder da und treibt hier sein Unwesen."
+    "description": "Dat urzeitliche Vieh galt lange als ausgestorben. Dat Ding is quasi 'ne lebendige Fossilie von 'ner Pflanze aus der Urzeit. Jetzt is dat wieder da und treibt hier sein Unwesen.",
+    "starting_talents": [
+      "nature_i",
+      "physical_i"
+    ],
+    "learnable_talents": [
+      "defense_i",
+      "heal_i"
+    ],
+    "talent_learning_levels": {
+      "defense_i": 10,
+      "heal_i": 15
+    }
   },
   {
     "id": 31,
@@ -1293,26 +1055,19 @@
     "traits": [
       "Wild"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Rempler"
-      },
-      {
-        "level": 5,
-        "move": "Kopfnuss"
-      },
-      {
-        "level": 10,
-        "move": "Stampfer"
-      },
-      {
-        "level": 15,
-        "move": "Brüllen"
-      }
-    ],
     "evolution": null,
-    "description": "Dat Monster gehört hier zum Alltag. Läuft frei rum zwischen all den Leuten, als wenn's 'n Haustier wär. Die Leute im Revier gucken schon gar nich mehr hin, wenn dat Vieh vorbeikommt."
+    "description": "Dat Monster gehört hier zum Alltag. Läuft frei rum zwischen all den Leuten, als wenn's 'n Haustier wär. Die Leute im Revier gucken schon gar nich mehr hin, wenn dat Vieh vorbeikommt.",
+    "starting_talents": [
+      "physical_i"
+    ],
+    "learnable_talents": [
+      "defense_i",
+      "heal_i"
+    ],
+    "talent_learning_levels": {
+      "defense_i": 10,
+      "heal_i": 15
+    }
   },
   {
     "id": 32,
@@ -1338,26 +1093,19 @@
     "traits": [
       "Wild"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Biss"
-      },
-      {
-        "level": 5,
-        "move": "Kratzer"
-      },
-      {
-        "level": 10,
-        "move": "Krallenhieb"
-      },
-      {
-        "level": 15,
-        "move": "Raserei"
-      }
-    ],
     "evolution": null,
-    "description": "Dat urzeitliche Vieh galt lange als ausgestorben. Schon damals war dat eine richtig wilde Bestie, sag ich dir. Jetzt is dat wieder da und treibt hier sein Unwesen."
+    "description": "Dat urzeitliche Vieh galt lange als ausgestorben. Schon damals war dat eine richtig wilde Bestie, sag ich dir. Jetzt is dat wieder da und treibt hier sein Unwesen.",
+    "starting_talents": [
+      "physical_i"
+    ],
+    "learnable_talents": [
+      "defense_i",
+      "heal_i"
+    ],
+    "talent_learning_levels": {
+      "defense_i": 10,
+      "heal_i": 15
+    }
   },
   {
     "id": 33,
@@ -1383,26 +1131,19 @@
     "traits": [
       "Aufgeladen"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Rempler"
-      },
-      {
-        "level": 5,
-        "move": "Funkenschlag"
-      },
-      {
-        "level": 10,
-        "move": "Donnerblitz"
-      },
-      {
-        "level": 15,
-        "move": "Magnetfeld"
-      }
-    ],
     "evolution": null,
-    "description": "Batteriefresser lädt sich an unsren Steckdosen auf und fällt kaum noch auf. Die Ruhrpottler sagen: 'Dat Vieh is wie 'ne Steckdose, nur dat et läuft und Funken spuckt!' Findste oft inne Nähe von Elektrogeräten oder wo's Strom gibt."
+    "description": "Batteriefresser lädt sich an unsren Steckdosen auf und fällt kaum noch auf. Die Ruhrpottler sagen: 'Dat Vieh is wie 'ne Steckdose, nur dat et läuft und Funken spuckt!' Findste oft inne Nähe von Elektrogeräten oder wo's Strom gibt.",
+    "starting_talents": [
+      "physical_i"
+    ],
+    "learnable_talents": [
+      "defense_i",
+      "heal_i"
+    ],
+    "talent_learning_levels": {
+      "defense_i": 10,
+      "heal_i": 15
+    }
   },
   {
     "id": 34,
@@ -1428,26 +1169,19 @@
     "traits": [
       "Verstrahlt"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Giftwolke"
-      },
-      {
-        "level": 5,
-        "move": "Funken"
-      },
-      {
-        "level": 10,
-        "move": "Donnerblitz"
-      },
-      {
-        "level": 15,
-        "move": "Magnetfeld"
-      }
-    ],
     "evolution": null,
-    "description": "Dit Vieh stammt aus 'ner kaputten Zukunft. Et ist durch 'nen Zeitriss in unsere Welt geplumst und keiner blickt so richtig, wat dat überhaupt is. Dit Teil ist radioaktiv aufgeladen und funkt wie 'n kaputtes Atomkraftwerk. Man weiß kaum wat über dat Wesen, außer dass et verdammt zäh is."
+    "description": "Dit Vieh stammt aus 'ner kaputten Zukunft. Et ist durch 'nen Zeitriss in unsere Welt geplumst und keiner blickt so richtig, wat dat überhaupt is. Dit Teil ist radioaktiv aufgeladen und funkt wie 'n kaputtes Atomkraftwerk. Man weiß kaum wat über dat Wesen, außer dass et verdammt zäh is.",
+    "starting_talents": [
+      "physical_i"
+    ],
+    "learnable_talents": [
+      "defense_i",
+      "heal_i"
+    ],
+    "talent_learning_levels": {
+      "defense_i": 10,
+      "heal_i": 15
+    }
   },
   {
     "id": 35,
@@ -1473,26 +1207,19 @@
     "traits": [
       "Unberechenbar"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Verwirrung"
-      },
-      {
-        "level": 5,
-        "move": "Windstoß"
-      },
-      {
-        "level": 10,
-        "move": "Wirbelwind"
-      },
-      {
-        "level": 15,
-        "move": "Wahnsinn"
-      }
-    ],
     "evolution": null,
-    "description": "Flimmergeist macht zwar Radau, aber die Leute hier im Pott ham sich dran gewöhnt. Die Ruhrpottler sagen: 'Dat Vieh is wie 'ne kaputte Glühbirne, nur dat et spricht und verrückt is!' Findste oft inne Nähe von alten Häusern oder wo's spukt."
+    "description": "Flimmergeist macht zwar Radau, aber die Leute hier im Pott ham sich dran gewöhnt. Die Ruhrpottler sagen: 'Dat Vieh is wie 'ne kaputte Glühbirne, nur dat et spricht und verrückt is!' Findste oft inne Nähe von alten Häusern oder wo's spukt.",
+    "starting_talents": [
+      "physical_i"
+    ],
+    "learnable_talents": [
+      "defense_i",
+      "heal_i"
+    ],
+    "talent_learning_levels": {
+      "defense_i": 10,
+      "heal_i": 15
+    }
   },
   {
     "id": 36,
@@ -1518,26 +1245,19 @@
     "traits": [
       "Durchgeknallt"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Rempler"
-      },
-      {
-        "level": 5,
-        "move": "Verwirrung"
-      },
-      {
-        "level": 10,
-        "move": "Chaosblitz"
-      },
-      {
-        "level": 15,
-        "move": "Wahnsinn"
-      }
-    ],
     "evolution": null,
-    "description": "Dat urzeitliche Vieh galt lange als ausgestorben. Schon in der Urzeit hat dat Ding nur für Chaos gesorgt. Jetzt is dat wieder da und treibt hier sein Unwesen."
+    "description": "Dat urzeitliche Vieh galt lange als ausgestorben. Schon in der Urzeit hat dat Ding nur für Chaos gesorgt. Jetzt is dat wieder da und treibt hier sein Unwesen.",
+    "starting_talents": [
+      "physical_i"
+    ],
+    "learnable_talents": [
+      "defense_i",
+      "heal_i"
+    ],
+    "talent_learning_levels": {
+      "defense_i": 10,
+      "heal_i": 15
+    }
   },
   {
     "id": 37,
@@ -1563,26 +1283,19 @@
     "traits": [
       "Eitrig"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Giftwolke"
-      },
-      {
-        "level": 5,
-        "move": "Giftstachel"
-      },
-      {
-        "level": 10,
-        "move": "Pesthauch"
-      },
-      {
-        "level": 15,
-        "move": "Seuchenschwall"
-      }
-    ],
     "evolution": null,
-    "description": "Dat Monster gehört hier zum Alltag. Verteilt hier und da 'ne Rotznase, aber dat kratzt hier keine Sau mehr. Die Leute im Revier gucken schon gar nich mehr hin, wenn dat Vieh vorbeikommt."
+    "description": "Dat Monster gehört hier zum Alltag. Verteilt hier und da 'ne Rotznase, aber dat kratzt hier keine Sau mehr. Die Leute im Revier gucken schon gar nich mehr hin, wenn dat Vieh vorbeikommt.",
+    "starting_talents": [
+      "physical_i"
+    ],
+    "learnable_talents": [
+      "defense_i",
+      "heal_i"
+    ],
+    "talent_learning_levels": {
+      "defense_i": 10,
+      "heal_i": 15
+    }
   },
   {
     "id": 38,
@@ -1608,26 +1321,19 @@
     "traits": [
       "Ansteckend"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Biss"
-      },
-      {
-        "level": 5,
-        "move": "Giftwolke"
-      },
-      {
-        "level": 10,
-        "move": "Pesthauch"
-      },
-      {
-        "level": 15,
-        "move": "Seuchenschwall"
-      }
-    ],
     "evolution": null,
-    "description": "Dat Monster gehört hier zum Alltag. Verteilt hier und da 'ne Rotznase, aber dat kratzt hier keine Sau mehr. Die Leute im Revier gucken schon gar nich mehr hin, wenn dat Vieh vorbeikommt."
+    "description": "Dat Monster gehört hier zum Alltag. Verteilt hier und da 'ne Rotznase, aber dat kratzt hier keine Sau mehr. Die Leute im Revier gucken schon gar nich mehr hin, wenn dat Vieh vorbeikommt.",
+    "starting_talents": [
+      "physical_i"
+    ],
+    "learnable_talents": [
+      "defense_i",
+      "heal_i"
+    ],
+    "talent_learning_levels": {
+      "defense_i": 10,
+      "heal_i": 15
+    }
   },
   {
     "id": 39,
@@ -1653,26 +1359,19 @@
     "traits": [
       "Unheimlich"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Spukball"
-      },
-      {
-        "level": 5,
-        "move": "Hypnose"
-      },
-      {
-        "level": 10,
-        "move": "Fluch"
-      },
-      {
-        "level": 15,
-        "move": "Schattenhieb"
-      }
-    ],
     "evolution": null,
-    "description": "Dat Monster gehört hier zum Alltag. Spukt in alten Häusern rum, aber dat juckt hier keinen mehr groß. Die Leute im Revier gucken schon gar nich mehr hin, wenn dat Vieh vorbeikommt."
+    "description": "Dat Monster gehört hier zum Alltag. Spukt in alten Häusern rum, aber dat juckt hier keinen mehr groß. Die Leute im Revier gucken schon gar nich mehr hin, wenn dat Vieh vorbeikommt.",
+    "starting_talents": [
+      "physical_i"
+    ],
+    "learnable_talents": [
+      "defense_i",
+      "heal_i"
+    ],
+    "talent_learning_levels": {
+      "defense_i": 10,
+      "heal_i": 15
+    }
   },
   {
     "id": 40,
@@ -1698,26 +1397,19 @@
     "traits": [
       "Geisterhaft"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Spukball"
-      },
-      {
-        "level": 5,
-        "move": "Verwirrung"
-      },
-      {
-        "level": 10,
-        "move": "Fluch"
-      },
-      {
-        "level": 15,
-        "move": "Hypnose"
-      }
-    ],
     "evolution": null,
-    "description": "Dat urzeitliche Vieh galt lange als ausgestorben. Kommt aus 'ner alten Legende, war schon damals 'n Spuk. Jetzt is dat wieder da und treibt hier sein Unwesen."
+    "description": "Dat urzeitliche Vieh galt lange als ausgestorben. Kommt aus 'ner alten Legende, war schon damals 'n Spuk. Jetzt is dat wieder da und treibt hier sein Unwesen.",
+    "starting_talents": [
+      "physical_i"
+    ],
+    "learnable_talents": [
+      "defense_i",
+      "heal_i"
+    ],
+    "talent_learning_levels": {
+      "defense_i": 10,
+      "heal_i": 15
+    }
   },
   {
     "id": 41,
@@ -1743,30 +1435,20 @@
     "traits": [
       "Hitzkopf"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Rempler"
-      },
-      {
-        "level": 5,
-        "move": "Funken"
-      },
-      {
-        "level": 10,
-        "move": "Feuerball"
-      },
-      {
-        "level": 15,
-        "move": "Hitzewelle"
-      },
-      {
-        "level": 20,
-        "move": "Flammenwurf"
-      }
-    ],
     "evolution": null,
-    "description": "Dat urzeitliche Vieh galt lange als ausgestorben. Mit Lava und Glut kennt dat sich seit der Steinzeit bestens aus. Jetzt is dat wieder da und treibt hier sein Unwesen."
+    "description": "Dat urzeitliche Vieh galt lange als ausgestorben. Mit Lava und Glut kennt dat sich seit der Steinzeit bestens aus. Jetzt is dat wieder da und treibt hier sein Unwesen.",
+    "starting_talents": [
+      "fire_i",
+      "physical_i"
+    ],
+    "learnable_talents": [
+      "defense_i",
+      "heal_i"
+    ],
+    "talent_learning_levels": {
+      "defense_i": 10,
+      "heal_i": 15
+    }
   },
   {
     "id": 42,
@@ -1792,30 +1474,20 @@
     "traits": [
       "Hitzkopf"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Biss"
-      },
-      {
-        "level": 5,
-        "move": "Funken"
-      },
-      {
-        "level": 10,
-        "move": "Feuerball"
-      },
-      {
-        "level": 15,
-        "move": "Flammenwurf"
-      },
-      {
-        "level": 20,
-        "move": "Hitzewelle"
-      }
-    ],
     "evolution": null,
-    "description": "Flammenwerwolf spielt gern mit Feuer, aber die Leute hier juckt dat nich mehr. Die Ruhrpottler sagen: 'Dat Vieh is wie 'n Werwolf, nur dat et brennt und heiß is!' Findste oft inne Nähe von Feuerstellen oder wo's warm is."
+    "description": "Flammenwerwolf spielt gern mit Feuer, aber die Leute hier juckt dat nich mehr. Die Ruhrpottler sagen: 'Dat Vieh is wie 'n Werwolf, nur dat et brennt und heiß is!' Findste oft inne Nähe von Feuerstellen oder wo's warm is.",
+    "starting_talents": [
+      "fire_i",
+      "physical_i"
+    ],
+    "learnable_talents": [
+      "defense_i",
+      "heal_i"
+    ],
+    "talent_learning_levels": {
+      "defense_i": 10,
+      "heal_i": 15
+    }
   },
   {
     "id": 43,
@@ -1841,30 +1513,20 @@
     "traits": [
       "Glitschig"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Rempler"
-      },
-      {
-        "level": 4,
-        "move": "Blubber"
-      },
-      {
-        "level": 8,
-        "move": "Wasserstrahl"
-      },
-      {
-        "level": 12,
-        "move": "Windstoß"
-      },
-      {
-        "level": 20,
-        "move": "Wellenritt"
-      }
-    ],
     "evolution": null,
-    "description": "Teichschreck schwimmt in unsren Kanälen rum, als wär et ganz normal. Die Ruhrpottler sagen: 'Dat Vieh is wie 'ne Ente, nur dat et größer is und mehr Angst macht!' Findste oft inne Nähe von Teichen oder wo's nass is."
+    "description": "Teichschreck schwimmt in unsren Kanälen rum, als wär et ganz normal. Die Ruhrpottler sagen: 'Dat Vieh is wie 'ne Ente, nur dat et größer is und mehr Angst macht!' Findste oft inne Nähe von Teichen oder wo's nass is.",
+    "starting_talents": [
+      "water_i",
+      "physical_i"
+    ],
+    "learnable_talents": [
+      "defense_i",
+      "heal_i"
+    ],
+    "talent_learning_levels": {
+      "defense_i": 10,
+      "heal_i": 15
+    }
   },
   {
     "id": 44,
@@ -1890,30 +1552,20 @@
     "traits": [
       "Glitschig"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Rempler"
-      },
-      {
-        "level": 5,
-        "move": "Blubber"
-      },
-      {
-        "level": 10,
-        "move": "Wasserstrahl"
-      },
-      {
-        "level": 15,
-        "move": "Pesthauch"
-      },
-      {
-        "level": 20,
-        "move": "Wellenritt"
-      }
-    ],
     "evolution": null,
-    "description": "Dat urzeitliche Vieh galt lange als ausgestorben. Es kam wohl damals schon aus'm Ozean gekrochen und hat die Urzeit unsicher gemacht. Jetzt is dat wieder da und treibt hier sein Unwesen."
+    "description": "Dat urzeitliche Vieh galt lange als ausgestorben. Es kam wohl damals schon aus'm Ozean gekrochen und hat die Urzeit unsicher gemacht. Jetzt is dat wieder da und treibt hier sein Unwesen.",
+    "starting_talents": [
+      "water_i",
+      "physical_i"
+    ],
+    "learnable_talents": [
+      "defense_i",
+      "heal_i"
+    ],
+    "talent_learning_levels": {
+      "defense_i": 10,
+      "heal_i": 15
+    }
   },
   {
     "id": 45,
@@ -1939,30 +1591,19 @@
     "traits": [
       "Stur"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Rempler"
-      },
-      {
-        "level": 5,
-        "move": "Lehmschuss"
-      },
-      {
-        "level": 10,
-        "move": "Steinwurf"
-      },
-      {
-        "level": 15,
-        "move": "Erdbeben"
-      },
-      {
-        "level": 20,
-        "move": "Panzerhaut"
-      }
-    ],
     "evolution": null,
-    "description": "Betonbrocken hockt irgendwo im Dreck un kloppt sich durch den Tag. Die Ruhrpottler sagen: 'Dat Vieh is wie 'ne Betonwand, nur dat et läuft und sich wehrt!' Findste oft inne Nähe von Baustellen oder wo mal 'n Haus abgerissen wurde."
+    "description": "Betonbrocken hockt irgendwo im Dreck un kloppt sich durch den Tag. Die Ruhrpottler sagen: 'Dat Vieh is wie 'ne Betonwand, nur dat et läuft und sich wehrt!' Findste oft inne Nähe von Baustellen oder wo mal 'n Haus abgerissen wurde.",
+    "starting_talents": [
+      "physical_i"
+    ],
+    "learnable_talents": [
+      "defense_i",
+      "heal_i"
+    ],
+    "talent_learning_levels": {
+      "defense_i": 10,
+      "heal_i": 15
+    }
   },
   {
     "id": 46,
@@ -1988,30 +1629,19 @@
     "traits": [
       "Robust"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Rempler"
-      },
-      {
-        "level": 5,
-        "move": "Härtner"
-      },
-      {
-        "level": 10,
-        "move": "Steinwurf"
-      },
-      {
-        "level": 15,
-        "move": "Erdbeben"
-      },
-      {
-        "level": 20,
-        "move": "Panzerhaut"
-      }
-    ],
     "evolution": null,
-    "description": "Dat urzeitliche Vieh galt lange als ausgestorben. Schon zu Dino-Zeiten war dat ein echter Brocken von 'nem Vieh. Jetzt is dat wieder da und treibt hier sein Unwesen."
+    "description": "Dat urzeitliche Vieh galt lange als ausgestorben. Schon zu Dino-Zeiten war dat ein echter Brocken von 'nem Vieh. Jetzt is dat wieder da und treibt hier sein Unwesen.",
+    "starting_talents": [
+      "physical_i"
+    ],
+    "learnable_talents": [
+      "defense_i",
+      "heal_i"
+    ],
+    "talent_learning_levels": {
+      "defense_i": 10,
+      "heal_i": 15
+    }
   },
   {
     "id": 47,
@@ -2037,30 +1667,19 @@
     "traits": [
       "Flatterhaft"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Kratzer"
-      },
-      {
-        "level": 5,
-        "move": "Windstoß"
-      },
-      {
-        "level": 10,
-        "move": "Wirbelwind"
-      },
-      {
-        "level": 15,
-        "move": "Orkan"
-      },
-      {
-        "level": 20,
-        "move": "Brüllen"
-      }
-    ],
     "evolution": null,
-    "description": "Sturmfalke flattert überall in der Gegend rum, aber kein Mensch guckt mehr hin. Die Ruhrpottler sagen: 'Dat Vieh is wie 'n Falke, nur dat et bei jedem Wetter fliegt und nie müde wird!' Findste oft inne Nähe von Hochhäusern oder wo's windig is."
+    "description": "Sturmfalke flattert überall in der Gegend rum, aber kein Mensch guckt mehr hin. Die Ruhrpottler sagen: 'Dat Vieh is wie 'n Falke, nur dat et bei jedem Wetter fliegt und nie müde wird!' Findste oft inne Nähe von Hochhäusern oder wo's windig is.",
+    "starting_talents": [
+      "physical_i"
+    ],
+    "learnable_talents": [
+      "defense_i",
+      "heal_i"
+    ],
+    "talent_learning_levels": {
+      "defense_i": 10,
+      "heal_i": 15
+    }
   },
   {
     "id": 48,
@@ -2086,30 +1705,19 @@
     "traits": [
       "Verstrahlt"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Rempler"
-      },
-      {
-        "level": 5,
-        "move": "Windstoß"
-      },
-      {
-        "level": 10,
-        "move": "Wirbelwind"
-      },
-      {
-        "level": 15,
-        "move": "Orkan"
-      },
-      {
-        "level": 20,
-        "move": "Giftwolke"
-      }
-    ],
     "evolution": null,
-    "description": "Kommt aus 'ner düsteren Zukunft und pickt in 'nem Haufen Schrott nach brauchbarem Metall. Sieht aus wie 'nen Klappergeier auf Meth, dat Vieh."
+    "description": "Kommt aus 'ner düsteren Zukunft und pickt in 'nem Haufen Schrott nach brauchbarem Metall. Sieht aus wie 'nen Klappergeier auf Meth, dat Vieh.",
+    "starting_talents": [
+      "physical_i"
+    ],
+    "learnable_talents": [
+      "defense_i",
+      "heal_i"
+    ],
+    "talent_learning_levels": {
+      "defense_i": 10,
+      "heal_i": 15
+    }
   },
   {
     "id": 49,
@@ -2135,30 +1743,20 @@
     "traits": [
       "Dornig"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Rempler"
-      },
-      {
-        "level": 4,
-        "move": "Rankenhieb"
-      },
-      {
-        "level": 8,
-        "move": "Samenbombe"
-      },
-      {
-        "level": 12,
-        "move": "Blattsturm"
-      },
-      {
-        "level": 20,
-        "move": "Giftstachel"
-      }
-    ],
     "evolution": null,
-    "description": "Schlingwurzel wächst und wuchert in jedem zweiten Garten, aber keinen kratzt dat. Die Ruhrpottler sagen: 'Dat Vieh is wie Efeu, nur dat et beißt und sich wehrt!' Findste oft inne Nähe von verwilderten Gärten oder wo keiner mehr mäht."
+    "description": "Schlingwurzel wächst und wuchert in jedem zweiten Garten, aber keinen kratzt dat. Die Ruhrpottler sagen: 'Dat Vieh is wie Efeu, nur dat et beißt und sich wehrt!' Findste oft inne Nähe von verwilderten Gärten oder wo keiner mehr mäht.",
+    "starting_talents": [
+      "nature_i",
+      "physical_i"
+    ],
+    "learnable_talents": [
+      "defense_i",
+      "heal_i"
+    ],
+    "talent_learning_levels": {
+      "defense_i": 10,
+      "heal_i": 15
+    }
   },
   {
     "id": 50,
@@ -2184,30 +1782,20 @@
     "traits": [
       "Wuchernd"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Rempler"
-      },
-      {
-        "level": 5,
-        "move": "Härtner"
-      },
-      {
-        "level": 10,
-        "move": "Rankenhieb"
-      },
-      {
-        "level": 15,
-        "move": "Samenbombe"
-      },
-      {
-        "level": 20,
-        "move": "Blattsturm"
-      }
-    ],
     "evolution": null,
-    "description": "Dat urzeitliche Vieh galt lange als ausgestorben. Dat Ding is quasi 'ne lebendige Fossilie von 'ner Pflanze aus der Urzeit. Jetzt is dat wieder da und treibt hier sein Unwesen."
+    "description": "Dat urzeitliche Vieh galt lange als ausgestorben. Dat Ding is quasi 'ne lebendige Fossilie von 'ner Pflanze aus der Urzeit. Jetzt is dat wieder da und treibt hier sein Unwesen.",
+    "starting_talents": [
+      "nature_i",
+      "physical_i"
+    ],
+    "learnable_talents": [
+      "defense_i",
+      "heal_i"
+    ],
+    "talent_learning_levels": {
+      "defense_i": 10,
+      "heal_i": 15
+    }
   },
   {
     "id": 51,
@@ -2233,30 +1821,19 @@
     "traits": [
       "Wild"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Rempler"
-      },
-      {
-        "level": 5,
-        "move": "Biss"
-      },
-      {
-        "level": 10,
-        "move": "Stampfer"
-      },
-      {
-        "level": 15,
-        "move": "Brüllen"
-      },
-      {
-        "level": 20,
-        "move": "Giftwolke"
-      }
-    ],
     "evolution": null,
-    "description": "Kanal-Kroko läuft frei rum zwischen all den Leuten, als wenn's 'n Haustier wär. Die Ruhrpottler sagen: 'Dat Vieh is wie 'n Krokodil, nur dat et in Kanälen lebt und stinkt!' Findste oft inne Nähe von Abwasserkanälen oder wo's nass is."
+    "description": "Kanal-Kroko läuft frei rum zwischen all den Leuten, als wenn's 'n Haustier wär. Die Ruhrpottler sagen: 'Dat Vieh is wie 'n Krokodil, nur dat et in Kanälen lebt und stinkt!' Findste oft inne Nähe von Abwasserkanälen oder wo's nass is.",
+    "starting_talents": [
+      "physical_i"
+    ],
+    "learnable_talents": [
+      "defense_i",
+      "heal_i"
+    ],
+    "talent_learning_levels": {
+      "defense_i": 10,
+      "heal_i": 15
+    }
   },
   {
     "id": 52,
@@ -2282,30 +1859,19 @@
     "traits": [
       "Wild"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Biss"
-      },
-      {
-        "level": 5,
-        "move": "Heulen"
-      },
-      {
-        "level": 10,
-        "move": "Stampfer"
-      },
-      {
-        "level": 15,
-        "move": "Krallenhieb"
-      },
-      {
-        "level": 20,
-        "move": "Raserei"
-      }
-    ],
     "evolution": null,
-    "description": "Dat urzeitliche Vieh galt lange als ausgestorben. Schon damals war dat eine richtig wilde Bestie, sag ich dir. Jetzt is dat wieder da und treibt hier sein Unwesen."
+    "description": "Dat urzeitliche Vieh galt lange als ausgestorben. Schon damals war dat eine richtig wilde Bestie, sag ich dir. Jetzt is dat wieder da und treibt hier sein Unwesen.",
+    "starting_talents": [
+      "physical_i"
+    ],
+    "learnable_talents": [
+      "defense_i",
+      "heal_i"
+    ],
+    "talent_learning_levels": {
+      "defense_i": 10,
+      "heal_i": 15
+    }
   },
   {
     "id": 53,
@@ -2331,30 +1897,19 @@
     "traits": [
       "Aufgeladen"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Rempler"
-      },
-      {
-        "level": 5,
-        "move": "Funkenschlag"
-      },
-      {
-        "level": 10,
-        "move": "Donnerblitz"
-      },
-      {
-        "level": 15,
-        "move": "Magnetfeld"
-      },
-      {
-        "level": 20,
-        "move": "Wahnsinn"
-      }
-    ],
     "evolution": null,
-    "description": "Stromschlange lädt sich an unsren Steckdosen auf und fällt kaum noch auf. Die Ruhrpottler sagen: 'Dat Vieh is wie 'ne Schlange, nur dat et Strom hat und Funken spuckt!' Findste oft inne Nähe von Elektrogeräten oder wo's Strom gibt."
+    "description": "Stromschlange lädt sich an unsren Steckdosen auf und fällt kaum noch auf. Die Ruhrpottler sagen: 'Dat Vieh is wie 'ne Schlange, nur dat et Strom hat und Funken spuckt!' Findste oft inne Nähe von Elektrogeräten oder wo's Strom gibt.",
+    "starting_talents": [
+      "physical_i"
+    ],
+    "learnable_talents": [
+      "defense_i",
+      "heal_i"
+    ],
+    "talent_learning_levels": {
+      "defense_i": 10,
+      "heal_i": 15
+    }
   },
   {
     "id": 54,
@@ -2380,30 +1935,19 @@
     "traits": [
       "Mechanisch"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Rempler"
-      },
-      {
-        "level": 5,
-        "move": "Funkenschlag"
-      },
-      {
-        "level": 10,
-        "move": "Donnerblitz"
-      },
-      {
-        "level": 15,
-        "move": "Lichtstrahl"
-      },
-      {
-        "level": 20,
-        "move": "Magnetfeld"
-      }
-    ],
     "evolution": null,
-    "description": "Dit Vieh stammt aus 'ner kaputten Zukunft. Et ist durch 'nen Zeitriss in unsere Welt geplumst und keiner blickt so richtig, wat dat überhaupt is. Dit Teil ist radioaktiv aufgeladen und funkt wie 'n kaputtes Atomkraftwerk. Man weiß kaum wat über dat Wesen, außer dass et verdammt zäh is."
+    "description": "Dit Vieh stammt aus 'ner kaputten Zukunft. Et ist durch 'nen Zeitriss in unsere Welt geplumst und keiner blickt so richtig, wat dat überhaupt is. Dit Teil ist radioaktiv aufgeladen und funkt wie 'n kaputtes Atomkraftwerk. Man weiß kaum wat über dat Wesen, außer dass et verdammt zäh is.",
+    "starting_talents": [
+      "physical_i"
+    ],
+    "learnable_talents": [
+      "defense_i",
+      "heal_i"
+    ],
+    "talent_learning_levels": {
+      "defense_i": 10,
+      "heal_i": 15
+    }
   },
   {
     "id": 55,
@@ -2429,30 +1973,19 @@
     "traits": [
       "Durchgeknallt"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Rempler"
-      },
-      {
-        "level": 5,
-        "move": "Verwirrung"
-      },
-      {
-        "level": 10,
-        "move": "Wahnsinn"
-      },
-      {
-        "level": 15,
-        "move": "Krallenhieb"
-      },
-      {
-        "level": 20,
-        "move": "Stampfer"
-      }
-    ],
     "evolution": null,
-    "description": "Dat Monster gehört hier zum Alltag. Macht zwar Radau, aber die Leute hier im Pott ham sich dran gewöhnt. Die Leute im Revier gucken schon gar nich mehr hin, wenn dat Vieh vorbeikommt."
+    "description": "Dat Monster gehört hier zum Alltag. Macht zwar Radau, aber die Leute hier im Pott ham sich dran gewöhnt. Die Leute im Revier gucken schon gar nich mehr hin, wenn dat Vieh vorbeikommt.",
+    "starting_talents": [
+      "physical_i"
+    ],
+    "learnable_talents": [
+      "defense_i",
+      "heal_i"
+    ],
+    "talent_learning_levels": {
+      "defense_i": 10,
+      "heal_i": 15
+    }
   },
   {
     "id": 56,
@@ -2478,30 +2011,19 @@
     "traits": [
       "Durchgeknallt"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Rempler"
-      },
-      {
-        "level": 5,
-        "move": "Verwirrung"
-      },
-      {
-        "level": 10,
-        "move": "Chaosblitz"
-      },
-      {
-        "level": 15,
-        "move": "Wahnsinn"
-      },
-      {
-        "level": 20,
-        "move": "Brüllen"
-      }
-    ],
     "evolution": null,
-    "description": "Dat Monster gehört hier zum Alltag. Macht zwar Radau, aber die Leute hier im Pott ham sich dran gewöhnt. Die Leute im Revier gucken schon gar nich mehr hin, wenn dat Vieh vorbeikommt."
+    "description": "Dat Monster gehört hier zum Alltag. Macht zwar Radau, aber die Leute hier im Pott ham sich dran gewöhnt. Die Leute im Revier gucken schon gar nich mehr hin, wenn dat Vieh vorbeikommt.",
+    "starting_talents": [
+      "physical_i"
+    ],
+    "learnable_talents": [
+      "defense_i",
+      "heal_i"
+    ],
+    "talent_learning_levels": {
+      "defense_i": 10,
+      "heal_i": 15
+    }
   },
   {
     "id": 57,
@@ -2527,30 +2049,19 @@
     "traits": [
       "Eitrig"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Giftwolke"
-      },
-      {
-        "level": 5,
-        "move": "Giftstachel"
-      },
-      {
-        "level": 10,
-        "move": "Pesthauch"
-      },
-      {
-        "level": 15,
-        "move": "Seuchenschwall"
-      },
-      {
-        "level": 20,
-        "move": "Auf die Fresse"
-      }
-    ],
     "evolution": null,
-    "description": "Dat Monster gehört hier zum Alltag. Verteilt hier und da 'ne Rotznase, aber dat kratzt hier keine Sau mehr. Die Leute im Revier gucken schon gar nich mehr hin, wenn dat Vieh vorbeikommt."
+    "description": "Dat Monster gehört hier zum Alltag. Verteilt hier und da 'ne Rotznase, aber dat kratzt hier keine Sau mehr. Die Leute im Revier gucken schon gar nich mehr hin, wenn dat Vieh vorbeikommt.",
+    "starting_talents": [
+      "physical_i"
+    ],
+    "learnable_talents": [
+      "defense_i",
+      "heal_i"
+    ],
+    "talent_learning_levels": {
+      "defense_i": 10,
+      "heal_i": 15
+    }
   },
   {
     "id": 58,
@@ -2576,30 +2087,19 @@
     "traits": [
       "Ansteckend"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Giftwolke"
-      },
-      {
-        "level": 5,
-        "move": "Pesthauch"
-      },
-      {
-        "level": 10,
-        "move": "Seuchenschwall"
-      },
-      {
-        "level": 15,
-        "move": "Fluch"
-      },
-      {
-        "level": 20,
-        "move": "Hypnose"
-      }
-    ],
     "evolution": null,
-    "description": "Dat urzeitliche Vieh galt lange als ausgestorben. Hat wohl schon die Dinos mit Seuchen geärgert damals. Jetzt is dat wieder da und treibt hier sein Unwesen."
+    "description": "Dat urzeitliche Vieh galt lange als ausgestorben. Hat wohl schon die Dinos mit Seuchen geärgert damals. Jetzt is dat wieder da und treibt hier sein Unwesen.",
+    "starting_talents": [
+      "physical_i"
+    ],
+    "learnable_talents": [
+      "defense_i",
+      "heal_i"
+    ],
+    "talent_learning_levels": {
+      "defense_i": 10,
+      "heal_i": 15
+    }
   },
   {
     "id": 59,
@@ -2625,30 +2125,19 @@
     "traits": [
       "Unheimlich"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Spukball"
-      },
-      {
-        "level": 5,
-        "move": "Hypnose"
-      },
-      {
-        "level": 10,
-        "move": "Fluch"
-      },
-      {
-        "level": 15,
-        "move": "Schattenhieb"
-      },
-      {
-        "level": 20,
-        "move": "Lichtstrahl"
-      }
-    ],
     "evolution": null,
-    "description": "Dat urzeitliche Vieh galt lange als ausgestorben. Kommt aus 'ner alten Legende, war schon damals 'n Spuk. Jetzt is dat wieder da und treibt hier sein Unwesen."
+    "description": "Dat urzeitliche Vieh galt lange als ausgestorben. Kommt aus 'ner alten Legende, war schon damals 'n Spuk. Jetzt is dat wieder da und treibt hier sein Unwesen.",
+    "starting_talents": [
+      "physical_i"
+    ],
+    "learnable_talents": [
+      "defense_i",
+      "heal_i"
+    ],
+    "talent_learning_levels": {
+      "defense_i": 10,
+      "heal_i": 15
+    }
   },
   {
     "id": 60,
@@ -2674,30 +2163,19 @@
     "traits": [
       "Unheimlich"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Spukball"
-      },
-      {
-        "level": 5,
-        "move": "Kopfnuss"
-      },
-      {
-        "level": 10,
-        "move": "Fluch"
-      },
-      {
-        "level": 15,
-        "move": "Schattenhieb"
-      },
-      {
-        "level": 20,
-        "move": "Hypnose"
-      }
-    ],
     "evolution": null,
-    "description": "Dat Monster gehört hier zum Alltag. Spukt in alten Häusern rum, aber dat juckt hier keinen mehr groß. Die Leute im Revier gucken schon gar nich mehr hin, wenn dat Vieh vorbeikommt."
+    "description": "Dat Monster gehört hier zum Alltag. Spukt in alten Häusern rum, aber dat juckt hier keinen mehr groß. Die Leute im Revier gucken schon gar nich mehr hin, wenn dat Vieh vorbeikommt.",
+    "starting_talents": [
+      "physical_i"
+    ],
+    "learnable_talents": [
+      "defense_i",
+      "heal_i"
+    ],
+    "talent_learning_levels": {
+      "defense_i": 10,
+      "heal_i": 15
+    }
   },
   {
     "id": 61,
@@ -2723,34 +2201,22 @@
     "traits": [
       "Hitzkopf"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Rempler"
-      },
-      {
-        "level": 5,
-        "move": "Funken"
-      },
-      {
-        "level": 10,
-        "move": "Feuerball"
-      },
-      {
-        "level": 20,
-        "move": "Flammenwurf"
-      },
-      {
-        "level": 30,
-        "move": "Hitzewelle"
-      },
-      {
-        "level": 30,
-        "move": "Höllenfeuer"
-      }
-    ],
     "evolution": null,
-    "description": "Dat urzeitliche Vieh galt lange als ausgestorben. Mit Lava und Glut kennt dat sich seit der Steinzeit bestens aus. Jetzt is dat wieder da und treibt hier sein Unwesen."
+    "description": "Dat urzeitliche Vieh galt lange als ausgestorben. Mit Lava und Glut kennt dat sich seit der Steinzeit bestens aus. Jetzt is dat wieder da und treibt hier sein Unwesen.",
+    "starting_talents": [
+      "fire_i",
+      "physical_i"
+    ],
+    "learnable_talents": [
+      "defense_i",
+      "heal_i",
+      "support_i"
+    ],
+    "talent_learning_levels": {
+      "defense_i": 10,
+      "heal_i": 15,
+      "support_i": 20
+    }
   },
   {
     "id": 62,
@@ -2776,30 +2242,22 @@
     "traits": [
       "Hitzkopf"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Biss"
-      },
-      {
-        "level": 5,
-        "move": "Funken"
-      },
-      {
-        "level": 10,
-        "move": "Feuerball"
-      },
-      {
-        "level": 20,
-        "move": "Flammenwurf"
-      },
-      {
-        "level": 30,
-        "move": "Hitzewelle"
-      }
-    ],
     "evolution": null,
-    "description": "Ein Hund aus flüssiger Lava mit glühenden Augen. Lavahund bellt Funken und hinterlässt überall Brandflecken. Trotz seiner wilden Natur is er seinem Besitzer treu ergeben."
+    "description": "Ein Hund aus flüssiger Lava mit glühenden Augen. Lavahund bellt Funken und hinterlässt überall Brandflecken. Trotz seiner wilden Natur is er seinem Besitzer treu ergeben.",
+    "starting_talents": [
+      "fire_i",
+      "physical_i"
+    ],
+    "learnable_talents": [
+      "defense_i",
+      "heal_i",
+      "support_i"
+    ],
+    "talent_learning_levels": {
+      "defense_i": 10,
+      "heal_i": 15,
+      "support_i": 20
+    }
   },
   {
     "id": 63,
@@ -2825,34 +2283,22 @@
     "traits": [
       "Hitzkopf"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Rempler"
-      },
-      {
-        "level": 5,
-        "move": "Funken"
-      },
-      {
-        "level": 10,
-        "move": "Feuerball"
-      },
-      {
-        "level": 20,
-        "move": "Flammenwurf"
-      },
-      {
-        "level": 30,
-        "move": "Hitzewelle"
-      },
-      {
-        "level": 30,
-        "move": "Höllenfeuer"
-      }
-    ],
     "evolution": null,
-    "description": "Ein mächtiger Feuerdrache, der über die Ruhrpott-Landschaft herrscht. Feuerdrache kann ganze Stadtteile in Brand setzen und ist bei Feuerwehrleuten gefürchtet."
+    "description": "Ein mächtiger Feuerdrache, der über die Ruhrpott-Landschaft herrscht. Feuerdrache kann ganze Stadtteile in Brand setzen und ist bei Feuerwehrleuten gefürchtet.",
+    "starting_talents": [
+      "fire_i",
+      "physical_i"
+    ],
+    "learnable_talents": [
+      "defense_i",
+      "heal_i",
+      "support_i"
+    ],
+    "talent_learning_levels": {
+      "defense_i": 10,
+      "heal_i": 15,
+      "support_i": 20
+    }
   },
   {
     "id": 64,
@@ -2878,30 +2324,22 @@
     "traits": [
       "Glitschig"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Rempler"
-      },
-      {
-        "level": 5,
-        "move": "Blubber"
-      },
-      {
-        "level": 10,
-        "move": "Wasserstrahl"
-      },
-      {
-        "level": 20,
-        "move": "Windstoß"
-      },
-      {
-        "level": 30,
-        "move": "Wellenritt"
-      }
-    ],
     "evolution": null,
-    "description": "Ein mächtiger Wasserkönig, der über alle Gewässer des Ruhrpotts herrscht. Wasserkönig kann Überschwemmungen verursachen und ist bei Anwohnern gefürchtet."
+    "description": "Ein mächtiger Wasserkönig, der über alle Gewässer des Ruhrpotts herrscht. Wasserkönig kann Überschwemmungen verursachen und ist bei Anwohnern gefürchtet.",
+    "starting_talents": [
+      "water_i",
+      "physical_i"
+    ],
+    "learnable_talents": [
+      "defense_i",
+      "heal_i",
+      "support_i"
+    ],
+    "talent_learning_levels": {
+      "defense_i": 10,
+      "heal_i": 15,
+      "support_i": 20
+    }
   },
   {
     "id": 65,
@@ -2927,30 +2365,21 @@
     "traits": [
       "Stur"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Rempler"
-      },
-      {
-        "level": 5,
-        "move": "Lehmschuss"
-      },
-      {
-        "level": 10,
-        "move": "Steinwurf"
-      },
-      {
-        "level": 20,
-        "move": "Erdbeben"
-      },
-      {
-        "level": 30,
-        "move": "Panzerhaut"
-      }
-    ],
     "evolution": null,
-    "description": "Ein mächtiger Erdkönig, der über den Boden des Ruhrpotts herrscht. Erdkönig kann schwere Erdbeben verursachen und ist bei Bauarbeitern gefürchtet."
+    "description": "Ein mächtiger Erdkönig, der über den Boden des Ruhrpotts herrscht. Erdkönig kann schwere Erdbeben verursachen und ist bei Bauarbeitern gefürchtet.",
+    "starting_talents": [
+      "physical_i"
+    ],
+    "learnable_talents": [
+      "defense_i",
+      "heal_i",
+      "support_i"
+    ],
+    "talent_learning_levels": {
+      "defense_i": 10,
+      "heal_i": 15,
+      "support_i": 20
+    }
   },
   {
     "id": 66,
@@ -2976,30 +2405,21 @@
     "traits": [
       "Flatterhaft"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Kratzer"
-      },
-      {
-        "level": 5,
-        "move": "Windstoß"
-      },
-      {
-        "level": 10,
-        "move": "Wirbelwind"
-      },
-      {
-        "level": 20,
-        "move": "Orkan"
-      },
-      {
-        "level": 30,
-        "move": "Brüllen"
-      }
-    ],
     "evolution": null,
-    "description": "Ein mächtiger Luftkönig, der über die Lüfte des Ruhrpotts herrscht. Luftkönig kann schwere Stürme verursachen und ist bei Piloten gefürchtet."
+    "description": "Ein mächtiger Luftkönig, der über die Lüfte des Ruhrpotts herrscht. Luftkönig kann schwere Stürme verursachen und ist bei Piloten gefürchtet.",
+    "starting_talents": [
+      "physical_i"
+    ],
+    "learnable_talents": [
+      "defense_i",
+      "heal_i",
+      "support_i"
+    ],
+    "talent_learning_levels": {
+      "defense_i": 10,
+      "heal_i": 15,
+      "support_i": 20
+    }
   },
   {
     "id": 67,
@@ -3025,30 +2445,22 @@
     "traits": [
       "Wuchernd"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Rempler"
-      },
-      {
-        "level": 5,
-        "move": "Rankenhieb"
-      },
-      {
-        "level": 10,
-        "move": "Samenbombe"
-      },
-      {
-        "level": 20,
-        "move": "Blattsturm"
-      },
-      {
-        "level": 30,
-        "move": "Giftstachel"
-      }
-    ],
     "evolution": null,
-    "description": "Ein mächtiger Pflanzenkaiser, der über alle Pflanzen des Ruhrpotts herrscht. Pflanzenkaiser kann ganze Städte überwuchern und ist bei Stadtplanern gefürchtet."
+    "description": "Ein mächtiger Pflanzenkaiser, der über alle Pflanzen des Ruhrpotts herrscht. Pflanzenkaiser kann ganze Städte überwuchern und ist bei Stadtplanern gefürchtet.",
+    "starting_talents": [
+      "nature_i",
+      "physical_i"
+    ],
+    "learnable_talents": [
+      "defense_i",
+      "heal_i",
+      "support_i"
+    ],
+    "talent_learning_levels": {
+      "defense_i": 10,
+      "heal_i": 15,
+      "support_i": 20
+    }
   },
   {
     "id": 68,
@@ -3074,30 +2486,21 @@
     "traits": [
       "Wild"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Biss"
-      },
-      {
-        "level": 5,
-        "move": "Heulen"
-      },
-      {
-        "level": 10,
-        "move": "Stampfer"
-      },
-      {
-        "level": 20,
-        "move": "Krallenhieb"
-      },
-      {
-        "level": 30,
-        "move": "Raserei"
-      }
-    ],
     "evolution": null,
-    "description": "Ein mächtiger Bestienkaiser, der über alle wilden Monster des Ruhrpotts herrscht. Bestienkaiser ist der unumstrittene Anführer der wilden Monster."
+    "description": "Ein mächtiger Bestienkaiser, der über alle wilden Monster des Ruhrpotts herrscht. Bestienkaiser ist der unumstrittene Anführer der wilden Monster.",
+    "starting_talents": [
+      "physical_i"
+    ],
+    "learnable_talents": [
+      "defense_i",
+      "heal_i",
+      "support_i"
+    ],
+    "talent_learning_levels": {
+      "defense_i": 10,
+      "heal_i": 15,
+      "support_i": 20
+    }
   },
   {
     "id": 69,
@@ -3123,30 +2526,21 @@
     "traits": [
       "Aufgeladen"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Rempler"
-      },
-      {
-        "level": 5,
-        "move": "Funkenschlag"
-      },
-      {
-        "level": 10,
-        "move": "Donnerblitz"
-      },
-      {
-        "level": 20,
-        "move": "Lichtstrahl"
-      },
-      {
-        "level": 30,
-        "move": "Magnetfeld"
-      }
-    ],
     "evolution": null,
-    "description": "Ein mächtiger Energietyrann, der über alle elektrischen Systeme des Ruhrpotts herrscht. Energietyrann kann ganze Städte lahmlegen und ist bei Elektrikern gefürchtet."
+    "description": "Ein mächtiger Energietyrann, der über alle elektrischen Systeme des Ruhrpotts herrscht. Energietyrann kann ganze Städte lahmlegen und ist bei Elektrikern gefürchtet.",
+    "starting_talents": [
+      "physical_i"
+    ],
+    "learnable_talents": [
+      "defense_i",
+      "heal_i",
+      "support_i"
+    ],
+    "talent_learning_levels": {
+      "defense_i": 10,
+      "heal_i": 15,
+      "support_i": 20
+    }
   },
   {
     "id": 70,
@@ -3172,30 +2566,21 @@
     "traits": [
       "Unberechenbar"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Verwirrung"
-      },
-      {
-        "level": 5,
-        "move": "Windstoß"
-      },
-      {
-        "level": 10,
-        "move": "Chaosblitz"
-      },
-      {
-        "level": 20,
-        "move": "Wahnsinn"
-      },
-      {
-        "level": 30,
-        "move": "Brüllen"
-      }
-    ],
     "evolution": null,
-    "description": "Ein mächtiger Chaostyrann, der über alle chaotischen Kräfte des Ruhrpotts herrscht. Chaostyrann kann ganze Städte in Chaos stürzen."
+    "description": "Ein mächtiger Chaostyrann, der über alle chaotischen Kräfte des Ruhrpotts herrscht. Chaostyrann kann ganze Städte in Chaos stürzen.",
+    "starting_talents": [
+      "physical_i"
+    ],
+    "learnable_talents": [
+      "defense_i",
+      "heal_i",
+      "support_i"
+    ],
+    "talent_learning_levels": {
+      "defense_i": 10,
+      "heal_i": 15,
+      "support_i": 20
+    }
   },
   {
     "id": 71,
@@ -3221,30 +2606,21 @@
     "traits": [
       "Ansteckend"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Giftwolke"
-      },
-      {
-        "level": 5,
-        "move": "Giftstachel"
-      },
-      {
-        "level": 10,
-        "move": "Pesthauch"
-      },
-      {
-        "level": 20,
-        "move": "Seuchenschwall"
-      },
-      {
-        "level": 30,
-        "move": "Fluch"
-      }
-    ],
     "evolution": null,
-    "description": "Ein mächtiger Seuchentyrann, der über alle Krankheiten des Ruhrpotts herrscht. Seuchentyrann kann ganze Städte infizieren und ist bei Ärzten gefürchtet."
+    "description": "Ein mächtiger Seuchentyrann, der über alle Krankheiten des Ruhrpotts herrscht. Seuchentyrann kann ganze Städte infizieren und ist bei Ärzten gefürchtet.",
+    "starting_talents": [
+      "physical_i"
+    ],
+    "learnable_talents": [
+      "defense_i",
+      "heal_i",
+      "support_i"
+    ],
+    "talent_learning_levels": {
+      "defense_i": 10,
+      "heal_i": 15,
+      "support_i": 20
+    }
   },
   {
     "id": 72,
@@ -3270,30 +2646,21 @@
     "traits": [
       "Unheimlich"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Spukball"
-      },
-      {
-        "level": 5,
-        "move": "Hypnose"
-      },
-      {
-        "level": 10,
-        "move": "Fluch"
-      },
-      {
-        "level": 20,
-        "move": "Schattenhieb"
-      },
-      {
-        "level": 30,
-        "move": "Lichtstrahl"
-      }
-    ],
     "evolution": null,
-    "description": "Ein mächtiger mystischer Tyrann, der über alle Geister und mystischen Kräfte des Ruhrpotts herrscht. Mystischer Tyrann kann ganze Städte in Angst versetzen."
+    "description": "Ein mächtiger mystischer Tyrann, der über alle Geister und mystischen Kräfte des Ruhrpotts herrscht. Mystischer Tyrann kann ganze Städte in Angst versetzen.",
+    "starting_talents": [
+      "physical_i"
+    ],
+    "learnable_talents": [
+      "defense_i",
+      "heal_i",
+      "support_i"
+    ],
+    "talent_learning_levels": {
+      "defense_i": 10,
+      "heal_i": 15,
+      "support_i": 20
+    }
   },
   {
     "id": 73,
@@ -3319,46 +2686,22 @@
     "traits": [
       "Frostig"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Rempler"
-      },
-      {
-        "level": 5,
-        "move": "Basisangriff"
-      },
-      {
-        "level": 10,
-        "move": "Spezialangriff"
-      },
-      {
-        "level": 20,
-        "move": "Mächtiger Angriff"
-      },
-      {
-        "level": 30,
-        "move": "Ultimativer Angriff"
-      },
-      {
-        "level": 40,
-        "move": "Weltangriff"
-      },
-      {
-        "level": 50,
-        "move": "Universumsangriff"
-      },
-      {
-        "level": 60,
-        "move": "Zeitangriff"
-      },
-      {
-        "level": 70,
-        "move": "Raumangriff"
-      }
-    ],
     "evolution": null,
-    "description": "Ein gefrorener Wanderer aus der Zukunft, der durch einen Zeitriss in den Ruhrpott gelangt ist. Eiswanderer kann alles um sich herum einfrieren."
+    "description": "Ein gefrorener Wanderer aus der Zukunft, der durch einen Zeitriss in den Ruhrpott gelangt ist. Eiswanderer kann alles um sich herum einfrieren.",
+    "starting_talents": [
+      "water_i",
+      "physical_i"
+    ],
+    "learnable_talents": [
+      "defense_i",
+      "heal_i",
+      "support_i"
+    ],
+    "talent_learning_levels": {
+      "defense_i": 10,
+      "heal_i": 15,
+      "support_i": 20
+    }
   },
   {
     "id": 74,
@@ -3384,46 +2727,21 @@
     "traits": [
       "Stur"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Rempler"
-      },
-      {
-        "level": 5,
-        "move": "Basisangriff"
-      },
-      {
-        "level": 10,
-        "move": "Spezialangriff"
-      },
-      {
-        "level": 20,
-        "move": "Mächtiger Angriff"
-      },
-      {
-        "level": 30,
-        "move": "Ultimativer Angriff"
-      },
-      {
-        "level": 40,
-        "move": "Weltangriff"
-      },
-      {
-        "level": 50,
-        "move": "Universumsangriff"
-      },
-      {
-        "level": 60,
-        "move": "Zeitangriff"
-      },
-      {
-        "level": 70,
-        "move": "Raumangriff"
-      }
-    ],
     "evolution": null,
-    "description": "Ein mechanischer Golem aus der Zukunft, der durch einen Zeitriss in den Ruhrpott gelangt ist. Stahlgolem ist fast unzerstörbar."
+    "description": "Ein mechanischer Golem aus der Zukunft, der durch einen Zeitriss in den Ruhrpott gelangt ist. Stahlgolem ist fast unzerstörbar.",
+    "starting_talents": [
+      "physical_i"
+    ],
+    "learnable_talents": [
+      "defense_i",
+      "heal_i",
+      "support_i"
+    ],
+    "talent_learning_levels": {
+      "defense_i": 10,
+      "heal_i": 15,
+      "support_i": 20
+    }
   },
   {
     "id": 75,
@@ -3451,46 +2769,21 @@
       "Flatterhaft",
       "Aufgeladen"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Rempler"
-      },
-      {
-        "level": 5,
-        "move": "Basisangriff"
-      },
-      {
-        "level": 10,
-        "move": "Spezialangriff"
-      },
-      {
-        "level": 20,
-        "move": "Mächtiger Angriff"
-      },
-      {
-        "level": 30,
-        "move": "Ultimativer Angriff"
-      },
-      {
-        "level": 40,
-        "move": "Weltangriff"
-      },
-      {
-        "level": 50,
-        "move": "Universumsangriff"
-      },
-      {
-        "level": 60,
-        "move": "Zeitangriff"
-      },
-      {
-        "level": 70,
-        "move": "Raumangriff"
-      }
-    ],
     "evolution": null,
-    "description": "Ein elektrischer Falke aus der Zukunft, der durch einen Zeitriss in den Ruhrpott gelangt ist. Blitzfalke ist so schnell wie der Blitz."
+    "description": "Ein elektrischer Falke aus der Zukunft, der durch einen Zeitriss in den Ruhrpott gelangt ist. Blitzfalke ist so schnell wie der Blitz.",
+    "starting_talents": [
+      "physical_i"
+    ],
+    "learnable_talents": [
+      "defense_i",
+      "heal_i",
+      "support_i"
+    ],
+    "talent_learning_levels": {
+      "defense_i": 10,
+      "heal_i": 15,
+      "support_i": 20
+    }
   },
   {
     "id": 76,
@@ -3518,46 +2811,22 @@
       "Wuchernd",
       "Giftig"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Rempler"
-      },
-      {
-        "level": 5,
-        "move": "Basisangriff"
-      },
-      {
-        "level": 10,
-        "move": "Spezialangriff"
-      },
-      {
-        "level": 20,
-        "move": "Mächtiger Angriff"
-      },
-      {
-        "level": 30,
-        "move": "Ultimativer Angriff"
-      },
-      {
-        "level": 40,
-        "move": "Weltangriff"
-      },
-      {
-        "level": 50,
-        "move": "Universumsangriff"
-      },
-      {
-        "level": 60,
-        "move": "Zeitangriff"
-      },
-      {
-        "level": 70,
-        "move": "Raumangriff"
-      }
-    ],
     "evolution": null,
-    "description": "Eine giftige Pflanze aus der Zukunft, die durch einen Zeitriss in den Ruhrpott gelangt ist. Giftranke kann alles vergiften, was sie berührt."
+    "description": "Eine giftige Pflanze aus der Zukunft, die durch einen Zeitriss in den Ruhrpott gelangt ist. Giftranke kann alles vergiften, was sie berührt.",
+    "starting_talents": [
+      "nature_i",
+      "physical_i"
+    ],
+    "learnable_talents": [
+      "defense_i",
+      "heal_i",
+      "support_i"
+    ],
+    "talent_learning_levels": {
+      "defense_i": 10,
+      "heal_i": 15,
+      "support_i": 20
+    }
   },
   {
     "id": 77,
@@ -3585,46 +2854,21 @@
       "Wild",
       "Geisterhaft"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Rempler"
-      },
-      {
-        "level": 5,
-        "move": "Basisangriff"
-      },
-      {
-        "level": 10,
-        "move": "Spezialangriff"
-      },
-      {
-        "level": 20,
-        "move": "Mächtiger Angriff"
-      },
-      {
-        "level": 30,
-        "move": "Ultimativer Angriff"
-      },
-      {
-        "level": 40,
-        "move": "Weltangriff"
-      },
-      {
-        "level": 50,
-        "move": "Universumsangriff"
-      },
-      {
-        "level": 60,
-        "move": "Zeitangriff"
-      },
-      {
-        "level": 70,
-        "move": "Raumangriff"
-      }
-    ],
     "evolution": null,
-    "description": "Ein mystischer Wolf aus der Zukunft, der durch einen Zeitriss in den Ruhrpott gelangt ist. Schattenwolf kann durch Wände laufen."
+    "description": "Ein mystischer Wolf aus der Zukunft, der durch einen Zeitriss in den Ruhrpott gelangt ist. Schattenwolf kann durch Wände laufen.",
+    "starting_talents": [
+      "physical_i"
+    ],
+    "learnable_talents": [
+      "defense_i",
+      "heal_i",
+      "support_i"
+    ],
+    "talent_learning_levels": {
+      "defense_i": 10,
+      "heal_i": 15,
+      "support_i": 20
+    }
   },
   {
     "id": 78,
@@ -3652,46 +2896,21 @@
       "Unberechenbar",
       "Geisterhaft"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Rempler"
-      },
-      {
-        "level": 5,
-        "move": "Basisangriff"
-      },
-      {
-        "level": 10,
-        "move": "Spezialangriff"
-      },
-      {
-        "level": 20,
-        "move": "Mächtiger Angriff"
-      },
-      {
-        "level": 30,
-        "move": "Ultimativer Angriff"
-      },
-      {
-        "level": 40,
-        "move": "Weltangriff"
-      },
-      {
-        "level": 50,
-        "move": "Universumsangriff"
-      },
-      {
-        "level": 60,
-        "move": "Zeitangriff"
-      },
-      {
-        "level": 70,
-        "move": "Raumangriff"
-      }
-    ],
     "evolution": null,
-    "description": "Ein chaotischer Geist aus der Zukunft, der durch einen Zeitriss in den Ruhrpott gelangt ist. Chaosgeist macht alles kaputt."
+    "description": "Ein chaotischer Geist aus der Zukunft, der durch einen Zeitriss in den Ruhrpott gelangt ist. Chaosgeist macht alles kaputt.",
+    "starting_talents": [
+      "physical_i"
+    ],
+    "learnable_talents": [
+      "defense_i",
+      "heal_i",
+      "support_i"
+    ],
+    "talent_learning_levels": {
+      "defense_i": 10,
+      "heal_i": 15,
+      "support_i": 20
+    }
   },
   {
     "id": 79,
@@ -3719,46 +2938,22 @@
       "Hitzkopf",
       "Aufgeladen"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Rempler"
-      },
-      {
-        "level": 5,
-        "move": "Basisangriff"
-      },
-      {
-        "level": 10,
-        "move": "Spezialangriff"
-      },
-      {
-        "level": 20,
-        "move": "Mächtiger Angriff"
-      },
-      {
-        "level": 30,
-        "move": "Ultimativer Angriff"
-      },
-      {
-        "level": 40,
-        "move": "Weltangriff"
-      },
-      {
-        "level": 50,
-        "move": "Universumsangriff"
-      },
-      {
-        "level": 60,
-        "move": "Zeitangriff"
-      },
-      {
-        "level": 70,
-        "move": "Raumangriff"
-      }
-    ],
     "evolution": null,
-    "description": "Ein Plasmadrache aus der Zukunft, der durch einen Zeitriss in den Ruhrpott gelangt ist. Plasmadrache ist heiß und elektrisch."
+    "description": "Ein Plasmadrache aus der Zukunft, der durch einen Zeitriss in den Ruhrpott gelangt ist. Plasmadrache ist heiß und elektrisch.",
+    "starting_talents": [
+      "fire_i",
+      "physical_i"
+    ],
+    "learnable_talents": [
+      "defense_i",
+      "heal_i",
+      "support_i"
+    ],
+    "talent_learning_levels": {
+      "defense_i": 10,
+      "heal_i": 15,
+      "support_i": 20
+    }
   },
   {
     "id": 80,
@@ -3784,46 +2979,21 @@
     "traits": [
       "Geisterhaft"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Rempler"
-      },
-      {
-        "level": 5,
-        "move": "Basisangriff"
-      },
-      {
-        "level": 10,
-        "move": "Spezialangriff"
-      },
-      {
-        "level": 20,
-        "move": "Mächtiger Angriff"
-      },
-      {
-        "level": 30,
-        "move": "Ultimativer Angriff"
-      },
-      {
-        "level": 40,
-        "move": "Weltangriff"
-      },
-      {
-        "level": 50,
-        "move": "Universumsangriff"
-      },
-      {
-        "level": 60,
-        "move": "Zeitangriff"
-      },
-      {
-        "level": 70,
-        "move": "Raumangriff"
-      }
-    ],
     "evolution": null,
-    "description": "Ein Zeitgeist aus der Zukunft, der durch einen Zeitriss in den Ruhrpott gelangt ist. Zeitgeist kann die Zeit verlangsamen."
+    "description": "Ein Zeitgeist aus der Zukunft, der durch einen Zeitriss in den Ruhrpott gelangt ist. Zeitgeist kann die Zeit verlangsamen.",
+    "starting_talents": [
+      "physical_i"
+    ],
+    "learnable_talents": [
+      "defense_i",
+      "heal_i",
+      "support_i"
+    ],
+    "talent_learning_levels": {
+      "defense_i": 10,
+      "heal_i": 15,
+      "support_i": 20
+    }
   },
   {
     "id": 81,
@@ -3849,38 +3019,22 @@
     "traits": [
       "Hitzkopf"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Rempler"
-      },
-      {
-        "level": 5,
-        "move": "Funken"
-      },
-      {
-        "level": 10,
-        "move": "Feuerball"
-      },
-      {
-        "level": 20,
-        "move": "Flammenwurf"
-      },
-      {
-        "level": 30,
-        "move": "Hitzewelle"
-      },
-      {
-        "level": 40,
-        "move": "Höllenfeuer"
-      },
-      {
-        "level": 50,
-        "move": "Vulkanausbruch"
-      }
-    ],
     "evolution": null,
-    "description": "Ein mächtiger Feuerkaiser, der über alle Feuerkräfte des Ruhrpotts herrscht. Feuerkaiser kann ganze Städte in Brand setzen und ist bei Feuerwehrleuten gefürchtet."
+    "description": "Ein mächtiger Feuerkaiser, der über alle Feuerkräfte des Ruhrpotts herrscht. Feuerkaiser kann ganze Städte in Brand setzen und ist bei Feuerwehrleuten gefürchtet.",
+    "starting_talents": [
+      "fire_i",
+      "physical_i"
+    ],
+    "learnable_talents": [
+      "defense_i",
+      "heal_i",
+      "support_i"
+    ],
+    "talent_learning_levels": {
+      "defense_i": 10,
+      "heal_i": 15,
+      "support_i": 20
+    }
   },
   {
     "id": 82,
@@ -3906,34 +3060,22 @@
     "traits": [
       "Glitschig"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Rempler"
-      },
-      {
-        "level": 5,
-        "move": "Blubber"
-      },
-      {
-        "level": 10,
-        "move": "Wasserstrahl"
-      },
-      {
-        "level": 20,
-        "move": "Windstoß"
-      },
-      {
-        "level": 30,
-        "move": "Wellenritt"
-      },
-      {
-        "level": 40,
-        "move": "Tsunami"
-      }
-    ],
     "evolution": null,
-    "description": "Ein mächtiger Wasserkaiser, der über alle Gewässer des Ruhrpotts herrscht. Wasserkaiser kann schwere Überschwemmungen verursachen."
+    "description": "Ein mächtiger Wasserkaiser, der über alle Gewässer des Ruhrpotts herrscht. Wasserkaiser kann schwere Überschwemmungen verursachen.",
+    "starting_talents": [
+      "water_i",
+      "physical_i"
+    ],
+    "learnable_talents": [
+      "defense_i",
+      "heal_i",
+      "support_i"
+    ],
+    "talent_learning_levels": {
+      "defense_i": 10,
+      "heal_i": 15,
+      "support_i": 20
+    }
   },
   {
     "id": 83,
@@ -3959,34 +3101,21 @@
     "traits": [
       "Stur"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Rempler"
-      },
-      {
-        "level": 5,
-        "move": "Lehmschuss"
-      },
-      {
-        "level": 10,
-        "move": "Steinwurf"
-      },
-      {
-        "level": 20,
-        "move": "Erdbeben"
-      },
-      {
-        "level": 30,
-        "move": "Panzerhaut"
-      },
-      {
-        "level": 40,
-        "move": "Bergsturz"
-      }
-    ],
     "evolution": null,
-    "description": "Ein mächtiger Erdkaiser, der über den gesamten Boden des Ruhrpotts herrscht. Erdkaiser kann schwere Erdbeben und Bergstürze verursachen."
+    "description": "Ein mächtiger Erdkaiser, der über den gesamten Boden des Ruhrpotts herrscht. Erdkaiser kann schwere Erdbeben und Bergstürze verursachen.",
+    "starting_talents": [
+      "physical_i"
+    ],
+    "learnable_talents": [
+      "defense_i",
+      "heal_i",
+      "support_i"
+    ],
+    "talent_learning_levels": {
+      "defense_i": 10,
+      "heal_i": 15,
+      "support_i": 20
+    }
   },
   {
     "id": 84,
@@ -4012,34 +3141,21 @@
     "traits": [
       "Flatterhaft"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Kratzer"
-      },
-      {
-        "level": 5,
-        "move": "Windstoß"
-      },
-      {
-        "level": 10,
-        "move": "Wirbelwind"
-      },
-      {
-        "level": 20,
-        "move": "Orkan"
-      },
-      {
-        "level": 30,
-        "move": "Brüllen"
-      },
-      {
-        "level": 40,
-        "move": "Tornado"
-      }
-    ],
     "evolution": null,
-    "description": "Ein mächtiger Luftkaiser, der über alle Lüfte des Ruhrpotts herrscht. Luftkaiser kann schwere Stürme und Tornados verursachen."
+    "description": "Ein mächtiger Luftkaiser, der über alle Lüfte des Ruhrpotts herrscht. Luftkaiser kann schwere Stürme und Tornados verursachen.",
+    "starting_talents": [
+      "physical_i"
+    ],
+    "learnable_talents": [
+      "defense_i",
+      "heal_i",
+      "support_i"
+    ],
+    "talent_learning_levels": {
+      "defense_i": 10,
+      "heal_i": 15,
+      "support_i": 20
+    }
   },
   {
     "id": 85,
@@ -4065,34 +3181,22 @@
     "traits": [
       "Wuchernd"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Rempler"
-      },
-      {
-        "level": 5,
-        "move": "Rankenhieb"
-      },
-      {
-        "level": 10,
-        "move": "Samenbombe"
-      },
-      {
-        "level": 20,
-        "move": "Blattsturm"
-      },
-      {
-        "level": 30,
-        "move": "Giftstachel"
-      },
-      {
-        "level": 40,
-        "move": "Dschungel"
-      }
-    ],
     "evolution": null,
-    "description": "Ein mächtiger Pflanzenkaiser, der über alle Pflanzen des Ruhrpotts herrscht. Pflanzenkaiser kann ganze Städte in Dschungel verwandeln."
+    "description": "Ein mächtiger Pflanzenkaiser, der über alle Pflanzen des Ruhrpotts herrscht. Pflanzenkaiser kann ganze Städte in Dschungel verwandeln.",
+    "starting_talents": [
+      "nature_i",
+      "physical_i"
+    ],
+    "learnable_talents": [
+      "defense_i",
+      "heal_i",
+      "support_i"
+    ],
+    "talent_learning_levels": {
+      "defense_i": 10,
+      "heal_i": 15,
+      "support_i": 20
+    }
   },
   {
     "id": 86,
@@ -4118,34 +3222,21 @@
     "traits": [
       "Wild"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Biss"
-      },
-      {
-        "level": 5,
-        "move": "Heulen"
-      },
-      {
-        "level": 10,
-        "move": "Stampfer"
-      },
-      {
-        "level": 20,
-        "move": "Krallenhieb"
-      },
-      {
-        "level": 30,
-        "move": "Raserei"
-      },
-      {
-        "level": 40,
-        "move": "Bestienwut"
-      }
-    ],
     "evolution": null,
-    "description": "Ein mächtiger Bestienkaiser, der über alle wilden Monster des Ruhrpotts herrscht. Bestienkaiser ist der unumstrittene Anführer aller wilden Monster."
+    "description": "Ein mächtiger Bestienkaiser, der über alle wilden Monster des Ruhrpotts herrscht. Bestienkaiser ist der unumstrittene Anführer aller wilden Monster.",
+    "starting_talents": [
+      "physical_i"
+    ],
+    "learnable_talents": [
+      "defense_i",
+      "heal_i",
+      "support_i"
+    ],
+    "talent_learning_levels": {
+      "defense_i": 10,
+      "heal_i": 15,
+      "support_i": 20
+    }
   },
   {
     "id": 87,
@@ -4171,34 +3262,21 @@
     "traits": [
       "Aufgeladen"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Rempler"
-      },
-      {
-        "level": 5,
-        "move": "Funkenschlag"
-      },
-      {
-        "level": 10,
-        "move": "Donnerblitz"
-      },
-      {
-        "level": 20,
-        "move": "Lichtstrahl"
-      },
-      {
-        "level": 30,
-        "move": "Magnetfeld"
-      },
-      {
-        "level": 40,
-        "move": "Blitzschlag"
-      }
-    ],
     "evolution": null,
-    "description": "Ein mächtiger Energietyrann, der über alle elektrischen Systeme des Ruhrpotts herrscht. Energietyrann kann ganze Städte lahmlegen."
+    "description": "Ein mächtiger Energietyrann, der über alle elektrischen Systeme des Ruhrpotts herrscht. Energietyrann kann ganze Städte lahmlegen.",
+    "starting_talents": [
+      "physical_i"
+    ],
+    "learnable_talents": [
+      "defense_i",
+      "heal_i",
+      "support_i"
+    ],
+    "talent_learning_levels": {
+      "defense_i": 10,
+      "heal_i": 15,
+      "support_i": 20
+    }
   },
   {
     "id": 88,
@@ -4224,34 +3302,21 @@
     "traits": [
       "Unberechenbar"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Verwirrung"
-      },
-      {
-        "level": 5,
-        "move": "Windstoß"
-      },
-      {
-        "level": 10,
-        "move": "Chaosblitz"
-      },
-      {
-        "level": 20,
-        "move": "Wahnsinn"
-      },
-      {
-        "level": 30,
-        "move": "Brüllen"
-      },
-      {
-        "level": 40,
-        "move": "Chaossturm"
-      }
-    ],
     "evolution": null,
-    "description": "Ein mächtiger Chaostyrann, der über alle chaotischen Kräfte des Ruhrpotts herrscht. Chaostyrann kann ganze Städte in Chaos stürzen."
+    "description": "Ein mächtiger Chaostyrann, der über alle chaotischen Kräfte des Ruhrpotts herrscht. Chaostyrann kann ganze Städte in Chaos stürzen.",
+    "starting_talents": [
+      "physical_i"
+    ],
+    "learnable_talents": [
+      "defense_i",
+      "heal_i",
+      "support_i"
+    ],
+    "talent_learning_levels": {
+      "defense_i": 10,
+      "heal_i": 15,
+      "support_i": 20
+    }
   },
   {
     "id": 89,
@@ -4277,34 +3342,21 @@
     "traits": [
       "Ansteckend"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Giftwolke"
-      },
-      {
-        "level": 5,
-        "move": "Giftstachel"
-      },
-      {
-        "level": 10,
-        "move": "Pesthauch"
-      },
-      {
-        "level": 20,
-        "move": "Seuchenschwall"
-      },
-      {
-        "level": 30,
-        "move": "Fluch"
-      },
-      {
-        "level": 40,
-        "move": "Seuchenwelle"
-      }
-    ],
     "evolution": null,
-    "description": "Ein mächtiger Seuchentyrann, der über alle Krankheiten des Ruhrpotts herrscht. Seuchentyrann kann ganze Städte infizieren."
+    "description": "Ein mächtiger Seuchentyrann, der über alle Krankheiten des Ruhrpotts herrscht. Seuchentyrann kann ganze Städte infizieren.",
+    "starting_talents": [
+      "physical_i"
+    ],
+    "learnable_talents": [
+      "defense_i",
+      "heal_i",
+      "support_i"
+    ],
+    "talent_learning_levels": {
+      "defense_i": 10,
+      "heal_i": 15,
+      "support_i": 20
+    }
   },
   {
     "id": 90,
@@ -4330,34 +3382,21 @@
     "traits": [
       "Unheimlich"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Spukball"
-      },
-      {
-        "level": 5,
-        "move": "Hypnose"
-      },
-      {
-        "level": 10,
-        "move": "Fluch"
-      },
-      {
-        "level": 20,
-        "move": "Schattenhieb"
-      },
-      {
-        "level": 30,
-        "move": "Lichtstrahl"
-      },
-      {
-        "level": 40,
-        "move": "Geisterwelt"
-      }
-    ],
     "evolution": null,
-    "description": "Ein mächtiger mystischer Tyrann, der über alle Geister und mystischen Kräfte des Ruhrpotts herrscht. Mystischer Tyrann kann die Geisterwelt beschwören."
+    "description": "Ein mächtiger mystischer Tyrann, der über alle Geister und mystischen Kräfte des Ruhrpotts herrscht. Mystischer Tyrann kann die Geisterwelt beschwören.",
+    "starting_talents": [
+      "physical_i"
+    ],
+    "learnable_talents": [
+      "defense_i",
+      "heal_i",
+      "support_i"
+    ],
+    "talent_learning_levels": {
+      "defense_i": 10,
+      "heal_i": 15,
+      "support_i": 20
+    }
   },
   {
     "id": 91,
@@ -4383,34 +3422,22 @@
     "traits": [
       "Hitzkopf"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Rempler"
-      },
-      {
-        "level": 5,
-        "move": "Funken"
-      },
-      {
-        "level": 10,
-        "move": "Feuerball"
-      },
-      {
-        "level": 20,
-        "move": "Flammenwurf"
-      },
-      {
-        "level": 30,
-        "move": "Hitzewelle"
-      },
-      {
-        "level": 40,
-        "move": "Urfeuer"
-      }
-    ],
     "evolution": null,
-    "description": "Ein prähistorischer Feuerherrscher aus der Urzeit. Feuerherrscher beherrschte schon damals die Feuerkräfte und ist jetzt wieder erwacht."
+    "description": "Ein prähistorischer Feuerherrscher aus der Urzeit. Feuerherrscher beherrschte schon damals die Feuerkräfte und ist jetzt wieder erwacht.",
+    "starting_talents": [
+      "fire_i",
+      "physical_i"
+    ],
+    "learnable_talents": [
+      "defense_i",
+      "heal_i",
+      "support_i"
+    ],
+    "talent_learning_levels": {
+      "defense_i": 10,
+      "heal_i": 15,
+      "support_i": 20
+    }
   },
   {
     "id": 92,
@@ -4436,34 +3463,22 @@
     "traits": [
       "Glitschig"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Rempler"
-      },
-      {
-        "level": 5,
-        "move": "Blubber"
-      },
-      {
-        "level": 10,
-        "move": "Wasserstrahl"
-      },
-      {
-        "level": 20,
-        "move": "Windstoß"
-      },
-      {
-        "level": 30,
-        "move": "Wellenritt"
-      },
-      {
-        "level": 40,
-        "move": "Urwasser"
-      }
-    ],
     "evolution": null,
-    "description": "Ein prähistorischer Wasserherrscher aus der Urzeit. Wasserherrscher beherrschte schon damals die Wasserkräfte und ist jetzt wieder erwacht."
+    "description": "Ein prähistorischer Wasserherrscher aus der Urzeit. Wasserherrscher beherrschte schon damals die Wasserkräfte und ist jetzt wieder erwacht.",
+    "starting_talents": [
+      "water_i",
+      "physical_i"
+    ],
+    "learnable_talents": [
+      "defense_i",
+      "heal_i",
+      "support_i"
+    ],
+    "talent_learning_levels": {
+      "defense_i": 10,
+      "heal_i": 15,
+      "support_i": 20
+    }
   },
   {
     "id": 93,
@@ -4489,34 +3504,21 @@
     "traits": [
       "Stur"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Rempler"
-      },
-      {
-        "level": 5,
-        "move": "Lehmschuss"
-      },
-      {
-        "level": 10,
-        "move": "Steinwurf"
-      },
-      {
-        "level": 20,
-        "move": "Erdbeben"
-      },
-      {
-        "level": 30,
-        "move": "Panzerhaut"
-      },
-      {
-        "level": 40,
-        "move": "Urerde"
-      }
-    ],
     "evolution": null,
-    "description": "Ein prähistorischer Erdherrscher aus der Urzeit. Erdherrscher beherrschte schon damals die Erdkräfte und ist jetzt wieder erwacht."
+    "description": "Ein prähistorischer Erdherrscher aus der Urzeit. Erdherrscher beherrschte schon damals die Erdkräfte und ist jetzt wieder erwacht.",
+    "starting_talents": [
+      "physical_i"
+    ],
+    "learnable_talents": [
+      "defense_i",
+      "heal_i",
+      "support_i"
+    ],
+    "talent_learning_levels": {
+      "defense_i": 10,
+      "heal_i": 15,
+      "support_i": 20
+    }
   },
   {
     "id": 94,
@@ -4542,34 +3544,21 @@
     "traits": [
       "Flatterhaft"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Kratzer"
-      },
-      {
-        "level": 5,
-        "move": "Windstoß"
-      },
-      {
-        "level": 10,
-        "move": "Wirbelwind"
-      },
-      {
-        "level": 20,
-        "move": "Orkan"
-      },
-      {
-        "level": 30,
-        "move": "Brüllen"
-      },
-      {
-        "level": 40,
-        "move": "Urluft"
-      }
-    ],
     "evolution": null,
-    "description": "Ein prähistorischer Luftherrscher aus der Urzeit. Luftherrscher beherrschte schon damals die Luftkräfte und ist jetzt wieder erwacht."
+    "description": "Ein prähistorischer Luftherrscher aus der Urzeit. Luftherrscher beherrschte schon damals die Luftkräfte und ist jetzt wieder erwacht.",
+    "starting_talents": [
+      "physical_i"
+    ],
+    "learnable_talents": [
+      "defense_i",
+      "heal_i",
+      "support_i"
+    ],
+    "talent_learning_levels": {
+      "defense_i": 10,
+      "heal_i": 15,
+      "support_i": 20
+    }
   },
   {
     "id": 95,
@@ -4595,34 +3584,22 @@
     "traits": [
       "Wuchernd"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Rempler"
-      },
-      {
-        "level": 5,
-        "move": "Rankenhieb"
-      },
-      {
-        "level": 10,
-        "move": "Samenbombe"
-      },
-      {
-        "level": 20,
-        "move": "Blattsturm"
-      },
-      {
-        "level": 30,
-        "move": "Giftstachel"
-      },
-      {
-        "level": 40,
-        "move": "Urpflanze"
-      }
-    ],
     "evolution": null,
-    "description": "Ein prähistorischer Pflanzenherrscher aus der Urzeit. Pflanzenherrscher beherrschte schon damals die Pflanzenkräfte und ist jetzt wieder erwacht."
+    "description": "Ein prähistorischer Pflanzenherrscher aus der Urzeit. Pflanzenherrscher beherrschte schon damals die Pflanzenkräfte und ist jetzt wieder erwacht.",
+    "starting_talents": [
+      "nature_i",
+      "physical_i"
+    ],
+    "learnable_talents": [
+      "defense_i",
+      "heal_i",
+      "support_i"
+    ],
+    "talent_learning_levels": {
+      "defense_i": 10,
+      "heal_i": 15,
+      "support_i": 20
+    }
   },
   {
     "id": 96,
@@ -4648,34 +3625,21 @@
     "traits": [
       "Wild"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Biss"
-      },
-      {
-        "level": 5,
-        "move": "Heulen"
-      },
-      {
-        "level": 10,
-        "move": "Stampfer"
-      },
-      {
-        "level": 20,
-        "move": "Krallenhieb"
-      },
-      {
-        "level": 30,
-        "move": "Raserei"
-      },
-      {
-        "level": 40,
-        "move": "Urbestie"
-      }
-    ],
     "evolution": null,
-    "description": "Ein prähistorischer Bestienherrscher aus der Urzeit. Bestienherrscher beherrschte schon damals alle wilden Monster und ist jetzt wieder erwacht."
+    "description": "Ein prähistorischer Bestienherrscher aus der Urzeit. Bestienherrscher beherrschte schon damals alle wilden Monster und ist jetzt wieder erwacht.",
+    "starting_talents": [
+      "physical_i"
+    ],
+    "learnable_talents": [
+      "defense_i",
+      "heal_i",
+      "support_i"
+    ],
+    "talent_learning_levels": {
+      "defense_i": 10,
+      "heal_i": 15,
+      "support_i": 20
+    }
   },
   {
     "id": 97,
@@ -4701,34 +3665,21 @@
     "traits": [
       "Aufgeladen"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Rempler"
-      },
-      {
-        "level": 5,
-        "move": "Funkenschlag"
-      },
-      {
-        "level": 10,
-        "move": "Donnerblitz"
-      },
-      {
-        "level": 20,
-        "move": "Lichtstrahl"
-      },
-      {
-        "level": 30,
-        "move": "Magnetfeld"
-      },
-      {
-        "level": 40,
-        "move": "Urenergie"
-      }
-    ],
     "evolution": null,
-    "description": "Ein prähistorischer Energieherrscher aus der Urzeit. Energieherrscher beherrschte schon damals die Energiekräfte und ist jetzt wieder erwacht."
+    "description": "Ein prähistorischer Energieherrscher aus der Urzeit. Energieherrscher beherrschte schon damals die Energiekräfte und ist jetzt wieder erwacht.",
+    "starting_talents": [
+      "physical_i"
+    ],
+    "learnable_talents": [
+      "defense_i",
+      "heal_i",
+      "support_i"
+    ],
+    "talent_learning_levels": {
+      "defense_i": 10,
+      "heal_i": 15,
+      "support_i": 20
+    }
   },
   {
     "id": 98,
@@ -4754,34 +3705,21 @@
     "traits": [
       "Unberechenbar"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Verwirrung"
-      },
-      {
-        "level": 5,
-        "move": "Windstoß"
-      },
-      {
-        "level": 10,
-        "move": "Chaosblitz"
-      },
-      {
-        "level": 20,
-        "move": "Wahnsinn"
-      },
-      {
-        "level": 30,
-        "move": "Brüllen"
-      },
-      {
-        "level": 40,
-        "move": "Urchaos"
-      }
-    ],
     "evolution": null,
-    "description": "Ein prähistorischer Chaosherrscher aus der Urzeit. Chaosherrscher beherrschte schon damals die chaotischen Kräfte und ist jetzt wieder erwacht."
+    "description": "Ein prähistorischer Chaosherrscher aus der Urzeit. Chaosherrscher beherrschte schon damals die chaotischen Kräfte und ist jetzt wieder erwacht.",
+    "starting_talents": [
+      "physical_i"
+    ],
+    "learnable_talents": [
+      "defense_i",
+      "heal_i",
+      "support_i"
+    ],
+    "talent_learning_levels": {
+      "defense_i": 10,
+      "heal_i": 15,
+      "support_i": 20
+    }
   },
   {
     "id": 99,
@@ -4807,34 +3745,21 @@
     "traits": [
       "Ansteckend"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Giftwolke"
-      },
-      {
-        "level": 5,
-        "move": "Giftstachel"
-      },
-      {
-        "level": 10,
-        "move": "Pesthauch"
-      },
-      {
-        "level": 20,
-        "move": "Seuchenschwall"
-      },
-      {
-        "level": 30,
-        "move": "Fluch"
-      },
-      {
-        "level": 40,
-        "move": "Urseuche"
-      }
-    ],
     "evolution": null,
-    "description": "Ein prähistorischer Seuchenherrscher aus der Urzeit. Seuchenherrscher beherrschte schon damals alle Krankheiten und ist jetzt wieder erwacht."
+    "description": "Ein prähistorischer Seuchenherrscher aus der Urzeit. Seuchenherrscher beherrschte schon damals alle Krankheiten und ist jetzt wieder erwacht.",
+    "starting_talents": [
+      "physical_i"
+    ],
+    "learnable_talents": [
+      "defense_i",
+      "heal_i",
+      "support_i"
+    ],
+    "talent_learning_levels": {
+      "defense_i": 10,
+      "heal_i": 15,
+      "support_i": 20
+    }
   },
   {
     "id": 100,
@@ -4860,34 +3785,21 @@
     "traits": [
       "Unheimlich"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Spukball"
-      },
-      {
-        "level": 5,
-        "move": "Hypnose"
-      },
-      {
-        "level": 10,
-        "move": "Fluch"
-      },
-      {
-        "level": 20,
-        "move": "Schattenhieb"
-      },
-      {
-        "level": 30,
-        "move": "Lichtstrahl"
-      },
-      {
-        "level": 40,
-        "move": "Urmystik"
-      }
-    ],
     "evolution": null,
-    "description": "Ein prähistorischer mystischer Herrscher aus der Urzeit. Mystischer Herrscher beherrschte schon damals alle mystischen Kräfte und ist jetzt wieder erwacht."
+    "description": "Ein prähistorischer mystischer Herrscher aus der Urzeit. Mystischer Herrscher beherrschte schon damals alle mystischen Kräfte und ist jetzt wieder erwacht.",
+    "starting_talents": [
+      "physical_i"
+    ],
+    "learnable_talents": [
+      "defense_i",
+      "heal_i",
+      "support_i"
+    ],
+    "talent_learning_levels": {
+      "defense_i": 10,
+      "heal_i": 15,
+      "support_i": 20
+    }
   },
   {
     "id": 101,
@@ -4913,42 +3825,24 @@
     "traits": [
       "Hitzkopf"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Rempler"
-      },
-      {
-        "level": 5,
-        "move": "Funken"
-      },
-      {
-        "level": 10,
-        "move": "Feuerball"
-      },
-      {
-        "level": 20,
-        "move": "Flammenwurf"
-      },
-      {
-        "level": 30,
-        "move": "Hitzewelle"
-      },
-      {
-        "level": 40,
-        "move": "Höllenfeuer"
-      },
-      {
-        "level": 50,
-        "move": "Vulkanausbruch"
-      },
-      {
-        "level": 60,
-        "move": "Sonnenfeuer"
-      }
-    ],
     "evolution": null,
-    "description": "Ein göttliches Feuerwesen, das über alle Feuerkräfte des Ruhrpotts herrscht. Feuergott kann ganze Städte in Brand setzen."
+    "description": "Ein göttliches Feuerwesen, das über alle Feuerkräfte des Ruhrpotts herrscht. Feuergott kann ganze Städte in Brand setzen.",
+    "starting_talents": [
+      "fire_i",
+      "physical_i"
+    ],
+    "learnable_talents": [
+      "defense_i",
+      "heal_i",
+      "support_i",
+      "buff_i"
+    ],
+    "talent_learning_levels": {
+      "defense_i": 10,
+      "heal_i": 15,
+      "support_i": 20,
+      "buff_i": 25
+    }
   },
   {
     "id": 102,
@@ -4974,38 +3868,24 @@
     "traits": [
       "Glitschig"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Rempler"
-      },
-      {
-        "level": 5,
-        "move": "Blubber"
-      },
-      {
-        "level": 10,
-        "move": "Wasserstrahl"
-      },
-      {
-        "level": 20,
-        "move": "Windstoß"
-      },
-      {
-        "level": 30,
-        "move": "Wellenritt"
-      },
-      {
-        "level": 40,
-        "move": "Tsunami"
-      },
-      {
-        "level": 50,
-        "move": "Ozeansturm"
-      }
-    ],
     "evolution": null,
-    "description": "Ein göttliches Wasserwesen, das über alle Gewässer des Ruhrpotts herrscht. Wassergott kann schwere Überschwemmungen verursachen."
+    "description": "Ein göttliches Wasserwesen, das über alle Gewässer des Ruhrpotts herrscht. Wassergott kann schwere Überschwemmungen verursachen.",
+    "starting_talents": [
+      "water_i",
+      "physical_i"
+    ],
+    "learnable_talents": [
+      "defense_i",
+      "heal_i",
+      "support_i",
+      "buff_i"
+    ],
+    "talent_learning_levels": {
+      "defense_i": 10,
+      "heal_i": 15,
+      "support_i": 20,
+      "buff_i": 25
+    }
   },
   {
     "id": 103,
@@ -5031,38 +3911,23 @@
     "traits": [
       "Stur"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Rempler"
-      },
-      {
-        "level": 5,
-        "move": "Lehmschuss"
-      },
-      {
-        "level": 10,
-        "move": "Steinwurf"
-      },
-      {
-        "level": 20,
-        "move": "Erdbeben"
-      },
-      {
-        "level": 30,
-        "move": "Panzerhaut"
-      },
-      {
-        "level": 40,
-        "move": "Bergsturz"
-      },
-      {
-        "level": 50,
-        "move": "Kontinentalverschiebung"
-      }
-    ],
     "evolution": null,
-    "description": "Ein göttliches Erdwesen, das über den gesamten Boden des Ruhrpotts herrscht. Erdgott kann schwere Erdbeben verursachen."
+    "description": "Ein göttliches Erdwesen, das über den gesamten Boden des Ruhrpotts herrscht. Erdgott kann schwere Erdbeben verursachen.",
+    "starting_talents": [
+      "physical_i"
+    ],
+    "learnable_talents": [
+      "defense_i",
+      "heal_i",
+      "support_i",
+      "buff_i"
+    ],
+    "talent_learning_levels": {
+      "defense_i": 10,
+      "heal_i": 15,
+      "support_i": 20,
+      "buff_i": 25
+    }
   },
   {
     "id": 104,
@@ -5088,38 +3953,23 @@
     "traits": [
       "Flatterhaft"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Kratzer"
-      },
-      {
-        "level": 5,
-        "move": "Windstoß"
-      },
-      {
-        "level": 10,
-        "move": "Wirbelwind"
-      },
-      {
-        "level": 20,
-        "move": "Orkan"
-      },
-      {
-        "level": 30,
-        "move": "Brüllen"
-      },
-      {
-        "level": 40,
-        "move": "Tornado"
-      },
-      {
-        "level": 50,
-        "move": "Hurrikan"
-      }
-    ],
     "evolution": null,
-    "description": "Ein göttliches Luftwesen, das über alle Lüfte des Ruhrpotts herrscht. Luftgott kann schwere Stürme verursachen."
+    "description": "Ein göttliches Luftwesen, das über alle Lüfte des Ruhrpotts herrscht. Luftgott kann schwere Stürme verursachen.",
+    "starting_talents": [
+      "physical_i"
+    ],
+    "learnable_talents": [
+      "defense_i",
+      "heal_i",
+      "support_i",
+      "buff_i"
+    ],
+    "talent_learning_levels": {
+      "defense_i": 10,
+      "heal_i": 15,
+      "support_i": 20,
+      "buff_i": 25
+    }
   },
   {
     "id": 105,
@@ -5145,38 +3995,24 @@
     "traits": [
       "Wuchernd"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Rempler"
-      },
-      {
-        "level": 5,
-        "move": "Rankenhieb"
-      },
-      {
-        "level": 10,
-        "move": "Samenbombe"
-      },
-      {
-        "level": 20,
-        "move": "Blattsturm"
-      },
-      {
-        "level": 30,
-        "move": "Giftstachel"
-      },
-      {
-        "level": 40,
-        "move": "Dschungel"
-      },
-      {
-        "level": 50,
-        "move": "Urwald"
-      }
-    ],
     "evolution": null,
-    "description": "Ein göttliches Pflanzenwesen, das über alle Pflanzen des Ruhrpotts herrscht. Pflanzengott kann ganze Städte überwuchern."
+    "description": "Ein göttliches Pflanzenwesen, das über alle Pflanzen des Ruhrpotts herrscht. Pflanzengott kann ganze Städte überwuchern.",
+    "starting_talents": [
+      "nature_i",
+      "physical_i"
+    ],
+    "learnable_talents": [
+      "defense_i",
+      "heal_i",
+      "support_i",
+      "buff_i"
+    ],
+    "talent_learning_levels": {
+      "defense_i": 10,
+      "heal_i": 15,
+      "support_i": 20,
+      "buff_i": 25
+    }
   },
   {
     "id": 106,
@@ -5202,38 +4038,23 @@
     "traits": [
       "Wild"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Biss"
-      },
-      {
-        "level": 5,
-        "move": "Heulen"
-      },
-      {
-        "level": 10,
-        "move": "Stampfer"
-      },
-      {
-        "level": 20,
-        "move": "Krallenhieb"
-      },
-      {
-        "level": 30,
-        "move": "Raserei"
-      },
-      {
-        "level": 40,
-        "move": "Bestienwut"
-      },
-      {
-        "level": 50,
-        "move": "Urbestie"
-      }
-    ],
     "evolution": null,
-    "description": "Ein göttliches Bestienwesen, das über alle wilden Monster des Ruhrpotts herrscht. Bestiengott ist der unumstrittene Anführer."
+    "description": "Ein göttliches Bestienwesen, das über alle wilden Monster des Ruhrpotts herrscht. Bestiengott ist der unumstrittene Anführer.",
+    "starting_talents": [
+      "physical_i"
+    ],
+    "learnable_talents": [
+      "defense_i",
+      "heal_i",
+      "support_i",
+      "buff_i"
+    ],
+    "talent_learning_levels": {
+      "defense_i": 10,
+      "heal_i": 15,
+      "support_i": 20,
+      "buff_i": 25
+    }
   },
   {
     "id": 107,
@@ -5259,38 +4080,23 @@
     "traits": [
       "Aufgeladen"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Rempler"
-      },
-      {
-        "level": 5,
-        "move": "Funkenschlag"
-      },
-      {
-        "level": 10,
-        "move": "Donnerblitz"
-      },
-      {
-        "level": 20,
-        "move": "Lichtstrahl"
-      },
-      {
-        "level": 30,
-        "move": "Magnetfeld"
-      },
-      {
-        "level": 40,
-        "move": "Blitzschlag"
-      },
-      {
-        "level": 50,
-        "move": "Plasmasturm"
-      }
-    ],
     "evolution": null,
-    "description": "Ein göttliches Energieewesen, das über alle elektrischen Systeme des Ruhrpotts herrscht. Energiegott kann ganze Städte lahmlegen."
+    "description": "Ein göttliches Energieewesen, das über alle elektrischen Systeme des Ruhrpotts herrscht. Energiegott kann ganze Städte lahmlegen.",
+    "starting_talents": [
+      "physical_i"
+    ],
+    "learnable_talents": [
+      "defense_i",
+      "heal_i",
+      "support_i",
+      "buff_i"
+    ],
+    "talent_learning_levels": {
+      "defense_i": 10,
+      "heal_i": 15,
+      "support_i": 20,
+      "buff_i": 25
+    }
   },
   {
     "id": 108,
@@ -5316,38 +4122,23 @@
     "traits": [
       "Unberechenbar"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Verwirrung"
-      },
-      {
-        "level": 5,
-        "move": "Windstoß"
-      },
-      {
-        "level": 10,
-        "move": "Chaosblitz"
-      },
-      {
-        "level": 20,
-        "move": "Wahnsinn"
-      },
-      {
-        "level": 30,
-        "move": "Brüllen"
-      },
-      {
-        "level": 40,
-        "move": "Chaossturm"
-      },
-      {
-        "level": 50,
-        "move": "Dimensionsturm"
-      }
-    ],
     "evolution": null,
-    "description": "Ein göttliches Chaoswesen, das über alle chaotischen Kräfte des Ruhrpotts herrscht. Chaosgott kann ganze Städte in Chaos stürzen."
+    "description": "Ein göttliches Chaoswesen, das über alle chaotischen Kräfte des Ruhrpotts herrscht. Chaosgott kann ganze Städte in Chaos stürzen.",
+    "starting_talents": [
+      "physical_i"
+    ],
+    "learnable_talents": [
+      "defense_i",
+      "heal_i",
+      "support_i",
+      "buff_i"
+    ],
+    "talent_learning_levels": {
+      "defense_i": 10,
+      "heal_i": 15,
+      "support_i": 20,
+      "buff_i": 25
+    }
   },
   {
     "id": 109,
@@ -5373,38 +4164,23 @@
     "traits": [
       "Ansteckend"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Giftwolke"
-      },
-      {
-        "level": 5,
-        "move": "Giftstachel"
-      },
-      {
-        "level": 10,
-        "move": "Pesthauch"
-      },
-      {
-        "level": 20,
-        "move": "Seuchenschwall"
-      },
-      {
-        "level": 30,
-        "move": "Fluch"
-      },
-      {
-        "level": 40,
-        "move": "Seuchenwelle"
-      },
-      {
-        "level": 50,
-        "move": "Apokalypse"
-      }
-    ],
     "evolution": null,
-    "description": "Ein göttliches Seuchenwesen, das über alle Krankheiten des Ruhrpotts herrscht. Seuchengott kann ganze Städte infizieren."
+    "description": "Ein göttliches Seuchenwesen, das über alle Krankheiten des Ruhrpotts herrscht. Seuchengott kann ganze Städte infizieren.",
+    "starting_talents": [
+      "physical_i"
+    ],
+    "learnable_talents": [
+      "defense_i",
+      "heal_i",
+      "support_i",
+      "buff_i"
+    ],
+    "talent_learning_levels": {
+      "defense_i": 10,
+      "heal_i": 15,
+      "support_i": 20,
+      "buff_i": 25
+    }
   },
   {
     "id": 110,
@@ -5430,38 +4206,23 @@
     "traits": [
       "Unheimlich"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Spukball"
-      },
-      {
-        "level": 5,
-        "move": "Hypnose"
-      },
-      {
-        "level": 10,
-        "move": "Fluch"
-      },
-      {
-        "level": 20,
-        "move": "Schattenhieb"
-      },
-      {
-        "level": 30,
-        "move": "Lichtstrahl"
-      },
-      {
-        "level": 40,
-        "move": "Geisterwelt"
-      },
-      {
-        "level": 50,
-        "move": "Dimensionstor"
-      }
-    ],
     "evolution": null,
-    "description": "Ein göttliches mystisches Wesen, das über alle Geister und mystischen Kräfte des Ruhrpotts herrscht. Mystischer Gott kann die Geisterwelt beschwören."
+    "description": "Ein göttliches mystisches Wesen, das über alle Geister und mystischen Kräfte des Ruhrpotts herrscht. Mystischer Gott kann die Geisterwelt beschwören.",
+    "starting_talents": [
+      "physical_i"
+    ],
+    "learnable_talents": [
+      "defense_i",
+      "heal_i",
+      "support_i",
+      "buff_i"
+    ],
+    "talent_learning_levels": {
+      "defense_i": 10,
+      "heal_i": 15,
+      "support_i": 20,
+      "buff_i": 25
+    }
   },
   {
     "id": 111,
@@ -5487,38 +4248,24 @@
     "traits": [
       "Hitzkopf"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Rempler"
-      },
-      {
-        "level": 5,
-        "move": "Funken"
-      },
-      {
-        "level": 10,
-        "move": "Feuerball"
-      },
-      {
-        "level": 20,
-        "move": "Flammenwurf"
-      },
-      {
-        "level": 30,
-        "move": "Hitzewelle"
-      },
-      {
-        "level": 40,
-        "move": "Urfeuer"
-      },
-      {
-        "level": 50,
-        "move": "Vulkanausbruch"
-      }
-    ],
     "evolution": null,
-    "description": "Ein prähistorischer Feuerkaiser aus der Urzeit. Feuerkaiser beherrschte schon damals die Feuerkräfte und ist jetzt wieder erwacht."
+    "description": "Ein prähistorischer Feuerkaiser aus der Urzeit. Feuerkaiser beherrschte schon damals die Feuerkräfte und ist jetzt wieder erwacht.",
+    "starting_talents": [
+      "fire_i",
+      "physical_i"
+    ],
+    "learnable_talents": [
+      "defense_i",
+      "heal_i",
+      "support_i",
+      "buff_i"
+    ],
+    "talent_learning_levels": {
+      "defense_i": 10,
+      "heal_i": 15,
+      "support_i": 20,
+      "buff_i": 25
+    }
   },
   {
     "id": 112,
@@ -5544,38 +4291,24 @@
     "traits": [
       "Glitschig"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Rempler"
-      },
-      {
-        "level": 5,
-        "move": "Blubber"
-      },
-      {
-        "level": 10,
-        "move": "Wasserstrahl"
-      },
-      {
-        "level": 20,
-        "move": "Windstoß"
-      },
-      {
-        "level": 30,
-        "move": "Wellenritt"
-      },
-      {
-        "level": 40,
-        "move": "Urwasser"
-      },
-      {
-        "level": 50,
-        "move": "Tsunami"
-      }
-    ],
     "evolution": null,
-    "description": "Ein prähistorischer Wasserkaiser aus der Urzeit. Wasserkaiser beherrschte schon damals die Wasserkräfte und ist jetzt wieder erwacht."
+    "description": "Ein prähistorischer Wasserkaiser aus der Urzeit. Wasserkaiser beherrschte schon damals die Wasserkräfte und ist jetzt wieder erwacht.",
+    "starting_talents": [
+      "water_i",
+      "physical_i"
+    ],
+    "learnable_talents": [
+      "defense_i",
+      "heal_i",
+      "support_i",
+      "buff_i"
+    ],
+    "talent_learning_levels": {
+      "defense_i": 10,
+      "heal_i": 15,
+      "support_i": 20,
+      "buff_i": 25
+    }
   },
   {
     "id": 113,
@@ -5601,38 +4334,23 @@
     "traits": [
       "Stur"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Rempler"
-      },
-      {
-        "level": 5,
-        "move": "Lehmschuss"
-      },
-      {
-        "level": 10,
-        "move": "Steinwurf"
-      },
-      {
-        "level": 20,
-        "move": "Erdbeben"
-      },
-      {
-        "level": 30,
-        "move": "Panzerhaut"
-      },
-      {
-        "level": 40,
-        "move": "Urerde"
-      },
-      {
-        "level": 50,
-        "move": "Bergsturz"
-      }
-    ],
     "evolution": null,
-    "description": "Ein prähistorischer Erdkaiser aus der Urzeit. Erdkaiser beherrschte schon damals die Erdkräfte und ist jetzt wieder erwacht."
+    "description": "Ein prähistorischer Erdkaiser aus der Urzeit. Erdkaiser beherrschte schon damals die Erdkräfte und ist jetzt wieder erwacht.",
+    "starting_talents": [
+      "physical_i"
+    ],
+    "learnable_talents": [
+      "defense_i",
+      "heal_i",
+      "support_i",
+      "buff_i"
+    ],
+    "talent_learning_levels": {
+      "defense_i": 10,
+      "heal_i": 15,
+      "support_i": 20,
+      "buff_i": 25
+    }
   },
   {
     "id": 114,
@@ -5658,38 +4376,23 @@
     "traits": [
       "Flatterhaft"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Kratzer"
-      },
-      {
-        "level": 5,
-        "move": "Windstoß"
-      },
-      {
-        "level": 10,
-        "move": "Wirbelwind"
-      },
-      {
-        "level": 20,
-        "move": "Orkan"
-      },
-      {
-        "level": 30,
-        "move": "Brüllen"
-      },
-      {
-        "level": 40,
-        "move": "Urluft"
-      },
-      {
-        "level": 50,
-        "move": "Tornado"
-      }
-    ],
     "evolution": null,
-    "description": "Ein prähistorischer Luftkaiser aus der Urzeit. Luftkaiser beherrschte schon damals die Luftkräfte und ist jetzt wieder erwacht."
+    "description": "Ein prähistorischer Luftkaiser aus der Urzeit. Luftkaiser beherrschte schon damals die Luftkräfte und ist jetzt wieder erwacht.",
+    "starting_talents": [
+      "physical_i"
+    ],
+    "learnable_talents": [
+      "defense_i",
+      "heal_i",
+      "support_i",
+      "buff_i"
+    ],
+    "talent_learning_levels": {
+      "defense_i": 10,
+      "heal_i": 15,
+      "support_i": 20,
+      "buff_i": 25
+    }
   },
   {
     "id": 115,
@@ -5715,38 +4418,24 @@
     "traits": [
       "Wuchernd"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Rempler"
-      },
-      {
-        "level": 5,
-        "move": "Rankenhieb"
-      },
-      {
-        "level": 10,
-        "move": "Samenbombe"
-      },
-      {
-        "level": 20,
-        "move": "Blattsturm"
-      },
-      {
-        "level": 30,
-        "move": "Giftstachel"
-      },
-      {
-        "level": 40,
-        "move": "Urpflanze"
-      },
-      {
-        "level": 50,
-        "move": "Dschungel"
-      }
-    ],
     "evolution": null,
-    "description": "Ein prähistorischer Pflanzenkaiser aus der Urzeit. Pflanzenkaiser beherrschte schon damals die Pflanzenkräfte und ist jetzt wieder erwacht."
+    "description": "Ein prähistorischer Pflanzenkaiser aus der Urzeit. Pflanzenkaiser beherrschte schon damals die Pflanzenkräfte und ist jetzt wieder erwacht.",
+    "starting_talents": [
+      "nature_i",
+      "physical_i"
+    ],
+    "learnable_talents": [
+      "defense_i",
+      "heal_i",
+      "support_i",
+      "buff_i"
+    ],
+    "talent_learning_levels": {
+      "defense_i": 10,
+      "heal_i": 15,
+      "support_i": 20,
+      "buff_i": 25
+    }
   },
   {
     "id": 116,
@@ -5772,38 +4461,23 @@
     "traits": [
       "Wild"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Biss"
-      },
-      {
-        "level": 5,
-        "move": "Heulen"
-      },
-      {
-        "level": 10,
-        "move": "Stampfer"
-      },
-      {
-        "level": 20,
-        "move": "Krallenhieb"
-      },
-      {
-        "level": 30,
-        "move": "Raserei"
-      },
-      {
-        "level": 40,
-        "move": "Urbestie"
-      },
-      {
-        "level": 50,
-        "move": "Bestienwut"
-      }
-    ],
     "evolution": null,
-    "description": "Ein prähistorischer Bestienkaiser aus der Urzeit. Bestienkaiser beherrschte schon damals alle wilden Monster und ist jetzt wieder erwacht."
+    "description": "Ein prähistorischer Bestienkaiser aus der Urzeit. Bestienkaiser beherrschte schon damals alle wilden Monster und ist jetzt wieder erwacht.",
+    "starting_talents": [
+      "physical_i"
+    ],
+    "learnable_talents": [
+      "defense_i",
+      "heal_i",
+      "support_i",
+      "buff_i"
+    ],
+    "talent_learning_levels": {
+      "defense_i": 10,
+      "heal_i": 15,
+      "support_i": 20,
+      "buff_i": 25
+    }
   },
   {
     "id": 117,
@@ -5829,38 +4503,23 @@
     "traits": [
       "Aufgeladen"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Rempler"
-      },
-      {
-        "level": 5,
-        "move": "Funkenschlag"
-      },
-      {
-        "level": 10,
-        "move": "Donnerblitz"
-      },
-      {
-        "level": 20,
-        "move": "Lichtstrahl"
-      },
-      {
-        "level": 30,
-        "move": "Magnetfeld"
-      },
-      {
-        "level": 40,
-        "move": "Urenergie"
-      },
-      {
-        "level": 50,
-        "move": "Blitzschlag"
-      }
-    ],
     "evolution": null,
-    "description": "Ein prähistorischer Energiekaiser aus der Urzeit. Energiekaiser beherrschte schon damals die Energiekräfte und ist jetzt wieder erwacht."
+    "description": "Ein prähistorischer Energiekaiser aus der Urzeit. Energiekaiser beherrschte schon damals die Energiekräfte und ist jetzt wieder erwacht.",
+    "starting_talents": [
+      "physical_i"
+    ],
+    "learnable_talents": [
+      "defense_i",
+      "heal_i",
+      "support_i",
+      "buff_i"
+    ],
+    "talent_learning_levels": {
+      "defense_i": 10,
+      "heal_i": 15,
+      "support_i": 20,
+      "buff_i": 25
+    }
   },
   {
     "id": 118,
@@ -5886,38 +4545,23 @@
     "traits": [
       "Unberechenbar"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Verwirrung"
-      },
-      {
-        "level": 5,
-        "move": "Windstoß"
-      },
-      {
-        "level": 10,
-        "move": "Chaosblitz"
-      },
-      {
-        "level": 20,
-        "move": "Wahnsinn"
-      },
-      {
-        "level": 30,
-        "move": "Brüllen"
-      },
-      {
-        "level": 40,
-        "move": "Urchaos"
-      },
-      {
-        "level": 50,
-        "move": "Chaossturm"
-      }
-    ],
     "evolution": null,
-    "description": "Ein prähistorischer Chaoskaiser aus der Urzeit. Chaoskaiser beherrschte schon damals die chaotischen Kräfte und ist jetzt wieder erwacht."
+    "description": "Ein prähistorischer Chaoskaiser aus der Urzeit. Chaoskaiser beherrschte schon damals die chaotischen Kräfte und ist jetzt wieder erwacht.",
+    "starting_talents": [
+      "physical_i"
+    ],
+    "learnable_talents": [
+      "defense_i",
+      "heal_i",
+      "support_i",
+      "buff_i"
+    ],
+    "talent_learning_levels": {
+      "defense_i": 10,
+      "heal_i": 15,
+      "support_i": 20,
+      "buff_i": 25
+    }
   },
   {
     "id": 119,
@@ -5943,38 +4587,23 @@
     "traits": [
       "Ansteckend"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Giftwolke"
-      },
-      {
-        "level": 5,
-        "move": "Giftstachel"
-      },
-      {
-        "level": 10,
-        "move": "Pesthauch"
-      },
-      {
-        "level": 20,
-        "move": "Seuchenschwall"
-      },
-      {
-        "level": 30,
-        "move": "Fluch"
-      },
-      {
-        "level": 40,
-        "move": "Urseuche"
-      },
-      {
-        "level": 50,
-        "move": "Seuchenwelle"
-      }
-    ],
     "evolution": null,
-    "description": "Ein prähistorischer Seuchenkaiser aus der Urzeit. Seuchenkaiser beherrschte schon damals alle Krankheiten und ist jetzt wieder erwacht."
+    "description": "Ein prähistorischer Seuchenkaiser aus der Urzeit. Seuchenkaiser beherrschte schon damals alle Krankheiten und ist jetzt wieder erwacht.",
+    "starting_talents": [
+      "physical_i"
+    ],
+    "learnable_talents": [
+      "defense_i",
+      "heal_i",
+      "support_i",
+      "buff_i"
+    ],
+    "talent_learning_levels": {
+      "defense_i": 10,
+      "heal_i": 15,
+      "support_i": 20,
+      "buff_i": 25
+    }
   },
   {
     "id": 120,
@@ -6000,38 +4629,23 @@
     "traits": [
       "Unheimlich"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Spukball"
-      },
-      {
-        "level": 5,
-        "move": "Hypnose"
-      },
-      {
-        "level": 10,
-        "move": "Fluch"
-      },
-      {
-        "level": 20,
-        "move": "Schattenhieb"
-      },
-      {
-        "level": 30,
-        "move": "Lichtstrahl"
-      },
-      {
-        "level": 40,
-        "move": "Urmystik"
-      },
-      {
-        "level": 50,
-        "move": "Geisterwelt"
-      }
-    ],
     "evolution": null,
-    "description": "Ein prähistorischer mystischer Kaiser aus der Urzeit. Mystischer Kaiser beherrschte schon damals alle mystischen Kräfte und ist jetzt wieder erwacht."
+    "description": "Ein prähistorischer mystischer Kaiser aus der Urzeit. Mystischer Kaiser beherrschte schon damals alle mystischen Kräfte und ist jetzt wieder erwacht.",
+    "starting_talents": [
+      "physical_i"
+    ],
+    "learnable_talents": [
+      "defense_i",
+      "heal_i",
+      "support_i",
+      "buff_i"
+    ],
+    "talent_learning_levels": {
+      "defense_i": 10,
+      "heal_i": 15,
+      "support_i": 20,
+      "buff_i": 25
+    }
   },
   {
     "id": 121,
@@ -6057,46 +4671,24 @@
     "traits": [
       "Hitzkopf"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Rempler"
-      },
-      {
-        "level": 5,
-        "move": "Funken"
-      },
-      {
-        "level": 10,
-        "move": "Feuerball"
-      },
-      {
-        "level": 20,
-        "move": "Flammenwurf"
-      },
-      {
-        "level": 30,
-        "move": "Hitzewelle"
-      },
-      {
-        "level": 40,
-        "move": "Höllenfeuer"
-      },
-      {
-        "level": 50,
-        "move": "Vulkanausbruch"
-      },
-      {
-        "level": 60,
-        "move": "Sonnenfeuer"
-      },
-      {
-        "level": 70,
-        "move": "Sternenfeuer"
-      }
-    ],
     "evolution": null,
-    "description": "Ein legendärer Feuerlord, der über alle Feuerkräfte des Ruhrpotts herrscht. Feuerlord kann ganze Städte in Brand setzen."
+    "description": "Ein legendärer Feuerlord, der über alle Feuerkräfte des Ruhrpotts herrscht. Feuerlord kann ganze Städte in Brand setzen.",
+    "starting_talents": [
+      "fire_i",
+      "physical_i"
+    ],
+    "learnable_talents": [
+      "defense_i",
+      "heal_i",
+      "support_i",
+      "buff_i"
+    ],
+    "talent_learning_levels": {
+      "defense_i": 10,
+      "heal_i": 15,
+      "support_i": 20,
+      "buff_i": 25
+    }
   },
   {
     "id": 122,
@@ -6122,42 +4714,24 @@
     "traits": [
       "Glitschig"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Rempler"
-      },
-      {
-        "level": 5,
-        "move": "Blubber"
-      },
-      {
-        "level": 10,
-        "move": "Wasserstrahl"
-      },
-      {
-        "level": 20,
-        "move": "Windstoß"
-      },
-      {
-        "level": 30,
-        "move": "Wellenritt"
-      },
-      {
-        "level": 40,
-        "move": "Tsunami"
-      },
-      {
-        "level": 50,
-        "move": "Ozeansturm"
-      },
-      {
-        "level": 60,
-        "move": "Meereswut"
-      }
-    ],
     "evolution": null,
-    "description": "Ein legendärer Wasserlord, der über alle Gewässer des Ruhrpotts herrscht. Wasserlord kann schwere Überschwemmungen verursachen."
+    "description": "Ein legendärer Wasserlord, der über alle Gewässer des Ruhrpotts herrscht. Wasserlord kann schwere Überschwemmungen verursachen.",
+    "starting_talents": [
+      "water_i",
+      "physical_i"
+    ],
+    "learnable_talents": [
+      "defense_i",
+      "heal_i",
+      "support_i",
+      "buff_i"
+    ],
+    "talent_learning_levels": {
+      "defense_i": 10,
+      "heal_i": 15,
+      "support_i": 20,
+      "buff_i": 25
+    }
   },
   {
     "id": 123,
@@ -6183,42 +4757,23 @@
     "traits": [
       "Stur"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Rempler"
-      },
-      {
-        "level": 5,
-        "move": "Lehmschuss"
-      },
-      {
-        "level": 10,
-        "move": "Steinwurf"
-      },
-      {
-        "level": 20,
-        "move": "Erdbeben"
-      },
-      {
-        "level": 30,
-        "move": "Panzerhaut"
-      },
-      {
-        "level": 40,
-        "move": "Bergsturz"
-      },
-      {
-        "level": 50,
-        "move": "Kontinentalverschiebung"
-      },
-      {
-        "level": 60,
-        "move": "Planetenerde"
-      }
-    ],
     "evolution": null,
-    "description": "Ein legendärer Erdlord, der über den gesamten Boden des Ruhrpotts herrscht. Erdlord kann schwere Erdbeben verursachen."
+    "description": "Ein legendärer Erdlord, der über den gesamten Boden des Ruhrpotts herrscht. Erdlord kann schwere Erdbeben verursachen.",
+    "starting_talents": [
+      "physical_i"
+    ],
+    "learnable_talents": [
+      "defense_i",
+      "heal_i",
+      "support_i",
+      "buff_i"
+    ],
+    "talent_learning_levels": {
+      "defense_i": 10,
+      "heal_i": 15,
+      "support_i": 20,
+      "buff_i": 25
+    }
   },
   {
     "id": 124,
@@ -6244,42 +4799,23 @@
     "traits": [
       "Flatterhaft"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Kratzer"
-      },
-      {
-        "level": 5,
-        "move": "Windstoß"
-      },
-      {
-        "level": 10,
-        "move": "Wirbelwind"
-      },
-      {
-        "level": 20,
-        "move": "Orkan"
-      },
-      {
-        "level": 30,
-        "move": "Brüllen"
-      },
-      {
-        "level": 40,
-        "move": "Tornado"
-      },
-      {
-        "level": 50,
-        "move": "Hurrikan"
-      },
-      {
-        "level": 60,
-        "move": "Weltwind"
-      }
-    ],
     "evolution": null,
-    "description": "Ein legendärer Luftlord, der über alle Lüfte des Ruhrpotts herrscht. Luftlord kann schwere Stürme verursachen."
+    "description": "Ein legendärer Luftlord, der über alle Lüfte des Ruhrpotts herrscht. Luftlord kann schwere Stürme verursachen.",
+    "starting_talents": [
+      "physical_i"
+    ],
+    "learnable_talents": [
+      "defense_i",
+      "heal_i",
+      "support_i",
+      "buff_i"
+    ],
+    "talent_learning_levels": {
+      "defense_i": 10,
+      "heal_i": 15,
+      "support_i": 20,
+      "buff_i": 25
+    }
   },
   {
     "id": 125,
@@ -6305,42 +4841,24 @@
     "traits": [
       "Wuchernd"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Rempler"
-      },
-      {
-        "level": 5,
-        "move": "Rankenhieb"
-      },
-      {
-        "level": 10,
-        "move": "Samenbombe"
-      },
-      {
-        "level": 20,
-        "move": "Blattsturm"
-      },
-      {
-        "level": 30,
-        "move": "Giftstachel"
-      },
-      {
-        "level": 40,
-        "move": "Dschungel"
-      },
-      {
-        "level": 50,
-        "move": "Urwald"
-      },
-      {
-        "level": 60,
-        "move": "Weltwald"
-      }
-    ],
     "evolution": null,
-    "description": "Ein legendärer Pflanzenlord, der über alle Pflanzen des Ruhrpotts herrscht. Pflanzenlord kann ganze Städte überwuchern."
+    "description": "Ein legendärer Pflanzenlord, der über alle Pflanzen des Ruhrpotts herrscht. Pflanzenlord kann ganze Städte überwuchern.",
+    "starting_talents": [
+      "nature_i",
+      "physical_i"
+    ],
+    "learnable_talents": [
+      "defense_i",
+      "heal_i",
+      "support_i",
+      "buff_i"
+    ],
+    "talent_learning_levels": {
+      "defense_i": 10,
+      "heal_i": 15,
+      "support_i": 20,
+      "buff_i": 25
+    }
   },
   {
     "id": 126,
@@ -6366,42 +4884,23 @@
     "traits": [
       "Wild"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Biss"
-      },
-      {
-        "level": 5,
-        "move": "Heulen"
-      },
-      {
-        "level": 10,
-        "move": "Stampfer"
-      },
-      {
-        "level": 20,
-        "move": "Krallenhieb"
-      },
-      {
-        "level": 30,
-        "move": "Raserei"
-      },
-      {
-        "level": 40,
-        "move": "Bestienwut"
-      },
-      {
-        "level": 50,
-        "move": "Urbestie"
-      },
-      {
-        "level": 60,
-        "move": "Weltbestie"
-      }
-    ],
     "evolution": null,
-    "description": "Ein legendärer Bestienlord, der über alle wilden Monster des Ruhrpotts herrscht. Bestienlord ist der unumstrittene Anführer."
+    "description": "Ein legendärer Bestienlord, der über alle wilden Monster des Ruhrpotts herrscht. Bestienlord ist der unumstrittene Anführer.",
+    "starting_talents": [
+      "physical_i"
+    ],
+    "learnable_talents": [
+      "defense_i",
+      "heal_i",
+      "support_i",
+      "buff_i"
+    ],
+    "talent_learning_levels": {
+      "defense_i": 10,
+      "heal_i": 15,
+      "support_i": 20,
+      "buff_i": 25
+    }
   },
   {
     "id": 127,
@@ -6427,42 +4926,23 @@
     "traits": [
       "Aufgeladen"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Rempler"
-      },
-      {
-        "level": 5,
-        "move": "Funkenschlag"
-      },
-      {
-        "level": 10,
-        "move": "Donnerblitz"
-      },
-      {
-        "level": 20,
-        "move": "Lichtstrahl"
-      },
-      {
-        "level": 30,
-        "move": "Magnetfeld"
-      },
-      {
-        "level": 40,
-        "move": "Blitzschlag"
-      },
-      {
-        "level": 50,
-        "move": "Plasmasturm"
-      },
-      {
-        "level": 60,
-        "move": "Weltenergie"
-      }
-    ],
     "evolution": null,
-    "description": "Ein legendärer Energielord, der über alle elektrischen Systeme des Ruhrpotts herrscht. Energielord kann ganze Städte lahmlegen."
+    "description": "Ein legendärer Energielord, der über alle elektrischen Systeme des Ruhrpotts herrscht. Energielord kann ganze Städte lahmlegen.",
+    "starting_talents": [
+      "physical_i"
+    ],
+    "learnable_talents": [
+      "defense_i",
+      "heal_i",
+      "support_i",
+      "buff_i"
+    ],
+    "talent_learning_levels": {
+      "defense_i": 10,
+      "heal_i": 15,
+      "support_i": 20,
+      "buff_i": 25
+    }
   },
   {
     "id": 128,
@@ -6488,42 +4968,23 @@
     "traits": [
       "Unberechenbar"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Verwirrung"
-      },
-      {
-        "level": 5,
-        "move": "Windstoß"
-      },
-      {
-        "level": 10,
-        "move": "Chaosblitz"
-      },
-      {
-        "level": 20,
-        "move": "Wahnsinn"
-      },
-      {
-        "level": 30,
-        "move": "Brüllen"
-      },
-      {
-        "level": 40,
-        "move": "Chaossturm"
-      },
-      {
-        "level": 50,
-        "move": "Dimensionsturm"
-      },
-      {
-        "level": 60,
-        "move": "Weltchaos"
-      }
-    ],
     "evolution": null,
-    "description": "Ein legendärer Chaoslord, der über alle chaotischen Kräfte des Ruhrpotts herrscht. Chaoslord kann ganze Städte in Chaos stürzen."
+    "description": "Ein legendärer Chaoslord, der über alle chaotischen Kräfte des Ruhrpotts herrscht. Chaoslord kann ganze Städte in Chaos stürzen.",
+    "starting_talents": [
+      "physical_i"
+    ],
+    "learnable_talents": [
+      "defense_i",
+      "heal_i",
+      "support_i",
+      "buff_i"
+    ],
+    "talent_learning_levels": {
+      "defense_i": 10,
+      "heal_i": 15,
+      "support_i": 20,
+      "buff_i": 25
+    }
   },
   {
     "id": 129,
@@ -6549,42 +5010,23 @@
     "traits": [
       "Ansteckend"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Giftwolke"
-      },
-      {
-        "level": 5,
-        "move": "Giftstachel"
-      },
-      {
-        "level": 10,
-        "move": "Pesthauch"
-      },
-      {
-        "level": 20,
-        "move": "Seuchenschwall"
-      },
-      {
-        "level": 30,
-        "move": "Fluch"
-      },
-      {
-        "level": 40,
-        "move": "Seuchenwelle"
-      },
-      {
-        "level": 50,
-        "move": "Apokalypse"
-      },
-      {
-        "level": 60,
-        "move": "Weltseuche"
-      }
-    ],
     "evolution": null,
-    "description": "Ein legendärer Seuchenlord, der über alle Krankheiten des Ruhrpotts herrscht. Seuchenlord kann ganze Städte infizieren."
+    "description": "Ein legendärer Seuchenlord, der über alle Krankheiten des Ruhrpotts herrscht. Seuchenlord kann ganze Städte infizieren.",
+    "starting_talents": [
+      "physical_i"
+    ],
+    "learnable_talents": [
+      "defense_i",
+      "heal_i",
+      "support_i",
+      "buff_i"
+    ],
+    "talent_learning_levels": {
+      "defense_i": 10,
+      "heal_i": 15,
+      "support_i": 20,
+      "buff_i": 25
+    }
   },
   {
     "id": 130,
@@ -6610,42 +5052,23 @@
     "traits": [
       "Unheimlich"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Spukball"
-      },
-      {
-        "level": 5,
-        "move": "Hypnose"
-      },
-      {
-        "level": 10,
-        "move": "Fluch"
-      },
-      {
-        "level": 20,
-        "move": "Schattenhieb"
-      },
-      {
-        "level": 30,
-        "move": "Lichtstrahl"
-      },
-      {
-        "level": 40,
-        "move": "Geisterwelt"
-      },
-      {
-        "level": 50,
-        "move": "Dimensionstor"
-      },
-      {
-        "level": 60,
-        "move": "Weltmystik"
-      }
-    ],
     "evolution": null,
-    "description": "Ein legendärer mystischer Lord, der über alle Geister und mystischen Kräfte des Ruhrpotts herrscht. Mystischer Lord kann die Geisterwelt beschwören."
+    "description": "Ein legendärer mystischer Lord, der über alle Geister und mystischen Kräfte des Ruhrpotts herrscht. Mystischer Lord kann die Geisterwelt beschwören.",
+    "starting_talents": [
+      "physical_i"
+    ],
+    "learnable_talents": [
+      "defense_i",
+      "heal_i",
+      "support_i",
+      "buff_i"
+    ],
+    "talent_learning_levels": {
+      "defense_i": 10,
+      "heal_i": 15,
+      "support_i": 20,
+      "buff_i": 25
+    }
   },
   {
     "id": 131,
@@ -6671,42 +5094,24 @@
     "traits": [
       "Hitzkopf"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Rempler"
-      },
-      {
-        "level": 5,
-        "move": "Funken"
-      },
-      {
-        "level": 10,
-        "move": "Feuerball"
-      },
-      {
-        "level": 20,
-        "move": "Flammenwurf"
-      },
-      {
-        "level": 30,
-        "move": "Hitzewelle"
-      },
-      {
-        "level": 40,
-        "move": "Urfeuer"
-      },
-      {
-        "level": 50,
-        "move": "Vulkanausbruch"
-      },
-      {
-        "level": 60,
-        "move": "Sternenfeuer"
-      }
-    ],
     "evolution": null,
-    "description": "Ein prähistorischer Feuerkaiser aus der Urzeit. Feuerkaiser beherrschte schon damals die Feuerkräfte und ist jetzt wieder erwacht."
+    "description": "Ein prähistorischer Feuerkaiser aus der Urzeit. Feuerkaiser beherrschte schon damals die Feuerkräfte und ist jetzt wieder erwacht.",
+    "starting_talents": [
+      "fire_i",
+      "physical_i"
+    ],
+    "learnable_talents": [
+      "defense_i",
+      "heal_i",
+      "support_i",
+      "buff_i"
+    ],
+    "talent_learning_levels": {
+      "defense_i": 10,
+      "heal_i": 15,
+      "support_i": 20,
+      "buff_i": 25
+    }
   },
   {
     "id": 132,
@@ -6732,42 +5137,24 @@
     "traits": [
       "Glitschig"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Rempler"
-      },
-      {
-        "level": 5,
-        "move": "Blubber"
-      },
-      {
-        "level": 10,
-        "move": "Wasserstrahl"
-      },
-      {
-        "level": 20,
-        "move": "Windstoß"
-      },
-      {
-        "level": 30,
-        "move": "Wellenritt"
-      },
-      {
-        "level": 40,
-        "move": "Urwasser"
-      },
-      {
-        "level": 50,
-        "move": "Tsunami"
-      },
-      {
-        "level": 60,
-        "move": "Meereswut"
-      }
-    ],
     "evolution": null,
-    "description": "Ein prähistorischer Wasserkaiser aus der Urzeit. Wasserkaiser beherrschte schon damals die Wasserkräfte und ist jetzt wieder erwacht."
+    "description": "Ein prähistorischer Wasserkaiser aus der Urzeit. Wasserkaiser beherrschte schon damals die Wasserkräfte und ist jetzt wieder erwacht.",
+    "starting_talents": [
+      "water_i",
+      "physical_i"
+    ],
+    "learnable_talents": [
+      "defense_i",
+      "heal_i",
+      "support_i",
+      "buff_i"
+    ],
+    "talent_learning_levels": {
+      "defense_i": 10,
+      "heal_i": 15,
+      "support_i": 20,
+      "buff_i": 25
+    }
   },
   {
     "id": 133,
@@ -6793,42 +5180,23 @@
     "traits": [
       "Stur"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Rempler"
-      },
-      {
-        "level": 5,
-        "move": "Lehmschuss"
-      },
-      {
-        "level": 10,
-        "move": "Steinwurf"
-      },
-      {
-        "level": 20,
-        "move": "Erdbeben"
-      },
-      {
-        "level": 30,
-        "move": "Panzerhaut"
-      },
-      {
-        "level": 40,
-        "move": "Urerde"
-      },
-      {
-        "level": 50,
-        "move": "Bergsturz"
-      },
-      {
-        "level": 60,
-        "move": "Planetenerde"
-      }
-    ],
     "evolution": null,
-    "description": "Ein prähistorischer Erdkaiser aus der Urzeit. Erdkaiser beherrschte schon damals die Erdkräfte und ist jetzt wieder erwacht."
+    "description": "Ein prähistorischer Erdkaiser aus der Urzeit. Erdkaiser beherrschte schon damals die Erdkräfte und ist jetzt wieder erwacht.",
+    "starting_talents": [
+      "physical_i"
+    ],
+    "learnable_talents": [
+      "defense_i",
+      "heal_i",
+      "support_i",
+      "buff_i"
+    ],
+    "talent_learning_levels": {
+      "defense_i": 10,
+      "heal_i": 15,
+      "support_i": 20,
+      "buff_i": 25
+    }
   },
   {
     "id": 134,
@@ -6854,42 +5222,23 @@
     "traits": [
       "Flatterhaft"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Kratzer"
-      },
-      {
-        "level": 5,
-        "move": "Windstoß"
-      },
-      {
-        "level": 10,
-        "move": "Wirbelwind"
-      },
-      {
-        "level": 20,
-        "move": "Orkan"
-      },
-      {
-        "level": 30,
-        "move": "Brüllen"
-      },
-      {
-        "level": 40,
-        "move": "Urluft"
-      },
-      {
-        "level": 50,
-        "move": "Tornado"
-      },
-      {
-        "level": 60,
-        "move": "Weltwind"
-      }
-    ],
     "evolution": null,
-    "description": "Ein prähistorischer Luftkaiser aus der Urzeit. Luftkaiser beherrschte schon damals die Luftkräfte und ist jetzt wieder erwacht."
+    "description": "Ein prähistorischer Luftkaiser aus der Urzeit. Luftkaiser beherrschte schon damals die Luftkräfte und ist jetzt wieder erwacht.",
+    "starting_talents": [
+      "physical_i"
+    ],
+    "learnable_talents": [
+      "defense_i",
+      "heal_i",
+      "support_i",
+      "buff_i"
+    ],
+    "talent_learning_levels": {
+      "defense_i": 10,
+      "heal_i": 15,
+      "support_i": 20,
+      "buff_i": 25
+    }
   },
   {
     "id": 135,
@@ -6915,50 +5264,26 @@
     "traits": [
       "Hitzkopf"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Rempler"
-      },
-      {
-        "level": 5,
-        "move": "Funken"
-      },
-      {
-        "level": 10,
-        "move": "Feuerball"
-      },
-      {
-        "level": 20,
-        "move": "Flammenwurf"
-      },
-      {
-        "level": 30,
-        "move": "Hitzewelle"
-      },
-      {
-        "level": 40,
-        "move": "Höllenfeuer"
-      },
-      {
-        "level": 50,
-        "move": "Vulkanausbruch"
-      },
-      {
-        "level": 60,
-        "move": "Sonnenfeuer"
-      },
-      {
-        "level": 70,
-        "move": "Sternenfeuer"
-      },
-      {
-        "level": 80,
-        "move": "Galaxienfeuer"
-      }
-    ],
     "evolution": null,
-    "description": "Ein göttlicher Feuerfürst, der über alle Feuerkräfte des Ruhrpotts herrscht. Feuerfürst kann ganze Städte in Brand setzen."
+    "description": "Ein göttlicher Feuerfürst, der über alle Feuerkräfte des Ruhrpotts herrscht. Feuerfürst kann ganze Städte in Brand setzen.",
+    "starting_talents": [
+      "fire_i",
+      "physical_i"
+    ],
+    "learnable_talents": [
+      "defense_i",
+      "heal_i",
+      "support_i",
+      "buff_i",
+      "ultimate_i"
+    ],
+    "talent_learning_levels": {
+      "defense_i": 10,
+      "heal_i": 15,
+      "support_i": 20,
+      "buff_i": 25,
+      "ultimate_i": 30
+    }
   },
   {
     "id": 136,
@@ -6984,46 +5309,26 @@
     "traits": [
       "Glitschig"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Rempler"
-      },
-      {
-        "level": 5,
-        "move": "Blubber"
-      },
-      {
-        "level": 10,
-        "move": "Wasserstrahl"
-      },
-      {
-        "level": 20,
-        "move": "Windstoß"
-      },
-      {
-        "level": 30,
-        "move": "Wellenritt"
-      },
-      {
-        "level": 40,
-        "move": "Tsunami"
-      },
-      {
-        "level": 50,
-        "move": "Ozeansturm"
-      },
-      {
-        "level": 60,
-        "move": "Meereswut"
-      },
-      {
-        "level": 70,
-        "move": "Weltmeer"
-      }
-    ],
     "evolution": null,
-    "description": "Ein göttlicher Wasserfürst, der über alle Gewässer des Ruhrpotts herrscht. Wasserfürst kann schwere Überschwemmungen verursachen."
+    "description": "Ein göttlicher Wasserfürst, der über alle Gewässer des Ruhrpotts herrscht. Wasserfürst kann schwere Überschwemmungen verursachen.",
+    "starting_talents": [
+      "water_i",
+      "physical_i"
+    ],
+    "learnable_talents": [
+      "defense_i",
+      "heal_i",
+      "support_i",
+      "buff_i",
+      "ultimate_i"
+    ],
+    "talent_learning_levels": {
+      "defense_i": 10,
+      "heal_i": 15,
+      "support_i": 20,
+      "buff_i": 25,
+      "ultimate_i": 30
+    }
   },
   {
     "id": 137,
@@ -7049,46 +5354,25 @@
     "traits": [
       "Stur"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Rempler"
-      },
-      {
-        "level": 5,
-        "move": "Lehmschuss"
-      },
-      {
-        "level": 10,
-        "move": "Steinwurf"
-      },
-      {
-        "level": 20,
-        "move": "Erdbeben"
-      },
-      {
-        "level": 30,
-        "move": "Panzerhaut"
-      },
-      {
-        "level": 40,
-        "move": "Bergsturz"
-      },
-      {
-        "level": 50,
-        "move": "Kontinentalverschiebung"
-      },
-      {
-        "level": 60,
-        "move": "Planetenerde"
-      },
-      {
-        "level": 70,
-        "move": "Weltboden"
-      }
-    ],
     "evolution": null,
-    "description": "Ein göttlicher Erdfürst, der über den gesamten Boden des Ruhrpotts herrscht. Erdfürst kann schwere Erdbeben verursachen."
+    "description": "Ein göttlicher Erdfürst, der über den gesamten Boden des Ruhrpotts herrscht. Erdfürst kann schwere Erdbeben verursachen.",
+    "starting_talents": [
+      "physical_i"
+    ],
+    "learnable_talents": [
+      "defense_i",
+      "heal_i",
+      "support_i",
+      "buff_i",
+      "ultimate_i"
+    ],
+    "talent_learning_levels": {
+      "defense_i": 10,
+      "heal_i": 15,
+      "support_i": 20,
+      "buff_i": 25,
+      "ultimate_i": 30
+    }
   },
   {
     "id": 138,
@@ -7114,46 +5398,25 @@
     "traits": [
       "Flatterhaft"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Kratzer"
-      },
-      {
-        "level": 5,
-        "move": "Windstoß"
-      },
-      {
-        "level": 10,
-        "move": "Wirbelwind"
-      },
-      {
-        "level": 20,
-        "move": "Orkan"
-      },
-      {
-        "level": 30,
-        "move": "Brüllen"
-      },
-      {
-        "level": 40,
-        "move": "Tornado"
-      },
-      {
-        "level": 50,
-        "move": "Hurrikan"
-      },
-      {
-        "level": 60,
-        "move": "Weltwind"
-      },
-      {
-        "level": 70,
-        "move": "Universumswind"
-      }
-    ],
     "evolution": null,
-    "description": "Ein göttlicher Luftfürst, der über alle Lüfte des Ruhrpotts herrscht. Luftfürst kann schwere Stürme verursachen."
+    "description": "Ein göttlicher Luftfürst, der über alle Lüfte des Ruhrpotts herrscht. Luftfürst kann schwere Stürme verursachen.",
+    "starting_talents": [
+      "physical_i"
+    ],
+    "learnable_talents": [
+      "defense_i",
+      "heal_i",
+      "support_i",
+      "buff_i",
+      "ultimate_i"
+    ],
+    "talent_learning_levels": {
+      "defense_i": 10,
+      "heal_i": 15,
+      "support_i": 20,
+      "buff_i": 25,
+      "ultimate_i": 30
+    }
   },
   {
     "id": 139,
@@ -7179,46 +5442,26 @@
     "traits": [
       "Wuchernd"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Rempler"
-      },
-      {
-        "level": 5,
-        "move": "Rankenhieb"
-      },
-      {
-        "level": 10,
-        "move": "Samenbombe"
-      },
-      {
-        "level": 20,
-        "move": "Blattsturm"
-      },
-      {
-        "level": 30,
-        "move": "Giftstachel"
-      },
-      {
-        "level": 40,
-        "move": "Dschungel"
-      },
-      {
-        "level": 50,
-        "move": "Urwald"
-      },
-      {
-        "level": 60,
-        "move": "Weltwald"
-      },
-      {
-        "level": 70,
-        "move": "Universumswald"
-      }
-    ],
     "evolution": null,
-    "description": "Ein göttlicher Pflanzenfürst, der über alle Pflanzen des Ruhrpotts herrscht. Pflanzenfürst kann ganze Städte überwuchern."
+    "description": "Ein göttlicher Pflanzenfürst, der über alle Pflanzen des Ruhrpotts herrscht. Pflanzenfürst kann ganze Städte überwuchern.",
+    "starting_talents": [
+      "nature_i",
+      "physical_i"
+    ],
+    "learnable_talents": [
+      "defense_i",
+      "heal_i",
+      "support_i",
+      "buff_i",
+      "ultimate_i"
+    ],
+    "talent_learning_levels": {
+      "defense_i": 10,
+      "heal_i": 15,
+      "support_i": 20,
+      "buff_i": 25,
+      "ultimate_i": 30
+    }
   },
   {
     "id": 140,
@@ -7244,46 +5487,25 @@
     "traits": [
       "Stur"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Rempler"
-      },
-      {
-        "level": 5,
-        "move": "Basisangriff"
-      },
-      {
-        "level": 10,
-        "move": "Spezialangriff"
-      },
-      {
-        "level": 20,
-        "move": "Mächtiger Angriff"
-      },
-      {
-        "level": 30,
-        "move": "Ultimativer Angriff"
-      },
-      {
-        "level": 40,
-        "move": "Weltangriff"
-      },
-      {
-        "level": 50,
-        "move": "Universumsangriff"
-      },
-      {
-        "level": 60,
-        "move": "Zeitangriff"
-      },
-      {
-        "level": 70,
-        "move": "Raumangriff"
-      }
-    ],
     "evolution": null,
-    "description": "Ein göttlicher Erdfürst, der über den gesamten Boden des Ruhrpotts herrscht. Erdfürst kann schwere Erdbeben verursachen."
+    "description": "Ein göttlicher Erdfürst, der über den gesamten Boden des Ruhrpotts herrscht. Erdfürst kann schwere Erdbeben verursachen.",
+    "starting_talents": [
+      "physical_i"
+    ],
+    "learnable_talents": [
+      "defense_i",
+      "heal_i",
+      "support_i",
+      "buff_i",
+      "ultimate_i"
+    ],
+    "talent_learning_levels": {
+      "defense_i": 10,
+      "heal_i": 15,
+      "support_i": 20,
+      "buff_i": 25,
+      "ultimate_i": 30
+    }
   },
   {
     "id": 141,
@@ -7309,46 +5531,25 @@
     "traits": [
       "Flatterhaft"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Rempler"
-      },
-      {
-        "level": 5,
-        "move": "Basisangriff"
-      },
-      {
-        "level": 10,
-        "move": "Spezialangriff"
-      },
-      {
-        "level": 20,
-        "move": "Mächtiger Angriff"
-      },
-      {
-        "level": 30,
-        "move": "Ultimativer Angriff"
-      },
-      {
-        "level": 40,
-        "move": "Weltangriff"
-      },
-      {
-        "level": 50,
-        "move": "Universumsangriff"
-      },
-      {
-        "level": 60,
-        "move": "Zeitangriff"
-      },
-      {
-        "level": 70,
-        "move": "Raumangriff"
-      }
-    ],
     "evolution": null,
-    "description": "Ein göttlicher Luftfürst, der über alle Lüfte des Ruhrpotts herrscht. Luftfürst kann schwere Stürme verursachen."
+    "description": "Ein göttlicher Luftfürst, der über alle Lüfte des Ruhrpotts herrscht. Luftfürst kann schwere Stürme verursachen.",
+    "starting_talents": [
+      "physical_i"
+    ],
+    "learnable_talents": [
+      "defense_i",
+      "heal_i",
+      "support_i",
+      "buff_i",
+      "ultimate_i"
+    ],
+    "talent_learning_levels": {
+      "defense_i": 10,
+      "heal_i": 15,
+      "support_i": 20,
+      "buff_i": 25,
+      "ultimate_i": 30
+    }
   },
   {
     "id": 142,
@@ -7374,46 +5575,26 @@
     "traits": [
       "Wuchernd"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Rempler"
-      },
-      {
-        "level": 5,
-        "move": "Basisangriff"
-      },
-      {
-        "level": 10,
-        "move": "Spezialangriff"
-      },
-      {
-        "level": 20,
-        "move": "Mächtiger Angriff"
-      },
-      {
-        "level": 30,
-        "move": "Ultimativer Angriff"
-      },
-      {
-        "level": 40,
-        "move": "Weltangriff"
-      },
-      {
-        "level": 50,
-        "move": "Universumsangriff"
-      },
-      {
-        "level": 60,
-        "move": "Zeitangriff"
-      },
-      {
-        "level": 70,
-        "move": "Raumangriff"
-      }
-    ],
     "evolution": null,
-    "description": "Ein göttlicher Pflanzenfürst, der über alle Pflanzen des Ruhrpotts herrscht. Pflanzenfürst kann ganze Städte überwuchern."
+    "description": "Ein göttlicher Pflanzenfürst, der über alle Pflanzen des Ruhrpotts herrscht. Pflanzenfürst kann ganze Städte überwuchern.",
+    "starting_talents": [
+      "nature_i",
+      "physical_i"
+    ],
+    "learnable_talents": [
+      "defense_i",
+      "heal_i",
+      "support_i",
+      "buff_i",
+      "ultimate_i"
+    ],
+    "talent_learning_levels": {
+      "defense_i": 10,
+      "heal_i": 15,
+      "support_i": 20,
+      "buff_i": 25,
+      "ultimate_i": 30
+    }
   },
   {
     "id": 143,
@@ -7439,46 +5620,26 @@
     "traits": [
       "Hitzkopf"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Rempler"
-      },
-      {
-        "level": 5,
-        "move": "Basisangriff"
-      },
-      {
-        "level": 10,
-        "move": "Spezialangriff"
-      },
-      {
-        "level": 20,
-        "move": "Mächtiger Angriff"
-      },
-      {
-        "level": 30,
-        "move": "Ultimativer Angriff"
-      },
-      {
-        "level": 40,
-        "move": "Weltangriff"
-      },
-      {
-        "level": 50,
-        "move": "Universumsangriff"
-      },
-      {
-        "level": 60,
-        "move": "Zeitangriff"
-      },
-      {
-        "level": 70,
-        "move": "Raumangriff"
-      }
-    ],
     "evolution": null,
-    "description": "Ein göttlicher Feuerfürst, der über alle Flammen des Ruhrpotts herrscht. Feuerfürst kann ganze Industrieanlagen in Brand setzen."
+    "description": "Ein göttlicher Feuerfürst, der über alle Flammen des Ruhrpotts herrscht. Feuerfürst kann ganze Industrieanlagen in Brand setzen.",
+    "starting_talents": [
+      "fire_i",
+      "physical_i"
+    ],
+    "learnable_talents": [
+      "defense_i",
+      "heal_i",
+      "support_i",
+      "buff_i",
+      "ultimate_i"
+    ],
+    "talent_learning_levels": {
+      "defense_i": 10,
+      "heal_i": 15,
+      "support_i": 20,
+      "buff_i": 25,
+      "ultimate_i": 30
+    }
   },
   {
     "id": 144,
@@ -7504,46 +5665,26 @@
     "traits": [
       "Glitschig"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Rempler"
-      },
-      {
-        "level": 5,
-        "move": "Basisangriff"
-      },
-      {
-        "level": 10,
-        "move": "Spezialangriff"
-      },
-      {
-        "level": 20,
-        "move": "Mächtiger Angriff"
-      },
-      {
-        "level": 30,
-        "move": "Ultimativer Angriff"
-      },
-      {
-        "level": 40,
-        "move": "Weltangriff"
-      },
-      {
-        "level": 50,
-        "move": "Universumsangriff"
-      },
-      {
-        "level": 60,
-        "move": "Zeitangriff"
-      },
-      {
-        "level": 70,
-        "move": "Raumangriff"
-      }
-    ],
     "evolution": null,
-    "description": "Ein göttlicher Wasserfürst, der über alle Gewässer des Ruhrpotts herrscht. Wasserfürst kann schwere Überschwemmungen verursachen."
+    "description": "Ein göttlicher Wasserfürst, der über alle Gewässer des Ruhrpotts herrscht. Wasserfürst kann schwere Überschwemmungen verursachen.",
+    "starting_talents": [
+      "water_i",
+      "physical_i"
+    ],
+    "learnable_talents": [
+      "defense_i",
+      "heal_i",
+      "support_i",
+      "buff_i",
+      "ultimate_i"
+    ],
+    "talent_learning_levels": {
+      "defense_i": 10,
+      "heal_i": 15,
+      "support_i": 20,
+      "buff_i": 25,
+      "ultimate_i": 30
+    }
   },
   {
     "id": 145,
@@ -7569,46 +5710,25 @@
     "traits": [
       "Wild"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Rempler"
-      },
-      {
-        "level": 5,
-        "move": "Basisangriff"
-      },
-      {
-        "level": 10,
-        "move": "Spezialangriff"
-      },
-      {
-        "level": 20,
-        "move": "Mächtiger Angriff"
-      },
-      {
-        "level": 30,
-        "move": "Ultimativer Angriff"
-      },
-      {
-        "level": 40,
-        "move": "Weltangriff"
-      },
-      {
-        "level": 50,
-        "move": "Universumsangriff"
-      },
-      {
-        "level": 60,
-        "move": "Zeitangriff"
-      },
-      {
-        "level": 70,
-        "move": "Raumangriff"
-      }
-    ],
     "evolution": null,
-    "description": "Ein göttlicher Bestienfürst, der über alle wilden Tiere des Ruhrpotts herrscht. Bestienfürst kann ganze Herden kontrollieren."
+    "description": "Ein göttlicher Bestienfürst, der über alle wilden Tiere des Ruhrpotts herrscht. Bestienfürst kann ganze Herden kontrollieren.",
+    "starting_talents": [
+      "physical_i"
+    ],
+    "learnable_talents": [
+      "defense_i",
+      "heal_i",
+      "support_i",
+      "buff_i",
+      "ultimate_i"
+    ],
+    "talent_learning_levels": {
+      "defense_i": 10,
+      "heal_i": 15,
+      "support_i": 20,
+      "buff_i": 25,
+      "ultimate_i": 30
+    }
   },
   {
     "id": 146,
@@ -7634,46 +5754,25 @@
     "traits": [
       "Aufgeladen"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Rempler"
-      },
-      {
-        "level": 5,
-        "move": "Basisangriff"
-      },
-      {
-        "level": 10,
-        "move": "Spezialangriff"
-      },
-      {
-        "level": 20,
-        "move": "Mächtiger Angriff"
-      },
-      {
-        "level": 30,
-        "move": "Ultimativer Angriff"
-      },
-      {
-        "level": 40,
-        "move": "Weltangriff"
-      },
-      {
-        "level": 50,
-        "move": "Universumsangriff"
-      },
-      {
-        "level": 60,
-        "move": "Zeitangriff"
-      },
-      {
-        "level": 70,
-        "move": "Raumangriff"
-      }
-    ],
     "evolution": null,
-    "description": "Ein göttlicher Energiefürst, der über alle elektrischen Ströme des Ruhrpotts herrscht. Energiefürst kann ganze Städte lahmlegen."
+    "description": "Ein göttlicher Energiefürst, der über alle elektrischen Ströme des Ruhrpotts herrscht. Energiefürst kann ganze Städte lahmlegen.",
+    "starting_talents": [
+      "physical_i"
+    ],
+    "learnable_talents": [
+      "defense_i",
+      "heal_i",
+      "support_i",
+      "buff_i",
+      "ultimate_i"
+    ],
+    "talent_learning_levels": {
+      "defense_i": 10,
+      "heal_i": 15,
+      "support_i": 20,
+      "buff_i": 25,
+      "ultimate_i": 30
+    }
   },
   {
     "id": 147,
@@ -7699,46 +5798,25 @@
     "traits": [
       "Unsterblich"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Rempler"
-      },
-      {
-        "level": 5,
-        "move": "Basisangriff"
-      },
-      {
-        "level": 10,
-        "move": "Spezialangriff"
-      },
-      {
-        "level": 20,
-        "move": "Mächtiger Angriff"
-      },
-      {
-        "level": 30,
-        "move": "Ultimativer Angriff"
-      },
-      {
-        "level": 40,
-        "move": "Weltangriff"
-      },
-      {
-        "level": 50,
-        "move": "Universumsangriff"
-      },
-      {
-        "level": 60,
-        "move": "Zeitangriff"
-      },
-      {
-        "level": 70,
-        "move": "Raumangriff"
-      }
-    ],
     "evolution": null,
-    "description": "Ein wahrer Gott der Zeit, der über alle Zeitrissen des Ruhrpotts herrscht. Zeitgott kann die Zeit selbst kontrollieren und ganze Epochen überspringen."
+    "description": "Ein wahrer Gott der Zeit, der über alle Zeitrissen des Ruhrpotts herrscht. Zeitgott kann die Zeit selbst kontrollieren und ganze Epochen überspringen.",
+    "starting_talents": [
+      "physical_i"
+    ],
+    "learnable_talents": [
+      "defense_i",
+      "heal_i",
+      "support_i",
+      "buff_i",
+      "ultimate_i"
+    ],
+    "talent_learning_levels": {
+      "defense_i": 10,
+      "heal_i": 15,
+      "support_i": 20,
+      "buff_i": 25,
+      "ultimate_i": 30
+    }
   },
   {
     "id": 148,
@@ -7764,46 +5842,25 @@
     "traits": [
       "Verdammt"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Rempler"
-      },
-      {
-        "level": 5,
-        "move": "Basisangriff"
-      },
-      {
-        "level": 10,
-        "move": "Spezialangriff"
-      },
-      {
-        "level": 20,
-        "move": "Mächtiger Angriff"
-      },
-      {
-        "level": 30,
-        "move": "Ultimativer Angriff"
-      },
-      {
-        "level": 40,
-        "move": "Weltangriff"
-      },
-      {
-        "level": 50,
-        "move": "Universumsangriff"
-      },
-      {
-        "level": 60,
-        "move": "Zeitangriff"
-      },
-      {
-        "level": 70,
-        "move": "Raumangriff"
-      }
-    ],
     "evolution": null,
-    "description": "Ein mächtiger Dämon aus der Hölle, der durch einen Zeitriss in den Ruhrpott gelangt ist. Raumdämon kann ganze Dimensionen zerstören."
+    "description": "Ein mächtiger Dämon aus der Hölle, der durch einen Zeitriss in den Ruhrpott gelangt ist. Raumdämon kann ganze Dimensionen zerstören.",
+    "starting_talents": [
+      "physical_i"
+    ],
+    "learnable_talents": [
+      "defense_i",
+      "heal_i",
+      "support_i",
+      "buff_i",
+      "ultimate_i"
+    ],
+    "talent_learning_levels": {
+      "defense_i": 10,
+      "heal_i": 15,
+      "support_i": 20,
+      "buff_i": 25,
+      "ultimate_i": 30
+    }
   },
   {
     "id": 149,
@@ -7829,46 +5886,25 @@
     "traits": [
       "Heilig"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Rempler"
-      },
-      {
-        "level": 5,
-        "move": "Basisangriff"
-      },
-      {
-        "level": 10,
-        "move": "Spezialangriff"
-      },
-      {
-        "level": 20,
-        "move": "Mächtiger Angriff"
-      },
-      {
-        "level": 30,
-        "move": "Ultimativer Angriff"
-      },
-      {
-        "level": 40,
-        "move": "Weltangriff"
-      },
-      {
-        "level": 50,
-        "move": "Universumsangriff"
-      },
-      {
-        "level": 60,
-        "move": "Zeitangriff"
-      },
-      {
-        "level": 70,
-        "move": "Raumangriff"
-      }
-    ],
     "evolution": null,
-    "description": "Eine göttliche Lichtgöttin, die über alle guten Kräfte des Ruhrpotts herrscht. Lichtgöttin kann das Böse vertreiben und Heilung bringen."
+    "description": "Eine göttliche Lichtgöttin, die über alle guten Kräfte des Ruhrpotts herrscht. Lichtgöttin kann das Böse vertreiben und Heilung bringen.",
+    "starting_talents": [
+      "physical_i"
+    ],
+    "learnable_talents": [
+      "defense_i",
+      "heal_i",
+      "support_i",
+      "buff_i",
+      "ultimate_i"
+    ],
+    "talent_learning_levels": {
+      "defense_i": 10,
+      "heal_i": 15,
+      "support_i": 20,
+      "buff_i": 25,
+      "ultimate_i": 30
+    }
   },
   {
     "id": 150,
@@ -7894,46 +5930,25 @@
     "traits": [
       "Dunkel"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Rempler"
-      },
-      {
-        "level": 5,
-        "move": "Basisangriff"
-      },
-      {
-        "level": 10,
-        "move": "Spezialangriff"
-      },
-      {
-        "level": 20,
-        "move": "Mächtiger Angriff"
-      },
-      {
-        "level": 30,
-        "move": "Ultimativer Angriff"
-      },
-      {
-        "level": 40,
-        "move": "Weltangriff"
-      },
-      {
-        "level": 50,
-        "move": "Universumsangriff"
-      },
-      {
-        "level": 60,
-        "move": "Zeitangriff"
-      },
-      {
-        "level": 70,
-        "move": "Raumangriff"
-      }
-    ],
     "evolution": null,
-    "description": "Ein finsterer Lord der Schatten aus der Urzeit, der über alle dunklen Kräfte des Ruhrpotts herrscht. Schattenlord kann die Finsternis selbst kontrollieren."
+    "description": "Ein finsterer Lord der Schatten aus der Urzeit, der über alle dunklen Kräfte des Ruhrpotts herrscht. Schattenlord kann die Finsternis selbst kontrollieren.",
+    "starting_talents": [
+      "physical_i"
+    ],
+    "learnable_talents": [
+      "defense_i",
+      "heal_i",
+      "support_i",
+      "buff_i",
+      "ultimate_i"
+    ],
+    "talent_learning_levels": {
+      "defense_i": 10,
+      "heal_i": 15,
+      "support_i": 20,
+      "buff_i": 25,
+      "ultimate_i": 30
+    }
   },
   {
     "id": 151,
@@ -7961,45 +5976,24 @@
       "Chaotisch",
       "Göttlich"
     ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "Rempler"
-      },
-      {
-        "level": 5,
-        "move": "Basisangriff"
-      },
-      {
-        "level": 10,
-        "move": "Spezialangriff"
-      },
-      {
-        "level": 20,
-        "move": "Mächtiger Angriff"
-      },
-      {
-        "level": 30,
-        "move": "Ultimativer Angriff"
-      },
-      {
-        "level": 40,
-        "move": "Weltangriff"
-      },
-      {
-        "level": 50,
-        "move": "Universumsangriff"
-      },
-      {
-        "level": 60,
-        "move": "Zeitangriff"
-      },
-      {
-        "level": 70,
-        "move": "Raumangriff"
-      }
-    ],
     "evolution": null,
-    "description": "Ein wahrer Gott des Chaos, der sowohl göttliche als auch teuflische Kräfte besitzt. Chaosgott kann die Realität selbst neu erschaffen."
+    "description": "Ein wahrer Gott des Chaos, der sowohl göttliche als auch teuflische Kräfte besitzt. Chaosgott kann die Realität selbst neu erschaffen.",
+    "starting_talents": [
+      "physical_i"
+    ],
+    "learnable_talents": [
+      "defense_i",
+      "heal_i",
+      "support_i",
+      "buff_i",
+      "ultimate_i"
+    ],
+    "talent_learning_levels": {
+      "defense_i": 10,
+      "heal_i": 15,
+      "support_i": 20,
+      "buff_i": 25,
+      "ultimate_i": 30
+    }
   }
 ]

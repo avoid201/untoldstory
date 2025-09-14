@@ -1,0 +1,93 @@
+{
+  "monster_validation": {
+    "total_species": 151,
+    "valid_species": 151,
+    "invalid_species": 0,
+    "missing_descriptions": 0,
+    "invalid_ranks": 0,
+    "invalid_types": 0,
+    "validation_rate": 1.0
+  },
+  "stats_validation": {
+    "test_cases": 4,
+    "valid_calculations": 4,
+    "invalid_calculations": 0,
+    "success_rate": 1.0
+  },
+  "dqm_formulas": {
+    "stat_progression": {
+      "5": {
+        "hp": 29,
+        "atk": 16,
+        "def": 14,
+        "mag": 11,
+        "res": 10,
+        "spd": 16
+      },
+      "10": {
+        "hp": 41,
+        "atk": 31,
+        "def": 23,
+        "mag": 20,
+        "res": 15,
+        "spd": 24
+      },
+      "25": {
+        "hp": 60,
+        "atk": 39,
+        "def": 26,
+        "mag": 18,
+        "res": 19,
+        "spd": 29
+      },
+      "50": {
+        "hp": 102,
+        "atk": 59,
+        "def": 46,
+        "mag": 39,
+        "res": 34,
+        "spd": 54
+      },
+      "75": {
+        "hp": 148,
+        "atk": 89,
+        "def": 74,
+        "mag": 46,
+        "res": 44,
+        "spd": 89
+      },
+      "100": {
+        "hp": 192,
+        "atk": 116,
+        "def": 100,
+        "mag": 83,
+        "res": 70,
+        "spd": 118
+      }
+    },
+    "valid_progression": false,
+    "iv_impact_test": true,
+    "levels_tested": 6
+  },
+  "data_integrity": {
+    "duplicate_ids": 0,
+    "missing_ids": [],
+    "extra_ids": [],
+    "invalid_moves": 0,
+    "missing_types": [
+      "Mystik"
+    ],
+    "extra_types": [
+      "Mystisch",
+      "Göttlich",
+      "Teuflisch"
+    ],
+    "total_species": 151,
+    "total_moves": 40,
+    "total_types": 14
+  },
+  "errors": [],
+  "warnings": [
+    "Stat mag decreased from Lv.10 to Lv.25"
+  ]
+}

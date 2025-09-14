@@ -683,36 +683,174 @@ class CutscenePlayer:
             # Show dialogue box
             speaker = command.get('speaker', '')
             text = command['text']
-            # TODO: Show dialogue and wait for player input
-            return True
+            
+            # Get current scene and show dialogue
+            if hasattr(self.game, 'scene_stack') and self.game.scene_stack:
+                current_scene = self.game.scene_stack[-1]
+                if hasattr(current_scene, 'dialogue_box'):
+                    # Create callback to continue cutscene when dialogue completes
+                    def dialogue_complete(result=None):
+                        self.waiting = False
+                        self.command_index += 1
+                    
+                    current_scene.dialogue_box.show_text(text, speaker, dialogue_complete)
+                    self.waiting = True
+                    return True
+            
+            # Fallback: just print the dialogue
+            if speaker:
+                print(f"[{speaker}] {text}")
+            else:
+                print(f"[Dialogue] {text}")
+            return False
         
         elif cmd_type == 'fade':
             duration = command.get('duration', 1.0)
-            # TODO: Start fade transition
+            fade_type = command.get('type', 'out')  # 'in' or 'out'
+            
+            # Start fade transition using the game's transition manager
+            if hasattr(self.game, 'transition_manager'):
+                try:
+                    # Use FadeTransition
+                    if fade_type == 'out':
+                        self.game.transition_manager.start('fade_out', duration)
+                    else:
+                        self.game.transition_manager.start('fade_in', duration)
+                except Exception as e:
+                    print(f"Fade transition error: {e}")
+            
+            # Wait for the duration
             self.waiting = True
             self.wait_timer = duration
             return True
         
         elif cmd_type == 'move_player':
-            destination = command['to']
-            # TODO: Move player to destination
+            destination = command['to']  # {'x': int, 'y': int} or {'map': str, 'x': int, 'y': int}
+            
+            # Get current scene
+            if hasattr(self.game, 'scene_stack') and self.game.scene_stack:
+                current_scene = self.game.scene_stack[-1]
+                
+                # If destination specifies a map, change maps first
+                if 'map' in destination:
+                    map_id = destination['map']
+                    # This would need map loading logic - for now just log
+                    print(f"[Story] Moving player to map: {map_id}")
+                
+                # Set player position if scene has a player
+                if hasattr(current_scene, 'player') and current_scene.player:
+                    new_x = destination.get('x', current_scene.player.x)
+                    new_y = destination.get('y', current_scene.player.y)
+                    current_scene.player.x = new_x
+                    current_scene.player.y = new_y
+                    print(f"[Story] Player moved to ({new_x}, {new_y})")
+                
             return False
         
         elif cmd_type == 'give_monster':
             species_id = command['species']
             level = command.get('level', 5)
-            # TODO: Add monster to party
+            
+            # Add monster to party using party manager
+            if hasattr(self.game, 'party_manager') and self.game.party_manager:
+                try:
+                    from engine.systems.monster_instance import MonsterInstance
+                    from engine.systems.monsters import MonsterDatabase
+                    
+                    monster_db = MonsterDatabase()
+                    species = monster_db.get_species_by_id(species_id)
+                    
+                    if species:
+                        monster = MonsterInstance.create_from_species(species, level=level)
+                        success = self.game.party_manager.party.add(monster)
+                        
+                        if success:
+                            print(f"[Story] Added {monster.name} (Lv.{level}) to party")
+                        else:
+                            print(f"[Story] Party full, could not add {species.name}")
+                    else:
+                        print(f"[Story] Monster species {species_id} not found")
+                        
+                except Exception as e:
+                    print(f"[Story] Error adding monster: {e}")
+            
             return False
         
         elif cmd_type == 'battle':
-            trainer_id = command['trainer']
-            # TODO: Start battle
-            return True
+            trainer_id = command.get('trainer')
+            wild_monster = command.get('wild_monster')
+            
+            try:
+                from engine.scenes.battle_scene import BattleScene
+                
+                # Create battle scene
+                battle_scene = BattleScene(self.game)
+                
+                if trainer_id:
+                    # Trainer battle - would need trainer data loading
+                    print(f"[Story] Starting trainer battle with: {trainer_id}")
+                    # For now, create a simple enemy team
+                    enemy_team = self._create_trainer_team(trainer_id)
+                elif wild_monster:
+                    # Wild monster battle
+                    print(f"[Story] Starting wild battle with: {wild_monster}")
+                    enemy_team = self._create_wild_monster(wild_monster)
+                else:
+                    print("[Story] Battle command missing trainer or wild_monster")
+                    return False
+                
+                # Push battle scene
+                battle_kwargs = {
+                    'enemy_team': enemy_team,
+                    'can_flee': command.get('can_flee', True),
+                    'is_boss': command.get('is_boss', False)
+                }
+                
+                self.game.push_scene(battle_scene)
+                battle_scene.on_enter(**battle_kwargs)
+                
+                # Wait for battle to complete
+                self.waiting = True
+                return True
+                
+            except Exception as e:
+                print(f"[Story] Error starting battle: {e}")
+                return False
         
         elif cmd_type == 'choice':
-            options = command['options']
-            # TODO: Show choice menu and wait for selection
-            return True
+            options = command['options']  # List of {'text': str, 'value': Any}
+            prompt = command.get('prompt', 'Choose:')
+            
+            # Show choice dialogue
+            if hasattr(self.game, 'scene_stack') and self.game.scene_stack:
+                current_scene = self.game.scene_stack[-1]
+                if hasattr(current_scene, 'dialogue_box'):
+                    from engine.ui.dialogue import DialogueChoice
+                    
+                    # Convert options to DialogueChoice objects
+                    choices = []
+                    for i, option in enumerate(options):
+                        if isinstance(option, dict):
+                            text = option.get('text', f'Option {i+1}')
+                            value = option.get('value', i)
+                        else:
+                            text = str(option)
+                            value = i
+                        choices.append(DialogueChoice(text=text, value=value))
+                    
+                    # Create callback to handle choice
+                    def choice_complete(selected_choice):
+                        self.last_choice_result = selected_choice.value if selected_choice else 0
+                        self.waiting = False
+                        self.command_index += 1
+                    
+                    current_scene.dialogue_box.show_choices(prompt, choices, choice_complete)
+                    self.waiting = True
+                    return True
+            
+            # Fallback: auto-select first option
+            self.last_choice_result = options[0].get('value', 0) if options else 0
+            return False
         
         elif cmd_type == 'wait':
             duration = command.get('duration', 1.0)

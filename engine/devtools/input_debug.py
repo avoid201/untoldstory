@@ -41,8 +41,9 @@ class InputDebugger:
         self.filter_types: set = set()  # Leer = alle Event-Typen
         self.filter_keys: set = set()   # Leer = alle Keys
         
-        print("🔍 INPUT DEBUGGER: Erweiterte Debug-Funktionen aktiviert")
-        print("🔍 Alle Keyboard-Events werden detailliert aufgezeichnet")
+        # Debug-Output nur bei aktiviertem Debug-Modus
+        # print("🔍 INPUT DEBUGGER: Erweiterte Debug-Funktionen aktiviert")
+        # print("🔍 Alle Keyboard-Events werden detailliert aufgezeichnet")
     
     def record_event(self, event_type: str, key_code: int, key_name: str, 
                     action: str, scene: str, handled: bool, processing_time: float = 0.0):
@@ -82,13 +83,15 @@ class InputDebugger:
         if keys is not None:
             self.filter_keys = keys
         
-        print(f"🔍 INPUT DEBUGGER: Filter gesetzt - Types: {self.filter_types}, Keys: {self.filter_keys}")
+        # Debug-Output nur bei aktiviertem Debug-Modus
+        # print(f"🔍 INPUT DEBUGGER: Filter gesetzt - Types: {self.filter_types}, Keys: {self.filter_keys}")
     
     def clear_filter(self):
         """Entfernt alle Filter"""
         self.filter_types.clear()
         self.filter_keys.clear()
-        print("🔍 INPUT DEBUGGER: Alle Filter entfernt")
+        # Debug-Output nur bei aktiviertem Debug-Modus
+        # print("🔍 INPUT DEBUGGER: Alle Filter entfernt")
     
     def get_filtered_events(self) -> List[InputEvent]:
         """Gibt gefilterte Events zurück"""
@@ -202,7 +205,8 @@ class InputDebugger:
         try:
             with open(filename, 'w', encoding='utf-8') as f:
                 json.dump(export_data, f, indent=2, ensure_ascii=False)
-            print(f"🔍 INPUT DEBUGGER: Analyse exportiert nach {filename}")
+            # Debug-Output nur bei aktiviertem Debug-Modus
+            # print(f"🔍 INPUT DEBUGGER: Analyse exportiert nach {filename}")
         except Exception as e:
             print(f"🔍 INPUT DEBUGGER: Export fehlgeschlagen: {e}")
     
@@ -252,7 +256,8 @@ class InputDebugger:
         """Löscht alle aufgezeichneten Events"""
         self.events.clear()
         self.processing_times.clear()
-        print("🔍 INPUT DEBUGGER: Alle Events gelöscht")
+        # Debug-Output nur bei aktiviertem Debug-Modus
+        # print("🔍 INPUT DEBUGGER: Alle Events gelöscht")
     
     def get_recent_events(self, count: int = 20) -> List[InputEvent]:
         """Gibt die letzten N Events zurück"""

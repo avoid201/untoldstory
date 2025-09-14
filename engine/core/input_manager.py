@@ -8,35 +8,12 @@ from typing import Dict, Set, Optional, Tuple, List
 from dataclasses import dataclass, field
 
 
+# InputConfig moved to engine/core/config.py for consistency
+# Import from config.py instead of duplicating
+from engine.core.config import InputConfig
+
+
 @dataclass
-class InputConfig:
-    """Konfiguration für Input-Mapping"""
-    # Movement
-    move_up: int = pygame.K_w
-    move_down: int = pygame.K_s
-    move_left: int = pygame.K_a
-    move_right: int = pygame.K_d
-    
-    # Alternative arrow keys
-    alt_up: int = pygame.K_UP
-    alt_down: int = pygame.K_DOWN
-    alt_left: int = pygame.K_LEFT
-    alt_right: int = pygame.K_RIGHT
-    
-    # Action buttons (Pokémon-style)
-    button_a: int = pygame.K_e        # Confirm/Interact
-    button_b: int = pygame.K_q        # Cancel/Run
-    button_x: int = pygame.K_x        # Menu
-    button_y: int = pygame.K_c        # Quick Access
-    
-    # Alternative action buttons
-    alt_confirm: int = pygame.K_SPACE
-    alt_cancel: int = pygame.K_ESCAPE
-    alt_run: int = pygame.K_LSHIFT
-    
-    # System
-    pause: int = pygame.K_ESCAPE
-    debug: int = pygame.K_TAB
 
 
 @dataclass
@@ -73,7 +50,8 @@ class InputManager:
         self.max_log_entries = 100
         self.ignored_keys: Set[int] = set()
         
-        print("🔍 INPUT DEBUG: Vollständiger Keyboard-Input-Debug aktiviert!")
+        # Debug-Output nur bei aktiviertem Debug-Modus
+        # print("🔍 INPUT DEBUG: Vollständiger Keyboard-Input-Debug aktiviert!")
     
     def _build_input_map(self) -> Dict[str, List[int]]:
         """Baut das Input-Mapping auf"""
@@ -318,13 +296,15 @@ class InputManager:
     def add_ignored_key(self, key_code: int) -> None:
         """Fügt eine Taste zur Ignore-Liste hinzu (wird nicht geloggt)"""
         self.ignored_keys.add(key_code)
-        print(f"🔍 INPUT DEBUG: Taste {self._get_key_name(key_code)} wird ignoriert")
+        # Debug-Output nur bei aktiviertem Debug-Modus
+        # print(f"🔍 INPUT DEBUG: Taste {self._get_key_name(key_code)} wird ignoriert")
     
     def remove_ignored_key(self, key_code: int) -> None:
         """Entfernt eine Taste von der Ignore-Liste"""
         if key_code in self.ignored_keys:
             self.ignored_keys.remove(key_code)
-            print(f"🔍 INPUT DEBUG: Taste {self._get_key_name(key_code)} wird wieder geloggt")
+            # Debug-Output nur bei aktiviertem Debug-Modus
+            # print(f"🔍 INPUT DEBUG: Taste {self._get_key_name(key_code)} wird wieder geloggt")
     
     def get_input_log_summary(self) -> Dict:
         """Gibt eine Zusammenfassung des Input-Logs zurück"""
@@ -352,7 +332,8 @@ class InputManager:
     def clear_input_log(self) -> None:
         """Löscht den Input-Log"""
         self.input_log.clear()
-        print("🔍 INPUT DEBUG: Input-Log gelöscht")
+        # Debug-Output nur bei aktiviertem Debug-Modus
+        # print("🔍 INPUT DEBUG: Input-Log gelöscht")
     
     def print_input_log_summary(self) -> None:
         """Gibt eine Zusammenfassung des Input-Logs in der Konsole aus"""

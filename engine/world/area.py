@@ -11,7 +11,7 @@ from dataclasses import dataclass
 from functools import lru_cache
 import time
 
-from engine.world.tiles import TILE_SIZE, TileType
+from engine.world.tiles import TILE_SIZE, MAP_CACHE_TTL, MAP_RENDER_TIME, TileType
 from engine.world.map_loader import MapLoader, MapData
 from engine.graphics.sprite_manager import SpriteManager
 from engine.world.entity import Entity
@@ -35,7 +35,7 @@ class Area:
     _surface_cache: Dict[str, pygame.Surface] = {}
     _json_cache: Dict[str, Dict] = {}
     _cache_timestamps: Dict[str, float] = {}
-    _cache_ttl = 300.0  # 5 Minuten Cache-Lebensdauer
+    _cache_ttl = MAP_CACHE_TTL
     
     def __init__(self, map_id: str):
         """
@@ -67,7 +67,7 @@ class Area:
         self.encounter_table = []
         
         # Performance-Metriken
-        self._render_time = 0.0
+        self._render_time = MAP_RENDER_TIME
         self._cache_hits = 0
         self._cache_misses = 0
         
@@ -133,19 +133,12 @@ class Area:
             self._render_layers()
                 
         except Exception as e:
-            print(f"[Area] Fehler beim Laden der Map {self.map_id}: {e}")
+            # Map loading error - using defaults
+            pass
             # Erstelle leere Map als Fallback
             self._create_empty_map()
     
-    # TMX-Methoden entfernt - veraltet
-    
-    # TMX-Tileset-Methoden entfernt - veraltet
-    
-    # TSX-Tileset-Methoden entfernt - veraltet
-    
-    # TMX-Layer-Methoden entfernt - veraltet
-    
-    # TMX-Objekt-Methoden entfernt - veraltet
+    # Legacy TMX methods removed - functionality moved to MapLoader
     
     def _create_npc(self, tile_x: int, tile_y: int, npc_id: str):
         """Erstellt einen NPC"""
@@ -157,7 +150,8 @@ class Area:
             )
             self.npcs.append(npc)
         except Exception as e:
-            print(f"[Area] Fehler beim Erstellen von NPC {npc_id}: {e}")
+            # NPC creation error - skipping
+            pass
     
     def _render_layers(self):
         """Rendert Layer aus MapData mit optimiertem Caching"""
@@ -234,7 +228,7 @@ class Area:
                     self._cache_json(self.map_id, json_data)
             
             if not json_data:
-                print(f"[Area] Keine JSON-Daten für Object-Layer gefunden: {self.map_id}")
+                # No JSON data for Object-Layer found
                 return
             
             # OPTIMIERT: Erstelle Object-Layer Surface nur wenn nötig
@@ -251,7 +245,7 @@ class Area:
             for layer in json_data.get("layers", []):
                 if layer.get("type") == "objectgroup":
                     layer_name = layer.get("name", "objects")
-                    print(f"[Area] Verarbeite Object-Layer: {layer_name} mit {len(layer.get('objects', []))} Objekten")
+                    # Processing Object-Layer
                     
                     # Sammle alle Objekte in einem Batch
                     for obj in layer.get("objects", []):
@@ -266,9 +260,10 @@ class Area:
                             sprite = self._get_tile_sprite_from_gid(gid)
                             if sprite:
                                 object_batch.append((sprite, obj_x, obj_y))
-                                print(f"[Area] Object geladen: GID {gid} an Position ({obj_x}, {obj_y})")
+                                # Object loaded successfully
                             else:
-                                print(f"[Area] Kein Sprite für GID {gid} gefunden")
+                                # No sprite found for GID
+                                pass
             
             # OPTIMIERT: Batch-Blitting für Objekte
             for sprite, x, y in object_batch:
@@ -276,12 +271,22 @@ class Area:
             
             # Füge Object-Layer zur Layer-Liste hinzu
             self.layer_surfaces["objects"] = object_surface
-            print(f"[Area] Object-Layer erstellt mit {len(object_batch)} Objekten")
+            # Object-Layer created successfully
             
         except Exception as e:
-            print(f"[Area] Fehler beim Rendern der Object-Layer: {e}")
-            import traceback
-            traceback.print_exc()
+            # Object-Layer rendering error - skipping
+            pass
+    
+    def get_performance_stats(self) -> dict:
+        """Gibt Performance-Statistiken zurück."""
+        return {
+            'render_time': self._render_time,
+            'cache_hits': self._cache_hits,
+            'cache_misses': self._cache_misses,
+            'cache_hit_rate': self._cache_hits / max(1, self._cache_hits + self._cache_misses),
+            'total_entities': len(self.entities),
+            'total_npcs': len(self.npcs)
+        }
     
     @lru_cache(maxsize=256)
     def _get_tile_sprite_from_gid(self, gid: int) -> Optional[pygame.Surface]:
@@ -377,7 +382,8 @@ class Area:
     
     def get_collision_at(self, x: int, y: int) -> bool:
         """
-        Prüft Kollision an einer Position.
+        Prüft Kollision an einer Position (Pixel-Koordinaten).
+        Delegiert an is_tile_solid für Tile-Koordinaten.
         
         Args:
             x: X-Position in Pixeln
@@ -386,38 +392,18 @@ class Area:
         Returns:
             True wenn Kollision, sonst False
         """
-        # Konvertiere zu Tile-Koordinaten
+        # Konvertiere zu Tile-Koordinaten und verwende is_tile_solid
         tile_x = x // TILE_SIZE
         tile_y = y // TILE_SIZE
         
-        # Prüfe Map-Grenzen
-        if self.map_data:
-            if tile_x < 0 or tile_x >= self.map_data.width:
-                return True
-            if tile_y < 0 or tile_y >= self.map_data.height:
-                return True
-            
-            # Prüfe Collision-Layer
-            if "collision" in self.map_data.layers:
-                collision_layer = self.map_data.layers["collision"]
-                if collision_layer[tile_y][tile_x]:
-                    return True
-        else:
-            # TMX-basierte Kollision
-            if hasattr(self, 'width') and hasattr(self, 'height'):
-                if tile_x < 0 or tile_x >= self.width:
-                    return True
-                if tile_y < 0 or tile_y >= self.height:
-                    return True
-        
-        # Prüfe NPC-Kollisionen
+        # Prüfe NPC-Kollisionen (zusätzlich zu Tile-Kollisionen)
         for npc in self.npcs:
             npc_tile_x = npc.x // TILE_SIZE
             npc_tile_y = npc.y // TILE_SIZE
             if npc_tile_x == tile_x and npc_tile_y == tile_y:
                 return True
         
-        return False
+        return self.is_tile_solid(tile_x, tile_y)
     
     def is_tile_solid(self, x: int, y: int) -> bool:
         """
@@ -523,7 +509,9 @@ class Area:
                     tile_id = layer[tile_y][tile_x]
                     # Debug-Output für Testing
                     if tile_id == 29:  # Grass-Tile
-                        print(f"[DEBUG] Grass tile at ({tile_x}, {tile_y})")
+                        # Debug-Output nur bei aktiviertem Debug-Modus
+                        # Debug comment removed - no longer needed
+                        pass
                     return tile_id
         return 0
     
@@ -552,40 +540,12 @@ class Area:
         from .pathfinding import find_path as a_star_find_path
         return a_star_find_path(self, start, goal)
     
-    def find_path_with_tile_manager(self, start: Tuple[int, int], goal: Tuple[int, int]) -> List[Tuple[int, int]]:
-        """
-        Verwendet den TileManager für Pathfinding.
-        
-        Args:
-            start: Start-Position (x, y) in Tiles
-            goal: Ziel-Position (x, y) in Tiles
-            
-        Returns:
-            Liste von Positionen oder leere Liste wenn kein Pfad
-        """
-        from engine.world.tile_manager import TileManager
-        
-        # Stelle sicher, dass TileManager die aktuelle Map kennt
-        tile_manager = TileManager.get_instance()
-        if not tile_manager.collision_map or            len(tile_manager.collision_map) != self.height or            (tile_manager.collision_map and len(tile_manager.collision_map[0]) != self.width):
-            # Baue Collision-Map aus Area-Daten
-            tile_manager.map_width = self.width
-            tile_manager.map_height = self.height
-            tile_manager.collision_map = []
-            
-            for y in range(self.height):
-                row = []
-                for x in range(self.width):
-                    # Verwende Area's is_tile_solid Methode
-                    row.append(self.is_tile_solid(x, y))
-                tile_manager.collision_map.append(row)
-        
-        # Verwende TileManager's Pathfinding
-        return tile_manager.find_path(start, goal)
+    # find_path_with_tile_manager removed - redundant with find_path
     
     def find_diagonal_path(self, start: Tuple[int, int], goal: Tuple[int, int]) -> List[Tuple[int, int]]:
         """
         Findet einen Pfad mit diagonaler Bewegung.
+        Delegates to tile_manager for consistency.
         
         Args:
             start: Start-Position (x, y) in Tiles
@@ -595,9 +555,6 @@ class Area:
             Liste von Positionen oder leere Liste wenn kein Pfad
         """
         from engine.world.tile_manager import TileManager
-        
-        # Synchronisiere Collision-Map
-        self.find_path_with_tile_manager(start, goal)  # Aktualisiert collision_map
         
         tile_manager = TileManager.get_instance()
         return tile_manager.find_path_diagonal(start, goal)
@@ -618,8 +575,4 @@ class Area:
         
         return visible_tiles
     
-    # TMX-Layer-mit-neuen-Tiles-Methode entfernt - veraltet
-    
-    # GID-zu-Tile-Mapping-Methode entfernt - veraltet
-    
-    # Platzhalter-Tile-Methode entfernt - veraltet
+    # Legacy TMX methods removed - functionality consolidated in MapLoader

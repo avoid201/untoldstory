@@ -7,11 +7,22 @@
       "category": "phys",
       "power": 40,
       "accuracy": 100,
-      "pp": 35,
       "priority": 0,
       "targeting": "enemy",
       "effects": [],
       "description": "Einfacher Körperangriff"
+    },
+    {
+      "id": "kratzer",
+      "name": "Kratzer",
+      "type": "Bestie",
+      "category": "phys",
+      "power": 35,
+      "accuracy": 100,
+      "priority": 0,
+      "targeting": "enemy",
+      "effects": [],
+      "description": "Einfacher Kratzer-Angriff"
     },
     {
       "id": "ember",
@@ -20,11 +31,14 @@
       "category": "mag",
       "power": 40,
       "accuracy": 100,
-      "pp": 25,
       "priority": 0,
       "targeting": "enemy",
       "effects": [
-        {"kind": "status", "status": "burn", "chance": 10}
+        {
+          "kind": "status",
+          "status": "burn",
+          "chance": 10
+        }
       ],
       "description": "Kleine Feuerflamme mit Verbrennungschance"
     },
@@ -35,7 +49,6 @@
       "category": "mag",
       "power": 40,
       "accuracy": 100,
-      "pp": 25,
       "priority": 0,
       "targeting": "enemy",
       "effects": [],
@@ -48,114 +61,17 @@
       "category": "phys",
       "power": 35,
       "accuracy": 100,
-      "pp": 20,
       "priority": 0,
       "targeting": "enemy",
       "effects": [
-        {"kind": "debuff", "stat": "acc", "stages": -1, "chance": 100}
+        {
+          "kind": "debuff",
+          "stat": "acc",
+          "stages": -1,
+          "chance": 100
+        }
       ],
       "description": "Wirft Dreck und senkt Genauigkeit"
-    },
-    {
-      "id": "gust",
-      "name": "Windstoß",
-      "type": "Luft",
-      "category": "mag",
-      "power": 40,
-      "accuracy": 100,
-      "pp": 25,
-      "priority": 0,
-      "targeting": "enemy",
-      "effects": [],
-      "description": "Erzeugt einen starken Wind"
-    },
-    {
-      "id": "growl",
-      "name": "Knurren",
-      "type": "Bestie",
-      "category": "support",
-      "power": 0,
-      "accuracy": 100,
-      "pp": 40,
-      "priority": 0,
-      "targeting": "all_enemies",
-      "effects": [
-        {"kind": "debuff", "stat": "atk", "stages": -1, "chance": 100}
-      ],
-      "description": "Knurrt bedrohlich und senkt Angriff"
-    },
-    {
-      "id": "harden",
-      "name": "Härtung",
-      "type": "Erde",
-      "category": "support",
-      "power": 0,
-      "accuracy": 100,
-      "pp": 30,
-      "priority": 0,
-      "targeting": "self",
-      "effects": [
-        {"kind": "buff", "stat": "def", "stages": 1, "chance": 100}
-      ],
-      "description": "Erhöht die eigene Verteidigung"
-    },
-    {
-      "id": "poison_sting",
-      "name": "Giftstachel",
-      "type": "Seuche",
-      "category": "phys",
-      "power": 25,
-      "accuracy": 100,
-      "pp": 35,
-      "priority": 0,
-      "targeting": "enemy",
-      "effects": [
-        {"kind": "status", "status": "poison", "chance": 30}
-      ],
-      "description": "Sticht mit giftigem Stachel"
-    },
-    {
-      "id": "spark",
-      "name": "Funkensprung",
-      "type": "Energie",
-      "category": "phys",
-      "power": 65,
-      "accuracy": 100,
-      "pp": 20,
-      "priority": 0,
-      "targeting": "enemy",
-      "effects": [
-        {"kind": "status", "status": "paralysis", "chance": 30}
-      ],
-      "description": "Elektrischer Angriff mit Paralyse-Chance"
-    },
-    {
-      "id": "confusion",
-      "name": "Verwirrung",
-      "type": "Mystik",
-      "category": "mag",
-      "power": 50,
-      "accuracy": 100,
-      "pp": 25,
-      "priority": 0,
-      "targeting": "enemy",
-      "effects": [
-        {"kind": "status", "status": "confusion", "chance": 10}
-      ],
-      "description": "Mystische Kraft verwirrt den Gegner"
-    },
-    {
-      "id": "chaos_wave",
-      "name": "Chaoswelle",
-      "type": "Chaos",
-      "category": "mag",
-      "power": 75,
-      "accuracy": 85,
-      "pp": 15,
-      "priority": 0,
-      "targeting": "all_enemies",
-      "effects": [],
-      "description": "Entfesselt pure chaotische Energie"
     },
     {
       "id": "vine_whip",
@@ -164,7 +80,6 @@
       "category": "phys",
       "power": 45,
       "accuracy": 100,
-      "pp": 25,
       "priority": 0,
       "targeting": "enemy",
       "effects": [],
@@ -177,11 +92,14 @@
       "category": "phys",
       "power": 60,
       "accuracy": 100,
-      "pp": 25,
       "priority": 0,
       "targeting": "enemy",
       "effects": [
-        {"kind": "status", "status": "flinch", "chance": 30}
+        {
+          "kind": "status",
+          "status": "flinch",
+          "chance": 30
+        }
       ],
       "description": "Beißt zu und kann zurückschrecken lassen"
     },
@@ -192,11 +110,14 @@
       "category": "mag",
       "power": 90,
       "accuracy": 100,
-      "pp": 15,
       "priority": 0,
       "targeting": "enemy",
       "effects": [
-        {"kind": "status", "status": "burn", "chance": 10}
+        {
+          "kind": "status",
+          "status": "burn",
+          "chance": 10
+        }
       ],
       "description": "Starker Feuerangriff"
     },
@@ -207,7 +128,6 @@
       "category": "mag",
       "power": 110,
       "accuracy": 80,
-      "pp": 5,
       "priority": 0,
       "targeting": "enemy",
       "effects": [],
@@ -220,26 +140,10 @@
       "category": "phys",
       "power": 100,
       "accuracy": 100,
-      "pp": 10,
       "priority": 0,
       "targeting": "all_enemies",
       "effects": [],
       "description": "Erschüttert den Boden"
-    },
-    {
-      "id": "hurricane",
-      "name": "Orkan",
-      "type": "Luft",
-      "category": "mag",
-      "power": 110,
-      "accuracy": 70,
-      "pp": 10,
-      "priority": 0,
-      "targeting": "enemy",
-      "effects": [
-        {"kind": "status", "status": "confusion", "chance": 30}
-      ],
-      "description": "Gewaltiger Sturm"
     },
     {
       "id": "heal",
@@ -248,41 +152,1241 @@
       "category": "support",
       "power": 0,
       "accuracy": 100,
-      "pp": 10,
       "priority": 0,
       "targeting": "self",
       "effects": [
-        {"kind": "heal", "amount": 50, "percent": true}
+        {
+          "kind": "heal",
+          "amount": 50,
+          "percent": true
+        }
       ],
       "description": "Heilt 50% der max HP"
     },
     {
-      "id": "divine_light",
-      "name": "Göttliches Licht",
-      "type": "Gottheit",
+      "id": "crack",
+      "name": "Eissplitter",
+      "type": "Eis",
       "category": "mag",
-      "power": 120,
-      "accuracy": 85,
-      "pp": 5,
+      "power": 40,
+      "accuracy": 100,
       "priority": 0,
-      "targeting": "all_enemies",
+      "targeting": "enemy",
       "effects": [],
-      "description": "Heiliges Licht läutert alle Feinde"
+      "description": "Kleine Eissplitter"
     },
     {
-      "id": "dark_pulse",
-      "name": "Finsterpuls",
-      "type": "Teufel",
+      "id": "crackle",
+      "name": "Eisspeer",
+      "type": "Eis",
       "category": "mag",
-      "power": 100,
+      "power": 65,
       "accuracy": 100,
-      "pp": 10,
       "priority": 0,
       "targeting": "enemy",
       "effects": [
-        {"kind": "status", "status": "flinch", "chance": 20}
+        {
+          "kind": "status",
+          "status": "freeze",
+          "chance": 10
+        }
       ],
-      "description": "Dunkle Energie durchströmt den Gegner"
+      "description": "Starker Eisspeer"
+    },
+    {
+      "id": "kacrack",
+      "name": "Eisberg",
+      "type": "Eis",
+      "category": "mag",
+      "power": 90,
+      "accuracy": 95,
+      "priority": 0,
+      "targeting": "enemy",
+      "effects": [
+        {
+          "kind": "status",
+          "status": "freeze",
+          "chance": 15
+        }
+      ],
+      "description": "Massiver Eisberg"
+    },
+    {
+      "id": "kacrackle",
+      "name": "Absolute Zero",
+      "type": "Eis",
+      "category": "mag",
+      "power": 120,
+      "accuracy": 85,
+      "priority": 0,
+      "targeting": "all_enemies",
+      "effects": [
+        {
+          "kind": "status",
+          "status": "freeze",
+          "chance": 20
+        }
+      ],
+      "description": "Absolute Kälte"
+    },
+    {
+      "id": "zap",
+      "name": "Blitzschlag",
+      "type": "Energie",
+      "category": "mag",
+      "power": 40,
+      "accuracy": 100,
+      "priority": 0,
+      "targeting": "enemy",
+      "effects": [
+        {
+          "kind": "status",
+          "status": "paralysis",
+          "chance": 10
+        }
+      ],
+      "description": "Kleiner Blitzschlag"
+    },
+    {
+      "id": "zapple",
+      "name": "Starker Blitz",
+      "type": "Energie",
+      "category": "mag",
+      "power": 65,
+      "accuracy": 100,
+      "priority": 0,
+      "targeting": "enemy",
+      "effects": [
+        {
+          "kind": "status",
+          "status": "paralysis",
+          "chance": 15
+        }
+      ],
+      "description": "Starker Blitzschlag"
+    },
+    {
+      "id": "kazap",
+      "name": "Gewaltiger Blitz",
+      "type": "Energie",
+      "category": "mag",
+      "power": 90,
+      "accuracy": 95,
+      "priority": 0,
+      "targeting": "enemy",
+      "effects": [
+        {
+          "kind": "status",
+          "status": "paralysis",
+          "chance": 20
+        }
+      ],
+      "description": "Gewaltiger Blitzschlag"
+    },
+    {
+      "id": "kazapple",
+      "name": "Göttlicher Blitz",
+      "type": "Energie",
+      "category": "mag",
+      "power": 120,
+      "accuracy": 85,
+      "priority": 0,
+      "targeting": "all_enemies",
+      "effects": [
+        {
+          "kind": "status",
+          "status": "paralysis",
+          "chance": 25
+        }
+      ],
+      "description": "Göttlicher Blitzschlag"
+    },
+    {
+      "id": "midheal",
+      "name": "Mittlere Heilung",
+      "type": "Mystik",
+      "category": "support",
+      "power": 0,
+      "accuracy": 100,
+      "priority": 0,
+      "targeting": "self",
+      "effects": [
+        {
+          "kind": "heal",
+          "amount": 75,
+          "percent": false
+        }
+      ],
+      "description": "Heilt 75 HP"
+    },
+    {
+      "id": "fullheal",
+      "name": "Vollheilung",
+      "type": "Mystik",
+      "category": "support",
+      "power": 0,
+      "accuracy": 100,
+      "priority": 0,
+      "targeting": "self",
+      "effects": [
+        {
+          "kind": "heal",
+          "amount": 100,
+          "percent": true
+        }
+      ],
+      "description": "Heilt alle HP"
+    },
+    {
+      "id": "omniheal",
+      "name": "Allheilung",
+      "type": "Mystik",
+      "category": "support",
+      "power": 0,
+      "accuracy": 100,
+      "priority": 0,
+      "targeting": "all_allies",
+      "effects": [
+        {
+          "kind": "heal",
+          "amount": 100,
+          "percent": true
+        }
+      ],
+      "description": "Heilt alle Verbündeten vollständig"
+    },
+    {
+      "id": "headbutt",
+      "name": "Kopfnuss",
+      "type": "Bestie",
+      "category": "phys",
+      "power": 70,
+      "accuracy": 100,
+      "priority": 0,
+      "targeting": "enemy",
+      "effects": [
+        {
+          "kind": "status",
+          "status": "flinch",
+          "chance": 30
+        }
+      ],
+      "description": "Rammt den Gegner mit dem Kopf"
+    },
+    {
+      "id": "body_slam",
+      "name": "Körpereinsatz",
+      "type": "Bestie",
+      "category": "phys",
+      "power": 85,
+      "accuracy": 100,
+      "priority": 0,
+      "targeting": "enemy",
+      "effects": [
+        {
+          "kind": "status",
+          "status": "paralysis",
+          "chance": 30
+        }
+      ],
+      "description": "Starker Körpereinsatz"
+    },
+    {
+      "id": "mega_punch",
+      "name": "Mega-Schlag",
+      "type": "Bestie",
+      "category": "phys",
+      "power": 100,
+      "accuracy": 90,
+      "priority": 0,
+      "targeting": "enemy",
+      "effects": [],
+      "description": "Extrem starker Schlag"
+    },
+    {
+      "id": "rock_throw",
+      "name": "Steinwurf",
+      "type": "Erde",
+      "category": "phys",
+      "power": 50,
+      "accuracy": 90,
+      "priority": 0,
+      "targeting": "enemy",
+      "effects": [],
+      "description": "Wirft Steine auf den Gegner"
+    },
+    {
+      "id": "sandstorm",
+      "name": "Sandsturm",
+      "type": "Erde",
+      "category": "mag",
+      "power": 0,
+      "accuracy": 100,
+      "priority": 0,
+      "targeting": "all_enemies",
+      "effects": [
+        {
+          "kind": "debuff",
+          "stat": "acc",
+          "stages": -1,
+          "chance": 100
+        }
+      ],
+      "description": "Erzeugt einen Sandsturm"
+    },
+    {
+      "id": "bubble_beam",
+      "name": "Blubbstrahl",
+      "type": "Wasser",
+      "category": "mag",
+      "power": 65,
+      "accuracy": 100,
+      "priority": 0,
+      "targeting": "enemy",
+      "effects": [
+        {
+          "kind": "debuff",
+          "stat": "spd",
+          "stages": -1,
+          "chance": 10
+        }
+      ],
+      "description": "Strahl aus Blasen"
+    },
+    {
+      "id": "tsunami",
+      "name": "Tsunami",
+      "type": "Wasser",
+      "category": "mag",
+      "power": 120,
+      "accuracy": 80,
+      "priority": 0,
+      "targeting": "all_enemies",
+      "effects": [],
+      "description": "Gewaltige Flutwelle"
+    },
+    {
+      "id": "razor_leaf",
+      "name": "Rasierblatt",
+      "type": "Pflanze",
+      "category": "phys",
+      "power": 55,
+      "accuracy": 95,
+      "priority": 0,
+      "targeting": "enemy",
+      "effects": [
+        {
+          "kind": "crit_rate",
+          "amount": 12.5
+        }
+      ],
+      "description": "Scharfe Blätter"
+    },
+    {
+      "id": "solar_beam",
+      "name": "Solarstrahl",
+      "type": "Pflanze",
+      "category": "mag",
+      "power": 120,
+      "accuracy": 100,
+      "priority": 0,
+      "targeting": "enemy",
+      "effects": [],
+      "description": "Konzentrierter Sonnenstrahl"
+    },
+    {
+      "id": "petal_dance",
+      "name": "Blättertanz",
+      "type": "Pflanze",
+      "category": "mag",
+      "power": 90,
+      "accuracy": 100,
+      "priority": 0,
+      "targeting": "enemy",
+      "effects": [
+        {
+          "kind": "status",
+          "status": "confusion",
+          "chance": 20
+        }
+      ],
+      "description": "Tanz mit Blättern"
+    },
+    {
+      "id": "roar",
+      "name": "Brüllen",
+      "type": "Bestie",
+      "category": "support",
+      "power": 0,
+      "accuracy": 100,
+      "priority": -6,
+      "targeting": "enemy",
+      "effects": [],
+      "description": "Lautes Brüllen"
+    },
+    {
+      "id": "claw_slash",
+      "name": "Klauenhieb",
+      "type": "Bestie",
+      "category": "phys",
+      "power": 70,
+      "accuracy": 100,
+      "priority": 0,
+      "targeting": "enemy",
+      "effects": [],
+      "description": "Scharfer Klauenhieb"
+    },
+    {
+      "id": "feral_rage",
+      "name": "Wilder Zorn",
+      "type": "Bestie",
+      "category": "phys",
+      "power": 90,
+      "accuracy": 100,
+      "priority": 0,
+      "targeting": "enemy",
+      "effects": [
+        {
+          "kind": "buff",
+          "stat": "atk",
+          "stages": 1,
+          "chance": 100
+        }
+      ],
+      "description": "Wilder Angriff mit Wut"
+    },
+    {
+      "id": "beast_roar",
+      "name": "Bestienbrüllen",
+      "type": "Bestie",
+      "category": "support",
+      "power": 0,
+      "accuracy": 100,
+      "priority": 0,
+      "targeting": "all_enemies",
+      "effects": [
+        {
+          "kind": "debuff",
+          "stat": "atk",
+          "stages": -2,
+          "chance": 100
+        }
+      ],
+      "description": "Furchterregendes Brüllen"
+    },
+    {
+      "id": "energy_ball",
+      "name": "Energieball",
+      "type": "Energie",
+      "category": "mag",
+      "power": 80,
+      "accuracy": 100,
+      "priority": 0,
+      "targeting": "enemy",
+      "effects": [
+        {
+          "kind": "debuff",
+          "stat": "res",
+          "stages": -1,
+          "chance": 10
+        }
+      ],
+      "description": "Ball aus reiner Energie"
+    },
+    {
+      "id": "plasma_beam",
+      "name": "Plasmastrahl",
+      "type": "Energie",
+      "category": "mag",
+      "power": 95,
+      "accuracy": 100,
+      "priority": 0,
+      "targeting": "enemy",
+      "effects": [],
+      "description": "Starker Plasmastrahl"
+    },
+    {
+      "id": "nuclear_blast",
+      "name": "Kernschlag",
+      "type": "Energie",
+      "category": "mag",
+      "power": 110,
+      "accuracy": 85,
+      "priority": 0,
+      "targeting": "all_enemies",
+      "effects": [],
+      "description": "Explosiver Kernschlag"
+    },
+    {
+      "id": "cosmic_ray",
+      "name": "Kosmischer Strahl",
+      "type": "Energie",
+      "category": "mag",
+      "power": 130,
+      "accuracy": 90,
+      "priority": 0,
+      "targeting": "enemy",
+      "effects": [],
+      "description": "Strahl aus dem Kosmos"
+    },
+    {
+      "id": "chaos_bolt",
+      "name": "Chaosblitz",
+      "type": "Chaos",
+      "category": "mag",
+      "power": 80,
+      "accuracy": 100,
+      "priority": 0,
+      "targeting": "enemy",
+      "effects": [
+        {
+          "kind": "status",
+          "status": "confusion",
+          "chance": 20
+        }
+      ],
+      "description": "Chaotischer Blitz"
+    },
+    {
+      "id": "entropy_wave",
+      "name": "Entropiewelle",
+      "type": "Chaos",
+      "category": "mag",
+      "power": 90,
+      "accuracy": 95,
+      "priority": 0,
+      "targeting": "enemy",
+      "effects": [
+        {
+          "kind": "status",
+          "status": "confusion",
+          "chance": 25
+        }
+      ],
+      "description": "Welle der Unordnung"
+    },
+    {
+      "id": "reality_tear",
+      "name": "Realitätsriss",
+      "type": "Chaos",
+      "category": "mag",
+      "power": 110,
+      "accuracy": 85,
+      "priority": 0,
+      "targeting": "enemy",
+      "effects": [
+        {
+          "kind": "status",
+          "status": "confusion",
+          "chance": 30
+        }
+      ],
+      "description": "Reißt die Realität auf"
+    },
+    {
+      "id": "void_storm",
+      "name": "Leerensturm",
+      "type": "Chaos",
+      "category": "mag",
+      "power": 130,
+      "accuracy": 80,
+      "priority": 0,
+      "targeting": "all_enemies",
+      "effects": [
+        {
+          "kind": "status",
+          "status": "confusion",
+          "chance": 35
+        }
+      ],
+      "description": "Sturm aus dem Nichts"
+    },
+    {
+      "id": "poison_gas",
+      "name": "Giftgas",
+      "type": "Seuche",
+      "category": "support",
+      "power": 0,
+      "accuracy": 90,
+      "priority": 0,
+      "targeting": "enemy",
+      "effects": [
+        {
+          "kind": "status",
+          "status": "poison",
+          "chance": 50
+        }
+      ],
+      "description": "Vergiftet mit Gas"
+    },
+    {
+      "id": "toxic_cloud",
+      "name": "Giftwolke",
+      "type": "Seuche",
+      "category": "support",
+      "power": 0,
+      "accuracy": 90,
+      "priority": 0,
+      "targeting": "enemy",
+      "effects": [
+        {
+          "kind": "status",
+          "status": "poison",
+          "chance": 40
+        }
+      ],
+      "description": "Wolke aus Gift"
+    },
+    {
+      "id": "plague_wind",
+      "name": "Seuchenwind",
+      "type": "Seuche",
+      "category": "mag",
+      "power": 80,
+      "accuracy": 100,
+      "priority": 0,
+      "targeting": "all_enemies",
+      "effects": [
+        {
+          "kind": "status",
+          "status": "poison",
+          "chance": 30
+        }
+      ],
+      "description": "Wind voller Krankheit"
+    },
+    {
+      "id": "death_breath",
+      "name": "Todesatem",
+      "type": "Seuche",
+      "category": "mag",
+      "power": 100,
+      "accuracy": 95,
+      "priority": 0,
+      "targeting": "all_enemies",
+      "effects": [
+        {
+          "kind": "status",
+          "status": "poison",
+          "chance": 40
+        }
+      ],
+      "description": "Atem des Todes"
+    },
+    {
+      "id": "mystic_bolt",
+      "name": "Mystischer Blitz",
+      "type": "Mystisch",
+      "category": "mag",
+      "power": 70,
+      "accuracy": 100,
+      "priority": 0,
+      "targeting": "enemy",
+      "effects": [],
+      "description": "Mystischer Energiestrahl"
+    },
+    {
+      "id": "arcane_blast",
+      "name": "Arkanschlag",
+      "type": "Mystisch",
+      "category": "mag",
+      "power": 85,
+      "accuracy": 100,
+      "priority": 0,
+      "targeting": "enemy",
+      "effects": [
+        {
+          "kind": "debuff",
+          "stat": "res",
+          "stages": -1,
+          "chance": 20
+        }
+      ],
+      "description": "Arkaner Energiestoß"
+    },
+    {
+      "id": "spell_weave",
+      "name": "Zaubergewebe",
+      "type": "Mystisch",
+      "category": "mag",
+      "power": 100,
+      "accuracy": 95,
+      "priority": 0,
+      "targeting": "enemy",
+      "effects": [
+        {
+          "kind": "status",
+          "status": "confusion",
+          "chance": 25
+        }
+      ],
+      "description": "Verwirrt mit Zauberkraft"
+    },
+    {
+      "id": "reality_shift",
+      "name": "Realitätsverschiebung",
+      "type": "Mystisch",
+      "category": "mag",
+      "power": 120,
+      "accuracy": 85,
+      "priority": 0,
+      "targeting": "enemy",
+      "effects": [
+        {
+          "kind": "status",
+          "status": "confusion",
+          "chance": 30
+        }
+      ],
+      "description": "Verschiebt die Realität"
+    },
+    {
+      "id": "holy_light",
+      "name": "Heiliges Licht",
+      "type": "Gottheit",
+      "category": "mag",
+      "power": 80,
+      "accuracy": 100,
+      "priority": 0,
+      "targeting": "enemy",
+      "effects": [],
+      "description": "Heiliges Licht"
+    },
+    {
+      "id": "divine_judgment",
+      "name": "Göttliches Urteil",
+      "type": "Gottheit",
+      "category": "mag",
+      "power": 100,
+      "accuracy": 95,
+      "priority": 0,
+      "targeting": "enemy",
+      "effects": [],
+      "description": "Göttliches Urteil"
+    },
+    {
+      "id": "celestial_beam",
+      "name": "Himmlischer Strahl",
+      "type": "Gottheit",
+      "category": "mag",
+      "power": 120,
+      "accuracy": 90,
+      "priority": 0,
+      "targeting": "enemy",
+      "effects": [],
+      "description": "Strahl vom Himmel"
+    },
+    {
+      "id": "apocalypse",
+      "name": "Apokalypse",
+      "type": "Gottheit",
+      "category": "mag",
+      "power": 150,
+      "accuracy": 80,
+      "priority": 0,
+      "targeting": "all_enemies",
+      "effects": [],
+      "description": "Göttliche Apokalypse"
+    },
+    {
+      "id": "hellfire",
+      "name": "Höllenfeuer",
+      "type": "Teufel",
+      "category": "mag",
+      "power": 80,
+      "accuracy": 100,
+      "priority": 0,
+      "targeting": "enemy",
+      "effects": [
+        {
+          "kind": "status",
+          "status": "burn",
+          "chance": 20
+        }
+      ],
+      "description": "Feuer aus der Hölle"
+    },
+    {
+      "id": "demon_claw",
+      "name": "Dämonenklaue",
+      "type": "Teufel",
+      "category": "phys",
+      "power": 85,
+      "accuracy": 100,
+      "priority": 0,
+      "targeting": "enemy",
+      "effects": [],
+      "description": "Klaue eines Dämons"
+    },
+    {
+      "id": "soul_rend",
+      "name": "Seelenriss",
+      "type": "Teufel",
+      "category": "mag",
+      "power": 100,
+      "accuracy": 95,
+      "priority": 0,
+      "targeting": "enemy",
+      "effects": [],
+      "description": "Reißt die Seele auf"
+    },
+    {
+      "id": "infernal_storm",
+      "name": "Höllensturm",
+      "type": "Teufel",
+      "category": "mag",
+      "power": 120,
+      "accuracy": 85,
+      "priority": 0,
+      "targeting": "all_enemies",
+      "effects": [
+        {
+          "kind": "status",
+          "status": "burn",
+          "chance": 25
+        }
+      ],
+      "description": "Sturm aus der Hölle"
+    },
+    {
+      "id": "buff",
+      "name": "Stärkung",
+      "type": "Mystik",
+      "category": "support",
+      "power": 0,
+      "accuracy": 100,
+      "priority": 0,
+      "targeting": "self",
+      "effects": [
+        {
+          "kind": "buff",
+          "stat": "atk",
+          "stages": 1,
+          "chance": 100
+        }
+      ],
+      "description": "Erhöht Angriff"
+    },
+    {
+      "id": "kabuff",
+      "name": "Verstärkung",
+      "type": "Mystik",
+      "category": "support",
+      "power": 0,
+      "accuracy": 100,
+      "priority": 0,
+      "targeting": "self",
+      "effects": [
+        {
+          "kind": "buff",
+          "stat": "def",
+          "stages": 1,
+          "chance": 100
+        }
+      ],
+      "description": "Erhöht Verteidigung"
+    },
+    {
+      "id": "oomph",
+      "name": "Kraft",
+      "type": "Mystik",
+      "category": "support",
+      "power": 0,
+      "accuracy": 100,
+      "priority": 0,
+      "targeting": "self",
+      "effects": [
+        {
+          "kind": "buff",
+          "stat": "atk",
+          "stages": 2,
+          "chance": 100
+        }
+      ],
+      "description": "Verdoppelt Angriff"
+    },
+    {
+      "id": "insulatle",
+      "name": "Isolation",
+      "type": "Mystik",
+      "category": "support",
+      "power": 0,
+      "accuracy": 100,
+      "priority": 0,
+      "targeting": "self",
+      "effects": [
+        {
+          "kind": "buff",
+          "stat": "res",
+          "stages": 2,
+          "chance": 100
+        }
+      ],
+      "description": "Erhöht Feuer/Eis-Resistenz"
+    },
+    {
+      "id": "bounce",
+      "name": "Abprall",
+      "type": "Mystik",
+      "category": "support",
+      "power": 0,
+      "accuracy": 100,
+      "priority": 0,
+      "targeting": "self",
+      "effects": [
+        {
+          "kind": "reflect",
+          "turns": 1
+        }
+      ],
+      "description": "Reflektiert nächsten Angriff"
+    },
+    {
+      "id": "barrier",
+      "name": "Barriere",
+      "type": "Mystik",
+      "category": "support",
+      "power": 0,
+      "accuracy": 100,
+      "priority": 0,
+      "targeting": "all_allies",
+      "effects": [
+        {
+          "kind": "buff",
+          "stat": "def",
+          "stages": 1,
+          "chance": 100
+        }
+      ],
+      "description": "Schutzschild für alle Verbündeten"
+    },
+    {
+      "id": "sap",
+      "name": "Schwächung",
+      "type": "Mystik",
+      "category": "support",
+      "power": 0,
+      "accuracy": 100,
+      "priority": 0,
+      "targeting": "enemy",
+      "effects": [
+        {
+          "kind": "debuff",
+          "stat": "def",
+          "stages": -1,
+          "chance": 100
+        }
+      ],
+      "description": "Senkt Verteidigung eines Gegners"
+    },
+    {
+      "id": "kasap",
+      "name": "Massen-Schwächung",
+      "type": "Mystik",
+      "category": "support",
+      "power": 0,
+      "accuracy": 100,
+      "priority": 0,
+      "targeting": "all_enemies",
+      "effects": [
+        {
+          "kind": "debuff",
+          "stat": "def",
+          "stages": -1,
+          "chance": 100
+        }
+      ],
+      "description": "Senkt Verteidigung aller Gegner"
+    },
+    {
+      "id": "blunt",
+      "name": "Dämpfung",
+      "type": "Mystik",
+      "category": "support",
+      "power": 0,
+      "accuracy": 100,
+      "priority": 0,
+      "targeting": "enemy",
+      "effects": [
+        {
+          "kind": "debuff",
+          "stat": "atk",
+          "stages": -1,
+          "chance": 100
+        }
+      ],
+      "description": "Senkt Angriff eines Gegners"
+    },
+    {
+      "id": "curse",
+      "name": "Fluch",
+      "type": "Mystisch",
+      "category": "support",
+      "power": 0,
+      "accuracy": 100,
+      "priority": 0,
+      "targeting": "enemy",
+      "effects": [
+        {
+          "kind": "debuff",
+          "stat": "atk",
+          "stages": -1,
+          "chance": 100
+        },
+        {
+          "kind": "debuff",
+          "stat": "def",
+          "stages": -1,
+          "chance": 100
+        }
+      ],
+      "description": "Verflucht Gegner"
+    },
+    {
+      "id": "hex",
+      "name": "Verhexung",
+      "type": "Mystisch",
+      "category": "support",
+      "power": 0,
+      "accuracy": 100,
+      "priority": 0,
+      "targeting": "all_enemies",
+      "effects": [
+        {
+          "kind": "debuff",
+          "stat": "atk",
+          "stages": -2,
+          "chance": 100
+        }
+      ],
+      "description": "Verhext alle Gegner"
+    },
+    {
+      "id": "snooze",
+      "name": "Schlummer",
+      "type": "Mystisch",
+      "category": "support",
+      "power": 0,
+      "accuracy": 60,
+      "priority": 0,
+      "targeting": "enemy",
+      "effects": [
+        {
+          "kind": "status",
+          "status": "sleep",
+          "chance": 100
+        }
+      ],
+      "description": "Versetzt Gegner in Schlaf"
+    },
+    {
+      "id": "kasnooze",
+      "name": "Tiefschlaf",
+      "type": "Mystisch",
+      "category": "support",
+      "power": 0,
+      "accuracy": 50,
+      "priority": 0,
+      "targeting": "all_enemies",
+      "effects": [
+        {
+          "kind": "status",
+          "status": "sleep",
+          "chance": 100
+        }
+      ],
+      "description": "Tiefschlaf für alle Gegner"
+    },
+    {
+      "id": "paralyze",
+      "name": "Lähmung",
+      "type": "Energie",
+      "category": "support",
+      "power": 0,
+      "accuracy": 100,
+      "priority": 0,
+      "targeting": "enemy",
+      "effects": [
+        {
+          "kind": "status",
+          "status": "paralysis",
+          "chance": 100
+        }
+      ],
+      "description": "Lähmt den Gegner"
+    },
+    {
+      "id": "confuse",
+      "name": "Verwirrung",
+      "type": "Mystisch",
+      "category": "support",
+      "power": 0,
+      "accuracy": 100,
+      "priority": 0,
+      "targeting": "enemy",
+      "effects": [
+        {
+          "kind": "status",
+          "status": "confusion",
+          "chance": 100
+        }
+      ],
+      "description": "Verwirrt den Gegner"
+    },
+    {
+      "id": "charm",
+      "name": "Verzauberung",
+      "type": "Mystisch",
+      "category": "support",
+      "power": 0,
+      "accuracy": 100,
+      "priority": 0,
+      "targeting": "enemy",
+      "effects": [
+        {
+          "kind": "status",
+          "status": "charm",
+          "chance": 100
+        }
+      ],
+      "description": "Verzaubert den Gegner"
+    },
+    {
+      "id": "dragon_breath",
+      "name": "Drachenatem",
+      "type": "Bestie",
+      "category": "mag",
+      "power": 80,
+      "accuracy": 100,
+      "priority": 0,
+      "targeting": "enemy",
+      "effects": [],
+      "description": "Mächtiger Drachenatem"
+    },
+    {
+      "id": "elemental_breath",
+      "name": "Elementaratem",
+      "type": "Mystisch",
+      "category": "mag",
+      "power": 90,
+      "accuracy": 100,
+      "priority": 0,
+      "targeting": "enemy",
+      "effects": [],
+      "description": "Atem aller Elemente"
+    },
+    {
+      "id": "primal_roar",
+      "name": "Urzeitbrüllen",
+      "type": "Bestie",
+      "category": "support",
+      "power": 0,
+      "accuracy": 100,
+      "priority": 0,
+      "targeting": "all_enemies",
+      "effects": [
+        {
+          "kind": "debuff",
+          "stat": "atk",
+          "stages": -2,
+          "chance": 100
+        },
+        {
+          "kind": "debuff",
+          "stat": "def",
+          "stages": -2,
+          "chance": 100
+        }
+      ],
+      "description": "Brüllen aus der Urzeit"
+    },
+    {
+      "id": "world_breaker",
+      "name": "Weltenbrecher",
+      "type": "Bestie",
+      "category": "mag",
+      "power": 150,
+      "accuracy": 75,
+      "priority": 0,
+      "targeting": "all_enemies",
+      "effects": [],
+      "description": "Bricht die Welt entzwei"
+    },
+    {
+      "id": "genetic_boost",
+      "name": "Genetischer Boost",
+      "type": "Mystisch",
+      "category": "support",
+      "power": 0,
+      "accuracy": 100,
+      "priority": 0,
+      "targeting": "self",
+      "effects": [
+        {
+          "kind": "buff",
+          "stat": "atk",
+          "stages": 1,
+          "chance": 100
+        },
+        {
+          "kind": "buff",
+          "stat": "def",
+          "stages": 1,
+          "chance": 100
+        }
+      ],
+      "description": "Verstärkt die Gene"
+    },
+    {
+      "id": "evolution_catalyst",
+      "name": "Evolutionskatalysator",
+      "type": "Mystisch",
+      "category": "support",
+      "power": 0,
+      "accuracy": 100,
+      "priority": 0,
+      "targeting": "self",
+      "effects": [
+        {
+          "kind": "evolution_boost",
+          "amount": 1.5
+        }
+      ],
+      "description": "Katalysiert die Evolution"
+    },
+    {
+      "id": "perfect_fusion",
+      "name": "Perfekte Fusion",
+      "type": "Mystisch",
+      "category": "support",
+      "power": 0,
+      "accuracy": 100,
+      "priority": 0,
+      "targeting": "self",
+      "effects": [
+        {
+          "kind": "fusion_boost",
+          "amount": 2.0
+        }
+      ],
+      "description": "Perfekte Verschmelzung"
+    },
+    {
+      "id": "transcendence",
+      "name": "Transzendenz",
+      "type": "Mystisch",
+      "category": "support",
+      "power": 0,
+      "accuracy": 100,
+      "priority": 0,
+      "targeting": "self",
+      "effects": [
+        {
+          "kind": "transcendence",
+          "amount": 1.0
+        }
+      ],
+      "description": "Erreicht Transzendenz"
     }
   ]
 }

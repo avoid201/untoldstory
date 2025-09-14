@@ -5,7 +5,7 @@ Flint Hammerhead macht dat hier ordentlich, wa!
 
 from typing import Optional, List, Tuple
 from engine.world.pathfinding import find_path
-from engine.world.tiles import world_to_tile, tile_to_world
+from engine.world.tiles import world_to_tile, tile_to_world, PATHFINDING_COOLDOWN, PATHFINDING_MAX_EXPANSIONS
 import random
 import time
 
@@ -23,7 +23,7 @@ class PathfindingMixin:
         self.path_target: Optional[Tuple[int, int]] = None
         self.path_stuck_counter: int = 0
         self.last_pathfind_time: float = 0
-        self.pathfind_cooldown: float = 0.5  # Halbe Sekunde zwischen Pathfinding-Versuchen
+        self.pathfind_cooldown: float = PATHFINDING_COOLDOWN
         
     def find_path_to(self, target_x: int, target_y: int, area=None) -> bool:
         """
@@ -56,7 +56,7 @@ class PathfindingMixin:
             if hasattr(self, 'current_area'):
                 area = self.current_area
             else:
-                print(f"[PathfindingMixin] Ey, keine Area zum Pathfinden da!")
+                # No area available for pathfinding
                 return False
         
         # Pfad finden mit A*
@@ -65,7 +65,7 @@ class PathfindingMixin:
                 area=area,
                 start=(current_x, current_y),
                 goal=(target_x, target_y),
-                max_expansions=256  # Nich zu viele Nodes checken, sonst dauert's ewig
+                max_expansions=PATHFINDING_MAX_EXPANSIONS
             )
             
             if path and len(path) > 1:
@@ -74,15 +74,15 @@ class PathfindingMixin:
                 self.path_index = 0
                 self.path_target = (target_x, target_y)
                 self.path_stuck_counter = 0
-                print(f"[PathfindingMixin] Pfad gefunden! {len(self.current_path)} Schritte zum Ziel")
+                # Path found successfully
                 return True
             else:
-                print(f"[PathfindingMixin] Kein Pfad gefunden, Mist!")
+                # No path found
                 self.current_path = None
                 return False
                 
         except Exception as e:
-            print(f"[PathfindingMixin] Fehler beim Pathfinding: {e}")
+            # Pathfinding error
             self.current_path = None
             return False
     
@@ -113,7 +113,7 @@ class PathfindingMixin:
             
             # Check ob wir am Ziel sind
             if self.path_index >= len(self.current_path):
-                print(f"[PathfindingMixin] Ziel erreicht, Alter!")
+                # Target reached
                 self.current_path = None
                 return False
             return True
@@ -127,7 +127,7 @@ class PathfindingMixin:
                 # Weg blockiert! Neuen Pfad suchen
                 self.path_stuck_counter += 1
                 if self.path_stuck_counter > 3:
-                    print(f"[PathfindingMixin] Stecke fest! Suche neuen Weg...")
+                    # Stuck - searching for new path
                     if self.path_target:
                         self.find_path_to(self.path_target[0], self.path_target[1])
                     else:
@@ -164,7 +164,7 @@ class PathfindingMixin:
             if area and not area.is_tile_solid(target_x, target_y):
                 # Pfad dahin suchen
                 if self.find_path_to(target_x, target_y, area):
-                    print(f"[PathfindingMixin] Wandere zu ({target_x}, {target_y})")
+                    # Wandering to target
                     break
     
     def follow_player(self, player, area, min_distance: int = 2, max_distance: int = 5) -> None:

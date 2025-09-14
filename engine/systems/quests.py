@@ -472,10 +472,6 @@ class QuestManager:
         manager.quest_counters = data.get('counters', {}).copy()
         
         return manager
-
-
-class QuestManager:
-    """Manages all quests in the game."""
     
     def __init__(self):
         """Initialize quest manager."""

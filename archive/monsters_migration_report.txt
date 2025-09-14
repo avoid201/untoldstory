@@ -1,0 +1,135 @@
+🔄 MONSTER LEARNSET ZU TALENT-SYSTEM MIGRATIONSBERICHT
+============================================================
+
+📊 STATISTIKEN:
+   - Monster analysiert: 151
+   - Einzigartige Moves: 97
+   - Benötigte Talents: 16
+   - Move-zu-Talent-Mappings: 129
+
+🎯 TALENT-VERWENDUNG (nach Moves):
+   - physical_i: 125 Moves
+   - fire_i: 46 Moves
+   - wind_i: 42 Moves
+   - earth_i: 26 Moves
+   - water_i: 18 Moves
+   - plague_i: 18 Moves
+   - beast_i: 18 Moves
+   - plant_i: 13 Moves
+   - status_i: 13 Moves
+
+🏷️ TALENT-VERWENDUNG (nach Types):
+   - heal_i: 31 Monster-Types
+   - fire_i: 18 Monster-Types
+   - fire_breath: 18 Monster-Types
+   - water_i: 16 Monster-Types
+   - earth_i: 16 Monster-Types
+   - explosion_i: 16 Monster-Types
+   - plant_i: 15 Monster-Types
+   - energy_i: 15 Monster-Types
+   - thunder_i: 15 Monster-Types
+   - beast_i: 14 Monster-Types
+   - physical_i: 14 Monster-Types
+   - chaos_i: 13 Monster-Types
+   - dark_i: 13 Monster-Types
+   - plague_i: 13 Monster-Types
+
+❓ NICHT-ZUGEWIESENE MOVES:
+   - Apokalypse
+   - Auf die Fresse
+   - Basisangriff
+   - Bergsturz
+   - Bestienwut
+   - Blattsturm
+   - Blitzschlag
+   - Blubber
+   - Chaosblitz
+   - Chaossturm
+   - Dimensionstor
+   - Dimensionsturm
+   - Donnerblitz
+   - Dschungel
+   - Fluch
+   - Funkenschlag
+   - Galaxienfeuer
+   - Geisterwelt
+   - Giftwolke
+   - Heulen
+   - Hitzewelle
+   - Hurrikan
+   - Hypnose
+   - Härtner
+   - Höllenfeuer
+   - Kontinentalverschiebung
+   - Krallenhieb
+   - Kratzfurie
+   - Lehmschuss
+   - Lichtstrahl
+   - Magnetfeld
+   - Meereswut
+   - Mächtiger Angriff
+   - Ozeansturm
+   - Panzerhaut
+   - Pesthauch
+   - Planetenerde
+   - Plasmasturm
+   - Raserei
+   - Raumangriff
+   - Samenbombe
+   - Schattenhieb
+   - Seuchenschwall
+   - Seuchenwelle
+   - Sonnenfeuer
+   - Spezialangriff
+   - Spukball
+   - Stampfer
+   - Sternenfeuer
+   - Tornado
+   - Ultimativer Angriff
+   - Universumsangriff
+   - Universumswald
+   - Universumswind
+   - Urbestie
+   - Urchaos
+   - Urenergie
+   - Urerde
+   - Urfeuer
+   - Urluft
+   - Urmystik
+   - Urpflanze
+   - Urseuche
+   - Urwald
+   - Urwasser
+   - Vulkanausbruch
+   - Wahnsinn
+   - Wellenritt
+   - Weltangriff
+   - Weltbestie
+   - Weltboden
+   - Weltchaos
+   - Weltenergie
+   - Weltmeer
+   - Weltmystik
+   - Weltseuche
+   - Weltwald
+   - Weltwind
+   - Wirbelwind
+   - Zeitangriff
+
+📋 ALLE BENÖTIGTEN TALENTS:
+   - beast_i
+   - chaos_i
+   - dark_i
+   - earth_i
+   - energy_i
+   - explosion_i
+   - fire_breath
+   - fire_i
+   - heal_i
+   - physical_i
+   - plague_i
+   - plant_i
+   - status_i
+   - thunder_i
+   - water_i
+   - wind_i

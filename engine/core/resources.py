@@ -11,7 +11,7 @@ from typing import Dict, Any, Optional, Tuple, Union, List
 from enum import Enum
 from functools import lru_cache
 import time
-import weakref
+# weakref import removed - not used in this file
 import gc
 
 class ResourceType(Enum):
@@ -148,6 +148,10 @@ class ResourceManager:
         self._json_cache_legacy: Dict[str, Tuple[Any, int, float]] = {}
         self._sound_cache_legacy: Dict[str, Tuple[pygame.mixer.Sound, int, float]] = {}
         
+        # Monster-Sprite-Cache für Battle-System
+        self._monster_sprite_cache: Dict[str, pygame.Surface] = {}
+        self._monster_sprite_cache_size: Dict[str, int] = {}
+        
         # Music and font caches
         self._music_loaded: Optional[str] = None
         self._font_cache: Dict[Tuple[Optional[str], int], pygame.font.Font] = {}
@@ -177,8 +181,33 @@ class ResourceManager:
         # Control logging for missing audio assets (suppress by default)
         self._audio_warning_enabled = False
         
-        # Load essential assets
-        self._load_essential_assets()
+        # Flag to track if essential assets were loaded
+        self._essential_assets_loaded = False
+    
+    def _ensure_display_and_load_essentials(self) -> None:
+        """
+        Stelle sicher, dass pygame.display bereit ist und lade essential assets.
+        Diese Methode wird lazy aufgerufen, wenn Ressourcen benötigt werden.
+        """
+        if self._essential_assets_loaded:
+            return
+        
+        # Prüfe ob pygame.display verfügbar ist
+        try:
+            surface = pygame.display.get_surface()
+            if surface is None:
+                # Display noch nicht initialisiert, warte darauf
+                return
+        except pygame.error:
+            # Display noch nicht verfügbar, warte darauf
+            return
+        
+        # Display ist bereit, lade essential assets
+        try:
+            self._load_essential_assets()
+            self._essential_assets_loaded = True
+        except Exception as e:
+            print(f"Warning: Could not load essential assets: {e}")
     
     def _cleanup_caches(self) -> None:
         """Bereinigt alle Caches und ruft Garbage Collection auf"""
@@ -256,6 +285,9 @@ class ResourceManager:
         """
         start_time = time.time()
         
+        # Ensure display is ready and essential assets are loaded
+        self._ensure_display_and_load_essentials()
+        
         # Check cache
         cache_key = f"sprite:{path}:{colorkey}:{alpha}"
         cached_surface = self._image_cache.get(cache_key)
@@ -326,6 +358,9 @@ class ResourceManager:
             The loaded pygame Surface, or a placeholder if not found
         """
         start_time = time.time()
+        
+        # Ensure display is ready and essential assets are loaded
+        self._ensure_display_and_load_essentials()
         
         # Check cache
         cache_key = f"{path}:{colorkey}:{alpha}"
@@ -809,6 +844,9 @@ class ResourceManager:
                 self.load_json(path, priority=True)
             except Exception as e:
                 print(f"Fehler beim Laden von essentiellen Daten {path}: {e}")
+        
+        # OPTIMIERT: Preload Monster-Sprites für bessere Performance
+        self._preload_monster_sprites()
     
     def get_cache_stats(self) -> Dict[str, Any]:
         """
@@ -828,7 +866,8 @@ class ResourceManager:
             "sizes": {
                 "images": self._image_cache.get_stats()['memory_used_mb'],  # MB
                 "json": self._json_cache.get_stats()['memory_used_mb'],     # MB
-                "sound": self._sound_cache.get_stats()['memory_used_mb']    # MB
+                "sound": self._sound_cache.get_stats()['memory_used_mb'],   # MB
+                "monster_sprites": sum(self._monster_sprite_cache_size.values()) / (1024 * 1024)  # MB
             },
             "limits": {
                 "images": self._image_cache.get_stats()['max_memory_mb'],  # MB
@@ -836,6 +875,268 @@ class ResourceManager:
                 "sound": self._sound_cache.get_stats()['max_memory_mb']    # MB
             }
         }
+    
+    def load_monster_sprite(self, monster_id: Union[int, str], target_size: Tuple[int, int] = (56, 56), 
+                           is_player_side: bool = True) -> pygame.Surface:
+        """
+        Lädt einen Monster-Sprite mit intelligenter Fallback-Kette und Caching.
+        
+        Args:
+            monster_id: Monster-ID (int) oder Name (str)
+            target_size: Zielgröße für den Sprite (width, height)
+            is_player_side: Ob der Sprite für die Spielerseite ist (Spiegelung)
+            
+        Returns:
+            pygame.Surface: Geladener und verarbeiteter Sprite
+        """
+        # Erstelle Cache-Key
+        cache_key = f"monster_{monster_id}_{target_size[0]}x{target_size[1]}_{'player' if is_player_side else 'enemy'}"
+        
+        # Prüfe Cache
+        if cache_key in self._monster_sprite_cache:
+            return self._monster_sprite_cache[cache_key]
+        
+        # Versuche Sprite zu laden mit Fallback-Kette
+        sprite_surface = self._load_monster_sprite_with_fallback(monster_id, target_size, is_player_side)
+        
+        # Cache den Sprite
+        self._monster_sprite_cache[cache_key] = sprite_surface
+        self._monster_sprite_cache_size[cache_key] = sprite_surface.get_width() * sprite_surface.get_height() * 4  # RGBA
+        
+        return sprite_surface
+    
+    def _load_monster_sprite_with_fallback(self, monster_id: Union[int, str], target_size: Tuple[int, int], 
+                                         is_player_side: bool) -> pygame.Surface:
+        """
+        Lädt Monster-Sprite mit intelligenter Fallback-Kette.
+        
+        Fallback-Reihenfolge:
+        1. Direkte ID-basierte Suche (1.png, 2.png, etc.)
+        2. Name-basierte Suche (falls monster_id ein String ist)
+        3. Numerischer Index basierend auf Monster-Datenbank
+        4. Platzhalter-Sprite
+        """
+        monster_path = self.gfx_path / "monster"
+        
+        # Fallback 1: Direkte ID-basierte Suche
+        if isinstance(monster_id, int):
+            sprite_path = monster_path / f"{monster_id}.png"
+            if sprite_path.exists():
+                return self._process_monster_sprite(sprite_path, target_size, is_player_side)
+        
+        # Fallback 2: Name-basierte Suche
+        if isinstance(monster_id, str):
+            # Versuche verschiedene Namensvarianten
+            name_variants = [
+                monster_id,
+                monster_id.lower(),
+                monster_id.replace(" ", "_"),
+                monster_id.replace("ä", "ae").replace("ö", "oe").replace("ü", "ue").replace("ß", "ss")
+            ]
+            
+            for variant in name_variants:
+                sprite_path = monster_path / f"{variant}.png"
+                if sprite_path.exists():
+                    return self._process_monster_sprite(sprite_path, target_size, is_player_side)
+        
+        # Fallback 3: Numerischer Index basierend auf Monster-Datenbank
+        try:
+            monsters_data = self.load_json("monsters.json")
+            if isinstance(monster_id, str):
+                # Suche Monster in Datenbank
+                for monster in monsters_data:
+                    if monster.get("name", "").lower() == monster_id.lower():
+                        sprite_id = monster.get("id", 1)
+                        sprite_path = monster_path / f"{sprite_id}.png"
+                        if sprite_path.exists():
+                            return self._process_monster_sprite(sprite_path, target_size, is_player_side)
+                        break
+        except Exception as e:
+            print(f"Fehler beim Laden der Monster-Datenbank: {e}")
+        
+        # Fallback 4: Platzhalter-Sprite
+        return self._create_placeholder_monster_sprite(monster_id, target_size, is_player_side)
+    
+    def _process_monster_sprite(self, sprite_path: Path, target_size: Tuple[int, int], 
+                              is_player_side: bool) -> pygame.Surface:
+        """
+        Verarbeitet einen geladenen Monster-Sprite: Skalierung, Zentrierung, Spiegelung.
+        """
+        try:
+            # Lade Original-Sprite
+            original_surface = pygame.image.load(str(sprite_path)).convert_alpha()
+            original_size = original_surface.get_size()
+            
+            # Berechne Skalierung mit Aspect-Ratio-Erhaltung
+            scale_x = target_size[0] / original_size[0]
+            scale_y = target_size[1] / original_size[1]
+            scale = min(scale_x, scale_y)  # Verwende kleinere Skalierung für Aspect-Ratio
+            
+            # Berechne neue Größe
+            new_width = int(original_size[0] * scale)
+            new_height = int(original_size[1] * scale)
+            
+            # Skaliere Sprite
+            scaled_surface = pygame.transform.scale(original_surface, (new_width, new_height))
+            
+            # Erstelle Ziel-Surface mit Transparenz
+            target_surface = pygame.Surface(target_size, pygame.SRCALPHA)
+            
+            # Zentriere den skalierten Sprite
+            center_x = (target_size[0] - new_width) // 2
+            center_y = (target_size[1] - new_height) // 2
+            target_surface.blit(scaled_surface, (center_x, center_y))
+            
+            # Spiegele für Gegner-Seite
+            if not is_player_side:
+                target_surface = pygame.transform.flip(target_surface, True, False)
+            
+            return target_surface
+            
+        except Exception as e:
+            print(f"Fehler beim Verarbeiten des Monster-Sprites {sprite_path}: {e}")
+            return self._create_placeholder_monster_sprite("error", target_size, is_player_side)
+    
+    def _create_placeholder_monster_sprite(self, monster_id: Union[int, str], target_size: Tuple[int, int], 
+                                        is_player_side: bool) -> pygame.Surface:
+        """
+        Erstellt einen Platzhalter-Sprite für Monster.
+        """
+        surface = pygame.Surface(target_size, pygame.SRCALPHA)
+        
+        # Wähle Farbe basierend auf Monster-ID oder Seite
+        if isinstance(monster_id, int):
+            # Verwende ID-basierte Farbe für Konsistenz
+            hue = (monster_id * 137) % 360  # Goldener Winkel für Farbverteilung
+            color = self._hsv_to_rgb(hue, 0.7, 0.8)
+        else:
+            # Verwende Seite-basierte Farbe
+            color = (100, 150, 255) if is_player_side else (255, 100, 100)
+        
+        # Zeichne Monster-Silhouette
+        center_x, center_y = target_size[0] // 2, target_size[1] // 2
+        radius = min(target_size) // 3
+        
+        # Körper (Kreis)
+        pygame.draw.circle(surface, color, (center_x, center_y), radius)
+        
+        # Augen
+        eye_color = (255, 255, 255)
+        eye_size = radius // 4
+        pygame.draw.circle(surface, eye_color, (center_x - radius//2, center_y - radius//2), eye_size)
+        pygame.draw.circle(surface, eye_color, (center_x + radius//2, center_y - radius//2), eye_size)
+        
+        # Monster-Initialen
+        try:
+            font = pygame.font.Font(None, min(target_size) // 3)
+            if isinstance(monster_id, str) and monster_id:
+                initial = monster_id[0].upper()
+            else:
+                initial = "?"
+            
+            text = font.render(initial, True, (255, 255, 255))
+            text_rect = text.get_rect(center=(center_x, center_y + radius//2))
+            surface.blit(text, text_rect)
+        except Exception:
+            pass  # Ignoriere Font-Fehler
+        
+        return surface
+    
+    def _hsv_to_rgb(self, h: float, s: float, v: float) -> Tuple[int, int, int]:
+        """Konvertiert HSV zu RGB."""
+        import math
+        c = v * s
+        x = c * (1 - abs((h / 60) % 2 - 1))
+        m = v - c
+        
+        if 0 <= h < 60:
+            r, g, b = c, x, 0
+        elif 60 <= h < 120:
+            r, g, b = x, c, 0
+        elif 120 <= h < 180:
+            r, g, b = 0, c, x
+        elif 180 <= h < 240:
+            r, g, b = 0, x, c
+        elif 240 <= h < 300:
+            r, g, b = x, 0, c
+        else:
+            r, g, b = c, 0, x
+        
+        return (int((r + m) * 255), int((g + m) * 255), int((b + m) * 255))
+    
+    def clear_monster_sprite_cache(self) -> None:
+        """Leert den Monster-Sprite-Cache."""
+        self._monster_sprite_cache.clear()
+        self._monster_sprite_cache_size.clear()
+    
+    def get_monster_sprite_cache_stats(self) -> Dict[str, Any]:
+        """Gibt Statistiken über den Monster-Sprite-Cache zurück."""
+        total_memory = sum(self._monster_sprite_cache_size.values())
+        return {
+            "cached_sprites": len(self._monster_sprite_cache),
+            "total_memory_bytes": total_memory,
+            "total_memory_mb": total_memory / (1024 * 1024)
+        }
+    
+    def _preload_monster_sprites(self) -> None:
+        """Preload häufig verwendete Monster-Sprites für bessere Performance."""
+        try:
+            # Lade die ersten 20 Monster-Sprites (häufigste)
+            common_monster_ids = list(range(1, 21))
+            
+            for monster_id in common_monster_ids:
+                try:
+                    # Lade in verschiedenen Größen für Battle-System
+                    self.load_monster_sprite(monster_id, (56, 56), True)   # Player side
+                    self.load_monster_sprite(monster_id, (56, 56), False)  # Enemy side
+                    self.load_monster_sprite(monster_id, (32, 32), True)   # Small version
+                except Exception as e:
+                    print(f"Fehler beim Preload von Monster {monster_id}: {e}")
+            
+            print(f"[Resources] Preloaded {len(common_monster_ids)} Monster-Sprites")
+            
+        except Exception as e:
+            print(f"Fehler beim Preload der Monster-Sprites: {e}")
+    
+    def validate_assets(self) -> Dict[str, Any]:
+        """Validiert alle Assets und gibt einen Bericht zurück."""
+        validation_report = {
+            "missing_assets": [],
+            "corrupt_assets": [],
+            "valid_assets": 0,
+            "total_checked": 0
+        }
+        
+        # Validiere Monster-Sprites
+        monster_dir = self.gfx_path / "monster"
+        if monster_dir.exists():
+            for i in range(1, 152):  # 1-151
+                sprite_path = monster_dir / f"{i}.png"
+                validation_report["total_checked"] += 1
+                
+                if not sprite_path.exists():
+                    validation_report["missing_assets"].append(f"monster/{i}.png")
+                elif not self._verify_image_file(sprite_path):
+                    validation_report["corrupt_assets"].append(f"monster/{i}.png")
+                else:
+                    validation_report["valid_assets"] += 1
+        
+        # Validiere UI-Assets
+        ui_dir = self.gfx_path / "ui"
+        if ui_dir.exists():
+            ui_files = ["dialog_box.png", "menu_background.png", "button.png", "health_bar.png"]
+            for ui_file in ui_files:
+                ui_path = ui_dir / ui_file
+                validation_report["total_checked"] += 1
+                
+                if not ui_path.exists():
+                    validation_report["missing_assets"].append(f"ui/{ui_file}")
+                elif not self._verify_image_file(ui_path):
+                    validation_report["corrupt_assets"].append(f"ui/{ui_file}")
+                else:
+                    validation_report["valid_assets"] += 1
+        
+        return validation_report
 
 
 # Global singleton instance

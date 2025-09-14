@@ -1,0 +1,117 @@
+{
+  "timestamp": "2025-09-03 16:02:20",
+  "overall_score": 76.13333333333333,
+  "test_results": {
+    "sprite_manager": {
+      "load_time_ms": 249.01819229125977,
+      "access_time_ms": 0.08606910705566406,
+      "total_sprites": 284,
+      "memory_usage_mb": 0.0,
+      "cache_hit_rate": 0,
+      "monster_sprites": 151,
+      "tile_sprites": 55,
+      "object_sprites": 18,
+      "npc_sprites": 56,
+      "player_sprites": 4
+    },
+    "resources": {
+      "load_time_ms": 7.014989852905273,
+      "cache_time_ms": 0.028371810913085938,
+      "cache_speedup": 247.25210084033614,
+      "image_cache_size": 0,
+      "monster_cache_size": 20,
+      "monster_memory_mb": 0.2392578125
+    },
+    "tile_renderer": {
+      "render_time_ms": 253.24630737304688,
+      "cull_time_ms": 152.67324447631836,
+      "culling_efficiency": 0,
+      "cache_hit_rate": 0,
+      "tiles_rendered": 0,
+      "tiles_culled": 0
+    },
+    "render_manager": {
+      "fps_60": {
+        "frames_rendered": 60,
+        "culling_enabled": true,
+        "batch_rendering_enabled": true,
+        "entity_culling_enabled": true
+      },
+      "fps_30": {
+        "frames_rendered": 120,
+        "culling_enabled": true,
+        "batch_rendering_enabled": true,
+        "entity_culling_enabled": false
+      },
+      "fps_15": {
+        "frames_rendered": 180,
+        "culling_enabled": false,
+        "batch_rendering_enabled": false,
+        "entity_culling_enabled": false
+      }
+    },
+    "optimized_renderer": {
+      "atlas_time_ms": 0.8168220520019531,
+      "font_time_ms": 37.12320327758789,
+      "atlas_usage": 1.220703125,
+      "font_cache_size": 100,
+      "surface_cache_size": 0
+    },
+    "monster_sprites": {
+      "total_monsters": 151,
+      "loaded_count": 151,
+      "missing_count": 0,
+      "error_count": 0,
+      "load_time_ms": 45.99595069885254,
+      "size_test_time_ms": 28.78117561340332,
+      "success_rate": 100.0
+    },
+    "asset_validation": {
+      "missing_assets": [],
+      "corrupt_assets": [],
+      "valid_assets": 155,
+      "total_checked": 155
+    },
+    "memory_usage": {
+      "memory_before_mb": 92.5703125,
+      "memory_after_mb": 92.57421875,
+      "memory_increase_mb": 0.00390625,
+      "image_cache_memory_mb": 0.0,
+      "monster_cache_memory_mb": 2.861083984375
+    },
+    "fps_performance": {
+      "Empty Scene": {
+        "avg_fps": 0,
+        "min_fps": 0,
+        "max_fps": 0,
+        "frame_count": 601,
+        "entity_count": 0
+      },
+      "Light Scene": {
+        "avg_fps": 0,
+        "min_fps": 0,
+        "max_fps": 0,
+        "frame_count": 601,
+        "entity_count": 10
+      },
+      "Medium Scene": {
+        "avg_fps": 0,
+        "min_fps": 0,
+        "max_fps": 0,
+        "frame_count": 601,
+        "entity_count": 50
+      },
+      "Heavy Scene": {
+        "avg_fps": 0,
+        "min_fps": 0,
+        "max_fps": 0,
+        "frame_count": 601,
+        "entity_count": 100
+      }
+    }
+  },
+  "recommendations": [
+    "SpriteManager: Cache-Hit-Rate verbessern durch Preloading",
+    "FPS: Performance bei schweren Szenen verbessern"
+  ]
+}

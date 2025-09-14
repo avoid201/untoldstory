@@ -9,11 +9,12 @@ from enum import Enum, auto
 import json
 import random
 
+
 if TYPE_CHECKING:
     from engine.systems.monster_instance import MonsterInstance
     from engine.systems.party import Party
     from engine.systems.monsters import MonsterSpecies
-    from engine.systems.battle.battle_system import BattleState as Battle
+    from engine.systems.battle.battle_controller import BattleState as Battle
 
 
 class ItemCategory(Enum):
@@ -29,15 +30,15 @@ class ItemCategory(Enum):
 
 class ItemRarity(Enum):
     """Item rarity levels."""
-    COMMON = auto()        # Basic items, easy to find
-    UNCOMMON = auto()      # Better items, moderate rarity
-    RARE = auto()          # Powerful items, hard to find
-    EPIC = auto()          # Very powerful, very rare
-    LEGENDARY = auto()     # Ultimate items, extremely rare
+    COMMON = auto()
+    UNCOMMON = auto()
+    RARE = auto()
+    EPIC = auto()
+    LEGENDARY = auto()
 
 
 class ItemTarget(Enum):
-    """Valid targets for item use."""
+    """Target types for item use."""
     SELF = auto()          # User only
     SINGLE_ALLY = auto()   # One ally monster
     ALL_ALLIES = auto()    # All ally monsters
@@ -48,14 +49,14 @@ class ItemTarget(Enum):
 
 
 class EffectType(Enum):
-    """Types of effects items can have."""
+    """Types of effects items and battle actions can have."""
+    # Item Effects
     HEAL_HP = auto()           # Restore HP
     HEAL_STATUS = auto()        # Cure status condition
     HEAL_ALL_STATUS = auto()    # Cure all status conditions
     REVIVE = auto()             # Revive fainted monster
     BUFF_STAT = auto()          # Increase stat stages
     DEBUFF_STAT = auto()        # Decrease stat stages
-    RESTORE_PP = auto()         # Restore move PP
     GAIN_EXP = auto()           # Gain experience
     LEVEL_UP = auto()           # Level up monster
     TAMING_BONUS = auto()       # Increase taming chance
@@ -64,6 +65,28 @@ class EffectType(Enum):
     TELEPORT = auto()           # Teleport to safe location
     SYNTHESIS = auto()          # Monster fusion bonus
     HAPPINESS = auto()          # Increase happiness
+    RESTORE_PP = auto()         # Restore move PP/AP
+    
+    # Battle Effects
+    DAMAGE = auto()             # Deal damage
+    HEAL = auto()               # Heal HP
+    STATUS = auto()             # Apply status condition
+    STAT_CHANGE = auto()        # Change stat stages
+    WEATHER = auto()            # Change weather
+    TERRAIN = auto()            # Change terrain
+    PROTECT = auto()            # Protect from damage
+    RECOIL = auto()             # Recoil damage
+    DRAIN = auto()              # Drain HP/MP
+    FLINCH = auto()             # Cause flinch
+    CONFUSE = auto()            # Cause confusion
+    TRAP = auto()               # Trap effect
+    SUBSTITUTE = auto()         # Substitute effect
+    REFLECT = auto()            # Reflect damage
+    LIGHT_SCREEN = auto()       # Light screen effect
+    ITEM_HEAL = auto()          # Item healing effect
+    ITEM_STATUS = auto()        # Item status effect
+    ITEM_STAT = auto()          # Item stat effect
+    ITEM_SPECIAL = auto()       # Special item effect
 
 
 @dataclass
@@ -92,59 +115,20 @@ class Item:
     use_in_battle: bool
     use_in_field: bool
     consumable: bool
-    stack_size: int = 99
     effects: List[ItemEffect] = field(default_factory=list)
-    sprite_index: int = 0
-    flavor_text: str = ""
-    unlock_level: int = 1  # Required player level to use
     
-    def can_use(self, in_battle: bool = False, player_level: int = 1) -> bool:
-        """Check if item can be used in current context."""
-        if player_level < self.unlock_level:
-            return False
-        
-        if in_battle:
-            return self.use_in_battle
-        return self.use_in_field
-    
-    def get_effectiveness_message(self, target: Optional['MonsterInstance'] = None) -> str:
-        """Get message about item effectiveness."""
-        if not target:
-            return ""
-        
-        # Check type immunities for status items
-        for effect in self.effects:
-            if effect.effect_type == EffectType.HEAL_STATUS:
-                if self._is_immune_to_status(target, effect.value):
-                    return f"{target.nickname or target.species.name} ist immun gegen diesen Status!"
-        
-        return ""
-    
-    def _is_immune_to_status(self, monster: 'MonsterInstance', status: str) -> bool:
-        """Check if monster is immune to a status."""
-        # Type-based immunities
-        status_immunities = {
-            'burn': ['feuer'],
-            'freeze': ['feuer', 'luft'],
-            'poison': ['seuche', 'teufel'],
-            'paralysis': ['energie']
-        }
-        
-        if status in status_immunities:
-            immune_types = status_immunities[status]
-            for monster_type in monster.species.types:
-                if monster_type in immune_types:
-                    return True
-        
-        return False
+    # Additional properties
+    stack_size: int = 99
+    icon: str = "item_generic.png"
+    sort_order: int = 0
 
 
 class ItemEffectExecutor:
-    """Executes item effects with proper validation and messaging."""
+    """Executes item effects on targets."""
     
-    def __init__(self):
-        """Initialize effect executor."""
-        self.rng = random.Random()
+    def __init__(self, rng_seed: Optional[int] = None):
+        """Initialize executor with optional random seed."""
+        self.rng = random.Random(rng_seed)
     
     def execute_item_effects(self, item: Item, 
                            user: Optional['MonsterInstance'] = None,
@@ -154,23 +138,10 @@ class ItemEffectExecutor:
         """
         Execute all effects of an item.
         
-        Args:
-            item: Item being used
-            user: Monster using the item
-            target: Target monster
-            party: Player's party
-            battle: Current battle state
-            
         Returns:
-            List of result messages
+            List of effect messages
         """
         messages = []
-        
-        # Check effectiveness
-        effectiveness_msg = item.get_effectiveness_message(target)
-        if effectiveness_msg:
-            messages.append(effectiveness_msg)
-            return messages
         
         # Execute each effect
         for effect in item.effects:
@@ -192,951 +163,659 @@ class ItemEffectExecutor:
         
         if effect.effect_type == EffectType.HEAL_HP:
             return self._heal_hp(effect, target)
-        
         elif effect.effect_type == EffectType.HEAL_STATUS:
             return self._heal_status(effect, target)
-        
         elif effect.effect_type == EffectType.HEAL_ALL_STATUS:
             return self._heal_all_status(target)
-        
         elif effect.effect_type == EffectType.REVIVE:
             return self._revive_monster(effect, target)
-        
         elif effect.effect_type == EffectType.BUFF_STAT:
             return self._buff_stat(effect, target)
-        
-        elif effect.effect_type == EffectType.DEBUFF_STAT:
-            return self._debuff_stat(effect, target)
-        
-        elif effect.effect_type == EffectType.RESTORE_PP:
-            return self._restore_pp(effect, target)
-        
-        elif effect.effect_type == EffectType.GAIN_EXP:
-            return self._gain_exp(effect, target)
-        
-        elif effect.effect_type == EffectType.LEVEL_UP:
-            return self._level_up(effect, target)
-        
-        elif effect.effect_type == EffectType.TAMING_BONUS:
-            return self._apply_taming_bonus(effect, target, battle)
-        
+
         elif effect.effect_type == EffectType.ESCAPE:
             return self._escape_battle(battle)
+        elif effect.effect_type == EffectType.RESTORE_PP:
+            return self._restore_pp(effect, target)
+        # Add more effect types as needed
         
-        elif effect.effect_type == EffectType.REPEL:
-            return self._apply_repel(effect, user)
-        
-        elif effect.effect_type == EffectType.TELEPORT:
-            return self._teleport(effect, user)
-        
-        elif effect.effect_type == EffectType.SYNTHESIS:
-            return self._apply_synthesis_bonus(effect, user)
-        
-        elif effect.effect_type == EffectType.HAPPINESS:
-            return self._increase_happiness(effect, target)
-        
-        return effect.message if effect.message else None
+        return None
     
-    def _heal_hp(self, effect: ItemEffect, target: 'MonsterInstance') -> str:
-        """Heal HP effect."""
+    def _heal_hp(self, effect: ItemEffect, target: Optional['MonsterInstance']) -> Optional[str]:
+        """Apply HP healing."""
         if not target:
-            return "Kein Ziel ausgewählt!"
+            return None
         
-        if isinstance(effect.value, float):
-            # Percentage heal
-            amount = int(target.max_hp * effect.value)
+        if isinstance(effect.value, (int, float)):
+            if effect.value <= 1.0:  # Percentage healing
+                heal_amount = int(target.max_hp * effect.value)
+            else:  # Fixed healing
+                heal_amount = int(effect.value)
         else:
-            # Fixed heal
-            amount = effect.value
+            heal_amount = 50  # Default
         
-        actual = min(amount, target.max_hp - target.current_hp)
-        target.current_hp += actual
-        
-        if actual > 0:
-            return f"{target.nickname or target.species.name} heilt {actual} KP!"
-        else:
-            return f"{target.nickname or target.species.name} hat bereits volle KP!"
+        if hasattr(target, 'heal'):
+            actual_heal = target.heal(heal_amount)
+            return f"{target.name} wurde um {actual_heal} KP geheilt!"
+        return None
     
-    def _heal_status(self, effect: ItemEffect, target: 'MonsterInstance') -> str:
-        """Heal status condition effect."""
-        if not target or not target.status:
-            return "Kein Statusproblem vorhanden!"
+    def _heal_status(self, effect: ItemEffect, target: Optional['MonsterInstance']) -> Optional[str]:
+        """Cure specific status condition."""
+        if not target or not hasattr(target, 'status'):
+            return None
         
-        if target.status == effect.value:
-            old_status = target.status
+        status_to_cure = effect.value
+        if hasattr(target, 'status') and target.status == status_to_cure:
             target.status = None
-            target.status_turns = 0
-            return f"{target.nickname or target.species.name} wurde von {old_status} geheilt!"
-        
-        return f"Dieses Item heilt nicht {target.status}!"
+            return f"{target.name} wurde von {status_to_cure} geheilt!"
+        return None
     
-    def _heal_all_status(self, target: 'MonsterInstance') -> str:
-        """Heal all status conditions effect."""
-        if not target or not target.status:
-            return "Kein Statusproblem vorhanden!"
+    def _heal_all_status(self, target: Optional['MonsterInstance']) -> Optional[str]:
+        """Cure all status conditions."""
+        if not target:
+            return None
         
-        old_status = target.status
-        target.status = None
-        target.status_turns = 0
-        return f"{target.nickname or target.species.name} wurde von {old_status} geheilt!"
+        if hasattr(target, 'status') and target.status:
+            target.status = None
+            return f"Alle Statusprobleme von {target.name} wurden geheilt!"
+        return None
     
-    def _revive_monster(self, effect: ItemEffect, target: 'MonsterInstance') -> str:
-        """Revive fainted monster effect."""
-        if not target or target.current_hp > 0:
-            return "Das Monster lebt noch!"
+    def _revive_monster(self, effect: ItemEffect, target: Optional['MonsterInstance']) -> Optional[str]:
+        """Revive a fainted monster."""
+        if not target or not getattr(target, 'is_fainted', False):
+            return None
         
         if isinstance(effect.value, float):
-            # Percentage revive
-            target.current_hp = int(target.max_hp * effect.value)
+            hp_percent = effect.value
         else:
-            # Fixed HP revive
-            target.current_hp = min(effect.value, target.max_hp)
+            hp_percent = 0.5
         
-        return f"{target.nickname or target.species.name} wurde wiederbelebt!"
+        target.current_hp = int(target.max_hp * hp_percent)
+        target.is_fainted = False
+        return f"{target.name} wurde wiederbelebt!"
     
-    def _buff_stat(self, effect: ItemEffect, target: 'MonsterInstance') -> str:
-        """Buff stat effect."""
+    def _buff_stat(self, effect: ItemEffect, target: Optional['MonsterInstance']) -> Optional[str]:
+        """Apply stat buff."""
         if not target:
-            return "Kein Ziel ausgewählt!"
+            return None
         
-        stat, stages = effect.value
-        current = target.stat_stages.get(stat, 0)
-        new_stage = max(-6, min(6, current + stages))
-        
-        if new_stage == current:
-            return f"{target.nickname or target.species.name}'s {stat} kann nicht weiter erhöht werden!"
-        
-        target.stat_stages[stat] = new_stage
-        
-        stat_names = {
-            'atk': 'Angriff', 'def': 'Verteidigung',
-            'mag': 'Magie', 'res': 'Resistenz',
-            'spd': 'Initiative', 'acc': 'Genauigkeit', 'eva': 'Fluchtwert'
-        }
-        
-        return f"{target.nickname or target.species.name}'s {stat_names.get(stat, stat)} steigt!"
+        if isinstance(effect.value, tuple) and len(effect.value) == 2:
+            stat, stages = effect.value
+            # Apply stat stage changes if target supports it
+            if hasattr(target, 'stat_stages'):
+                current = getattr(target.stat_stages, stat, 0)
+                new_stages = min(6, current + stages)
+                setattr(target.stat_stages, stat, new_stages)
+                return f"{target.name}s {stat.upper()} wurde erhöht!"
+        return None
     
-    def _debuff_stat(self, effect: ItemEffect, target: 'MonsterInstance') -> str:
-        """Debuff stat effect."""
+
+    
+    def _escape_battle(self, battle: Optional['Battle']) -> Optional[str]:
+        """Escape from battle."""
+        if battle:
+            # Set battle to flee state if possible
+            return "Erfolgreich aus dem Kampf geflohen!"
+        return None
+    
+    def _restore_pp(self, effect: ItemEffect, target: Optional['MonsterInstance']) -> Optional[str]:
+        """Restore move PP/AP."""
         if not target:
-            return "Kein Ziel ausgewählt!"
+            return None
         
-        stat, stages = effect.value
-        current = target.stat_stages.get(stat, 0)
-        new_stage = max(-6, min(6, current - stages))
+        # Effect value should be a dict with move and amount
+        if isinstance(effect.value, dict):
+            move_index = effect.value.get('move', 0)
+            amount = effect.value.get('amount', 10)
+            
+            # Check if target has moves and the specified move exists
+            available_moves = target.get_available_moves()
+            if available_moves and move_index < len(available_moves):
+                move = available_moves[move_index]
+                if hasattr(move, 'current_pp'):
+                    old_pp = move.current_pp
+                    move.current_pp = min(move.max_pp, move.current_pp + amount)
+                    restored = move.current_pp - old_pp
+                    return f"{target.name}s {move.name} AP um {restored} wiederhergestellt!"
         
-        if new_stage == current:
-            return f"{target.nickname or target.species.name}'s {stat} kann nicht weiter gesenkt werden!"
-        
-        target.stat_stages[stat] = new_stage
-        
-        stat_names = {
-            'atk': 'Angriff', 'def': 'Verteidigung',
-            'mag': 'Magie', 'res': 'Resistenz',
-            'spd': 'Initiative', 'acc': 'Genauigkeit', 'eva': 'Fluchtwert'
-        }
-        
-        return f"{target.nickname or target.species.name}'s {stat_names.get(stat, stat)} sinkt!"
-    
-    def _restore_pp(self, effect: ItemEffect, target: 'MonsterInstance') -> str:
-        """Restore PP effect."""
-        if not target:
-            return "Kein Ziel ausgewählt!"
-        
-        move_index = effect.value.get('move', 0)
-        amount = effect.value.get('amount', 10)
-        
-        if 0 <= move_index < len(target.moves) and target.moves[move_index]:
-            move = target.moves[move_index]
-            restored = min(amount, move.max_pp - move.current_pp)
-            move.current_pp += restored
-            return f"{move.name} erhält {restored} AP!"
-        
-        return "Keine gültige Attacke gefunden!"
-    
-    def _gain_exp(self, effect: ItemEffect, target: 'MonsterInstance') -> str:
-        """Gain experience effect."""
-        if not target:
-            return "Kein Ziel ausgewählt!"
-        
-        target.gain_exp(effect.value)
-        return f"{target.nickname or target.species.name} erhält {effect.value} EP!"
-    
-    def _level_up(self, effect: ItemEffect, target: 'MonsterInstance') -> str:
-        """Level up effect."""
-        if not target:
-            return "Kein Ziel ausgewählt!"
-        
-        levels_gained = 0
-        for _ in range(effect.value):
-            if target.level < 100:
-                target.level_up()
-                levels_gained += 1
-        
-        if levels_gained > 0:
-            return f"{target.nickname or target.species.name} erreicht Level {target.level}!"
-        else:
-            return f"{target.nickname or target.species.name} kann nicht weiter aufleveln!"
-    
-    def _apply_taming_bonus(self, effect: ItemEffect, target: 'MonsterInstance', battle: Optional['Battle']) -> str:
-        """Apply taming bonus effect."""
-        if not battle or not battle.is_wild:
-            return "Taming-Bonus funktioniert nur bei wilden Monstern!"
-        
-        # This would integrate with the taming system
-        return f"Taming-Bonus von {effect.value}x angewendet!"
-    
-    def _escape_battle(self, battle: Optional['Battle']) -> str:
-        """Escape from battle effect."""
-        if not battle:
-            return "Nicht im Kampf!"
-        
-        # This would trigger battle escape
-        return "Fluchtversuch gestartet!"
-    
-    def _apply_repel(self, effect: ItemEffect, user: 'MonsterInstance') -> str:
-        """Apply repel effect."""
-        if not user:
-            return "Kein Benutzer gefunden!"
-        
-        # This would apply repel effect
-        return f"Repel-Effekt für {effect.value} Schritte aktiviert!"
-    
-    def _teleport(self, effect: ItemEffect, user: 'MonsterInstance') -> str:
-        """Teleport effect."""
-        if not user:
-            return "Kein Benutzer gefunden!"
-        
-        # This would trigger teleport
-        return "Teleportation gestartet!"
-    
-    def _apply_synthesis_bonus(self, effect: ItemEffect, user: 'MonsterInstance') -> str:
-        """Apply synthesis bonus effect."""
-        if not user:
-            return "Kein Benutzer gefunden!"
-        
-        # This would apply synthesis bonus
-        return f"Synthese-Bonus von {effect.value}x angewendet!"
-    
-    def _increase_happiness(self, effect: ItemEffect, target: 'MonsterInstance') -> str:
-        """Increase happiness effect."""
-        if not target:
-            return "Kein Ziel ausgewählt!"
-        
-        if hasattr(target, 'happiness'):
-            old_happiness = target.happiness
-            target.happiness = min(255, target.happiness + effect.value)
-            increase = target.happiness - old_happiness
-            return f"{target.nickname or target.species.name} wird glücklicher! (+{increase})"
-        
-        return "Dieses Monster hat kein Glücks-System!"
+        return None
 
 
 class ItemRegistry:
-    """Singleton registry for all items in the game."""
-    
-    _instance = None
-    
-    def __new__(cls):
-        if cls._instance is None:
-            cls._instance = super().__new__(cls)
-        return cls._instance
+    """Registry for all game items."""
     
     def __init__(self):
-        """Initialize item registry."""
-        if hasattr(self, 'initialized'):
-            return
-        
+        """Initialize registry."""
         self.items: Dict[str, Item] = {}
-        self.effect_executor = ItemEffectExecutor()
-        self._load_default_items()
-        self.initialized = True
+        self._register_default_items()
+        self._load_items_from_json()
     
-    def _load_default_items(self):
-        """Load default items into registry."""
-        # Healing Items
-        self._register_healing_items()
-        # Status Items
-        self._register_status_items()
-        # Taming Items
-        self._register_taming_items()
-        # Battle Items
-        self._register_battle_items()
-        # Special Items
-        self._register_special_items()
-    
-    def _register_healing_items(self):
-        """Register all healing items."""
-        healing_items = [
-            {
-                'id': 'trank',
-                'name': 'Trank',
-                'description': 'Heilt 20 KP eines Monsters',
-                'category': ItemCategory.HEALING,
-                'rarity': ItemRarity.COMMON,
-                'target': ItemTarget.SINGLE_ALLY,
-                'price': 100,
-                'sell_price': 50,
-                'use_in_battle': True,
-                'use_in_field': True,
-                'consumable': True,
-                'effects': [ItemEffect(EffectType.HEAL_HP, 20)]
-            },
-            {
-                'id': 'supertrank',
-                'name': 'Supertrank',
-                'description': 'Heilt 50 KP eines Monsters',
-                'category': ItemCategory.HEALING,
-                'rarity': ItemRarity.COMMON,
-                'target': ItemTarget.SINGLE_ALLY,
-                'price': 300,
-                'sell_price': 150,
-                'use_in_battle': True,
-                'use_in_field': True,
-                'consumable': True,
-                'effects': [ItemEffect(EffectType.HEAL_HP, 50)]
-            },
-            {
-                'id': 'hypertrank',
-                'name': 'Hypertrank',
-                'description': 'Heilt 100 KP eines Monsters',
-                'category': ItemCategory.HEALING,
-                'rarity': ItemRarity.UNCOMMON,
-                'target': ItemTarget.SINGLE_ALLY,
-                'price': 800,
-                'sell_price': 400,
-                'use_in_battle': True,
-                'use_in_field': True,
-                'consumable': True,
-                'effects': [ItemEffect(EffectType.HEAL_HP, 100)]
-            },
-            {
-                'id': 'top_trank',
-                'name': 'Top-Trank',
-                'description': 'Heilt alle KP eines Monsters vollständig',
-                'category': ItemCategory.HEALING,
-                'rarity': ItemRarity.RARE,
-                'target': ItemTarget.SINGLE_ALLY,
-                'price': 2000,
-                'sell_price': 1000,
-                'use_in_battle': True,
-                'use_in_field': True,
-                'consumable': True,
-                'effects': [ItemEffect(EffectType.HEAL_HP, 1.0)]
-            },
-            {
-                'id': 'wiederbelebung',
-                'name': 'Wiederbelebung',
-                'description': 'Belebt ein besiegtes Monster mit halben KP wieder',
-                'category': ItemCategory.HEALING,
-                'rarity': ItemRarity.RARE,
-                'target': ItemTarget.SINGLE_ALLY,
-                'price': 1000,
-                'sell_price': 500,
-                'use_in_battle': False,
-                'use_in_field': True,
-                'consumable': True,
-                'effects': [ItemEffect(EffectType.REVIVE, 0.5)]
-            },
-            {
-                'id': 'top_wiederbelebung',
-                'name': 'Top-Wiederbelebung',
-                'description': 'Belebt ein besiegtes Monster mit vollen KP wieder',
-                'category': ItemCategory.HEALING,
-                'rarity': ItemRarity.EPIC,
-                'target': ItemTarget.SINGLE_ALLY,
-                'price': 2500,
-                'sell_price': 1250,
-                'use_in_battle': False,
-                'use_in_field': True,
-                'consumable': True,
-                'effects': [ItemEffect(EffectType.REVIVE, 1.0)]
-            }
-        ]
+    def _register_default_items(self):
+        """Register basic healing items."""
+        # Basic healing potion
+        trank = Item(
+            id="trank",
+            name="Trank",
+            description="Stellt 50 KP wieder her",
+            category=ItemCategory.HEALING,
+            rarity=ItemRarity.COMMON,
+            target=ItemTarget.SINGLE_ALLY,
+            price=200,
+            sell_price=100,
+            use_in_battle=True,
+            use_in_field=True,
+            consumable=True,
+            effects=[ItemEffect(EffectType.HEAL_HP, 50)]
+        )
+        self.register_item(trank)
         
-        for item_data in healing_items:
-            self._create_and_register_item(item_data)
-    
-    def _register_status_items(self):
-        """Register all status healing items."""
-        status_items = [
-            {
-                'id': 'gegengift',
-                'name': 'Gegengift',
-                'description': 'Heilt Vergiftung bei einem Monster',
-                'category': ItemCategory.STATUS,
-                'rarity': ItemRarity.COMMON,
-                'target': ItemTarget.SINGLE_ALLY,
-                'price': 100,
-                'sell_price': 50,
-                'use_in_battle': True,
-                'use_in_field': True,
-                'consumable': True,
-                'effects': [ItemEffect(EffectType.HEAL_STATUS, 'poison')]
-            },
-            {
-                'id': 'brandsalbe',
-                'name': 'Brandsalbe',
-                'description': 'Heilt Verbrennung bei einem Monster',
-                'category': ItemCategory.STATUS,
-                'rarity': ItemRarity.COMMON,
-                'target': ItemTarget.SINGLE_ALLY,
-                'price': 100,
-                'sell_price': 50,
-                'use_in_battle': True,
-                'use_in_field': True,
-                'consumable': True,
-                'effects': [ItemEffect(EffectType.HEAL_STATUS, 'burn')]
-            },
-            {
-                'id': 'auftaumittel',
-                'name': 'Auftaumittel',
-                'description': 'Weckt ein eingefrorenes Monster auf',
-                'category': ItemCategory.STATUS,
-                'rarity': ItemRarity.COMMON,
-                'target': ItemTarget.SINGLE_ALLY,
-                'price': 100,
-                'sell_price': 50,
-                'use_in_battle': True,
-                'use_in_field': True,
-                'consumable': True,
-                'effects': [ItemEffect(EffectType.HEAL_STATUS, 'freeze')]
-            },
-            {
-                'id': 'aufwecker',
-                'name': 'Aufwecker',
-                'description': 'Weckt ein schlafendes Monster auf',
-                'category': ItemCategory.STATUS,
-                'rarity': ItemRarity.COMMON,
-                'target': ItemTarget.SINGLE_ALLY,
-                'price': 100,
-                'sell_price': 50,
-                'use_in_battle': True,
-                'use_in_field': True,
-                'consumable': True,
-                'effects': [ItemEffect(EffectType.HEAL_STATUS, 'sleep')]
-            },
-            {
-                'id': 'anti_paralyse',
-                'name': 'Anti-Paralyse',
-                'description': 'Heilt Paralyse bei einem Monster',
-                'category': ItemCategory.STATUS,
-                'rarity': ItemRarity.COMMON,
-                'target': ItemTarget.SINGLE_ALLY,
-                'price': 100,
-                'sell_price': 50,
-                'use_in_battle': True,
-                'use_in_field': True,
-                'consumable': True,
-                'effects': [ItemEffect(EffectType.HEAL_STATUS, 'paralysis')]
-            },
-            {
-                'id': 'totalheilung',
-                'name': 'Totalheilung',
-                'description': 'Heilt alle Statusprobleme bei einem Monster',
-                'category': ItemCategory.STATUS,
-                'rarity': ItemRarity.UNCOMMON,
-                'target': ItemTarget.SINGLE_ALLY,
-                'price': 400,
-                'sell_price': 200,
-                'use_in_battle': True,
-                'use_in_field': True,
-                'consumable': True,
-                'effects': [ItemEffect(EffectType.HEAL_ALL_STATUS, None)]
-            }
-        ]
+        # Super healing potion
+        super_trank = Item(
+            id="super_trank",
+            name="Super-Trank", 
+            description="Stellt 100 KP wieder her",
+            category=ItemCategory.HEALING,
+            rarity=ItemRarity.UNCOMMON,
+            target=ItemTarget.SINGLE_ALLY,
+            price=500,
+            sell_price=250,
+            use_in_battle=True,
+            use_in_field=True,
+            consumable=True,
+            effects=[ItemEffect(EffectType.HEAL_HP, 100)]
+        )
+        self.register_item(super_trank)
         
-        for item_data in status_items:
-            self._create_and_register_item(item_data)
+        # Status cure
+        heilmittel = Item(
+            id="heilmittel",
+            name="Heilmittel",
+            description="Heilt alle Statusprobleme",
+            category=ItemCategory.STATUS,
+            rarity=ItemRarity.UNCOMMON,
+            target=ItemTarget.SINGLE_ALLY,
+            price=300,
+            sell_price=150,
+            use_in_battle=True,
+            use_in_field=True,
+            consumable=True,
+            effects=[ItemEffect(EffectType.HEAL_ALL_STATUS, None)]
+        )
+        self.register_item(heilmittel)
     
-    def _register_taming_items(self):
-        """Register all taming items."""
-        taming_items = [
-            {
-                'id': 'fleisch',
-                'name': 'Fleisch',
-                'description': 'Normales Fleisch zum Zähmen wilder Monster',
-                'category': ItemCategory.TAMING,
-                'rarity': ItemRarity.COMMON,
-                'target': ItemTarget.SINGLE_ENEMY,
-                'price': 100,
-                'sell_price': 50,
-                'use_in_battle': True,
-                'use_in_field': False,
-                'consumable': True,
-                'effects': [ItemEffect(EffectType.TAMING_BONUS, 1.5)]
-            },
-            {
-                'id': 'lecker_fleisch',
-                'name': 'Lecker Fleisch',
-                'description': 'Schmackhaftes Fleisch, beliebt bei den meisten Monstern',
-                'category': ItemCategory.TAMING,
-                'rarity': ItemRarity.UNCOMMON,
-                'target': ItemTarget.SINGLE_ENEMY,
-                'price': 300,
-                'sell_price': 150,
-                'use_in_battle': True,
-                'use_in_field': False,
-                'consumable': True,
-                'effects': [ItemEffect(EffectType.TAMING_BONUS, 2.0)]
-            },
-            {
-                'id': 'edelfleisch',
-                'name': 'Edelfleisch',
-                'description': 'Hochwertiges Fleisch für anspruchsvolle Monster',
-                'category': ItemCategory.TAMING,
-                'rarity': ItemRarity.RARE,
-                'target': ItemTarget.SINGLE_ENEMY,
-                'price': 1000,
-                'sell_price': 500,
-                'use_in_battle': True,
-                'use_in_field': False,
-                'consumable': True,
-                'effects': [ItemEffect(EffectType.TAMING_BONUS, 3.0)]
-            },
-            {
-                'id': 'goldfleisch',
-                'name': 'Goldfleisch',
-                'description': 'Legendäres Fleisch mit magischer Anziehungskraft',
-                'category': ItemCategory.TAMING,
-                'rarity': ItemRarity.LEGENDARY,
-                'target': ItemTarget.SINGLE_ENEMY,
-                'price': 5000,
-                'sell_price': 2500,
-                'use_in_battle': True,
-                'use_in_field': False,
-                'consumable': True,
-                'effects': [ItemEffect(EffectType.TAMING_BONUS, 5.0)]
-            }
-        ]
-        
-        for item_data in taming_items:
-            self._create_and_register_item(item_data)
-    
-    def _register_battle_items(self):
-        """Register all battle items."""
-        battle_items = [
-            {
-                'id': 'x_angriff',
-                'name': 'X-Angriff',
-                'description': 'Erhöht den Angriff eines Monsters im Kampf',
-                'category': ItemCategory.BATTLE,
-                'rarity': ItemRarity.COMMON,
-                'target': ItemTarget.SINGLE_ALLY,
-                'price': 500,
-                'sell_price': 250,
-                'use_in_battle': True,
-                'use_in_field': False,
-                'consumable': True,
-                'effects': [ItemEffect(EffectType.BUFF_STAT, ('atk', 1))]
-            },
-            {
-                'id': 'x_verteidigung',
-                'name': 'X-Verteidigung',
-                'description': 'Erhöht die Verteidigung eines Monsters im Kampf',
-                'category': ItemCategory.BATTLE,
-                'rarity': ItemRarity.COMMON,
-                'target': ItemTarget.SINGLE_ALLY,
-                'price': 500,
-                'sell_price': 250,
-                'use_in_battle': True,
-                'use_in_field': False,
-                'consumable': True,
-                'effects': [ItemEffect(EffectType.BUFF_STAT, ('def', 1))]
-            },
-            {
-                'id': 'x_tempo',
-                'name': 'X-Tempo',
-                'description': 'Erhöht die Initiative eines Monsters im Kampf',
-                'category': ItemCategory.BATTLE,
-                'rarity': ItemRarity.COMMON,
-                'target': ItemTarget.SINGLE_ALLY,
-                'price': 500,
-                'sell_price': 250,
-                'use_in_battle': True,
-                'use_in_field': False,
-                'consumable': True,
-                'effects': [ItemEffect(EffectType.BUFF_STAT, ('spd', 1))]
-            },
-            {
-                'id': 'x_magie',
-                'name': 'X-Magie',
-                'description': 'Erhöht die Magie eines Monsters im Kampf',
-                'category': ItemCategory.BATTLE,
-                'rarity': ItemRarity.COMMON,
-                'target': ItemTarget.SINGLE_ALLY,
-                'price': 500,
-                'sell_price': 250,
-                'use_in_battle': True,
-                'use_in_field': False,
-                'consumable': True,
-                'effects': [ItemEffect(EffectType.BUFF_STAT, ('mag', 1))]
-            },
-            {
-                'id': 'x_genauigkeit',
-                'name': 'X-Genauigkeit',
-                'description': 'Erhöht die Genauigkeit eines Monsters im Kampf',
-                'category': ItemCategory.BATTLE,
-                'rarity': ItemRarity.COMMON,
-                'target': ItemTarget.SINGLE_ALLY,
-                'price': 500,
-                'sell_price': 250,
-                'use_in_battle': True,
-                'use_in_field': False,
-                'consumable': True,
-                'effects': [ItemEffect(EffectType.BUFF_STAT, ('acc', 1))]
-            }
-        ]
-        
-        for item_data in battle_items:
-            self._create_and_register_item(item_data)
-    
-    def _register_special_items(self):
-        """Register all special items."""
-        special_items = [
-            {
-                'id': 'seltene_suessigkeit',
-                'name': 'Seltene Süßigkeit',
-                'description': 'Erhöht das Level eines Monsters um 1',
-                'category': ItemCategory.SPECIAL,
-                'rarity': ItemRarity.EPIC,
-                'target': ItemTarget.SINGLE_ALLY,
-                'price': 5000,
-                'sell_price': 2500,
-                'use_in_battle': False,
-                'use_in_field': True,
-                'consumable': True,
-                'effects': [ItemEffect(EffectType.LEVEL_UP, 1)]
-            },
-            {
-                'id': 'aether',
-                'name': 'Äther',
-                'description': 'Stellt 10 AP einer Attacke wieder her',
-                'category': ItemCategory.SPECIAL,
-                'rarity': ItemRarity.UNCOMMON,
-                'target': ItemTarget.SINGLE_ALLY,
-                'price': 500,
-                'sell_price': 250,
-                'use_in_battle': False,
-                'use_in_field': True,
-                'consumable': True,
-                'effects': [ItemEffect(EffectType.RESTORE_PP, {'move': 0, 'amount': 10})]
-            },
-            {
-                'id': 'top_aether',
-                'name': 'Top-Äther',
-                'description': 'Stellt alle AP einer Attacke wieder her',
-                'category': ItemCategory.SPECIAL,
-                'rarity': ItemRarity.RARE,
-                'target': ItemTarget.SINGLE_ALLY,
-                'price': 1500,
-                'sell_price': 750,
-                'use_in_battle': False,
-                'use_in_field': True,
-                'consumable': True,
-                'effects': [ItemEffect(EffectType.RESTORE_PP, {'move': 0, 'amount': 99})]
-            },
-            {
-                'id': 'fluchtseil',
-                'name': 'Fluchtseil',
-                'description': 'Ermöglicht die Flucht aus Höhlen und Dungeons',
-                'category': ItemCategory.SPECIAL,
-                'rarity': ItemRarity.COMMON,
-                'target': ItemTarget.NONE,
-                'price': 200,
-                'sell_price': 100,
-                'use_in_battle': False,
-                'use_in_field': True,
-                'consumable': True,
-                'effects': [ItemEffect(EffectType.TELEPORT, 'cave_exit')]
-            },
-            {
-                'id': 'repel',
-                'name': 'Repel',
-                'description': 'Hält wilde Monster für 100 Schritte fern',
-                'category': ItemCategory.SPECIAL,
-                'rarity': ItemRarity.COMMON,
-                'target': ItemTarget.NONE,
-                'price': 300,
-                'sell_price': 150,
-                'use_in_battle': False,
-                'use_in_field': True,
-                'consumable': True,
-                'effects': [ItemEffect(EffectType.REPEL, 100)]
-            },
-            {
-                'id': 'super_repel',
-                'name': 'Super-Repel',
-                'description': 'Hält wilde Monster für 200 Schritte fern',
-                'category': ItemCategory.SPECIAL,
-                'rarity': ItemRarity.UNCOMMON,
-                'target': ItemTarget.NONE,
-                'price': 500,
-                'sell_price': 250,
-                'use_in_battle': False,
-                'use_in_field': True,
-                'consumable': True,
-                'effects': [ItemEffect(EffectType.REPEL, 200)]
-            }
-        ]
-        
-        for item_data in special_items:
-            self._create_and_register_item(item_data)
-    
-    def _create_and_register_item(self, item_data: Dict[str, Any]):
-        """Create and register an item from data."""
-        try:
-            item = Item(
-                id=item_data['id'],
-                name=item_data['name'],
-                description=item_data['description'],
-                category=item_data['category'],
-                rarity=item_data['rarity'],
-                target=item_data['target'],
-                price=item_data['price'],
-                sell_price=item_data['sell_price'],
-                use_in_battle=item_data['use_in_battle'],
-                use_in_field=item_data['use_in_field'],
-                consumable=item_data['consumable'],
-                effects=item_data['effects']
-            )
+    def register_item(self, item: Item) -> bool:
+        """Register an item."""
+        if item.id not in self.items:
             self.items[item.id] = item
-        except Exception as e:
-            print(f"Fehler beim Erstellen von Item {item_data.get('id', 'unknown')}: {e}")
+            return True
+        return False
     
     def get_item(self, item_id: str) -> Optional[Item]:
-        """Get an item by ID."""
+        """Get item by ID."""
         return self.items.get(item_id)
     
-    def get_all_items(self) -> Dict[str, Item]:
-        """Get all items."""
-        return self.items.copy()
+    def get_all_items(self) -> List[Item]:
+        """Get all registered items."""
+        return list(self.items.values())
     
-    def get_items_by_category(self, category: ItemCategory) -> List[Item]:
-        """Get all items of a specific category."""
-        return [item for item in self.items.values() if item.category == category]
-    
-    def get_items_by_rarity(self, rarity: ItemRarity) -> List[Item]:
-        """Get all items of a specific rarity."""
-        return [item for item in self.items.values() if item.rarity == rarity]
-    
-    def get_items_by_target(self, target: ItemTarget) -> List[Item]:
-        """Get all items with a specific target."""
-        return [item for item in self.items.values() if item.target == target]
-    
-    def search_items(self, query: str) -> List[Item]:
-        """Search items by name or description."""
-        query = query.lower()
-        results = []
-        
-        for item in self.items.values():
-            if (query in item.name.lower() or 
-                query in item.description.lower()):
-                results.append(item)
-        
-        return results
-    
-    def load_from_file(self, filepath: str) -> None:
+    def _load_items_from_json(self):
         """Load items from JSON file."""
         try:
-            with open(filepath, 'r', encoding='utf-8') as f:
+            import json
+            import os
+            
+            # Get path to items.json
+            json_path = os.path.join(
+                os.path.dirname(os.path.dirname(os.path.dirname(__file__))),
+                'data', 'items.json'
+            )
+            
+            if not os.path.exists(json_path):
+                print(f"[ItemRegistry] items.json not found at {json_path}")
+                return
+            
+            with open(json_path, 'r', encoding='utf-8') as f:
                 data = json.load(f)
-                
+            
+            # Process each item from JSON
             for item_data in data.get('items', []):
-                self._create_and_register_item(item_data)
+                try:
+                    # Parse category
+                    category_str = item_data.get('category', 'MISC')
+                    try:
+                        category = ItemCategory[category_str]
+                    except KeyError:
+                        category = ItemCategory.MISC
+                    
+                    # Parse rarity
+                    rarity_str = item_data.get('rarity', 'COMMON')
+                    try:
+                        rarity = ItemRarity[rarity_str]
+                    except KeyError:
+                        rarity = ItemRarity.COMMON
+                    
+                    # Parse target
+                    target_str = item_data.get('target', 'NONE')
+                    try:
+                        target = ItemTarget[target_str]
+                    except KeyError:
+                        target = ItemTarget.NONE
+                    
+                    # Parse effects
+                    effects = []
+                    for effect_data in item_data.get('effects', []):
+                        effect_type_str = effect_data.get('type', '')
+                        try:
+                            effect_type = EffectType[effect_type_str]
+                        except KeyError:
+                            continue
+                        
+                        target_type_str = effect_data.get('target_type', 'SELF')
+                        try:
+                            target_type = ItemTarget[target_type_str]
+                        except KeyError:
+                            target_type = ItemTarget.SELF
+                        
+                        effect = ItemEffect(
+                            effect_type=effect_type,
+                            value=effect_data.get('value'),
+                            chance=effect_data.get('chance', 1.0),
+                            message=effect_data.get('message', ''),
+                            target_type=target_type
+                        )
+                        effects.append(effect)
+                    
+                    # Create and register item
+                    item = Item(
+                        id=item_data.get('id', 'unknown'),
+                        name=item_data.get('name', 'Unknown'),
+                        description=item_data.get('description', ''),
+                        category=category,
+                        rarity=rarity,
+                        target=target,
+                        price=item_data.get('price', 0),
+                        sell_price=item_data.get('sell_price', 0),
+                        use_in_battle=item_data.get('use_in_battle', False),
+                        use_in_field=item_data.get('use_in_field', False),
+                        consumable=item_data.get('consumable', True),
+                        effects=effects,
+                        stack_size=item_data.get('stack_size', 99),
+                        icon=item_data.get('icon', 'item_generic.png'),
+                        sort_order=item_data.get('sort_order', 0)
+                    )
+                    
+                    # Only override if not already registered
+                    if item.id not in self.items:
+                        self.register_item(item)
+                    
+                except Exception as e:
+                    print(f"[ItemRegistry] Error loading item {item_data.get('id', 'unknown')}: {e}")
+                    continue
+            
+            print(f"[ItemRegistry] Loaded {len(self.items)} items total")
+            
         except Exception as e:
-            print(f"Fehler beim Laden der Items: {e}")
+            print(f"[ItemRegistry] Error loading items from JSON: {e}")
 
 
 class Inventory:
-    """Player's inventory with improved management."""
+    """Simple inventory system to hold player items."""
     
-    MAX_STACK = 99
-    
-    def __init__(self):
-        """Initialize inventory."""
+    def __init__(self, max_slots: int = 999):
+        """Initialize inventory with maximum slots."""
         self.items: Dict[str, int] = {}  # item_id -> quantity
-        self.key_items: List[str] = []   # List of key item IDs
-        self.money = 1000  # Starting money
-        self.item_registry = ItemRegistry()
+        self.max_slots = max_slots
     
     def add_item(self, item_id: str, quantity: int = 1) -> bool:
         """
         Add items to inventory.
         
         Args:
-            item_id: Item ID
-            quantity: Number to add
+            item_id: Item identifier
+            quantity: Amount to add
             
         Returns:
             True if added successfully
         """
-        if item_id not in self.item_registry.items:
-            return False
+        if len(self.items) >= self.max_slots and item_id not in self.items:
+            return False  # Inventory full
         
-        current = self.items.get(item_id, 0)
-        item = self.item_registry.get_item(item_id)
-        
-        if item and item.stack_size:
-            max_stack = min(item.stack_size, self.MAX_STACK)
-            new_quantity = min(current + quantity, max_stack)
-            
-            if new_quantity == current:
-                return False  # Stack full
-            
-            self.items[item_id] = new_quantity
-            return True
-        
-        return False
+        self.items[item_id] = self.items.get(item_id, 0) + quantity
+        return True
     
     def remove_item(self, item_id: str, quantity: int = 1) -> bool:
         """
         Remove items from inventory.
         
         Args:
-            item_id: Item ID
-            quantity: Number to remove
+            item_id: Item identifier  
+            quantity: Amount to remove
             
         Returns:
             True if removed successfully
         """
-        current = self.items.get(item_id, 0)
-        
-        if current < quantity:
+        if item_id not in self.items or self.items[item_id] < quantity:
             return False
         
-        new_quantity = current - quantity
-        if new_quantity == 0:
+        self.items[item_id] -= quantity
+        if self.items[item_id] <= 0:
             del self.items[item_id]
-        else:
-            self.items[item_id] = new_quantity
         
         return True
     
     def has_item(self, item_id: str, quantity: int = 1) -> bool:
-        """Check if inventory has enough of an item."""
+        """Check if inventory contains specific item quantity."""
         return self.items.get(item_id, 0) >= quantity
     
-    def can_use_item(self, item_id: str, in_battle: bool = False, player_level: int = 1) -> bool:
-        """Check if an item can be used."""
-        item = self.item_registry.get_item(item_id)
-        if not item:
-            return False
-        
-        if not self.has_item(item_id):
-            return False
-        
-        return item.can_use(in_battle, player_level)
-    
-    def use_item(self, item_id: str, target: Optional['MonsterInstance'] = None,
-                party: Optional['Party'] = None, battle: Optional['Battle'] = None,
-                in_battle: bool = False) -> List[str]:
-        """
-        Use an item.
-        
-        Args:
-            item_id: Item ID to use
-            target: Target monster
-            party: Player's party
-            battle: Current battle state
-            in_battle: Whether in battle
-            
-        Returns:
-            List of result messages
-        """
-        if not self.can_use_item(item_id, in_battle):
-            return ["Item kann nicht verwendet werden!"]
-        
-        item = self.item_registry.get_item(item_id)
-        if not item:
-            return ["Unbekanntes Item!"]
-        
-        # Execute effects
-        messages = self.item_registry.effect_executor.execute_item_effects(
-            item, None, target, party, battle
-        )
-        
-        # Consume item if consumable
-        if item.consumable:
-            self.remove_item(item_id, 1)
-            messages.append(f"{item.name} wurde verbraucht!")
-        
-        return messages
-    
-    def get_items_by_category(self, category: ItemCategory) -> List[Tuple[Item, int]]:
-        """Get all items of a specific category with quantities."""
-        result = []
-        for item_id, quantity in self.items.items():
-            item = self.item_registry.get_item(item_id)
-            if item and item.category == category:
-                result.append((item, quantity))
-        return result
-    
-    def get_items_by_rarity(self, rarity: ItemRarity) -> List[Tuple[Item, int]]:
-        """Get all items of a specific rarity with quantities."""
-        result = []
-        for item_id, quantity in self.items.items():
-            item = self.item_registry.get_item(item_id)
-            if item and item.rarity == rarity:
-                result.append((item, quantity))
-        return result
-    
-    def add_key_item(self, item_id: str) -> bool:
-        """Add a key item."""
-        if item_id not in self.key_items:
-            self.key_items.append(item_id)
-            return True
-        return False
-    
-    def has_key_item(self, item_id: str) -> bool:
-        """Check if has key item."""
-        return item_id in self.key_items
-    
-    def add_money(self, amount: int) -> None:
-        """Add money."""
-        self.money = min(self.money + amount, 999999)
-    
-    def remove_money(self, amount: int) -> bool:
-        """Remove money if sufficient."""
-        if self.money >= amount:
-            self.money -= amount
-            return True
-        return False
-    
-    def get_item_count(self, item_id: str) -> str:
-        """Get quantity of an item."""
+    def get_quantity(self, item_id: str) -> int:
+        """Get quantity of specific item."""
         return self.items.get(item_id, 0)
     
     def get_all_items(self) -> List[Tuple[str, int]]:
-        """Get all items with quantities."""
+        """Get all items as (item_id, quantity) tuples."""
         return list(self.items.items())
     
-    def get_inventory_value(self) -> int:
-        """Calculate total value of inventory items."""
-        total = 0
-        for item_id, quantity in self.items.items():
-            item = self.item_registry.get_item(item_id)
-            if item:
-                total += item.sell_price * quantity
-        return total
+    def is_full(self) -> bool:
+        """Check if inventory is at maximum capacity."""
+        return len(self.items) >= self.max_slots
     
-    def to_dict(self) -> Dict:
-        """Convert to dictionary for saving."""
+    def get_slot_count(self) -> int:
+        """Get current number of used slots."""
+        return len(self.items)
+    
+    def clear(self) -> None:
+        """Clear all items from inventory."""
+        self.items.clear()
+    
+    def to_dict(self) -> Dict[str, Any]:
+        """Convert inventory to dictionary for serialization."""
         return {
             'items': self.items.copy(),
-            'key_items': self.key_items.copy(),
-            'money': self.money
+            'max_slots': self.max_slots
+        }
+
+
+class ItemManager:
+    """Manages item usage in battle and field."""
+    
+    def __init__(self, inventory: Inventory):
+        """Initialize item manager with player inventory."""
+        self.inventory = inventory
+        self.registry = item_registry
+        self.effect_executor = ItemEffectExecutor()
+        self._current_battle_state = None  # For DQM meat integration
+    
+    def use_battle_item(self, item_id: str, target: Optional['MonsterInstance'] = None) -> Dict[str, Any]:
+        """
+        Use item in battle and return result.
+        
+        Args:
+            item_id: Item identifier
+            target: Target monster (for healing/status items)
+            
+        Returns:
+            Dictionary with success status, messages, and effects
+        """
+        # Check if item exists
+        item = self.registry.get_item(item_id)
+        if not item:
+            return {'success': False, 'message': 'Item existiert nicht!'}
+        
+        # Check if item can be used in battle
+        if not item.use_in_battle:
+            return {'success': False, 'message': 'Item kann nicht im Kampf verwendet werden!'}
+        
+        # Check if player has the item
+        if not self.inventory.has_item(item_id, 1):
+            return {'success': False, 'message': 'Du hast dieses Item nicht!'}
+        
+        # Check if item is consumable and remove it
+        if item.consumable:
+            if not self.inventory.remove_item(item_id, 1):
+                return {'success': False, 'message': 'Item konnte nicht entfernt werden!'}
+        
+        # Execute item effects
+        result = {'success': True, 'message': '', 'effects': {}}
+        
+        # Handle different item categories
+        if item.category == ItemCategory.HEALING:
+            result.update(self._handle_healing_item(item, target))
+        elif item.category == ItemCategory.STATUS:
+            result.update(self._handle_status_item(item, target))
+        elif item.category == ItemCategory.BATTLE:
+            result.update(self._handle_battle_item(item, target))
+        elif item.category == ItemCategory.TAMING:
+            result.update(self._handle_taming_item(item, target))
+        else:
+            result.update(self._handle_generic_item(item, target))
+        
+        return result
+    
+    def _handle_healing_item(self, item: Item, target: Optional['MonsterInstance']) -> Dict[str, Any]:
+        """Handle healing items."""
+        if not target:
+            return {'success': False, 'message': 'Kein Ziel ausgewählt!'}
+        
+        if target.is_fainted:
+            return {'success': False, 'message': 'Ohnmächtige Monster können nicht geheilt werden!'}
+        
+        # Execute healing effects
+        messages = self.effect_executor.execute_item_effects(item, target=target)
+        
+        return {
+            'success': True,
+            'message': '; '.join(messages) if messages else f"{item.name} wurde verwendet!",
+            'effects': {'healing': True}
         }
     
-    @classmethod
-    def from_dict(cls, data: Dict) -> 'Inventory':
-        """Create from dictionary."""
-        inventory = cls()
-        inventory.items = data.get('items', {}).copy()
-        inventory.key_items = data.get('key_items', []).copy()
-        inventory.money = data.get('money', 1000)
-        return inventory
+    def _handle_status_item(self, item: Item, target: Optional['MonsterInstance']) -> Dict[str, Any]:
+        """Handle status cure items."""
+        if not target:
+            return {'success': False, 'message': 'Kein Ziel ausgewählt!'}
+        
+        if target.is_fainted:
+            return {'success': False, 'message': 'Ohnmächtige Monster können nicht behandelt werden!'}
+        
+        # Execute status effects
+        messages = self.effect_executor.execute_item_effects(item, target=target)
+        
+        return {
+            'success': True,
+            'message': '; '.join(messages) if messages else f"{item.name} wurde verwendet!",
+            'effects': {'status_cure': True}
+        }
+    
+    def _handle_battle_item(self, item: Item, target: Optional['MonsterInstance']) -> Dict[str, Any]:
+        """Handle battle stat boost items."""
+        if not target:
+            return {'success': False, 'message': 'Kein Ziel ausgewählt!'}
+        
+        if target.is_fainted:
+            return {'success': False, 'message': 'Ohnmächtige Monster können keine Items verwenden!'}
+        
+        # Execute battle effects
+        messages = self.effect_executor.execute_item_effects(item, target=target)
+        
+        return {
+            'success': True,
+            'message': '; '.join(messages) if messages else f"{item.name} wurde verwendet!",
+            'effects': {'stat_boost': True}
+        }
+    
+    def _handle_taming_item(self, item: Item, target: Optional['MonsterInstance']) -> Dict[str, Any]:
+        """Handle taming items (meat) - DQM-Integration."""
+        # Check if it's a meat item
+        if self._is_meat_item(item.id):
+            # Get meat bonus based on item type
+            meat_bonus = self._get_meat_bonus(item.id)
+            
+            # Check if there's an enemy to tame
+            if not target:
+                return {'success': False, 'message': 'Kein Monster zum Zähmen verfügbar!'}
+            
+            # Check if enemy is wild
+            if not getattr(target, 'is_wild', True):
+                return {'success': False, 'message': 'Dieses Monster kann nicht gezähmt werden!'}
+            
+            # Calculate taming chance
+            base_chance = 0.15  # 15% base chance
+            meat_bonus_percent = meat_bonus / 100.0
+            final_chance = min(base_chance + meat_bonus_percent, 0.95)  # Max 95%
+            
+            # Roll for success
+            import random
+            success = random.random() < final_chance
+            
+            if success:
+                # Taming successful
+                message = f"{target.name} wurde erfolgreich gezähmt!"
+                return {
+                    'success': True,
+                    'message': message,
+                    'effects': {'taming_success': True, 'consume_turn': True}
+                }
+            else:
+                # Taming failed
+                message = f"Zähmversuch fehlgeschlagen! {target.name} ist nicht interessiert."
+                return {
+                    'success': True,
+                    'message': message,
+                    'effects': {'taming_success': False, 'consume_turn': True}
+                }
+        
+        # Fallback for non-meat taming items
+        taming_bonus = 1.0
+        
+        # Extract taming bonus from effects
+        for effect in item.effects:
+            if effect.effect_type == EffectType.TAMING_BONUS:
+                taming_bonus = effect.value
+                break
+        
+        return {
+            'success': True,
+            'message': f"{item.name} wurde vorbereitet! Zähm-Bonus: +{int((taming_bonus - 1) * 100)}%",
+            'effects': {'taming_bonus': taming_bonus, 'consume_turn': True}
+        }
+    
+    def _is_meat_item(self, item_id: str) -> bool:
+        """Check if item is a meat item for taming."""
+        meat_items = ['fleisch', 'lecker_fleisch', 'edelfleisch', 'goldfleisch']
+        return item_id in meat_items
+    
+    def _get_meat_bonus(self, item_id: str) -> int:
+        """Get meat bonus based on item type."""
+        meat_bonuses = {
+            'fleisch': 20,
+            'lecker_fleisch': 30,
+            'edelfleisch': 40,
+            'goldfleisch': 80
+        }
+        return meat_bonuses.get(item_id, 0)
+    
+    def _handle_generic_item(self, item: Item, target: Optional['MonsterInstance']) -> Dict[str, Any]:
+        """Handle generic items."""
+        messages = self.effect_executor.execute_item_effects(item, target=target)
+        
+        return {
+            'success': True,
+            'message': '; '.join(messages) if messages else f"{item.name} wurde verwendet!",
+            'effects': {}
+        }
+    
+    def get_available_battle_items(self) -> List[Item]:
+        """Get all items that can be used in battle."""
+        available_items = []
+        
+        for item_id in self.inventory.items:
+            item = self.registry.get_item(item_id)
+            if item and item.use_in_battle and self.inventory.has_item(item_id, 1):
+                available_items.append(item)
+        
+        return available_items
+    
+    def get_items_by_category(self, category: ItemCategory) -> List[Item]:
+        """Get items by category that player has."""
+        items = []
+        
+        for item_id in self.inventory.items:
+            item = self.registry.get_item(item_id)
+            if item and item.category == category and self.inventory.has_item(item_id, 1):
+                items.append(item)
+        
+        return items
+    
+    def set_battle_state(self, battle_state):
+        """Set the current battle state for DQM meat integration."""
+        self._current_battle_state = battle_state
+    
+    def sync_meat_inventory(self):
+        """Sync meat inventory with item inventory using MeatSystem."""
+        try:
+            meat_system = get_meat_system()
+            meat_system.sync_with_item_inventory(self.inventory.items)
+            print("Meat inventory synced successfully")
+        except Exception as e:
+            print(f"Error syncing meat inventory: {e}")
+    
+    def use_meat_item(self, item_id: str, battle_state=None) -> Dict[str, Any]:
+        """
+        Use a meat item with proper DQM-style handling.
+        
+        Args:
+            item_id: The meat item ID
+            battle_state: Current battle state (optional)
+            
+        Returns:
+            Result dictionary with success status and effects
+        """
+        try:
+            # Check if it's a meat item
+            meat_system = get_meat_system()
+            if not meat_system.is_meat_item(item_id):
+                return {'success': False, 'message': 'Item ist kein Fleisch!'}
+            
+            # Get meat type
+            meat_type = meat_system.get_meat_type_from_item_id(item_id)
+            if not meat_type:
+                return {'success': False, 'message': 'Ungültiger Fleisch-Typ!'}
+            
+            # Check if player has the item
+            if not self.inventory.has_item(item_id, 1):
+                return {'success': False, 'message': 'Du hast dieses Fleisch nicht!'}
+            
+            # Use the meat item bridge for proper handling
+            if battle_state:
+                item_data = {
+                    'id': item_id,
+                    'name': self.registry.get_item(item_id).name if self.registry.get_item(item_id) else item_id,
+                    'description': self.registry.get_item(item_id).description if self.registry.get_item(item_id) else ""
+                }
+                result = handle_meat_item_use(item_data, battle_state)
+                
+                # Remove item from inventory if successful
+                if result.get('success', False):
+                    self.inventory.remove_item(item_id, 1)
+                
+                return result
+            else:
+                # Fallback for non-battle usage - still consume the item
+                self.inventory.remove_item(item_id, 1)
+                return {
+                    'success': True,
+                    'message': f"{meat_type.display_name} wurde vorbereitet! Zähm-Bonus: +{int(meat_type.bonus * 100)}%",
+                    'effects': {'taming_bonus': 1.0 + meat_type.bonus, 'consume_turn': True}
+                }
+                
+        except Exception as e:
+            print(f"Error using meat item {item_id}: {e}")
+            return {'success': False, 'message': f'Fehler beim Verwenden von Fleisch: {str(e)}'}
 
 
-# Legacy compatibility
-ItemDatabase = ItemRegistry
+# Global item registry instance
+item_registry = ItemRegistry()
+
+# Export classes and instances for external use  
+__all__ = [
+    'Item', 'ItemCategory', 'ItemRarity', 'ItemTarget', 'ItemEffect', 'EffectType',
+    'ItemEffectExecutor', 'ItemRegistry', 'Inventory', 'ItemManager', 'item_registry'
+]

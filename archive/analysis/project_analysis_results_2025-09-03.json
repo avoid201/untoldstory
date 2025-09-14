@@ -1,0 +1,100 @@
+{
+  "critical_issues": [
+    "Cannot load sample monster 'glutstummel'"
+  ],
+  "missing_features": [],
+  "improvement_opportunities": [
+    "Asset loading optimization needed",
+    "Battle animations missing",
+    "Sound system incomplete",
+    "Save/Load system needs testing",
+    "Map system needs TMX integration testing",
+    "Monster AI could be improved",
+    "UI polish needed",
+    "Performance optimization opportunities"
+  ],
+  "agent_tasks": [
+    {
+      "name": "Battle System Polish Agent",
+      "priority": "HIGH",
+      "tasks": [
+        "Fix any remaining battle system integration issues",
+        "Implement missing battle animations",
+        "Polish battle UI responsiveness",
+        "Test all battle actions (attack, tame, flee, switch)",
+        "Verify DQM damage calculation accuracy"
+      ],
+      "files": [
+        "engine/systems/battle/",
+        "engine/scenes/battle_scene.py",
+        "engine/ui/battle_ui.py"
+      ]
+    },
+    {
+      "name": "Monster & Data System Agent",
+      "priority": "HIGH",
+      "tasks": [
+        "Verify monster data integrity",
+        "Test monster creation and stats calculation",
+        "Implement missing monster moves",
+        "Fix any JSON data loading issues",
+        "Optimize monster database performance"
+      ],
+      "files": [
+        "engine/systems/monsters.py",
+        "engine/systems/monster_instance.py",
+        "data/monsters.json",
+        "data/moves.json"
+      ]
+    },
+    {
+      "name": "Scene & Navigation Agent",
+      "priority": "MEDIUM",
+      "tasks": [
+        "Polish scene transitions",
+        "Fix field scene movement and interactions",
+        "Implement missing scene features",
+        "Test save/load integration",
+        "Improve main menu functionality"
+      ],
+      "files": [
+        "engine/scenes/",
+        "engine/world/",
+        "engine/ui/transitions.py"
+      ]
+    },
+    {
+      "name": "Asset & Graphics Agent",
+      "priority": "MEDIUM",
+      "tasks": [
+        "Optimize sprite loading and caching",
+        "Fix any missing asset references",
+        "Implement tile rendering improvements",
+        "Test TMX map loading",
+        "Add placeholder graphics where needed"
+      ],
+      "files": [
+        "engine/graphics/",
+        "assets/",
+        "engine/world/tiles.py",
+        "engine/world/map_loader.py"
+      ]
+    },
+    {
+      "name": "Polish & Testing Agent",
+      "priority": "LOW",
+      "tasks": [
+        "Clean up debug code and test files",
+        "Organize and archive outdated files",
+        "Run comprehensive integration tests",
+        "Polish user experience",
+        "Document remaining issues"
+      ],
+      "files": [
+        "tests/",
+        "tools/",
+        "*.py (cleanup scripts)"
+      ]
+    }
+  ]
+}

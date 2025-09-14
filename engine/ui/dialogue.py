@@ -8,6 +8,9 @@ from typing import List, Optional, Tuple, Callable, Dict, Any
 from enum import Enum
 from dataclasses import dataclass
 
+# Import centralized font manager and colors
+from engine.ui.battle_ui_utils import fonts, colors
+
 
 class DialogueState(Enum):
     """States for dialogue box."""
@@ -69,15 +72,15 @@ class DialogueBox:
         # Visual settings
         self.bg_color = (20, 20, 30, 230)  # Dark blue, semi-transparent
         self.border_color = (200, 200, 220)
-        self.text_color = (255, 255, 255)
+        self.text_color = colors.get_color('text_white')
         self.speaker_color = (255, 220, 100)
         self.disabled_color = (128, 128, 128)
         self.border_width = 2
         
         # Font settings
-        self.font: Optional[pygame.font.Font] = None
-        self.speaker_font: Optional[pygame.font.Font] = None
-        self._load_fonts()
+        # Use centralized font manager instead of creating new fonts
+        self.font = fonts.normal
+        self.speaker_font = fonts.large
         
         # Dialogue state
         self.state = DialogueState.CLOSED
@@ -115,13 +118,7 @@ class DialogueBox:
         self.show_continue = False
         self.continue_blink_timer = 0.0
     
-    def _load_fonts(self) -> None:
-        """Load fonts for dialogue rendering."""
-        try:
-            self.font = pygame.font.Font(None, 14)
-            self.speaker_font = pygame.font.Font(None, 16)
-        except:
-            print("Warning: Could not load dialogue fonts")
+    # _load_fonts() method removed - using centralized font manager now
     
     def show_dialogue(self, 
                       pages: List[DialoguePage],

@@ -7,6 +7,9 @@ from typing import TYPE_CHECKING, Optional, List, Tuple
 from dataclasses import dataclass
 from enum import Enum, auto
 
+# Import centralized font manager
+from engine.ui.battle_ui_utils import fonts
+
 if TYPE_CHECKING:
     from engine.core.game import Game
     from engine.systems.monster_instance import MonsterInstance
@@ -42,9 +45,10 @@ class FieldHUD:
     def __init__(self, game: 'Game'):
         """Initialize field HUD."""
         self.game = game
-        self.font = pygame.font.Font(None, 14)
-        self.small_font = pygame.font.Font(None, 12)
-        self.large_font = pygame.font.Font(None, 18)
+        # Use centralized font manager instead of creating new fonts
+        self.font = fonts.normal
+        self.small_font = fonts.small
+        self.large_font = fonts.large
         
         # HUD visibility
         self.show_location = True
@@ -60,10 +64,10 @@ class FieldHUD:
         # Notifications
         self.notifications: List[Notification] = []
         
-        # Colors
-        self.bg_color = (20, 20, 30, 200)
-        self.border_color = (100, 100, 120)
-        self.text_color = (255, 255, 255)
+        # Use centralized color manager instead of hardcoded colors
+        self.bg_color = (*colors.get_color('bg_dark'), 200)
+        self.border_color = colors.get_color('border')
+        self.text_color = colors.get_color('text_white')
         
     def set_location(self, location_name: str) -> None:
         """Set and display location name."""
@@ -153,7 +157,7 @@ class FieldHUD:
         
         # Draw background
         bg_surf = pygame.Surface((text_rect.width + 40, text_rect.height + 10))
-        bg_surf.fill((20, 20, 30))
+        bg_surf.fill(colors.get_color('bg_dark'))
         bg_surf.set_alpha(alpha * 0.7)
         bg_rect = bg_surf.get_rect(center=(self.game.logical_width // 2, 30))
         surface.blit(bg_surf, bg_rect)
@@ -179,7 +183,7 @@ class FieldHUD:
         # Background
         bg_rect = pygame.Rect(x - 5, y - 2, 75, 15 * len(members) + 4)
         bg_surf = pygame.Surface((bg_rect.width, bg_rect.height))
-        bg_surf.fill((20, 20, 30))
+        bg_surf.fill(colors.get_color('bg_dark'))
         bg_surf.set_alpha(200)
         surface.blit(bg_surf, bg_rect)
         
@@ -237,7 +241,7 @@ class FieldHUD:
         
         bg_rect = pygame.Rect(x - 5, y - 5, 150, height)
         bg_surf = pygame.Surface((bg_rect.width, bg_rect.height))
-        bg_surf.fill((20, 20, 30))
+        bg_surf.fill(colors.get_color('bg_dark'))
         bg_surf.set_alpha(200)
         surface.blit(bg_surf, bg_rect)
         
@@ -257,7 +261,7 @@ class FieldHUD:
             
             # Objective text
             text = obj.description[:18]
-            text_surf = self.small_font.render(text, True, (150, 150, 150))
+            text_surf = self.small_font.render(text, True, colors.get_color('text_gray'))
             surface.blit(text_surf, (x + 15, y))
             
             y += 12
@@ -271,11 +275,41 @@ class FieldHUD:
         
         # Background
         minimap_rect = pygame.Rect(x, y, size, size)
-        pygame.draw.rect(surface, (20, 20, 30), minimap_rect)
+        pygame.draw.rect(surface, colors.get_color('bg_dark'), minimap_rect)
         pygame.draw.rect(surface, self.border_color, minimap_rect, 1)
         
-        # TODO: Actually draw map data
-        # For now, just show player position indicator
+        # Draw simplified map data
+        # Get current area from game scene
+        current_scene = getattr(self.game, 'current_scene', None)
+        if current_scene and hasattr(current_scene, 'current_area') and current_scene.current_area:
+            area = current_scene.current_area
+            
+            # Draw a simplified representation of the map
+            if hasattr(area, 'map_data') and area.map_data:
+                # Draw map tiles as colored pixels
+                map_width = area.map_data.width if hasattr(area.map_data, 'width') else 20
+                map_height = area.map_data.height if hasattr(area.map_data, 'height') else 15
+                
+                # Scale factor to fit minimap
+                scale_x = size / max(map_width, 1)
+                scale_y = size / max(map_height, 1)
+                scale = min(scale_x, scale_y, 2)  # Max 2 pixels per tile
+                
+                # Draw basic terrain representation
+                for ty in range(min(map_height, int(size / scale))):
+                    for tx in range(min(map_width, int(size / scale))):
+                        pixel_x = int(x + tx * scale)
+                        pixel_y = int(y + ty * scale) 
+                        
+                        # Simple terrain color coding
+                        if hasattr(area, 'is_tile_solid') and area.is_tile_solid(tx, ty):
+                            color = (100, 100, 100)  # Gray for walls
+                        else:
+                            color = (50, 100, 50)    # Dark green for walkable
+                        
+                        pygame.draw.rect(surface, color, (pixel_x, pixel_y, int(scale), int(scale)))
+        
+        # Show player position indicator
         center_x = x + size // 2
         center_y = y + size // 2
         pygame.draw.circle(surface, (255, 255, 0), (center_x, center_y), 2)
@@ -284,7 +318,7 @@ class FieldHUD:
         """Draw a notification."""
         # Notification colors by type
         type_colors = {
-            NotificationType.INFO: (255, 255, 255),
+            NotificationType.INFO: colors.get_color('text_white'),
             NotificationType.SUCCESS: (0, 255, 0),
             NotificationType.WARNING: (255, 200, 0),
             NotificationType.ERROR: (255, 0, 0),
@@ -293,10 +327,11 @@ class FieldHUD:
             NotificationType.LEVEL_UP: (255, 100, 255)
         }
         
-        color = type_colors.get(notification.notification_type, (255, 255, 255))
+        color = type_colors.get(notification.notification_type, colors.get_color('text_white'))
         
         # Create text surface
-        font = pygame.font.Font(None, notification.font_size)
+        # Use centralized font manager
+        font = fonts.get_font(notification.font_size)
         text_surf = font.render(notification.text, True, color)
         text_surf.set_alpha(notification.alpha)
         
@@ -304,7 +339,7 @@ class FieldHUD:
         text_rect = text_surf.get_rect(topleft=notification.position)
         
         bg_surf = pygame.Surface((text_rect.width + 10, text_rect.height + 4))
-        bg_surf.fill((20, 20, 30))
+        bg_surf.fill(colors.get_color('bg_dark'))
         bg_surf.set_alpha(notification.alpha * 0.7)
         bg_rect = bg_surf.get_rect(center=text_rect.center)
         
@@ -318,8 +353,9 @@ class BattleHUD:
     def __init__(self, game: 'Game'):
         """Initialize battle HUD."""
         self.game = game
-        self.font = pygame.font.Font(None, 14)
-        self.small_font = pygame.font.Font(None, 12)
+        # Use centralized font manager instead of creating new fonts
+        self.font = fonts.normal
+        self.small_font = fonts.small
         
         # Turn indicator
         self.current_turn = 0
@@ -382,12 +418,12 @@ class BattleHUD:
     def _draw_turn_counter(self, surface: pygame.Surface) -> None:
         """Draw turn counter."""
         text = f"Runde {self.current_turn}"
-        text_surf = self.font.render(text, True, (255, 255, 255))
+        text_surf = self.font.render(text, True, colors.get_color('text_white'))
         text_rect = text_surf.get_rect(topleft=(5, 5))
         
         # Background
         bg_surf = pygame.Surface((text_rect.width + 10, text_rect.height + 4))
-        bg_surf.fill((20, 20, 30))
+        bg_surf.fill(colors.get_color('bg_dark'))
         bg_surf.set_alpha(200)
         surface.blit(bg_surf, (text_rect.x - 5, text_rect.y - 2))
         
@@ -395,8 +431,74 @@ class BattleHUD:
     
     def _draw_turn_order(self, surface: pygame.Surface) -> None:
         """Draw turn order preview."""
-        # TODO: Get actual turn order from battle system
-        pass
+        # Get battle state from current scene
+        current_scene = getattr(self.game, 'current_scene', None)
+        if not current_scene or not hasattr(current_scene, 'battle_state'):
+            return
+        
+        battle_state = current_scene.battle_state
+        if not battle_state:
+            return
+            
+        # Get turn order from battle system
+        turn_order = []
+        
+        # Try to get turn order from turn_order system
+        if hasattr(current_scene, 'turn_order') and current_scene.turn_order:
+            try:
+                turn_order = current_scene.turn_order.get_turn_order()
+            except:
+                pass
+        
+        # Fallback: Simple speed-based ordering
+        if not turn_order and hasattr(battle_state, 'player_team') and hasattr(battle_state, 'enemy_team'):
+            all_monsters = []
+            if battle_state.player_team:
+                all_monsters.extend([(m, True) for m in battle_state.player_team if hasattr(m, 'current_hp') and m.current_hp > 0])
+            if battle_state.enemy_team:
+                all_monsters.extend([(m, False) for m in battle_state.enemy_team if hasattr(m, 'current_hp') and m.current_hp > 0])
+            
+            # Sort by speed (descending)
+            turn_order = sorted(all_monsters, key=lambda x: getattr(x[0], 'spd', 50), reverse=True)
+        
+        if not turn_order:
+            return
+            
+        # Draw turn order preview
+        x = 10
+        y = 60
+        
+        # Header
+        header_text = "Turn Order:"
+        header_surf = self.small_font.render(header_text, True, colors.get_color('text_white'))
+        surface.blit(header_surf, (x, y))
+        y += 15
+        
+        # Draw first few monsters in turn order
+        for i, monster_info in enumerate(turn_order[:6]):  # Show first 6
+            if isinstance(monster_info, tuple):
+                monster, is_player = monster_info
+            else:
+                monster = monster_info
+                is_player = True  # Default assumption
+                
+            if not monster or not hasattr(monster, 'name'):
+                continue
+                
+            # Color code: blue for player, red for enemy
+            color = (100, 150, 255) if is_player else (255, 100, 100)
+            
+            # Draw position number
+            pos_text = f"{i+1}:"
+            pos_surf = self.small_font.render(pos_text, True, (200, 200, 200))
+            surface.blit(pos_surf, (x, y))
+            
+            # Draw monster name
+            name = getattr(monster, 'name', 'Unknown')[:12]  # Truncate long names
+            name_surf = self.small_font.render(name, True, color)
+            surface.blit(name_surf, (x + 20, y))
+            
+            y += 12
     
     def _draw_status_messages(self, surface: pygame.Surface) -> None:
         """Draw status messages."""
@@ -407,7 +509,7 @@ class BattleHUD:
             
             # Background
             bg_surf = pygame.Surface((text_rect.width + 20, text_rect.height + 4))
-            bg_surf.fill((20, 20, 30))
+            bg_surf.fill(colors.get_color('bg_dark'))
             bg_surf.set_alpha(200)
             bg_rect = bg_surf.get_rect(center=text_rect.center)
             surface.blit(bg_surf, bg_rect)
@@ -451,7 +553,7 @@ class DamageNumber:
         elif self.is_critical:
             color = (255, 255, 0)
         else:
-            color = (255, 255, 255)
+            color = colors.get_color('text_white')
         
         # Calculate alpha
         if self.current_time > self.lifetime - 0.5:

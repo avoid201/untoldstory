@@ -4,10 +4,14 @@ Implementiert Keyboard-Shortcuts, Tooltips und visuelle Hilfen für bessere Benu
 """
 
 import pygame
+import math
 from typing import Dict, List, Tuple, Optional, Callable, Any
 from dataclasses import dataclass
 from enum import Enum, auto
 from engine.core.config import Colors
+
+# Import centralized font manager
+from engine.ui.battle_ui_utils import fonts
 
 
 class AccessibilityLevel(Enum):
@@ -125,7 +129,7 @@ class AccessibilityManager:
                         self._play_shortcut_sound()
                     return True
                 except Exception as e:
-                    print(f"Fehler beim Ausführen von Shortcut {key_name}: {e}")
+                    print(f"Error executing shortcut {key_name}: {e}")
         
         return False
     
@@ -187,28 +191,33 @@ class AccessibilityManager:
     
     # Standard-Shortcut-Callbacks
     def _open_inventory(self) -> None:
-        print("Öffne Inventar...")
+        # Opening inventory...
+        pass
     
     def _open_party(self) -> None:
-        print("Öffne Team...")
+        # Opening party...
+        pass
     
     def _open_quests(self) -> None:
-        print("Öffne Quest-Log...")
+        # Opening quest log...
+        pass
     
     def _open_map(self) -> None:
-        print("Öffne Karte...")
+        print("Opening map...")
     
     def _save_game(self) -> None:
-        print("Speichere Spiel...")
+        print("Saving game...")
     
     def _load_game(self) -> None:
-        print("Lade Spiel...")
+        print("Loading game...")
     
     def _go_back(self) -> None:
         print("Gehe zurück...")
     
     def _toggle_debug(self) -> None:
-        print("Debug-Modus umschalten...")
+        # Debug-Output nur bei aktiviertem Debug-Modus
+        # print("Debug-Modus umschalten...")
+        pass
     
     def _show_help(self) -> None:
         print("Zeige Hilfe...")
@@ -367,8 +376,9 @@ class AccessibilityUI:
     
     def __init__(self, accessibility_manager: AccessibilityManager):
         self.accessibility_manager = accessibility_manager
-        self.font = pygame.font.Font(None, 16)
-        self.small_font = pygame.font.Font(None, 14)
+        # Use centralized font manager instead of creating new fonts
+        self.font = fonts.normal
+        self.small_font = fonts.small
         
         # UI-Elemente
         self.buttons = []
@@ -420,6 +430,20 @@ class AccessibilityUI:
     def _toggle_sound_feedback(self) -> None:
         """Schaltet Sound-Feedback um."""
         self.accessibility_manager.sound_feedback = not self.accessibility_manager.sound_feedback
+        
+        # Implementiere echtes Sound-Feedback
+        if self.accessibility_manager.sound_feedback:
+            # Aktiviere Sound-Feedback für UI-Interaktionen
+            if hasattr(self, 'game') and hasattr(self.game, 'audio_manager'):
+                try:
+                    # Spiele Bestätigungston
+                    self.game.audio_manager.play_sound('ui_confirm.wav', volume=0.3)
+                    print("[Accessibility] Sound-Feedback aktiviert")
+                except Exception as e:
+                    print(f"[Accessibility] Sound-Feedback Fehler: {e}")
+        else:
+            print("[Accessibility] Sound-Feedback deaktiviert")
+        
         self._update_button_texts()
     
     def _update_button_texts(self) -> None:

@@ -274,9 +274,10 @@ class HotReloader:
     
     def _reload_items_data(self, data: Dict) -> None:
         """Reload items database."""
-        if hasattr(self.game, 'item_database'):
-            # Reload items
-            self.game.item_database._load_from_data(data.get('items', []))
+        # Use item_registry directly instead of game.item_database
+        from engine.systems.items import item_registry
+        # Reload items from JSON
+        item_registry._load_items_from_json()
     
     def _reload_map_data(self, map_id: str, data: Dict) -> None:
         """Reload map data."""

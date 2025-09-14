@@ -117,11 +117,15 @@ class WeatherSystem:
                                base_damage: int, 
                                move_type: str, 
                                weather: Optional[WeatherEffect]) -> int:
-        """Calculate weather-modified damage."""
+        """Calculate weather-modified damage using unified damage calculator."""
+        # Import here to avoid circular dependency
+        from engine.systems.unified_damage_calculator import unified_damage_calculator
+        
         if not weather:
             return base_damage
         
-        return weather.modify_damage(base_damage, move_type)
+        # Use unified weather damage calculation
+        return unified_damage_calculator.calculate_weather_damage(base_damage, weather.name if weather else 'none', move_type)
     
     def calculate_weather_accuracy(self, 
                                  base_accuracy: float, 

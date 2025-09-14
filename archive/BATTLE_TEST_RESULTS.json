@@ -1,0 +1,32 @@
+{
+  "passed": 3,
+  "total": 10,
+  "success_rate": 0.3,
+  "issues": [
+    {
+      "file": "test_complete_battle_flow.py",
+      "line": 0,
+      "issue": "Attack failed: Move.__init__() missing 1 required positional argument: 'description'",
+      "solution": "Check attack execution"
+    },
+    {
+      "file": "test_complete_battle_flow.py",
+      "line": 0,
+      "issue": "Status effects failed: 'BattleController' object has no attribute '_process_status_effects'",
+      "solution": "Check status system"
+    },
+    {
+      "file": "test_complete_battle_flow.py",
+      "line": 0,
+      "issue": "Rewards failed: 'BattleController' object has no attribute '_calculate_rewards'",
+      "solution": "Check reward system"
+    }
+  ],
+  "performance": {
+    "battle_start": 4.792213439941406e-05,
+    "meat_usage": 0.0007231235504150391,
+    "taming": 0.0008177757263183594,
+    "scout": 0.0006837844848632812,
+    "battle_end_check": 0.005049943923950195
+  }
+}

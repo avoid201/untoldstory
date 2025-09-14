@@ -6,7 +6,9 @@ Handles base stats, stat stages, level progression, and experience
 from typing import Dict, Tuple, Optional
 from enum import Enum
 from dataclasses import dataclass
-import math
+
+# Import GrowthCurve from experience_system to avoid duplication
+from engine.systems.experience_system import GrowthCurve
 
 
 class Stat(Enum):
@@ -21,12 +23,7 @@ class Stat(Enum):
     EVA = "eva"     # Evasion (not a base stat, used in battle)
 
 
-class GrowthCurve(Enum):
-    """Experience growth curves for leveling."""
-    FAST = "fast"              # 0.8 * n^3
-    MEDIUM_FAST = "medium_fast"  # n^3
-    MEDIUM_SLOW = "medium_slow"  # 1.2 * n^3 - 15 * n^2 + 100 * n - 140
-    SLOW = "slow"              # 1.25 * n^3
+# GrowthCurve is now imported from experience_system to avoid duplication
 
 
 @dataclass
@@ -49,6 +46,18 @@ class BaseStats:
             "res": self.res,
             "spd": self.spd
         }
+    
+    def get(self, stat_name: str, default: int = 0) -> int:
+        """Get stat value by name, compatible with dict.get() interface."""
+        stat_mapping = {
+            "hp": self.hp,
+            "atk": self.atk,
+            "def": self.def_,
+            "mag": self.mag,
+            "res": self.res,
+            "spd": self.spd
+        }
+        return stat_mapping.get(stat_name, default)
     
     @classmethod
     def from_dict(cls, data: Dict[str, int]) -> 'BaseStats':
@@ -170,110 +179,7 @@ class StatStages:
                 self.stages[stat] = 0
 
 
-class Experience:
-    """Experience and leveling system."""
-    
-    MAX_LEVEL = 100
-    MIN_LEVEL = 1
-    
-    @staticmethod
-    def get_exp_for_level(level: int, curve: GrowthCurve) -> int:
-        """
-        Calculate total experience needed for a specific level.
-        
-        Args:
-            level: Target level
-            curve: Growth curve type
-            
-        Returns:
-            Total experience points needed
-        """
-        if level < 1:
-            return 0
-        elif level == 1:
-            return 0
-        
-        n = level
-        if curve == GrowthCurve.FAST:
-            return int(0.8 * (n ** 3))
-        elif curve == GrowthCurve.MEDIUM_FAST:
-            return int(n ** 3)
-        elif curve == GrowthCurve.MEDIUM_SLOW:
-            return int(1.2 * (n ** 3) - 15 * (n ** 2) + 100 * n - 140)
-        elif curve == GrowthCurve.SLOW:
-            return int(1.25 * (n ** 3))
-        else:
-            return int(n ** 3)
-    
-    @staticmethod
-    def get_level_for_exp(exp: int, curve: GrowthCurve) -> int:
-        """
-        Calculate level from total experience.
-        
-        Args:
-            exp: Total experience points
-            curve: Growth curve type
-            
-        Returns:
-            Current level (1-100)
-        """
-        for level in range(1, Experience.MAX_LEVEL + 1):
-            if Experience.get_exp_for_level(level + 1, curve) > exp:
-                return level
-        return Experience.MAX_LEVEL
-    
-    @staticmethod
-    def get_exp_to_next_level(current_exp: int, current_level: int, 
-                             curve: GrowthCurve) -> int:
-        """
-        Calculate experience needed to reach next level.
-        
-        Args:
-            current_exp: Current total experience
-            current_level: Current level
-            curve: Growth curve type
-            
-        Returns:
-            Experience points needed for next level
-        """
-        if current_level >= Experience.MAX_LEVEL:
-            return 0
-        
-        next_level_total = Experience.get_exp_for_level(current_level + 1, curve)
-        return max(0, next_level_total - current_exp)
-    
-    @staticmethod
-    def calculate_exp_yield(base_yield: int, defeated_level: int, 
-                           winner_level: int, is_wild: bool = True) -> int:
-        """
-        Calculate experience points gained from defeating a monster.
-        
-        Args:
-            base_yield: Base experience yield of defeated monster
-            defeated_level: Level of defeated monster
-            winner_level: Level of winning monster
-            is_wild: Whether the defeated monster was wild
-            
-        Returns:
-            Experience points gained
-        """
-        # Base formula similar to Pokémon
-        exp = base_yield * defeated_level / 5
-        
-        # Trainer battles give 1.5x experience
-        if not is_wild:
-            exp *= 1.5
-        
-        # Level difference modifier (less exp if you're higher level)
-        level_diff = defeated_level - winner_level
-        if level_diff > 0:
-            exp *= 1.0 + (level_diff * 0.1)  # Bonus for beating stronger
-        elif level_diff < -10:
-            exp *= 0.5  # Penalty for beating much weaker
-        elif level_diff < 0:
-            exp *= 1.0 + (level_diff * 0.02)  # Small penalty for beating weaker
-        
-        return max(1, int(exp))
+# Experience class moved to experience_system.py to avoid duplication
 
 
 class StatCalculator:
@@ -387,48 +293,4 @@ class StatCalculator:
         }
 
 
-class DamageCalculator:
-    """Handles damage calculation for battles."""
-    
-    @staticmethod
-    def calculate_damage(attacker_level: int,
-                        power: int,
-                        attack_stat: int,
-                        defense_stat: int,
-                        type_effectiveness: float = 1.0,
-                        stab: float = 1.0,
-                        critical: bool = False,
-                        random_factor: float = 1.0,
-                        other_modifiers: float = 1.0) -> int:
-        """
-        Calculate damage using the standard formula.
-        
-        Args:
-            attacker_level: Level of attacking monster
-            power: Move power
-            attack_stat: Attack or Magic stat (with stages applied)
-            defense_stat: Defense or Resistance stat (with stages applied)
-            type_effectiveness: Type matchup multiplier
-            stab: Same-type attack bonus
-            critical: Whether the hit is critical
-            random_factor: Random multiplier (0.85-1.0)
-            other_modifiers: Any other multipliers (weather, abilities, etc.)
-            
-        Returns:
-            Final damage value
-        """
-        # Base damage formula (similar to Pokémon)
-        base = (((2 * attacker_level / 5 + 2) * power * attack_stat / defense_stat) / 50) + 2
-        
-        # Apply modifiers
-        damage = base
-        damage *= type_effectiveness
-        damage *= stab
-        
-        if critical:
-            damage *= 1.5
-        
-        damage *= random_factor
-        damage *= other_modifiers
-        
-        return max(1, int(damage))
+# All stat calculations are now handled by StatCalculator class

@@ -126,14 +126,15 @@ class FieldScene(Scene):
     
     def _check_starter_requirement(self):
         """Check ob der Spieler'n Starter braucht."""
-        if not hasattr(self.game, 'party_manager'):
+        if not hasattr(self.game, 'party_manager') or not self.game.party_manager:
             return
             
         if self.game.party_manager.party.is_empty():
-            if not self.game.story_manager.get_flag('has_starter'):
+            if not hasattr(self.game, 'story_manager') or not self.game.story_manager or not self.game.story_manager.get_flag('has_starter'):
                 # Ab zur Starter-Auswahl!
                 from engine.scenes.starter_scene import StarterScene
                 self.game.push_scene(StarterScene)
+                print("[Flint] Starter-Requirement erkannt - wechsle zur Starter-Auswahl")
     
     def enter(self, **kwargs) -> None:
         """Enter the field scene."""
@@ -346,8 +347,15 @@ class FieldScene(Scene):
                     # Aktiviere Pathfinding für NPCs mit Movement-Pattern
                     movement_pattern = npc_info.get('movement_pattern', 'static')
                     if movement_pattern != 'static':
-                        # TODO: Pathfinding hier integrieren!
-                        print(f"[Flint] NPC {npc_name} braucht Pathfinding für Pattern: {movement_pattern}")
+                        # Pathfinding ist bereits in NPC-Update-Logic integriert!
+                        # Setze Movement-Pattern korrekt
+                        from engine.world.npc import MovementPattern
+                        try:
+                            npc.movement_pattern = MovementPattern(movement_pattern)
+                            print(f"[Pathfinding] NPC {npc_name} aktiviert für Pattern: {movement_pattern}")
+                        except ValueError:
+                            print(f"[Pathfinding] Unbekanntes Movement-Pattern: {movement_pattern}")
+                            npc.movement_pattern = MovementPattern.STATIC
                 
                 # Setze SpriteManager
                 npc.set_sprite_manager(self.sprite_manager)
@@ -364,6 +372,10 @@ class FieldScene(Scene):
                 print(f"[Flint] Fehler beim NPC-Laden {npc_name}: {e}")
         
         print(f"[Flint] {len(current_map_npcs)} NPCs geladen für {self.map_id}")
+        
+        # Debug: Zeige NPC-Statistiken
+        if self.show_debug:
+            self._debug_npc_statistics()
     
     def _on_dialogue_complete(self) -> None:
         """Dialog fertig - Movement wieder freigeben."""
@@ -422,13 +434,16 @@ class FieldScene(Scene):
             elif event.key == pygame.K_TAB:
                 self.show_debug = not self.show_debug
                 if self.show_debug:
-                    print("[Flint] 🔍 Debug-Modus AN!")
+                    # Debug-Output nur bei aktiviertem Debug-Modus
+                    pass  # print("[Flint] 🔍 Debug-Modus AN!")
                 else:
-                    print("[Flint] 🔍 Debug-Modus AUS")
+                    # Debug-Output nur bei aktiviertem Debug-Modus
+                    pass  # print("[Flint] 🔍 Debug-Modus AUS")
                 return True
             elif event.key == pygame.K_g:
                 self.show_grid = not self.show_grid
-                print(f"[Flint] Grid: {'AN' if self.show_grid else 'AUS'}")
+                # Debug-Output nur bei aktiviertem Debug-Modus
+                # print(f"[Flint] Grid: {'AN' if self.show_grid else 'AUS'}")
                 return True
             elif event.key == pygame.K_b and self.game.debug_mode:
                 # Debug: Force battle
@@ -481,11 +496,16 @@ class FieldScene(Scene):
         if self.camera:
             self.camera.update(dt)
         
-        # Update NPCs - HIER KOMMT PATHFINDING REIN!
+        # Update NPCs - MIT PATHFINDING!
         if self.current_area and hasattr(self.current_area, 'entities'):
             for entity in self.current_area.entities:
                 entity.update(dt)
-                # TODO: Pathfinding-Update für bewegende NPCs
+                
+                # Pathfinding-Update für NPCs mit Movement-Pattern
+                if hasattr(entity, 'movement_pattern') and hasattr(entity, 'current_path'):
+                    # NPCs mit PathfindingMixin haben already alle logic in ihrer update() method
+                    # Zusätzliche Pathfinding-Updates sind bereits im NPC.update() integriert
+                    pass
         
         # Check Story-Events
         self._check_story_events()
@@ -596,6 +616,19 @@ class FieldScene(Scene):
         debug_surface.blit(text, (10, y_offset))
         
         surface.blit(debug_surface, (10, 50))
+    
+    def _debug_npc_statistics(self) -> None:
+        """Debug-Info für NPC-Statistiken."""
+        if not self.current_area or not hasattr(self.current_area, 'entities'):
+            return
+        
+        print(f"\n=== NPC-STATISTIKEN für {self.map_id} ===")
+        for i, entity in enumerate(self.current_area.entities):
+            if hasattr(entity, 'name'):
+                pattern = getattr(entity, 'movement_pattern', 'unknown')
+                position = getattr(entity, 'grid_x', '?'), getattr(entity, 'grid_y', '?')
+                print(f"NPC {i}: {entity.name} - Pattern: {pattern} - Position: {position}")
+        print("=====================================\n")
 
     # === STORY-EVENTS ===
     
@@ -609,10 +642,11 @@ class FieldScene(Scene):
 
         story = self.game.story_manager
         
-        # Debug Map-Wechsel
+        # Debug Map-Wechsel (nur einmal pro Wechsel)
         if hasattr(self.player, 'last_map'):
             if self.player.last_map != self.map_id:
                 print(f"[Flint] Map-Wechsel: {self.player.last_map} → {self.map_id}")
+                self.player.last_map = self.map_id  # Update last_map um Wiederholung zu vermeiden
         
         # Event 1: Erstes Mal Haus verlassen
         if self.map_id == "kohlenstadt" and not story.get_flag('left_house_first_time'):
@@ -839,17 +873,21 @@ class FieldScene(Scene):
                 layer = self.current_area.map_data.layers['Tile Layer 1']
                 if 0 <= tile_y < len(layer) and 0 <= tile_x < len(layer[tile_y]):
                     tile_type = layer[tile_y][tile_x]
-                    print(f"[DEBUG] Tile at ({tile_x}, {tile_y}) - Tile ID: {tile_type}")
+                    # Debug-Output nur bei aktiviertem Debug-Modus
+                    # print(f"[DEBUG] Tile at ({tile_x}, {tile_y}) - Tile ID: {tile_type}")
         
         # Check für Gras-Tiles nur auf Route 1
-        if self.map_id == "route1" and tile_type == 29:  # NUR Tile ID 29 ist hohes Gras auf Route 1
-            print(f"[DEBUG] Grass tile at ({tile_x}, {tile_y})")
+        if self.map_id == "route1" and tile_type == 38:  # NUR Tile ID 38 ist hohes Gras auf Route 1
+            # Debug-Output nur bei aktiviertem Debug-Modus
+            # print(f"[DEBUG] Grass tile at ({tile_x}, {tile_y})")
             if random.random() < self.current_area.encounter_rate:
-                print(f"[Flint] Encounter triggered auf Grass-Tile {tile_type}!")
+                # Debug-Output nur bei aktiviertem Debug-Modus
+                # print(f"[Flint] Encounter triggered auf Grass-Tile {tile_type}!")
                 self.encounter_check_pending = True
         elif self.map_id == "kohlenstadt" and tile_type in [2, 5]:  # Fallback für Kohlenstadt
             if random.random() < self.current_area.encounter_rate:
-                print(f"[Flint] Encounter triggered auf Grass-Tile {tile_type}!")
+                # Debug-Output nur bei aktiviertem Debug-Modus
+                # print(f"[Flint] Encounter triggered auf Grass-Tile {tile_type}!")
                 self.encounter_check_pending = True
     
     def _execute_encounter_check(self):
@@ -883,27 +921,48 @@ class FieldScene(Scene):
             )
             return
         
+        # Fix: species kann dict oder object sein
+        monster_name = wild_monster.species.get('name', 'Unknown') if isinstance(wild_monster.species, dict) else getattr(wild_monster.species, 'name', wild_monster.name)
         self.dialogue_box.show_text(
-            f"Ein wildes {wild_monster.species_name} erscheint!",
+            f"Ein wildes {monster_name} erscheint!",
             callback=lambda _: self._transition_to_battle(wild_monster)
         )
     
     def _generate_wild_monster(self) -> Optional[MonsterInstance]:
-        """Generiere wildes Monster."""
+        """Generiere wildes Monster mit Talent-System."""
         if not self.current_area or not self.current_area.encounter_table:
             # Fallback für Tests
-            from engine.systems.monster_instance import MonsterInstance
+            from engine.systems.monster_instance import MonsterInstance, MonsterSpecies
+            from engine.systems.stats import BaseStats
+            from engine.systems.monster_instance import MonsterRank
+            from engine.systems.stats import GrowthCurve
+            
             level = random.randint(2, 5)
-            monster = MonsterInstance(
-                species_id="5",
+            
+            # Erstelle Fallback-Species mit Talent
+            species = MonsterSpecies(
+                id="5",
                 name="Kohlekumpel",
-                level=level,
-                stats={'hp': 100, 'atk': 50, 'def': 40, 'mag': 35, 'res': 35, 'spd': 40}
+                types=["Normal"],
+                base_stats=BaseStats(hp=100, atk=50, def_=40, mag=35, res=35, spd=40),
+                rank=MonsterRank.F,
+                growth_curve=GrowthCurve.MEDIUM_FAST,
+                talents=[{"talent_id": "physical_i", "learned_at_level": 1, "current_tier": 1, "experience": 0}],
+                description="Ein wildes Monster"
             )
-            # Set species as dict for compatibility
-            monster.species = {'id': 5, 'name': 'Kohlekumpel'}
-            # Initialize stat_stages
-            monster.stat_stages = {'atk': 0, 'def': 0, 'mag': 0, 'res': 0, 'spd': 0}
+            
+            monster = MonsterInstance(species=species, level=level)
+            
+            # Validiere Talents
+            if not monster.validate_talents():
+                print(f"[FieldScene] Talent-Validierung für {monster.name} fehlgeschlagen")
+            
+            # Validiere Moves
+            if not monster.moves:
+                print(f"[FieldScene] Keine Moves für {monster.name} geladen")
+                monster.moves = [monster._create_fallback_move()]
+            
+            print(f"[FieldScene] Fallback-Encounter-Monster {monster.name} mit {len(monster.talents)} Talents und {len(monster.moves)} Moves erstellt")
             return monster
         
         total_weight = sum(enc['weight'] for enc in self.current_area.encounter_table)
@@ -913,7 +972,11 @@ class FieldScene(Scene):
         for encounter in self.current_area.encounter_table:
             current_weight += encounter['weight']
             if roll <= current_weight:
-                from engine.systems.monster_instance import MonsterInstance
+                from engine.systems.monster_instance import MonsterInstance, MonsterSpecies
+                from engine.systems.stats import BaseStats
+                from engine.systems.monster_instance import MonsterRank
+                from engine.systems.stats import GrowthCurve
+                
                 level = random.randint(encounter['level_min'], encounter['level_max'])
                 
                 # Create monster with all required stats
@@ -927,28 +990,61 @@ class FieldScene(Scene):
                     'spd': base_stat
                 }
                 
-                # Calculate HP based on level
-                hp_value = stats['hp'] + (level * 10)
+                # Bestimme Talent basierend auf Monster-Typ
+                monster_types = encounter.get('types', ['Normal'])
+                talent_id = "physical_i"  # Default
                 
-                monster = MonsterInstance(
-                    species_id=str(encounter['species_id']),
+                if any(t in monster_types for t in ['Feuer', 'Fire']):
+                    talent_id = "fire_i"
+                elif any(t in monster_types for t in ['Wasser', 'Water']):
+                    talent_id = "water_i"
+                elif any(t in monster_types for t in ['Erde', 'Earth', 'Ground']):
+                    talent_id = "earth_i"
+                elif any(t in monster_types for t in ['Luft', 'Air', 'Wind']):
+                    talent_id = "air_i"
+                elif any(t in monster_types for t in ['Energie', 'Electric', 'Thunder']):
+                    talent_id = "energy_i"
+                elif any(t in monster_types for t in ['Mystisch', 'Psychic', 'Ghost']):
+                    talent_id = "mystic_i"
+                elif any(t in monster_types for t in ['Chaos', 'Dark']):
+                    talent_id = "chaos_i"
+                elif any(t in monster_types for t in ['Pflanze', 'Grass', 'Plant']):
+                    talent_id = "plant_i"
+                
+                # Create a temporary MonsterSpecies for the wild encounter
+                temp_species = MonsterSpecies(
+                    id=str(encounter['species_id']),
                     name=encounter['name'],
-                    level=level,
-                    stats=stats,
-                    max_hp=hp_value,
-                    current_hp=hp_value
+                    types=monster_types,
+                    base_stats=BaseStats(
+                        hp=stats['hp'],
+                        atk=stats['atk'],
+                        def_=stats['def'],
+                        mag=stats['mag'],
+                        res=stats['res'],
+                        spd=stats['spd']
+                    ),
+                    rank=MonsterRank(encounter.get('rank', 'F')),
+                    growth_curve=GrowthCurve.MEDIUM_FAST,
+                    talents=[{"talent_id": talent_id, "learned_at_level": 1, "current_tier": 1, "experience": 0}],
+                    description=f"Ein wildes {encounter['name']}."
                 )
                 
-                # Set species as dict for compatibility
-                monster.species = {
-                    'id': encounter['species_id'],
-                    'name': encounter['name'],
-                    'rank': encounter.get('rank', 'F')
-                }
+                monster = MonsterInstance(
+                    species=temp_species,
+                    level=level
+                )
                 
-                # Initialize stat_stages  
-                monster.stat_stages = {'atk': 0, 'def': 0, 'mag': 0, 'res': 0, 'spd': 0}
+                # Validiere Talents
+                if not monster.validate_talents():
+                    print(f"[FieldScene] Talent-Validierung für {monster.name} fehlgeschlagen")
                 
+                # Validiere Moves
+                if not monster.moves:
+                    print(f"[FieldScene] Keine Moves für {monster.name} geladen")
+                    monster.moves = [monster._create_fallback_move()]
+                
+                print(f"[FieldScene] Encounter-Monster {monster.name} mit {len(monster.talents)} Talents und {len(monster.moves)} Moves erstellt")
                 return monster
         
         return None
@@ -956,7 +1052,7 @@ class FieldScene(Scene):
     def _create_route_1_encounter_table(self):
         """Route 1 Encounter-Tabelle mit F und E Rang."""
         try:
-            monsters_data = self.game.resources.load_json("data/monsters.json")
+            monsters_data = self.game.resources.load_json("monsters.json")
             if not monsters_data:
                 print("[Flint] monsters.json nicht gefunden")
                 return self._get_fallback_encounter_table()
@@ -1018,16 +1114,140 @@ class FieldScene(Scene):
         
         from engine.scenes.battle_scene import BattleScene
         
-        # Direkt zur Battle Scene wechseln
-        self.game.push_scene(
-            BattleScene,
-            player_team=None,
-            enemy_team=[wild_monster],
-            is_wild=True,
-            background='grass'
-        )
+        # Get player team from party manager
+        player_team = []
+        if hasattr(self.game, 'party_manager') and self.game.party_manager:
+            player_team = self.game.party_manager.party.get_conscious_members()
+        
+        if not player_team:
+            print("[Flint] Keine kampffähigen Monster im Team!")
+            self.dialogue_box.show_text(
+                "Du hast keine kampffähigen Monster! Hol dir erst eins vom Professor!",
+                callback=lambda _: setattr(self, 'in_battle', False)
+            )
+            return
+        
+        # Set up battle parameters
+        battle_params = {
+            'player_team': player_team,
+            'enemy_team': [wild_monster],
+            'is_wild': True,
+            'can_flee': True,
+            'can_catch': True,
+            'background': self._get_battle_background()
+        }
+        
+        # Push battle scene (pass class, not instance)
+        self.game.push_scene(BattleScene, **battle_params)
         
         self.in_battle = False
-        print(f"[Flint] Battle Scene gestartet!")
+        print(f"[Flint] Battle Scene gestartet mit {len(player_team)} Player-Monstern!")
+    
+    def _get_battle_background(self) -> str:
+        """Get appropriate battle background for current area."""
+        if self.map_id == "route1":
+            return "grass"
+        elif self.map_id == "kohlenstadt":
+            return "city"
+        elif self.map_id == "museum":
+            return "indoor"
+        else:
+            return "grass"  # Default
+    
+    def initiate_battle(self, enemy_data):
+        """Start a battle from field scene - improved version."""
+        try:
+            if self.in_battle:
+                return
+            
+            # Generate enemy monster from data
+            enemy_monster = self._create_monster_from_data(enemy_data)
+            if not enemy_monster:
+                print("[Flint] Failed to create enemy monster")
+                return
+            
+            # Start battle transition
+            self._transition_to_battle(enemy_monster)
+            
+        except Exception as e:
+            print(f"[Flint] Battle initiation failed: {e}")
+            self.in_battle = False
+    
+    def _create_monster_from_data(self, enemy_data):
+        """Create monster instance from enemy data with Talent-System."""
+        try:
+            from engine.systems.monster_instance import MonsterInstance, MonsterSpecies, MonsterRank
+            from engine.systems.stats import BaseStats, GrowthCurve
+            
+            # Extract data
+            species_id = enemy_data.get('species_id', 1)
+            name = enemy_data.get('name', 'Wildes Monster')
+            level = enemy_data.get('level', 5)
+            types = enemy_data.get('types', ['Normal'])
+            
+            # Create base stats
+            base_stat = 40 + level * 2
+            stats = BaseStats(
+                hp=base_stat + 20,
+                atk=base_stat,
+                def_=base_stat - 5,
+                mag=base_stat - 10,
+                res=base_stat - 10,
+                spd=base_stat
+            )
+            
+            # Bestimme Talent basierend auf Monster-Typ
+            talent_id = "physical_i"  # Default
+            
+            if any(t in types for t in ['Feuer', 'Fire']):
+                talent_id = "fire_i"
+            elif any(t in types for t in ['Wasser', 'Water']):
+                talent_id = "water_i"
+            elif any(t in types for t in ['Erde', 'Earth', 'Ground']):
+                talent_id = "earth_i"
+            elif any(t in types for t in ['Luft', 'Air', 'Wind']):
+                talent_id = "air_i"
+            elif any(t in types for t in ['Energie', 'Electric', 'Thunder']):
+                talent_id = "energy_i"
+            elif any(t in types for t in ['Mystisch', 'Psychic', 'Ghost']):
+                talent_id = "mystic_i"
+            elif any(t in types for t in ['Chaos', 'Dark']):
+                talent_id = "chaos_i"
+            elif any(t in types for t in ['Pflanze', 'Grass', 'Plant']):
+                talent_id = "plant_i"
+            
+            # Create species
+            species = MonsterSpecies(
+                id=str(species_id),
+                name=name,
+                types=types,
+                base_stats=stats,
+                rank=MonsterRank.F,
+                growth_curve=GrowthCurve.MEDIUM_FAST,
+                talents=[{"talent_id": talent_id, "learned_at_level": 1, "current_tier": 1, "experience": 0}],
+                description=f"Ein wildes {name}."
+            )
+            
+            # Create monster instance
+            monster = MonsterInstance(
+                species=species,
+                level=level
+            )
+            
+            # Validiere Talents
+            if not monster.validate_talents():
+                print(f"[FieldScene] Talent-Validierung für {monster.name} fehlgeschlagen")
+            
+            # Validiere Moves
+            if not monster.moves:
+                print(f"[FieldScene] Keine Moves für {monster.name} geladen")
+                monster.moves = [monster._create_fallback_move()]
+            
+            print(f"[FieldScene] Monster aus Daten erstellt: {monster.name} mit {len(monster.talents)} Talents und {len(monster.moves)} Moves")
+            return monster
+            
+        except Exception as e:
+            print(f"[Flint] Monster creation failed: {e}")
+            return None
 
 # Ey, jetzt is der Code sauber! - Flint

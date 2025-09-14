@@ -4,12 +4,14 @@ Implementiert Animationen, Hover-Effekte und visuelle Feedback-Mechanismen
 """
 
 import pygame
-import math
 from typing import Dict, Tuple, Optional, Callable, Any
 from dataclasses import dataclass, field
 from enum import Enum, auto
 from dataclasses import dataclass
 from engine.core.config import Colors
+
+# Import centralized font manager
+from engine.ui.battle_ui_utils import fonts
 
 
 class AnimationType(Enum):
@@ -99,14 +101,19 @@ class ModernUIElement:
     
     def update(self, dt: float) -> None:
         """Aktualisiert alle Animationen."""
-        for animation in list(self.animations.values()):
+        finished_animations = []
+        for name, animation in self.animations.items():
             animation.update(dt)
             
             # Animation abgeschlossen
             if animation.is_finished():
                 if animation.animation_type == AnimationType.FADE_OUT:
                     self.is_visible = False
-                del self.animations[animation.name]
+                finished_animations.append(name)
+        
+        # Entferne abgeschlossene Animationen
+        for name in finished_animations:
+            del self.animations[name]
     
     def handle_hover(self, mouse_pos: Tuple[int, int]) -> bool:
         """Behandelt Hover-Events und gibt True zurück wenn sich der Zustand geändert hat."""
@@ -144,7 +151,8 @@ class AnimatedButton(ModernUIElement):
         super().__init__(x, y, width, height)
         self.text = text
         self.callback = callback
-        self.font = pygame.font.Font(None, 16)
+        # Use centralized font manager instead of creating new fonts
+        self.font = fonts.normal
         self.is_pressed = False
         
         # Button-spezifische Farben
@@ -219,7 +227,8 @@ class TooltipManager:
         self.current_tooltip: Optional[str] = None
         self.tooltip_timer = 0.0
         self.tooltip_delay = 0.5
-        self.font = pygame.font.Font(None, 12)
+        # Use centralized font manager instead of creating new fonts
+        self.font = fonts.small
         
     def add_tooltip(self, element: ModernUIElement, text: str) -> None:
         """Fügt einen Tooltip zu einem UI-Element hinzu."""
@@ -266,8 +275,8 @@ class TooltipManager:
         surface.blit(text_surface, text_rect)
 
 
-class TransitionManager:
-    """Verwaltet Übergänge zwischen UI-Zuständen."""
+class UITransitionManager:
+    """Verwaltet Übergänge zwischen UI-Zuständen (umbenannt von TransitionManager)."""
     
     def __init__(self):
         self.transitions: Dict[str, Animation] = {}
@@ -284,10 +293,15 @@ class TransitionManager:
     
     def update(self, dt: float) -> None:
         """Aktualisiert alle Übergänge."""
-        for transition in list(self.transitions.values()):
+        finished_transitions = []
+        for name, transition in self.transitions.items():
             transition.update(dt)
             if transition.is_finished():
-                del self.transitions[transition.name]
+                finished_transitions.append(name)
+        
+        # Entferne abgeschlossene Übergänge
+        for name in finished_transitions:
+            del self.transitions[name]
     
     def draw(self, surface: pygame.Surface) -> None:
         """Zeichnet aktive Übergänge."""
