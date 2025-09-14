@@ -87,14 +87,22 @@ def calculate_tame_chance(
     # Offensive pressure (team strength vs target defense)
     pressure_bonus = calculate_offensive_pressure(player_team, target)
     
-    # Item bonuses
+    # Item bonuses - use battle state meat bonus if available
     item_bonus = 0
-    if item_used:
+    if hasattr(battle_state, 'meat_bonus') and battle_state.meat_bonus > 0:
+        # Use meat bonus from battle state (set by meat item usage)
+        item_bonus = battle_state.meat_bonus
+    elif item_used:
+        # Fallback to old item system
         item_bonuses = {
-            'meat': 0.10,           # Basic taming item
-            'premium_meat': 0.20,   # Better taming item
-            'golden_meat': 0.30,    # Best taming item
-            'type_bait': 0.15,      # Type-specific bait
+            'fleisch': 0.20,           # Basic meat
+            'lecker_fleisch': 0.30,    # Tasty meat
+            'edelfleisch': 0.40,       # Premium meat
+            'goldfleisch': 0.80,       # Golden meat
+            'meat': 0.10,              # Legacy
+            'premium_meat': 0.20,      # Legacy
+            'golden_meat': 0.30,       # Legacy
+            'type_bait': 0.15,         # Type-specific bait
         }
         item_bonus = item_bonuses.get(item_used, 0)
     

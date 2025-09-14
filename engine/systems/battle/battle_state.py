@@ -5,14 +5,16 @@ Contains only battle data without any business logic or methods.
 
 from typing import List, Dict, Optional, Any
 from dataclasses import dataclass, field
+import logging
 from engine.systems.battle.battle_enums import BattlePhase, BattleType, BattleResult
+
+logger = logging.getLogger(__name__)
 
 # Forward declarations to avoid circular imports
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from engine.systems.monster_instance import MonsterInstance
     from engine.systems.battle.event_processor import EventProcessor
-    from engine.systems.battle.meat_system import MeatSystem
 
 
 @dataclass
@@ -70,9 +72,45 @@ class BattleState:
     
     # CRITICAL FIX: Event processor connection
     event_processor: Optional['EventProcessor'] = None
+    battle_ui: Optional[Any] = None
     
-    # CRITICAL FIX: Meat system integration
-    meat_system: Optional['MeatSystem'] = None
+    def __post_init__(self):
+        """Initialize default values after dataclass creation."""
+        if self.player_active is None and self.player_team:
+            self.player_active = self.player_team[0]
+        if self.enemy_active is None and self.enemy_team:
+            self.enemy_active = self.enemy_team[0]
+        
+        # CRITICAL: Initialize event processor if not set
+        if self.event_processor is None:
+            try:
+                self.event_processor = EventProcessor(self)
+                logger.info("✓ EventProcessor auto-created in BattleState")
+            except Exception as e:
+                logger.warning(f"Could not auto-create EventProcessor: {e}")
+                # Create a minimal fallback
+                self.event_processor = None
+    
+    def get_event_processor(self) -> Optional['EventProcessor']:
+        """Get event processor with fallback creation."""
+        if self.event_processor is None:
+            try:
+                # Lazy import to avoid circular imports
+                import importlib
+                event_module = importlib.import_module('engine.systems.battle.event_processor')
+                EventProcessor = getattr(event_module, 'EventProcessor')
+                self.event_processor = EventProcessor(self)
+                logger.info("✓ EventProcessor created on demand")
+            except Exception as e:
+                logger.error(f"Failed to create EventProcessor: {e}")
+                # Return None if creation fails
+                return None
+        return self.event_processor
+    
+    
+    # DQM Meat Effects - persistent for entire battle
+    active_meat_effect: Optional[str] = None  # 'fleisch', 'edelfleisch', etc.
+    meat_bonus: float = 0.0  # 0.0 to 0.8 (0% to 80%)
     
     def __post_init__(self):
         """Initialize default values after dataclass creation."""
@@ -123,5 +161,5 @@ class BattleState:
         self.message_queue.clear()
         
         # Reset meat system if available
-        if self.meat_system:
+        if hasattr(self, 'meat_system') and self.meat_system:
             self.meat_system.reset_battle_effect()

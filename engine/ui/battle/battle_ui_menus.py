@@ -11,6 +11,7 @@ Verantwortlichkeiten:
 
 import logging
 import time
+import pygame
 from typing import List, Dict, Any
 
 # Setup logger
@@ -18,6 +19,8 @@ logger = logging.getLogger(__name__)
 
 # Import modular components
 from .battle_ui_state import BattleMenuState
+from engine.core.config import LOGICAL_WIDTH, LOGICAL_HEIGHT
+from engine.ui.battle_ui_utils import fonts
 
 
 class BattleUIMenuManager:
@@ -75,22 +78,59 @@ class BattleUIMenuManager:
         self.battle_ui.current_menu_state = BattleMenuState.SWITCH_SELECT
         self.battle_ui.selected_team_member = 0
     
-    def show_meat_menu(self):
-        """Zeige Meat-Menü."""
-        self.current_menu = None
-        self.battle_ui.current_menu_state = BattleMenuState.TAME_MEAT
-        self.battle_ui.selected_item = 0
-    
-    def show_tame_confirm_menu(self):
-        """Zeige Tame-Confirm-Menü."""
-        self.current_menu = None
-        self.battle_ui.current_menu_state = BattleMenuState.TAME_CONFIRM
-        self.battle_ui.selected_option = 0
     
     def show_scout_display(self):
         """Zeige Scout Display."""
         self.current_menu = None
         self.battle_ui.current_menu_state = BattleMenuState.SCOUT
+        
+        # Initialize scout display with enemy monster
+        if self.battle_ui.battle_state and self.battle_ui.battle_state.enemy_active:
+            self.battle_ui.scout_display.show_monster_analysis(
+                self.battle_ui.battle_state.enemy_active,
+                self.battle_ui.battle_state
+            )
+            logger.debug("Scout display initialized with enemy monster")
+    
+    def render_scout_display(self, surface: pygame.Surface) -> None:
+        """
+        Render Scout Display mit detaillierter Monster-Analyse.
+        
+        Args:
+            surface: Pygame surface to draw on
+        """
+        if not self.battle_ui.scout_display or not self.battle_ui.scout_display.is_visible():
+            return
+        
+        # Delegate to scout display component
+        self.battle_ui.scout_display.draw(surface)
+        
+        # Add turn counter overlay
+        self._render_turn_counter_overlay(surface)
+    
+    def _render_turn_counter_overlay(self, surface: pygame.Surface) -> None:
+        """Render Turn Counter Overlay on Scout Display."""
+        if not self.battle_ui.battle_state:
+            return
+        
+        # Get turn count from battle state
+        turn_count = getattr(self.battle_ui.battle_state, 'turn_count', 1)
+        
+        # Position: Top right corner
+        counter_x = LOGICAL_WIDTH - 120
+        counter_y = 10
+        
+        # Background
+        counter_rect = pygame.Rect(counter_x, counter_y, 110, 25)
+        pygame.draw.rect(surface, (20, 20, 40), counter_rect)
+        pygame.draw.rect(surface, (80, 100, 150), counter_rect, 2)
+        
+        # Turn counter text
+        counter_font = fonts.normal
+        counter_text = f"Runde {turn_count}"
+        text_surface = counter_font.render(counter_text, True, (255, 255, 100))
+        text_rect = text_surface.get_rect(center=counter_rect.center)
+        surface.blit(text_surface, text_rect)
     
     def show_message_display(self):
         """Zeige Message Display."""
@@ -380,8 +420,6 @@ class BattleUIMenuManager:
             BattleMenuState.MOVE_SELECT: [],  # Dynamic based on moves
             BattleMenuState.ITEM_SELECT: [],  # Dynamic based on items
             BattleMenuState.SWITCH_SELECT: [],  # Dynamic based on team
-            BattleMenuState.TAME_MEAT: ["Fleisch", "Edelfleisch", "Götterfleisch", "Kein Fleisch"],
-            BattleMenuState.TAME_CONFIRM: ["Zähmen versuchen", "Abbrechen"],
             BattleMenuState.SCOUT: ["Zurück"],
             BattleMenuState.MESSAGE: []
         }

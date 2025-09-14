@@ -642,7 +642,7 @@ class GameStateSerializer:
         
         return monster
 
-        @staticmethod
+    @staticmethod
     def serialize(game) -> Dict[str, Any]:
         """
         Serialize complete game state.
@@ -659,7 +659,7 @@ class GameStateSerializer:
         from engine.systems.quests import QuestManager
         from engine.systems.items import Inventory
         from engine.systems.monsters import MonsterSpecies
-from engine.systems.talent_system import TalentInstance, TalentTier
+        from engine.systems.talent_system import TalentInstance, TalentTier
         
         state = {
             'version': SaveSystem.SAVE_VERSION,
@@ -712,7 +712,7 @@ from engine.systems.talent_system import TalentInstance, TalentTier
         from engine.systems.quests import QuestManager
         from engine.systems.items import Inventory
         from engine.systems.monsters import MonsterSpecies
-from engine.systems.talent_system import TalentInstance, TalentTier
+        from engine.systems.talent_system import TalentInstance, TalentTier
         
         # Restore player data
         player_data = state.get('player', {})

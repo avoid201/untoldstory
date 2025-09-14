@@ -114,7 +114,8 @@ class DQMIntegration:
     
     def calculate_turn_order(self, actions: List[Any]) -> List[Any]:
         """
-        Calculate turn order using DQM formula.
+        DELEGATES to consolidated TurnOrder.calculate_turn_order().
+        This method maintains compatibility while using the single source of truth.
         
         Args:
             actions: List of battle actions
@@ -122,25 +123,11 @@ class DQMIntegration:
         Returns:
             Sorted list of actions in DQM turn order
         """
-        # Convert actions to monster dictionaries for DQM calculator
-        monsters = []
-        for action in actions:
-            if hasattr(action, 'actor'):
-                monster_dict = {
-                    'name': action.actor.name if hasattr(action.actor, 'name') else 'Unknown',
-                    'stats': action.actor.stats if hasattr(action.actor, 'stats') else {},
-                    'status': action.actor.status if hasattr(action.actor, 'status') else None,
-                    '_original_action': action  # Store reference to original action
-                }
-                monsters.append(monster_dict)
+        # Import consolidated turn order calculation
+        from .turn_logic import TurnOrder
         
-        # Calculate DQM turn order
-        sorted_monsters = self.unified_calculator.calculate_turn_order(monsters)
-        
-        # Extract original actions in new order
-        sorted_actions = [m['_original_action'] for m in sorted_monsters]
-        
-        return sorted_actions
+        # Use consolidated implementation
+        return TurnOrder().calculate_turn_order(actions)
     
     def calculate_escape_chance(self, runner, enemy, attempts: int = 0) -> float:
         """
@@ -165,26 +152,12 @@ class DQMIntegration:
     
     def calculate_rewards(self, enemy, is_boss: bool = False, party_size: int = 1) -> Dict[str, int]:
         """
-        Calculate battle rewards using DQM formulas.
-        
-        Args:
-            enemy: Defeated enemy monster
-            is_boss: Whether the enemy is a boss
-            party_size: Number of party members
-            
-        Returns:
-            Dictionary with 'exp' and 'gold' rewards
+        DELEGATES to consolidated RewardSystem.calculate_dqm_rewards().
+        This method maintains compatibility while using the single source of truth.
         """
-        level = enemy.level if hasattr(enemy, 'level') else 1
-        rank = enemy.rank if hasattr(enemy, 'rank') else 'D'
-        
-        exp = self.unified_calculator.calculate_exp_reward(level, rank, is_boss, party_size)
-        gold = self.unified_calculator.calculate_gold_reward(level, rank, is_boss)
-        
-        return {
-            'exp': exp,
-            'gold': gold
-        }
+        from .reward_system import RewardSystem
+        reward_system = RewardSystem()
+        return reward_system.calculate_dqm_rewards(enemy, is_boss, party_size)
 
 
 # Global integration instance
@@ -222,15 +195,12 @@ def setup_dqm_systems(game) -> None:
         game.skill_system = get_skill_database()
         logger.info("Skill system initialized")
         
-        # Initialize meat system
-        from engine.systems.battle.meat_system import get_meat_system
-        game.meat_system = get_meat_system()
-        logger.info("Meat system initialized")
+        # Meat system now integrated into battle state
+        logger.info("Meat system integrated into battle state")
         
         # Verbinde mit Battle System
         if hasattr(game, 'battle_controller'):
             game.battle_controller.skill_system = game.skill_system
-            game.battle_controller.meat_system = game.meat_system
             logger.info("DQM systems connected to battle controller")
         
         # Initialize DQM integration

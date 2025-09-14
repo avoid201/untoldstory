@@ -3,11 +3,25 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "museum.tmx",
+    "activeFile": "/Users/leon/Desktop/museum.tmx",
     "expandedProjectPaths": [
     ],
     "file.lastUsedOpenFilter": "All Files (*)",
     "fileStates": {
+        "/Users/assets/gfx/tiles/tiles_building1.tsx": {
+            "scaleInDock": 1
+        },
+        "/Users/assets/gfx/tiles/tiles_interior1.tsx": {
+            "scaleInDock": 1
+        },
+        "/Users/leon/Desktop/museum.tmx": {
+            "scale": 1.70703125,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 159.92677345537757,
+                "y": 95.78032036613273
+            }
+        },
         "/Users/leon/Desktop/untold_story/assets/gfx/tiles/tiles_building1.tsx": {
             "scaleInDock": 1
         },
@@ -43,8 +57,8 @@
             "scale": 1.1101,
             "selectedLayer": 1,
             "viewCenter": {
-                "x": 221.60165750833258,
-                "y": 296.82010629673
+                "x": 239.61805242770916,
+                "y": 400.41437708314555
             }
         },
         "museum.tmx": {
@@ -130,7 +144,8 @@
         "route1.tmx",
         "doenerbude.tmx",
         "penny.tmx",
-        "museum.tmx"
+        "museum.tmx",
+        "/Users/leon/Desktop/museum.tmx"
     ],
     "project": "tiled_project_untold_story.tiled-project",
     "recentFiles": [
@@ -141,6 +156,7 @@
         "doenerbude.tmx",
         "penny.tmx",
         "museum.tmx",
+        "/Users/leon/Desktop/museum.tmx",
         "player_house Kopie.tmx"
     ]
 }

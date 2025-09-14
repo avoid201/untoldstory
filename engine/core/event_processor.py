@@ -253,3 +253,9 @@ class EventProcessor:
         logical_y = max(0, min(logical_h - 1, logical_y))
         
         return (logical_x, logical_y)
+    
+    def has_pending_events(self) -> bool:
+        """Check if there are any pending events in the queue."""
+        # For now, always return False since we don't have a persistent event queue
+        # This is a simple implementation to fix the AttributeError
+        return False

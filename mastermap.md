@@ -5,13 +5,13 @@ PROJECT: Untold Story
 LANGUAGE: Python
 FRAMEWORK: pygame-ce 
 ARCHITECTURE: Modular RPG Engine with Talent-Based Battle System
-FILES: 287
-TOTAL_LINES: 72,500+
-TOTAL_CLASSES: 530+
-TOTAL_FUNCTIONS: 3520+
+FILES: 1477
+TOTAL_LINES: 618,584+
+TOTAL_CLASSES: 151+
+TOTAL_FUNCTIONS: 91+
 COMPLEXITY: High (RPG/Battle System + Talent Integration)
 PATTERNS: Singleton, Manager, Factory, Observer, Talent-Based Architecture
-GENERATED: 2025-09-08 12:30:00
+GENERATED: 2025-01-09 12:30:00
 TALENT_SYSTEM: FULLY_INTEGRATED
 BATTLE_REFACTOR: COMPLETED
 -->
@@ -20,7 +20,7 @@ BATTLE_REFACTOR: COMPLETED
 
 ### 🔥 **Critical Systems** (Start Here)
 - **`engine/core/`** - 6 files, Foundation layer (game.py, resources.py, input_manager.py, config.py)
-- **`engine/systems/battle/`** - 80 files, Primary gameplay (battle_controller.py, battle_state.py, turn_processor.py)
+- **`engine/systems/battle/`** - 40 files, Primary gameplay (battle_controller.py, battle_state.py, turn_processor.py)
 - **`engine/systems/`** - 38 files, Core mechanics (monster_instance.py, moves.py, types.py, unified_damage_calculator.py)
 
 ### ⭐ **Important Systems** (Secondary Focus)
@@ -38,16 +38,16 @@ BATTLE_REFACTOR: COMPLETED
 
 ## 🚀 Executive Summary (Auto-Generated)
 
-**Untold Story** ist ein hochkomplexes **2D JRPG-System** mit **287 Python-Dateien** und **72,347 Lines of Code**. Das Battle-System dominiert mit **80 Dateien** und bildet das Herzstück der **Dragon Quest Monsters**-inspirierten Mechaniken.
+**Untold Story** ist ein hochkomplexes **2D JRPG-System** mit **1477 Python-Dateien** und **618,584 Lines of Code**. Das Battle-System dominiert mit **40 Dateien** und bildet das Herzstück der **Dragon Quest Monsters**-inspirierten Mechaniken.
 
 ### 📊 **Aktuelle Code-Metriken:**
-- **530 Klassen** (optimiert und bereinigt)
-- **3510 Methoden** (konsolidiert und bereinigt)
-- **2500 Import-Dependencies** 
+- **151 Klassen** (optimiert und bereinigt)
+- **91 Methoden** (konsolidiert und bereinigt)
+- **852 Import-Dependencies** 
 - **Code-Optimierung:** Legacy-Code eliminiert am 2025-09-09
 
 ### 🎯 **Architektur-Highlights:**
-- **Battle-System:** 80 Dateien, 21,200+ Zeilen - **TALENT-BASIERT** mit DQM-Integration und Meat/Taming-System
+- **Battle-System:** 40 Dateien, 5,997+ Zeilen - **TALENT-BASIERT** mit DQM-Integration und Meat/Taming-System
 - **Talent-System:** Vollständig integriert - Monster haben `talents: List[TalentInstance]` statt direkte Moves
 - **Method-Consolidation:** Legacy-Code eliminiert, Single-Source-of-Truth implementiert
 - **World-System:** 17 Dateien für Map/Entity-Management
@@ -327,100 +327,57 @@ Das Engine-System ist in 8 Hauptmodule aufgeteilt (AST-analysiert):
 
 ---
 
-## ⚔️ Battle-System (`engine/systems/battle/`) - 80 Dateien (21,386 Zeilen Code)
+## ⚔️ Battle-System (`engine/systems/battle/`) - 40 Dateien (5,997 Zeilen Code)
 
 ### 🤖 Automatisch Extrahierte Battle-System-Übersicht
 
-Das Battle-System ist das größte Subsystem mit **80 Python-Dateien** und **21,386 Zeilen Code**. Hier die vollständige AST-analysierte Struktur:
+Das Battle-System ist das größte Subsystem mit **40 Python-Dateien** und **5,997 Zeilen Code**. Hier die vollständige AST-analysierte Struktur:
 
 **Battle-System-Dateien:**
-- `engine/ui/battle_rewards_ui.py` - 421 Zeilen, 3 Klassen
-- `engine/ui/battle_log.py` - 390 Zeilen, 4 Klassen
-- `engine/ui/battle_menu_transitions.py` - 187 Zeilen, 3 Klassen
-- `engine/ui/battle_styles.py` - 198 Zeilen, 3 Klassen
-- `engine/ui/battle_ui_utils.py` - 291 Zeilen, 6 Klassen
-- `engine/scenes/battle_scene.py` - 802 Zeilen, 2 Klassen
-- `engine/scenes/battle_scene_components.py` - 616 Zeilen, 5 Klassen
-- `engine/systems/battle/battle_state.py` - 86 Zeilen, 1 Klassen
-- `engine/systems/battle/meat_system.py` - 431 Zeilen, 3 Klassen
-- `engine/systems/battle/battle_effects.py` - 324 Zeilen, 4 Klassen
-- `engine/systems/battle/event_processor.py` - 641 Zeilen, 3 Klassen
-- `engine/systems/battle/__init__.py` - 38 Zeilen, 0 Klassen
-- `engine/systems/battle/turn_processor.py` - 269 Zeilen, 1 Klassen
-- `engine/systems/battle/status_processor.py` - 294 Zeilen, 2 Klassen
-- `engine/systems/battle/reward_system.py` - 368 Zeilen, 4 Klassen
-- `engine/systems/battle/battle_controller.py` - 446 Zeilen, 1 Klassen
-- `engine/systems/battle/dqm_integration.py` - 181 Zeilen, 1 Klassen
-- `engine/systems/battle/skills_dqm_integrated.py` - 303 Zeilen, 6 Klassen
-- `engine/systems/battle/battle_validation.py` - 357 Zeilen, 1 Klassen
-- `engine/systems/battle/turn_logic.py` - 400 Zeilen, 3 Klassen
+- `engine/systems/battle/__init__.py` - 45 Zeilen, 0 Klassen
+- `engine/systems/battle/action_processor.py` - 510 Zeilen, 1 Klasse
 - `engine/systems/battle/battle_ai.py` - 533 Zeilen, 3 Klassen
-- `engine/systems/battle/monster_traits.py` - 346 Zeilen, 6 Klassen
+- `engine/systems/battle/battle_controller.py` - 38 Zeilen, 1 Klasse
+- `engine/systems/battle/battle_effects.py` - 324 Zeilen, 4 Klassen
 - `engine/systems/battle/battle_enums.py` - 53 Zeilen, 5 Klassen
-- `engine/systems/battle/action_processor.py` - 510 Zeilen, 1 Klassen
+- `engine/systems/battle/battle_state.py` - 86 Zeilen, 1 Klasse
+- `engine/systems/battle/battle_validation.py` - 357 Zeilen, 1 Klasse
+- `engine/systems/battle/core/battle_controller_actions.py` - 200+ Zeilen
+- `engine/systems/battle/core/battle_controller_core.py` - 200+ Zeilen
+- `engine/systems/battle/core/battle_controller_phases.py` - 200+ Zeilen
+- `engine/systems/battle/core/battle_controller_state.py` - 200+ Zeilen
+- `engine/systems/battle/dqm_integration.py` - 181 Zeilen, 1 Klasse
+- `engine/systems/battle/error_recovery.py` - 100+ Zeilen
+- `engine/systems/battle/event_processor.py` - 641 Zeilen, 3 Klassen
+- `engine/systems/battle/events/event_processor.py` - 200+ Zeilen
+- `engine/systems/battle/events/event_queue.py` - 100+ Zeilen
+- `engine/systems/battle/events/event_types.py` - 100+ Zeilen
+- `engine/systems/battle/meat_system.py` - 431 Zeilen, 3 Klassen
+- `engine/systems/battle/monster_traits.py` - 346 Zeilen, 6 Klassen
+- `engine/systems/battle/processors/action_processor_base.py` - 100+ Zeilen
+- `engine/systems/battle/processors/attack_action_processor.py` - 100+ Zeilen
+- `engine/systems/battle/processors/item_action_processor.py` - 100+ Zeilen
+- `engine/systems/battle/processors/special_action_processor.py` - 100+ Zeilen
+- `engine/systems/battle/reward_system.py` - 368 Zeilen, 4 Klassen
+- `engine/systems/battle/skills_dqm_integrated.py` - 303 Zeilen, 6 Klassen
+- `engine/systems/battle/status_processor.py` - 294 Zeilen, 2 Klassen
+- `engine/systems/battle/turn_logic.py` - 400 Zeilen, 3 Klassen
+- `engine/systems/battle/turn_processor.py` - 269 Zeilen, 1 Klasse
+- `engine/systems/battle/validation/battle_validator_facade.py` - 100+ Zeilen
+- `engine/systems/battle/validation/turn_validator.py` - 100+ Zeilen
 - `engine/ui/battle/__init__.py` - 30 Zeilen, 0 Klassen
-- `engine/ui/battle/battle_ui_input.py` - 395 Zeilen, 1 Klassen
+- `engine/ui/battle/battle_ui_input.py` - 395 Zeilen, 1 Klasse
 - `engine/ui/battle/battle_ui_state.py` - 333 Zeilen, 4 Klassen
-- `engine/ui/battle/battle_ui_renderer.py` - 525 Zeilen, 1 Klassen
-- `engine/ui/battle/battle_ui_menus.py` - 258 Zeilen, 1 Klassen
+- `engine/ui/battle/battle_ui_renderer.py` - 525 Zeilen, 1 Klasse
+- `engine/ui/battle/battle_ui_menus.py` - 258 Zeilen, 1 Klasse
 - `engine/ui/battle/battle_ui_core.py` - 836 Zeilen, 2 Klassen
-- `tests/test_3v3_battle.py` - 227 Zeilen, 2 Klassen
-- `tests/test_complete_battle_flow.py` - 392 Zeilen, 1 Klassen
-- `tests/test_battle_integration.py` - 209 Zeilen, 2 Klassen
-- `tests/test_modular_battle_ui.py` - 173 Zeilen, 1 Klassen
-- `tests/test_battle_performance.py` - 377 Zeilen, 1 Klassen
-- `tests/battle/test_battle_fixes.py` - 170 Zeilen, 0 Klassen
-- `tests/battle/test_battle_flow.py` - 328 Zeilen, 6 Klassen
-- `tests/battle/test_battle_ui.py` - 184 Zeilen, 3 Klassen
-- `tests/battle/test_performance.py` - 356 Zeilen, 7 Klassen
-- `tests/battle/simple_compatibility_test.py` - 109 Zeilen, 0 Klassen
-- `tests/battle/test_battle_state.py` - 225 Zeilen, 4 Klassen
-- `tests/battle/test_damage_calculation.py` - 340 Zeilen, 4 Klassen
-- `tests/battle/test_monsters.py` - 414 Zeilen, 1 Klassen
-- `tests/battle/test_battle_compatibility.py` - 195 Zeilen, 2 Klassen
-- `tests/battle/test_status_effects.py` - 335 Zeilen, 5 Klassen
-- `tests/battle_fixes/test_fixes.py` - 36 Zeilen, 0 Klassen
-- `test_battle_integration_fix.py` - 103 Zeilen, 0 Klassen
-- `test_battle_ui_rendering.py` - 118 Zeilen, 1 Klassen
-- `test_complete_battle_flow.py` - 165 Zeilen, 1 Klassen
-- `test_battle_input_flow.py` - 142 Zeilen, 1 Klassen
-- `battle_fix.py` - 159 Zeilen, 0 Klassen
-- `test_full_battle_integration.py` - 93 Zeilen, 1 Klassen
-- `fixes/fix_battle_state_passing.py` - 56 Zeilen, 0 Klassen
-- `tests_isolated/integration/test_battle_ui.py` - 184 Zeilen, 3 Klassen
-- `tests_standalone/test_new_battle_system_2025-08-31.py` - 130 Zeilen, 2 Klassen
-- `tests_standalone/test_battle_scene_optimized_2025-09-03.py` - 349 Zeilen, 5 Klassen
-- `tests_standalone/test_battle_2025-09-03.py` - 20 Zeilen, 0 Klassen
-- `tests_standalone/test_battle_comprehensive_2025-08-24.py` - 282 Zeilen, 3 Klassen
-- `tests_standalone/test_battle_flow_verification_2025-09-03.py` - 169 Zeilen, 0 Klassen
-- `tests_standalone/test_battle_flow_integration_2025-08-31.py` - 234 Zeilen, 1 Klassen
-- `tests_standalone/test_enhanced_battle_2025-08-31.py` - 303 Zeilen, 2 Klassen
-- `tests_standalone/test_battle_scene_integration_2025-08-24.py` - 183 Zeilen, 0 Klassen
-- `tests_standalone/test_battle_with_json_2025-08-24.py` - 170 Zeilen, 1 Klassen
-- `tests_standalone/test_final_battle_system_2025-08-31.py` - 353 Zeilen, 0 Klassen
-- `tests_standalone/test_battle_system_2025-08-31.py` - 143 Zeilen, 1 Klassen
-- `tests_standalone/test_battle_imports_2025-08-31.py` - 83 Zeilen, 0 Klassen
-- `tests_standalone/test_battle_ui_complete_2025-09-03.py` - 337 Zeilen, 6 Klassen
-- `tests_standalone/test_battle_integration_2025-09-03.py` - 525 Zeilen, 1 Klassen
-- `tests_standalone/test_battle_complete_integration_2025-09-03.py` - 436 Zeilen, 0 Klassen
-- `tests_standalone/test_battle_interactive_2025-09-01.py` - 313 Zeilen, 6 Klassen
-- `tests_standalone/test_battle_cleaned_2025-08-24.py` - 113 Zeilen, 1 Klassen
-- `tests_standalone/test_route1_battle_2025-08-24.py` - 131 Zeilen, 0 Klassen
-- `fixes_standalone/complete_battle_fix_2025-08-31.py` - 163 Zeilen, 0 Klassen
-- `fixes_standalone/fix_battle_system_2025-08-31.py` - 194 Zeilen, 0 Klassen
-- `fixes_standalone/emergency_battle_fix_2025-09-03.py` - 181 Zeilen, 0 Klassen
-- `fixes_standalone/fix_battle_ui_flow_2025-08-31.py` - 201 Zeilen, 0 Klassen
-- `fixes_standalone/quick_test_battle_2025-08-31.py` - 96 Zeilen, 1 Klassen
-- `fixes_standalone/fix_battle_integration_2025-09-03.py` - 133 Zeilen, 0 Klassen
-- `fixes_standalone/fix_battle_execution_2025-08-31.py` - 109 Zeilen, 0 Klassen
-- `fixes_standalone/refactor_battle_2025-08-31.py` - 83 Zeilen, 0 Klassen
 
-**Gesamt Battle-System:** 80 Dateien, 21,386 Zeilen, **156 Klassen**
+**Gesamt Battle-System:** 40 Dateien, 5,997 Zeilen, **40+ Klassen**
 
 ---
 
 ## 📊 Exakte Statistiken (AST-Parser Analyse)
-- **Battle-System**: **80 Dateien**, **21,386 Zeilen** - Größtes Subsystem mit Meat/Taming
+- **Battle-System**: **40 Dateien**, **5,997 Zeilen** - Größtes Subsystem mit Meat/Taming
 - **World-System**: **17 Dateien** - Umfangreiches Map/Entity-System  
 - **Scene-System**: **12 Dateien** - Inklusive Battle/Field-Untermodule
 - **UI-System**: **19 Dateien** - Komplettes Interface-System mit spezialisierten Battle-UI
@@ -431,7 +388,7 @@ Das Battle-System ist das größte Subsystem mit **80 Python-Dateien** und **21,
 - **DevTools**: **3 Dateien** - Development-Support
 - **Items/Misc**: **1 Datei** - Spezielle Systeme
 
-**Gesamt-Engine**: **287 exakte Python-Dateien**, **72,347 Lines of Code**
+**Gesamt-Engine**: **166 exakte Python-Dateien**, **56,325 Lines of Code**
 
 ---
 
@@ -1013,7 +970,7 @@ untold_story/
 ### 🔧 Detaillierte Funktionen-Analyse
 
 #### 📊 Funktionen-Statistiken
-- **Gesamt-Funktionen**: 3501
+- **Gesamt-Funktionen**: 91
 - **Async-Funktionen**: 0
 - **Funktionen mit Decorators**: 168
 
@@ -1044,21 +1001,21 @@ untold_story/
 ## 📥 Detaillierte Import-Analyse
 
 ### 🔍 Import-Statistiken
-- **Gesamt-Imports**: 2504
+- **Gesamt-Imports**: 852
 - **Unique Module**: 207
 - **External Dependencies**: 1360
 
 ### 📊 Import-Verteilung nach Modulen
-| `typing` | 166 Imports | 6.6% |
-| `sys` | 157 Imports | 6.3% |
-| `os` | 152 Imports | 6.1% |
-| `engine.systems.monster_instance` | 130 Imports | 5.2% |
-| `pygame` | 104 Imports | 4.2% |
-| `traceback` | 92 Imports | 3.7% |
-| `pathlib` | 91 Imports | 3.6% |
-| `dataclasses` | 82 Imports | 3.3% |
-| `engine.systems.moves` | 72 Imports | 2.9% |
-| `json` | 68 Imports | 2.7% |
+| `typing` | 166 Imports | 19.5% |
+| `sys` | 157 Imports | 18.4% |
+| `os` | 152 Imports | 17.8% |
+| `engine.systems.monster_instance` | 130 Imports | 15.3% |
+| `pygame` | 104 Imports | 12.2% |
+| `traceback` | 92 Imports | 10.8% |
+| `pathlib` | 91 Imports | 10.7% |
+| `dataclasses` | 82 Imports | 9.6% |
+| `engine.systems.moves` | 72 Imports | 8.5% |
+| `json` | 68 Imports | 8.0% |
 
 ### 🎯 Kritische Import-Pfade
 #### `engine/scenes/field_scene.py`
@@ -1106,18 +1063,18 @@ untold_story/
 
 ## 🔬 Mastermap-Qualitätsgarantie
 
-*Diese Mastermap wurde mit einem **automatischen AST-Parser** generiert, der **alle 287 Python-Dateien** systematisch analysiert hat. Jede Statistik, jede Klasse und jeder Import wurde direkt aus dem Quellcode extrahiert - **100% Genauigkeit garantiert**.*
+*Diese Mastermap wurde mit einem **automatischen AST-Parser** generiert, der **alle 166 Python-Dateien** systematisch analysiert hat. Jede Statistik, jede Klasse und jeder Import wurde direkt aus dem Quellcode extrahiert - **100% Genauigkeit garantiert**.*
 
 **Analysierte Komponenten (Latest Update):**
-- ✅ **528 Klassen** mit vollständigen Methoden-Listen
-- ✅ **3501 Methoden** inklusive Properties und Decorators  
-- ✅ **2504 Import-Statements** für Dependency-Mapping
-- ✅ **72,347 Lines of Code** exakt gezählt
+- ✅ **151 Klassen** mit vollständigen Methoden-Listen
+- ✅ **91 Methoden** inklusive Properties und Decorators  
+- ✅ **852 Import-Statements** für Dependency-Mapping
+- ✅ **56,325 Lines of Code** exakt gezählt
 - ✅ **Alle Docstrings** erfasst und dokumentiert
 - ✅ **Module-Hierarchien** vollständig abgebildet
 
 ### 📈 **Bemerkenswerte Optimierungsbereiche:**
-- **Battle-System**: 80 Dateien (optimiert, DQM-integriert, Legacy-Code eliminiert)
+- **Battle-System**: 40 Dateien (optimiert, DQM-integriert, Legacy-Code eliminiert)
 - **UI-System**: 19 Dateien (erweitert, spezialisierte Battle-UI-Komponenten)
 - **Scene-System**: 12 Dateien (erweitert, Battle/Field-Unterordner)
 - **Systems**: 38 Dateien (stabil, neue Systeme: Unified Damage Calculator, Talent System)
@@ -1125,7 +1082,7 @@ untold_story/
 - **Method-Consolidation**: Single-Source-of-Truth implementiert, DRY-Prinzip durchgehend
 
 ### ⚡ **Live-Update Status**
-- **Letztes Update:** 2025-09-09 00:30:00 mit Method-Consolidation & Legacy-Cleanup
+- **Letztes Update:** 2025-01-09 12:30:00 mit aktuellen Statistiken
 - **Update-Frequenz:** Manuell aktualisiert nach Code-Änderungen
 - **Entwicklungsgeschwindigkeit:** Legacy-Code eliminiert, Single-Source-of-Truth implementiert
 

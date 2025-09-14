@@ -46,9 +46,13 @@ class BattleUIInputHandler:
         if battle_state:
             self.battle_ui.battle_state = battle_state
         
+        # PROFESSIONAL DEBUG: Check UI state
+        logger.info(f"🔍 INPUT DEBUG: waiting_for_input={self.battle_ui.waiting_for_input}")
+        logger.info(f"🔍 INPUT DEBUG: menu_state={getattr(self.battle_ui, 'current_menu_state', 'UNKNOWN')}")
+        
         # CRITICAL: Check if UI is waiting for input
         if not self.battle_ui.waiting_for_input:
-            logger.debug("Input ignored - UI not waiting for input")
+            logger.warning("⚠️ INPUT WARNING: UI is not waiting for input - ignoring action")
             return None
         
         # CRITICAL: Check battle phase
@@ -68,14 +72,16 @@ class BattleUIInputHandler:
             result = self.handle_item_menu_input(action)
         elif self.battle_ui.current_menu_state == BattleMenuState.SWITCH_SELECT:
             result = self.handle_switch_menu_input(action)
-        elif self.battle_ui.current_menu_state == BattleMenuState.TAME_MEAT:
-            result = self.handle_meat_menu_input(action)
-        elif self.battle_ui.current_menu_state == BattleMenuState.TAME_CONFIRM:
-            result = self.handle_tame_confirm_input(action)
         elif self.battle_ui.current_menu_state == BattleMenuState.SCOUT:
             result = self.handle_scout_input(action)
         elif self.battle_ui.current_menu_state == BattleMenuState.MESSAGE:
             result = self.handle_message_input(action)
+        elif self.battle_ui.current_menu_state == BattleMenuState.MESSAGE_DISPLAY:
+            result = self.handle_message_input(action)
+        elif self.battle_ui.current_menu_state == BattleMenuState.WAIT_FOR_INPUT:
+            result = self.handle_wait_input(action)
+        elif self.battle_ui.current_menu_state == BattleMenuState.ACTION_ANIMATION:
+            result = self.handle_animation_input(action)
         
         # If we have a result, queue it
         if result and isinstance(result, dict):
@@ -120,6 +126,7 @@ class BattleUIInputHandler:
         if selected_option == "ATTACKE":
             self.battle_ui.current_menu_state = BattleMenuState.MOVE_SELECT
             self.battle_ui.selected_move = 0
+            self.battle_ui.show_move_menu()  # Show move menu
             return True  # Input handled
         
         elif selected_option == "ITEM":
@@ -137,9 +144,8 @@ class BattleUIInputHandler:
             if self.battle_ui.battle_state and self.battle_ui.battle_state.enemy_team:
                 enemy = self.battle_ui.battle_state.enemy_active
                 if enemy and getattr(enemy, 'is_wild', True):
-                    self.battle_ui.current_menu_state = BattleMenuState.TAME_MEAT
-                    self.battle_ui.selected_item = 0
-                    return True  # Input handled
+                    # Direct taming attempt without meat selection
+                    return self.process_direct_tame_attempt()
                 else:
                     self.battle_ui.add_message("Dieses Monster kann nicht gezähmt werden!")
                     return True  # Input handled
@@ -368,92 +374,27 @@ class BattleUIInputHandler:
         logger.info(f"Switch action created: {current_active.name} -> {selected_monster.name}")
         return action
     
-    def handle_meat_menu_input(self, action):
-        """Handle Meat-Menü Input."""
-        if action == "up":
-            self.battle_ui.selected_item = max(0, self.battle_ui.selected_item - 1)
-            return True  # Input handled
-        elif action == "down":
-            self.battle_ui.selected_item = min(3, self.battle_ui.selected_item + 1)  # 4 meat options
-            return True  # Input handled
-        elif action == "confirm":
-            return self.process_meat_selection()
-        elif action == "cancel":
-            self.battle_ui.current_menu_state = BattleMenuState.MAIN
-            self.battle_ui.selected_option = 3  # ZÄHMEN option
-            return True  # Input handled
-        
-        return None
-    
-    def process_meat_selection(self):
-        """Verarbeite Meat-Auswahl."""
-        meat_options = [
-            ("Fleisch", 20),
-            ("Edelfleisch", 40),
-            ("Götterfleisch", 80),
-            ("Kein Fleisch", 0)
-        ]
-        
-        if self.battle_ui.selected_item >= len(meat_options):
-            return None
-        
-        meat_name, bonus = meat_options[self.battle_ui.selected_item]
-        
-        # Check if meat is available (except "Kein Fleisch")
-        if meat_name != "Kein Fleisch":
-            if self.battle_ui.demo_inventory.get(meat_name, 0) <= 0:
-                self.battle_ui.add_message(f"{meat_name} nicht verfügbar!")
-                return None
-        
-        # Create meat action
-        return {
-            "type": "use_meat",
-            "actor": "player",
-            "meat": meat_name,
-            "bonus": bonus
-        }
-    
-    def handle_tame_confirm_input(self, action):
-        """Handle Tame-Confirm Input."""
-        if action == "up":
-            self.battle_ui.selected_option = 0
-            return True  # Input handled
-        elif action == "down":
-            self.battle_ui.selected_option = 1
-            return True  # Input handled
-        elif action == "confirm":
-            if self.battle_ui.selected_option == 0:  # "Zähmen versuchen"
-                return self.process_tame_attempt()
-            else:  # "Abbrechen"
-                self.battle_ui.current_menu_state = BattleMenuState.MAIN
-                self.battle_ui.selected_option = 3  # ZÄHMEN option
-                return True  # Input handled
-        elif action == "cancel":
-            self.battle_ui.current_menu_state = BattleMenuState.MAIN
-            self.battle_ui.selected_option = 3  # ZÄHMEN option
-            return True  # Input handled
-        
-        return None
-    
-    def process_tame_attempt(self):
-        """Process tame attempt with complete action dict."""
+    def process_direct_tame_attempt(self):
+        """Process direct tame attempt - uses any active meat effect from battle state."""
         if not self.battle_ui.battle_state or not self.battle_ui.battle_state.enemy_active:
             logger.warning("No enemy to tame")
             return None
         
-        # Get meat bonus from previous selection
-        meat_bonus = getattr(self.battle_ui, 'selected_meat_bonus', 0)
+        # Get meat bonus from battle state (set by previous meat item usage)
+        meat_bonus = getattr(self.battle_ui.battle_state, 'meat_bonus', 0.0)
+        meat_type = getattr(self.battle_ui.battle_state, 'active_meat_effect', None)
         
-        # CRITICAL: Return complete tame action with objects
+        # Create direct tame action
         action = {
             "type": "tame",
-            "actor": self.battle_ui.battle_state.player_active,  # MonsterInstance
-            "target": self.battle_ui.battle_state.enemy_active,  # MonsterInstance
+            "actor": self.battle_ui.battle_state.player_active,
+            "target": self.battle_ui.battle_state.enemy_active,
             "meat_bonus": meat_bonus,
-            "meat_type": getattr(self.battle_ui, 'selected_meat_type', None)
+            "meat_type": meat_type
         }
         
-        logger.info(f"Tame action created: targeting {action['target'].name}")
+        meat_info = f"with {meat_type} (+{int(meat_bonus * 100)}%)" if meat_type else "without meat"
+        logger.info(f"Direct tame action created: targeting {action['target'].name} {meat_info}")
         return action
     
     def handle_scout_input(self, action):
@@ -466,16 +407,68 @@ class BattleUIInputHandler:
         return None
     
     def handle_message_input(self, action):
-        """Handle Message Input."""
-        if action == "confirm" or action == "cancel":
-            # Check if there are more messages
-            if self.battle_ui.message_queue:
-                self.battle_ui._next_message()
+        """Handle Message Input - ENHANCED mit Message-Queue-System."""
+        # CRITICAL: Nur SPACE/ENTER akzeptieren während Message-Display
+        if action not in ["confirm", "cancel"]:
+            logger.debug(f"Message input ignored: {action} (only confirm/cancel allowed)")
+            return None
+        
+        # Use new message queue system
+        if self.battle_ui.process_message_input(action):
+            # Message was processed by queue system
+            current_message_data = self.battle_ui.get_current_message_data()
+            
+            if current_message_data:
+                # Update UI state with current message
+                self.battle_ui.current_message = current_message_data['text']
+                self.battle_ui.state.current_message = current_message_data['text']
+                self.battle_ui.message_timer = current_message_data['duration']
+                self.battle_ui.state.message_timer = current_message_data['duration']
+                self.battle_ui.waiting_for_input = current_message_data.get('blocking', True)
+                self.battle_ui.state.message_wait = current_message_data.get('blocking', True)
+                
+                # Keep in MESSAGE_DISPLAY state
+                self.battle_ui.state.menu_state = BattleMenuState.MESSAGE_DISPLAY
+                
+                logger.debug(f"Next message displayed: '{current_message_data['text']}'")
             else:
-                self.battle_ui.current_menu_state = BattleMenuState.MAIN
-                self.battle_ui.waiting_for_input = True
+                # No more messages, check what to do next
+                if (hasattr(self.battle_ui.battle_state, 'battle_ended') and 
+                    self.battle_ui.battle_state.battle_ended):
+                    logger.info("Battle ended, transitioning out of battle")
+                    return {'type': 'battle_end', 'result': getattr(self.battle_ui.battle_state, 'battle_result', 'unknown')}
+                else:
+                    # Return to main menu
+                    self.battle_ui.current_message = ""
+                    self.battle_ui.state.current_message = ""
+                    self.battle_ui.state.menu_state = BattleMenuState.MAIN
+                    self.battle_ui.waiting_for_input = True
+                    self.battle_ui.state.message_wait = False
+                    
+                    logger.debug("No more messages, returning to main menu")
+            
             return True  # Input handled
         
+        return None
+    
+    def handle_wait_input(self, action):
+        """Handle Wait For Input State - nur SPACE/ENTER erlaubt."""
+        if action in ["confirm", "cancel"]:
+            # Input bestätigt, zurück zum Hauptmenü
+            self.battle_ui.state.menu_state = BattleMenuState.MAIN
+            self.battle_ui.waiting_for_input = True
+            self.battle_ui.state.message_wait = False
+            logger.debug("Wait input confirmed, returning to main menu")
+            return True  # Input handled
+        
+        # Alle anderen Inputs ignorieren
+        logger.debug(f"Wait input ignored: {action} (only confirm/cancel allowed)")
+        return None
+    
+    def handle_animation_input(self, action):
+        """Handle Action Animation State - Input blockiert."""
+        # Während Animation keine Inputs erlauben
+        logger.debug(f"Animation input blocked: {action} (animation in progress)")
         return None
     
     def validate_event_flow(self) -> Dict[str, bool]:

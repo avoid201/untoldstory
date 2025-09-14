@@ -14,7 +14,7 @@ from engine.systems.moves import Move, move_registry
 from engine.core.resources import resources
 from engine.systems.experience_system import ExperienceSystem, LevelUpResult
 from engine.systems.talent_system import TalentInstance, TalentDatabase, get_talent_database, TalentTier
-from engine.systems.talent_manager import get_talent_manager
+# talent_manager removed - using talent_system directly
 
 # Logger für bessere Fehlerverfolgung
 logger = logging.getLogger(__name__)
@@ -414,56 +414,17 @@ class MonsterInstance:
     def get_passive_abilities(self) -> List[Dict[str, Any]]:
         """Hole alle passiven Fähigkeiten aus den Talents"""
         try:
-            talent_manager = get_talent_manager()
-            return talent_manager.get_passive_abilities(self)
+            passive_abilities = []
+            for talent_instance in self.talents:
+                if talent_instance.is_learned:
+                    passive_abilities.extend(talent_instance.get_passive_abilities())
+            return passive_abilities
         except Exception as e:
             logger.error(f"Fehler beim Laden der passiven Fähigkeiten: {e}")
             return []
     
-    def can_learn_talent(self, talent_id: str) -> bool:
-        """Prüfe ob Monster ein Talent lernen kann"""
-        try:
-            talent_manager = get_talent_manager()
-            return talent_manager.can_learn_talent(self, talent_id)
-        except Exception as e:
-            logger.error(f"Fehler beim Prüfen des Talent-Lernens: {e}")
-            return False
-    
-    def learn_talent(self, talent_id: str) -> bool:
-        """Lerne ein neues Talent"""
-        try:
-            talent_manager = get_talent_manager()
-            return talent_manager.learn_talent(self, talent_id)
-        except Exception as e:
-            logger.error(f"Fehler beim Lernen des Talents {talent_id}: {e}")
-            return False
-    
-    def upgrade_talent(self, talent_id: str) -> bool:
-        """Upgrade ein bestehendes Talent"""
-        try:
-            talent_manager = get_talent_manager()
-            return talent_manager.upgrade_talent(self, talent_id)
-        except Exception as e:
-            logger.error(f"Fehler beim Upgraden des Talents {talent_id}: {e}")
-            return False
-    
-    def get_learnable_talents(self) -> List[str]:
-        """Hole alle Talents die das Monster lernen kann"""
-        try:
-            talent_manager = get_talent_manager()
-            return talent_manager.get_learnable_talents(self)
-        except Exception as e:
-            logger.error(f"Fehler beim Laden der lernbaren Talents: {e}")
-            return []
-    
-    def get_talent_info(self, talent_id: str) -> Optional[Dict[str, Any]]:
-        """Hole Informationen über ein Talent"""
-        try:
-            talent_manager = get_talent_manager()
-            return talent_manager.get_talent_info(self, talent_id)
-        except Exception as e:
-            logger.error(f"Fehler beim Laden der Talent-Info: {e}")
-            return None
+    # Diese Methoden wurden entfernt - sie sind jetzt direkt in der Klasse implementiert
+    # um doppelte Wrapper-Methoden zu vermeiden
     
     def _initialize_moves(self) -> List['Move']:
         """Load moves from monster's talents with validation"""
@@ -487,13 +448,23 @@ class MonsterInstance:
                     self.level
                 )
                 
+                logger.debug(f"Talent {talent_instance.talent_id} provides moves: {move_ids}")
+                
                 for move_id in move_ids:
                     move = talent_db.create_move_from_talent_data(move_id)
                     if move and self._validate_move(move):
                         moves.append(move)
+                        logger.debug(f"Added move: {move.name} (ID: {move.id})")
+                    else:
+                        logger.warning(f"Failed to create or validate move: {move_id}")
             
             # ALWAYS return at least one move
-            return moves if moves else [self._create_fallback_move()]
+            if not moves:
+                logger.warning(f"No moves loaded for {self.name}, using fallback")
+                moves = [self._create_fallback_move()]
+            
+            logger.info(f"Loaded {len(moves)} moves for {self.name}")
+            return moves
             
         except Exception as e:
             logger.error(f"Fehler beim Initialisieren der Moves: {e}")
@@ -1131,8 +1102,30 @@ class MonsterInstance:
     
     def get_talent_info(self, talent_id: str) -> Optional[Dict[str, Any]]:
         """Hole Informationen über ein Talent."""
-        talent_manager = get_talent_manager()
-        return talent_manager.get_talent_info(self, talent_id)
+        try:
+            talent_db = get_talent_database()
+            talent = talent_db.get_talent(talent_id)
+            if not talent:
+                return None
+            
+            talent_instance = self.get_talent(talent_id)
+            if not talent_instance:
+                return None
+            
+            return {
+                'id': talent.id,
+                'name': talent.name,
+                'category': talent.category.value,
+                'description': talent.description,
+                'current_tier': talent_instance.current_tier.value,
+                'is_learned': talent_instance.is_learned,
+                'experience': talent_instance.experience,
+                'moves': talent.get_moves_for_tier(talent_instance.current_tier, self.level),
+                'passive_abilities': talent_instance.get_passive_abilities()
+            }
+        except Exception as e:
+            logger.error(f"Fehler beim Abrufen der Talent-Informationen: {e}")
+            return None
     
     
     def can_battle(self) -> bool:

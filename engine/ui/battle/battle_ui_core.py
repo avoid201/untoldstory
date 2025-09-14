@@ -11,7 +11,7 @@ Verantwortlichkeiten:
 
 import pygame
 import logging
-from typing import Optional, List, Dict, Any
+from typing import Optional, List, Dict, Any, Tuple
 
 # Setup logger
 logger = logging.getLogger(__name__)
@@ -20,20 +20,24 @@ logger = logging.getLogger(__name__)
 from engine.core.config import LOGICAL_WIDTH, LOGICAL_HEIGHT
 
 # Import sub-UI components
-from engine.ui.taming_ui import TamingUI
 from engine.ui.scout_display import ScoutDisplay
 from engine.ui.battle_ui_utils import fonts, sprites
 
 # Import battle system components
 from engine.systems.battle.battle_state import BattleState
-from engine.systems.battle.battle_controller import BattleController
-from engine.systems.battle.event_processor import EventProcessor
+
+# Use TYPE_CHECKING to avoid circular imports
+from typing import TYPE_CHECKING
+if TYPE_CHECKING:
+    from engine.systems.battle.battle_controller import BattleController
+    from engine.systems.battle.event_processor import EventProcessor
 
 # Import modular components
 from .battle_ui_state import BattleUIState, BattleMenuState, BattleSprite, DamageNumber
 from .battle_ui_renderer import BattleUIRenderer
 from .battle_ui_input import BattleUIInputHandler
 from .battle_ui_menus import BattleUIMenuManager
+from .battle_ui_events import BattleUIEventManager
 
 # Constants
 TILE_SIZE = 16
@@ -59,8 +63,8 @@ class BattleUI:
         
         # Battle state
         self.battle_state: Optional[BattleState] = None
-        self.battle_controller: Optional[BattleController] = None
-        self.event_processor: Optional[EventProcessor] = None
+        self.battle_controller: Optional['BattleController'] = None
+        self.event_processor: Optional['EventProcessor'] = None
         
         # Animation and effects (Core-specific, not in state)
         self.damage_numbers: List[DamageNumber] = []
@@ -73,6 +77,16 @@ class BattleUI:
         # Pending action
         self.pending_action: Optional[Dict[str, Any]] = None
         
+        # BATTLE INTRO SYSTEM
+        self.intro_state = {
+            'phase': 'none',  # none, fade_in, message, monster_slide, hp_bars, complete
+            'timer': 0.0,
+            'fade_alpha': 0,
+            'monster_slide_progress': 0.0,
+            'hp_bars_visible': False,
+            'intro_complete': False
+        }
+        
         # Initialize state FIRST
         self.state = BattleUIState()
         
@@ -80,9 +94,9 @@ class BattleUI:
         self.renderer = BattleUIRenderer(self)
         self.input_handler = BattleUIInputHandler(self)
         self.menu_manager = BattleUIMenuManager(self)
+        self.event_manager = BattleUIEventManager(self)
         
         # Initialize sub-UI components
-        self.taming_ui = TamingUI()
         self.scout_display = ScoutDisplay()
         
         # Demo inventory for testing
@@ -223,11 +237,225 @@ class BattleUI:
         self.reset_to_main_menu()
         
         logger.info("✓ Battle initialization complete with early event handler registration")
+
+    def start_battle_intro(self, player_team, enemy_team):
+        """Starte Battle-Intro-Sequenz mit Animationen."""
+        logger.info("🎬 Starting Battle Intro Sequence")
+        
+        # Reset intro state
+        self.intro_state = {
+            'phase': 'fade_in',
+            'timer': 0.0,
+            'fade_alpha': 0,
+            'monster_slide_progress': 0.0,
+            'hp_bars_visible': False,
+            'intro_complete': False
+        }
+        
+        # Set battle state
+        self.battle_state = BattleState(player_team, enemy_team)
+        
+        # Initialize monster sprites for intro
+        if player_team and len(player_team) > 0:
+            self.player_sprite = BattleSprite(
+                surface=self._get_monster_sprite(player_team[0]),
+                position=self._get_monster_position(player_team[0], True),
+                is_player_side=True
+            )
+        
+        if enemy_team and len(enemy_team) > 0:
+            self.enemy_sprite = BattleSprite(
+                surface=self._get_monster_sprite(enemy_team[0]),
+                position=self._get_monster_position(enemy_team[0], False),
+                is_player_side=False
+            )
+        
+        # Start intro sequence
+        self._start_intro_phase('fade_in')
+        
+        logger.info("✅ Battle Intro started")
+
+    def _start_intro_phase(self, phase: str):
+        """Starte neue Intro-Phase."""
+        self.intro_state['phase'] = phase
+        self.intro_state['timer'] = 0.0
+        
+        if phase == 'fade_in':
+            self.intro_state['fade_alpha'] = 0
+        elif phase == 'message':
+            # Show intro message
+            enemy_name = self.battle_state.enemy_active.name if self.battle_state.enemy_active else "Unbekanntes Monster"
+            self.add_message(f"Ein wildes {enemy_name} erscheint!", duration=2.0, priority="important")
+        elif phase == 'monster_slide':
+            self.intro_state['monster_slide_progress'] = 0.0
+        elif phase == 'hp_bars':
+            self.intro_state['hp_bars_visible'] = True
+        elif phase == 'complete':
+            self.intro_state['intro_complete'] = True
+            self.reset_to_main_menu()
+        
+        logger.debug(f"Intro phase started: {phase}")
+
+    def update_intro_sequence(self, dt: float):
+        """Update Battle-Intro-Sequenz."""
+        if self.intro_state['phase'] == 'none' or self.intro_state['intro_complete']:
+            return
+        
+        self.intro_state['timer'] += dt
+        
+        if self.intro_state['phase'] == 'fade_in':
+            # Fade in (0.2s) - FASTER
+            progress = min(1.0, self.intro_state['timer'] / 0.2)
+            self.intro_state['fade_alpha'] = int(255 * progress)
+            
+            if progress >= 1.0:
+                self._start_intro_phase('message')
+        
+        elif self.intro_state['phase'] == 'message':
+            # Message display (0.5s) - FASTER
+            if self.intro_state['timer'] >= 0.5:
+                self._start_intro_phase('monster_slide')
+        
+        elif self.intro_state['phase'] == 'monster_slide':
+            # Monster slide-in (0.3s) - FASTER
+            progress = min(1.0, self.intro_state['timer'] / 0.3)
+            self.intro_state['monster_slide_progress'] = progress
+            
+            if progress >= 1.0:
+                self._start_intro_phase('hp_bars')
+        
+        elif self.intro_state['phase'] == 'hp_bars':
+            # HP bars appear (0.2s) - FASTER
+            if self.intro_state['timer'] >= 0.2:
+                self._start_intro_phase('complete')
+
+    def draw_intro_sequence(self, surface: pygame.Surface):
+        """Zeichne Battle-Intro-Sequenz."""
+        if self.intro_state['phase'] == 'none' or self.intro_state['intro_complete']:
+            return
+        
+        # Draw fade overlay
+        if self.intro_state['phase'] in ['fade_in', 'message', 'monster_slide', 'hp_bars']:
+            fade_surface = pygame.Surface((LOGICAL_WIDTH, LOGICAL_HEIGHT))
+            fade_surface.fill((0, 0, 0))
+            fade_surface.set_alpha(255 - self.intro_state['fade_alpha'])
+            surface.blit(fade_surface, (0, 0))
+        
+        # Draw monster slide-in animation
+        if self.intro_state['phase'] in ['monster_slide', 'hp_bars', 'complete']:
+            self._draw_monster_slide_animation(surface)
+        
+        # Draw HP bars if visible
+        if self.intro_state['hp_bars_visible']:
+            self._draw_intro_hp_bars(surface)
+
+    def _draw_monster_slide_animation(self, surface: pygame.Surface):
+        """Zeichne Monster-Slide-In-Animation."""
+        progress = self.intro_state['monster_slide_progress']
+        
+        # Player monster slides in from left
+        if self.player_sprite:
+            original_pos = self._get_monster_position(self.battle_state.player_active, True)
+            slide_pos = (
+                int(original_pos[0] - (1 - progress) * 100),  # Start 100px left
+                original_pos[1]
+            )
+            
+            # Apply slide animation
+            sprite_copy = self.player_sprite.surface.copy()
+            sprite_copy.set_alpha(int(255 * progress))  # Fade in
+            surface.blit(sprite_copy, slide_pos)
+        
+        # Enemy monster slides in from right
+        if self.enemy_sprite:
+            original_pos = self._get_monster_position(self.battle_state.enemy_active, False)
+            slide_pos = (
+                int(original_pos[0] + (1 - progress) * 100),  # Start 100px right
+                original_pos[1]
+            )
+            
+            # Apply slide animation
+            sprite_copy = self.enemy_sprite.surface.copy()
+            sprite_copy.set_alpha(int(255 * progress))  # Fade in
+            surface.blit(sprite_copy, slide_pos)
+
+    def _draw_intro_hp_bars(self, surface: pygame.Surface):
+        """Zeichne HP-Bars für Intro."""
+        # Player HP bar
+        if self.battle_state.player_active:
+            self._draw_intro_hp_bar(surface, self.battle_state.player_active, (20, 160), True)
+        
+        # Enemy HP bar
+        if self.battle_state.enemy_active:
+            self._draw_intro_hp_bar(surface, self.battle_state.enemy_active, (180, 20), False)
+
+    def _draw_intro_hp_bar(self, surface: pygame.Surface, monster, pos: Tuple[int, int], is_player: bool):
+        """Zeichne einzelne HP-Bar für Intro."""
+        # Panel background
+        panel_rect = pygame.Rect(pos[0], pos[1], 100, 32)
+        pygame.draw.rect(surface, (40, 40, 40), panel_rect)
+        pygame.draw.rect(surface, (100, 100, 100), panel_rect, 1)
+        
+        # Monster name
+        name_font = fonts.monster_name
+        name_text = name_font.render(monster.name, True, (255, 255, 255))
+        surface.blit(name_text, (pos[0] + 4, pos[1] + 2))
+        
+        # Level
+        level_font = fonts.normal
+        level_text = level_font.render(f"Lv.{monster.level}", True, (255, 255, 255))
+        surface.blit(level_text, (pos[0] + 80, pos[1] + 2))
+        
+        # HP Bar
+        hp_ratio = monster.current_hp / monster.max_hp if monster.max_hp > 0 else 0
+        hp_color = self._get_hp_color(hp_ratio)
+        hp_bar_rect = pygame.Rect(pos[0] + 4, pos[1] + 12, 92, 8)
+        pygame.draw.rect(surface, (20, 20, 20), hp_bar_rect)
+        pygame.draw.rect(surface, hp_color, (pos[0] + 4, pos[1] + 12, int(92 * hp_ratio), 8))
+        
+        # HP Text
+        hp_font = fonts.small
+        hp_text = hp_font.render(f"{monster.current_hp}/{monster.max_hp}", True, (255, 255, 255))
+        surface.blit(hp_text, (pos[0] + 4, pos[1] + 22))
+
+    def _get_hp_color(self, ratio: float) -> Tuple[int, int, int]:
+        """Hole HP-Farbe basierend auf Verhältnis."""
+        if ratio > 0.6:
+            return (0, 255, 0)  # Green
+        elif ratio > 0.3:
+            return (255, 255, 0)  # Yellow
+        else:
+            return (255, 0, 0)  # Red
     
     def update(self, dt):
-        """Update Battle UI und alle Komponenten."""
-        # Update animations and effects
-        self._update_animations(dt)
+        """Update Battle UI und alle Komponenten - BEREINIGT mit Event-Processing."""
+        # Update Battle Intro Sequence
+        self.update_intro_sequence(dt)
+        
+        # BEHOBEN: Synchronisiere UI State mit Battle State
+        self._sync_ui_state_with_battle_state()
+        
+        # Update animations and effects through BattleUIState
+        self.state.update_animations(dt)
+        self.state.update_message_timer(dt)
+        
+        # CRITICAL: Update message timer in core as well
+        if self.message_timer > 0:
+            self.message_timer -= dt
+            if self.message_timer <= 0:
+                self.message_timer = 0
+                # Check if we should return to main menu
+                if not self.state.has_pending_messages():
+                    self.state.menu_state = BattleMenuState.MAIN
+                    self.waiting_for_input = True
+        
+        # Process events from battle system
+        if self.battle_controller and hasattr(self.battle_controller, 'event_processor'):
+            try:
+                # Process all pending events
+                self.battle_controller.event_processor.process_events()
+            except Exception as e:
+                logger.error(f"Error processing events: {e}")
         
         # Update modular components
         self.renderer.update_animations(dt)
@@ -235,12 +463,37 @@ class BattleUI:
         self.menu_manager.update(dt)
         
         # Update sub-UI components
-        self.taming_ui.update(dt)
         self.scout_display.update(dt)
+    
+    def _sync_ui_state_with_battle_state(self):
+        """BEHOBEN: Synchronisiere UI State mit Battle State für korrekte Move-Anzeige."""
+        if self.battle_state:
+            # Synchronisiere aktive Monster
+            if self.battle_state.player_active and not self.state.player_active:
+                self.state.player_active = self.battle_state.player_active
+                logger.debug(f"Synced player_active: {self.state.player_active.name}")
+            
+            if self.battle_state.enemy_active and not self.state.enemy_active:
+                self.state.enemy_active = self.battle_state.enemy_active
+                logger.debug(f"Synced enemy_active: {self.state.enemy_active.name}")
+            
+            # Synchronisiere Teams
+            if self.battle_state.player_team and not self.state.player_team:
+                self.state.player_team = self.battle_state.player_team
+                logger.debug(f"Synced player_team: {len(self.state.player_team)} monsters")
+            
+            if self.battle_state.enemy_team and not self.state.enemy_team:
+                self.state.enemy_team = self.battle_state.enemy_team
+                logger.debug(f"Synced enemy_team: {len(self.state.enemy_team)} monsters")
     
     def draw(self, surface: pygame.Surface):
         """Zeichne Battle UI - delegiert an Renderer."""
-        self.renderer.draw(surface)
+        # Draw Battle Intro Sequence if active
+        if not self.intro_state['intro_complete']:
+            self.draw_intro_sequence(surface)
+        else:
+            # Normal battle UI
+            self.renderer.draw(surface)
     
     def reset(self):
         """Reset Battle UI zu initialem Zustand."""
@@ -393,18 +646,607 @@ class BattleUI:
                 return "cancel"
         return None
     
-    def connect_event_handlers(self, event_processor: EventProcessor) -> None:
-        """Verbinde Event Handler für Battle Events."""
+    def connect_event_handlers(self, event_processor: 'EventProcessor') -> None:
+        """Verbinde Event Handler für Battle Events - ENHANCED UI INTEGRATION."""
         self.event_processor = event_processor
         
-        # CRITICAL: Register all UI handlers at once
-        if hasattr(event_processor, 'register_ui_handlers'):
-            event_processor.register_ui_handlers(self)
-            logger.info("✓ UI event handlers registered")
-        else:
-            logger.warning("EventProcessor has no register_ui_handlers method")
+        # Import EventType for registration
+        from engine.systems.battle.events.event_types import EventType
         
-        logger.info("Event handlers connected")
+        # Register all UI event handlers
+        self._register_ui_event_handlers(event_processor)
+        
+        logger.info("✓ UI Event Handlers registered successfully")
+    
+    def _register_ui_event_handlers(self, event_processor: 'EventProcessor') -> None:
+        """Registriere alle UI Event Handler für smooth Animationen."""
+        # Delegate to event manager
+        self.event_manager.register_ui_event_handlers(event_processor)
+    
+    # ===== EVENT HANDLER IMPLEMENTATIONS =====
+    
+    def _on_hp_update(self, event) -> None:
+        """Handle HP Bar Update Event - SMOOTH ANIMATION."""
+        target = event.data.get('target')
+        if not target:
+            return
+        
+        # Get monster ID
+        monster_id = getattr(target, 'id', id(target))
+        old_hp = event.data.get('old_hp', target.current_hp)
+        new_hp = target.current_hp
+        max_hp = target.max_hp
+        
+        # Start smooth HP animation
+        self.state.add_hp_animation(monster_id, old_hp, new_hp, max_hp, duration=0.5)
+        
+        # Update renderer
+        if self.renderer:
+            self.renderer.update_hp_bar(target, animated=True)
+        
+        logger.debug(f"HP update: {target.name} {old_hp} -> {new_hp}/{max_hp}")
+    
+    def _on_damage_dealt(self, event) -> None:
+        """Handle Damage Dealt Event - FLOATING DAMAGE NUMBERS."""
+        target = event.data.get('target')
+        damage = event.data.get('damage', 0)
+        is_critical = event.data.get('is_critical', False)
+        is_super_effective = event.data.get('is_super_effective', False)
+        
+        if target and damage > 0:
+            # Show damage number with enhanced effects via renderer
+            if self.renderer:
+                self.renderer.show_damage_number(target, damage, is_critical, is_super_effective)
+            
+            # Add screen shake for critical hits
+            if is_critical:
+                self.state.trigger_screen_shake(3.0, 0.2)
+            
+            logger.debug(f"Damage dealt: {damage} to {target.name} (critical: {is_critical})")
+    
+    def _on_message_show(self, event) -> None:
+        """Handle Message Show Event - ENHANCED MESSAGE QUEUE SYSTEM."""
+        message = event.data.get('message', '')
+        duration = event.data.get('duration', 2.0)
+        priority = event.data.get('priority', 'normal')
+        blocking = event.data.get('blocking', True)
+        
+        if message:
+            # Use new message queue system
+            self.state.add_message_to_queue(message, duration, priority, "normal", blocking)
+            
+            # Update core properties for compatibility
+            self.current_message = message
+            self.message_wait = blocking
+            self.message_timer = duration
+            
+            logger.debug(f"Message queued: '{message}' (priority: {priority}, blocking: {blocking})")
+    
+    def _on_turn_start(self, event) -> None:
+        """Handle Turn Start Event - UI STATE UPDATE."""
+        self.waiting_for_input = True
+        self.state.message_wait = True
+        logger.debug("Turn start: UI waiting for input")
+    
+    def _on_turn_end(self, event) -> None:
+        """Handle Turn End Event - UI STATE UPDATE."""
+        self.waiting_for_input = False
+        self.state.message_wait = False
+        logger.debug("Turn end: UI not waiting for input")
+    
+    def _on_phase_change(self, event) -> None:
+        """Handle Phase Change Event - BATTLE FLOW."""
+        # Handle both event objects and direct dicts
+        if hasattr(event, 'data'):
+            phase = event.data.get('phase')
+            old_phase = event.data.get('old_phase', '')
+        elif isinstance(event, dict):
+            phase = event.get('phase')
+            old_phase = event.get('old_phase', '')
+        else:
+            phase = None
+            old_phase = ''
+            
+        if phase:
+            # Handle phase change directly
+            self._handle_phase_change({'phase': phase, 'old_phase': old_phase})
+            logger.debug(f"Phase change: {old_phase} -> {phase}")
+    
+    def _handle_phase_change(self, phase_data: Dict[str, Any]) -> None:
+        """Handle phase change - internal method."""
+        try:
+            phase = phase_data.get('phase')
+            old_phase = phase_data.get('old_phase', '')
+            
+            if phase == 'input':
+                self.waiting_for_input = True
+                self.state.message_wait = False
+                self.state.menu_state = BattleMenuState.MAIN
+                # Clear any blocking messages
+                self.state.current_message = ""
+                logger.debug("Phase: INPUT - Waiting for player input")
+            elif phase == 'execution':
+                self.waiting_for_input = False
+                self.state.message_wait = True
+                self.state.menu_state = BattleMenuState.ACTION_ANIMATION
+                logger.debug("Phase: EXECUTION - Processing actions")
+            elif phase == 'aftermath':
+                self.waiting_for_input = False
+                self.state.message_wait = True
+                self.state.menu_state = BattleMenuState.WAIT_FOR_INPUT
+                logger.debug("Phase: AFTERMATH - Processing turn end")
+            elif phase == 'end':
+                self.waiting_for_input = False
+                self.state.message_wait = False
+                self.state.menu_state = BattleMenuState.BATTLE_RESULT
+                logger.debug("Phase: END - Battle finished")
+            
+            # Update UI state based on phase
+            self.state.current_phase = phase
+            logger.debug(f"Phase transition: {old_phase} -> {phase}")
+            
+        except Exception as e:
+            logger.error(f"Error handling phase change: {e}")
+    
+    def _on_battle_start(self, event) -> None:
+        """Handle Battle Start Event - INITIALIZATION."""
+        self.waiting_for_input = True
+        self.state.message_wait = True
+        logger.debug("Battle start: UI initialized")
+    
+    def _on_battle_end(self, event) -> None:
+        """Handle Battle End Event - CLEANUP."""
+        self.waiting_for_input = False
+        self.state.message_wait = False
+        
+        # Get battle result from event data
+        result = event.data.get('result')
+        if hasattr(result, 'value'):
+            result_value = result.value
+        else:
+            result_value = str(result) if result else 'unknown'
+        
+        # Add appropriate message based on result
+        if result_value == 'victory':
+            self.add_message("Du hast gewonnen!", priority="important")
+        elif result_value == 'defeat':
+            self.add_message("Du hast verloren!", priority="important")
+        elif result_value == 'fled':
+            self.add_message("Erfolgreich geflohen!", priority="normal")
+        elif result_value == 'caught':
+            self.add_message("Monster gefangen!", priority="important")
+        else:
+            self.add_message(f"Battle beendet: {result_value}", priority="normal")
+        
+        # Force UI to show battle result screen
+        self.state.current_ui_state = "BATTLE_RESULT"
+        
+        logger.info(f"🏁 Battle end: {result_value}")
+    
+    def show_victory_message(self) -> None:
+        """Show victory message and handle transition."""
+        self.add_message("Du hast gewonnen!", priority="important")
+        self.add_message("Belohnungen werden berechnet...", priority="normal")
+        # Set flag for reward screen
+        self.state.show_rewards = True
+        
+    def show_defeat_message(self) -> None:
+        """Show defeat message and handle transition."""
+        self.add_message("Du hast verloren!", priority="important")
+        self.add_message("Du wirst ins Hauptmenü zurückgebracht...", priority="normal")
+        # Set flag for defeat screen
+        self.state.show_defeat = True
+        
+    def show_catch_success_message(self) -> None:
+        """Show catch success message."""
+        self.add_message("Monster gefangen!", priority="important")
+        self.add_message("Es wurde zu deinem Team hinzugefügt!", priority="normal")
+    
+    def _on_monster_fainted(self, event) -> None:
+        """Handle Monster Fainted Event - FAINT ANIMATION."""
+        monster = event.data.get('monster')
+        if monster:
+            # Play faint animation via renderer
+            if self.renderer:
+                self.renderer.play_faint_animation(monster)
+            else:
+                # Fallback: add message
+                self.add_message(f"{monster.name} ist ohnmächtig!")
+            
+            logger.debug(f"Monster fainted: {monster.name}")
+    
+    def _on_monster_switch(self, event) -> None:
+        """Handle Monster Switch Event - APPEAR ANIMATION."""
+        # Update monster sprites
+        if 'player_active' in event.data:
+            monster = event.data['player_active']
+            if monster:
+                self.player_sprite = BattleSprite(
+                    surface=self._get_monster_sprite(monster),
+                    position=self._get_monster_position(monster, True),
+                    is_player_side=True
+                )
+                # Play appear animation via renderer
+                if self.renderer:
+                    self.renderer.play_appear_animation(monster)
+                logger.debug(f"Player switch: {monster.name}")
+        
+        if 'enemy_active' in event.data:
+            monster = event.data['enemy_active']
+            if monster:
+                self.enemy_sprite = BattleSprite(
+                    surface=self._get_monster_sprite(monster),
+                    position=self._get_monster_position(monster, False),
+                    is_player_side=False
+                )
+                # Play appear animation via renderer
+                if self.renderer:
+                    self.renderer.play_appear_animation(monster)
+                logger.debug(f"Enemy switch: {monster.name}")
+    
+    def _on_status_applied(self, event) -> None:
+        """Handle Status Applied Event - STATUS INDICATOR."""
+        target = event.data.get('target')
+        status = event.data.get('status')
+        
+        if target and status:
+            # Show status effect via renderer
+            if self.renderer:
+                self.renderer.show_status_effect(target, status)
+            else:
+                # Fallback: add message
+                self.add_message(f"{target.name} ist {status}!")
+            
+            logger.debug(f"Status applied: {target.name} -> {status}")
+    
+    def _on_critical_hit(self, event) -> None:
+        """Handle Critical Hit Event - SPECIAL EFFECTS."""
+        target = event.data.get('target')
+        if target:
+            # Add critical hit effect
+            pos = self._get_monster_position(target, target == self.battle_state.player_active)
+            self.state.add_particle_effect(pos, 'critical', 15)
+            
+            # Screen flash for critical hits
+            self.state.trigger_screen_flash((255, 255, 0), 0.5, 0.1)
+            
+            logger.debug(f"Critical hit: {target.name}")
+    
+    def _on_miss(self, event) -> None:
+        """Handle Miss Event - MISS EFFECTS."""
+        target = event.data.get('target')
+        if target:
+            # Add miss effect
+            pos = self._get_monster_position(target, target == self.battle_state.player_active)
+            self.state.add_particle_effect(pos, 'miss', 8)
+            logger.debug(f"Miss: {target.name}")
+    
+    def _on_tame_attempt(self, event) -> None:
+        """Handle Tame Attempt Event - TAMING UI."""
+        target = event.data.get('target')
+        success = event.data.get('success', False)
+        
+        if success:
+            self.add_message("Monster erfolgreich gezähmt!", priority="important")
+            # Add celebration effect
+            if target:
+                pos = self._get_monster_position(target, target == self.battle_state.player_active)
+                self.state.add_particle_effect(pos, 'celebration', 20)
+        else:
+            self.add_message("Zähmversuch fehlgeschlagen!", priority="normal")
+        
+        logger.debug(f"Tame attempt: {target.name if target else 'unknown'} -> {success}")
+    
+    # === NEW EVENT HANDLERS FOR 45 EVENTS ===
+    
+    def _on_action_announce(self, event) -> None:
+        """Handle Action Announce Event - ACTION PREVIEW."""
+        action = event.data.get('action', '')
+        actor = event.data.get('actor', '')
+        
+        if action and actor:
+            self.add_message(f"{actor} bereitet {action} vor...", duration=1.0)
+            logger.debug(f"Action announced: {actor} -> {action}")
+    
+    def _on_action_start(self, event) -> None:
+        """Handle Action Start Event - ACTION BEGINNING."""
+        action = event.data.get('action', '')
+        actor = event.data.get('actor', '')
+        
+        if action and actor:
+            logger.debug(f"Action started: {actor} -> {action}")
+    
+    def _on_action_execute(self, event) -> None:
+        """Handle Action Execute Event - ACTION EXECUTION."""
+        action = event.data.get('action', '')
+        actor = event.data.get('actor', '')
+        
+        if action and actor:
+            logger.debug(f"Action executing: {actor} -> {action}")
+    
+    def _on_action_end(self, event) -> None:
+        """Handle Action End Event - ACTION COMPLETION."""
+        action = event.data.get('action', '')
+        actor = event.data.get('actor', '')
+        
+        if action and actor:
+            logger.debug(f"Action ended: {actor} -> {action}")
+    
+    def _on_action_complete(self, event) -> None:
+        """Handle Action Complete Event - ACTION FINISHED."""
+        action = event.data.get('action', '')
+        actor = event.data.get('actor', '')
+        
+        if action and actor:
+            logger.debug(f"Action completed: {actor} -> {action}")
+    
+    def _on_stat_change(self, event) -> None:
+        """Handle Stat Change Event - STAT MODIFICATION."""
+        target = event.data.get('target')
+        stat = event.data.get('stat', '')
+        change = event.data.get('change', 0)
+        
+        if target and stat and change != 0:
+            direction = "steigt" if change > 0 else "sinkt"
+            self.add_message(f"{target.name}s {stat} {direction}!")
+            logger.debug(f"Stat change: {target.name} {stat} {change:+d}")
+    
+    def _on_menu_open(self, event) -> None:
+        """Handle Menu Open Event - MENU STATE."""
+        menu_type = event.data.get('menu_type', 'main')
+        self.state.menu_state = BattleMenuState(menu_type.upper())
+        logger.debug(f"Menu opened: {menu_type}")
+    
+    def _on_menu_close(self, event) -> None:
+        """Handle Menu Close Event - MENU STATE."""
+        self.state.menu_state = BattleMenuState.MAIN
+        logger.debug("Menu closed")
+    
+    def _on_dodge(self, event) -> None:
+        """Handle Dodge Event - DODGE EFFECTS."""
+        target = event.data.get('target')
+        if target:
+            pos = self._get_monster_position(target, target == self.battle_state.player_active)
+            self.state.add_particle_effect(pos, 'dodge', 8)
+            logger.debug(f"Dodge: {target.name}")
+    
+    def _on_block(self, event) -> None:
+        """Handle Block Event - BLOCK EFFECTS."""
+        target = event.data.get('target')
+        if target:
+            pos = self._get_monster_position(target, target == self.battle_state.player_active)
+            self.state.add_particle_effect(pos, 'block', 10)
+            logger.debug(f"Block: {target.name}")
+    
+    def _on_reflect(self, event) -> None:
+        """Handle Reflect Event - REFLECT EFFECTS."""
+        target = event.data.get('target')
+        if target:
+            pos = self._get_monster_position(target, target == self.battle_state.player_active)
+            self.state.add_particle_effect(pos, 'reflect', 12)
+            logger.debug(f"Reflect: {target.name}")
+    
+    def _on_absorb(self, event) -> None:
+        """Handle Absorb Event - ABSORB EFFECTS."""
+        target = event.data.get('target')
+        if target:
+            pos = self._get_monster_position(target, target == self.battle_state.player_active)
+            self.state.add_particle_effect(pos, 'absorb', 15)
+            logger.debug(f"Absorb: {target.name}")
+    
+    def _on_charge(self, event) -> None:
+        """Handle Charge Event - CHARGE EFFECTS."""
+        target = event.data.get('target')
+        if target:
+            pos = self._get_monster_position(target, target == self.battle_state.player_active)
+            self.state.add_particle_effect(pos, 'charge', 20)
+            logger.debug(f"Charge: {target.name}")
+    
+    def _on_discharge(self, event) -> None:
+        """Handle Discharge Event - DISCHARGE EFFECTS."""
+        target = event.data.get('target')
+        if target:
+            pos = self._get_monster_position(target, target == self.battle_state.player_active)
+            self.state.add_particle_effect(pos, 'discharge', 25)
+            logger.debug(f"Discharge: {target.name}")
+    
+    def _on_summon(self, event) -> None:
+        """Handle Summon Event - SUMMON EFFECTS."""
+        target = event.data.get('target')
+        if target:
+            pos = self._get_monster_position(target, target == self.battle_state.player_active)
+            self.state.add_particle_effect(pos, 'summon', 30)
+            logger.debug(f"Summon: {target.name}")
+    
+    def _on_banish(self, event) -> None:
+        """Handle Banish Event - BANISH EFFECTS."""
+        target = event.data.get('target')
+        if target:
+            pos = self._get_monster_position(target, target == self.battle_state.player_active)
+            self.state.add_particle_effect(pos, 'banish', 25)
+            logger.debug(f"Banish: {target.name}")
+    
+    def _on_escape_attempt(self, event) -> None:
+        """Handle Escape Attempt Event - ESCAPE UI."""
+        success = event.data.get('success', False)
+        
+        if success:
+            self.add_message("Flucht erfolgreich!", priority="important")
+        else:
+            self.add_message("Flucht unmöglich!", priority="normal")
+        
+        logger.debug(f"Escape attempt: {success}")
+    
+    def _on_item_use(self, event) -> None:
+        """Handle Item Use Event - ITEM UI."""
+        item = event.data.get('item', '')
+        target = event.data.get('target')
+        
+        if item and target:
+            self.add_message(f"{item} wurde verwendet!", duration=1.5)
+            logger.debug(f"Item used: {item} on {target.name}")
+    
+    def _on_dialog_show(self, event) -> None:
+        """Handle Dialog Show Event - DIALOG UI."""
+        message = event.data.get('message', '')
+        if message:
+            self.add_message(message, duration=3.0, priority="dialog")
+            logger.debug(f"Dialog shown: {message}")
+    
+    def _on_dialog_choice(self, event) -> None:
+        """Handle Dialog Choice Event - DIALOG UI."""
+        choice = event.data.get('choice', '')
+        if choice:
+            logger.debug(f"Dialog choice: {choice}")
+    
+    def _on_weather_effect(self, event) -> None:
+        """Handle Weather Effect Event - WEATHER UI."""
+        weather = event.data.get('weather', '')
+        if weather:
+            self.add_message(f"Wetter-Effekt: {weather}!", duration=2.0)
+            logger.debug(f"Weather effect: {weather}")
+    
+    def _on_terrain_effect(self, event) -> None:
+        """Handle Terrain Effect Event - TERRAIN UI."""
+        terrain = event.data.get('terrain', '')
+        if terrain:
+            self.add_message(f"Terrain-Effekt: {terrain}!", duration=2.0)
+            logger.debug(f"Terrain effect: {terrain}")
+    
+    def _on_wait(self, event) -> None:
+        """Handle Wait Event - WAIT UI."""
+        duration = event.data.get('duration', 1.0)
+        logger.debug(f"Wait: {duration}s")
+    
+    def _on_wait_for_input(self, event) -> None:
+        """Handle Wait For Input Event - INPUT WAIT."""
+        self.waiting_for_input = True
+        logger.debug("Waiting for input")
+    
+    def _on_wait_for_animation(self, event) -> None:
+        """Handle Wait For Animation Event - ANIMATION WAIT."""
+        duration = event.data.get('duration', 1.0)
+        logger.debug(f"Waiting for animation: {duration}s")
+    
+    def _on_level_up(self, event) -> None:
+        """Handle Level Up Event - LEVEL UP UI."""
+        monster = event.data.get('monster')
+        new_level = event.data.get('new_level', 0)
+        
+        if monster and new_level > 0:
+            self.add_message(f"{monster.name} erreicht Level {new_level}!", priority="important")
+            # Add level up effect
+            pos = self._get_monster_position(monster, monster == self.battle_state.player_active)
+            self.state.add_particle_effect(pos, 'levelup', 40)
+            logger.debug(f"Level up: {monster.name} -> Level {new_level}")
+    
+    def _on_super_effective(self, event) -> None:
+        """Handle Super Effective Event - TYPE EFFECTIVENESS."""
+        target = event.data.get('target')
+        if target:
+            pos = self._get_monster_position(target, target == self.battle_state.player_active)
+            self.state.add_particle_effect(pos, 'super_effective', 15)
+            logger.debug(f"Super effective: {target.name}")
+    
+    def _on_not_effective(self, event) -> None:
+        """Handle Not Effective Event - TYPE EFFECTIVENESS."""
+        target = event.data.get('target')
+        if target:
+            pos = self._get_monster_position(target, target == self.battle_state.player_active)
+            self.state.add_particle_effect(pos, 'not_effective', 10)
+            logger.debug(f"Not effective: {target.name}")
+    
+    def _on_not_very_effective(self, event) -> None:
+        """Handle Not Very Effective Event - TYPE EFFECTIVENESS."""
+        target = event.data.get('target')
+        if target:
+            pos = self._get_monster_position(target, target == self.battle_state.player_active)
+            self.state.add_particle_effect(pos, 'not_very_effective', 8)
+            logger.debug(f"Not very effective: {target.name}")
+    
+    def _on_no_effect(self, event) -> None:
+        """Handle No Effect Event - TYPE EFFECTIVENESS."""
+        target = event.data.get('target')
+        if target:
+            pos = self._get_monster_position(target, target == self.battle_state.player_active)
+            self.state.add_particle_effect(pos, 'no_effect', 5)
+            logger.debug(f"No effect: {target.name}")
+    
+    def _on_immune(self, event) -> None:
+        """Handle Immune Event - TYPE EFFECTIVENESS."""
+        target = event.data.get('target')
+        if target:
+            pos = self._get_monster_position(target, target == self.battle_state.player_active)
+            self.state.add_particle_effect(pos, 'immune', 12)
+            logger.debug(f"Immune: {target.name}")
+    
+    # ENHANCED: Visual Effects Event Handlers
+    def _on_animation_play(self, event) -> None:
+        """Handle Animation Play Event - VISUAL EFFECTS."""
+        animation_type = event.data.get('type', 'default')
+        target = event.data.get('target')
+        if target:
+            pos = self._get_monster_position(target, target == self.battle_state.player_active)
+            self.renderer.visual_effects.add_effect(animation_type, pos)
+            logger.debug(f"Animation play: {animation_type} for {target.name}")
+    
+    def _on_heal(self, event) -> None:
+        """Handle Heal Event - VISUAL EFFECTS."""
+        target = event.data.get('target')
+        healing = event.data.get('healing', 0)
+        if target and healing > 0:
+            pos = self._get_monster_position(target, target == self.battle_state.player_active)
+            self.renderer.show_healing_number(target, healing)
+            self.renderer.visual_effects.add_effect('heal', pos)
+            logger.debug(f"Heal: {target.name} +{healing} HP")
+    
+    def _on_revive(self, event) -> None:
+        """Handle Revive Event - VISUAL EFFECTS."""
+        target = event.data.get('target')
+        if target:
+            pos = self._get_monster_position(target, target == self.battle_state.player_active)
+            self.renderer.visual_effects.add_effect('heal', pos, 2.0)
+            logger.debug(f"Revive: {target.name}")
+    
+    def _on_transform(self, event) -> None:
+        """Handle Transform Event - VISUAL EFFECTS."""
+        target = event.data.get('target')
+        if target:
+            pos = self._get_monster_position(target, target == self.battle_state.player_active)
+            self.renderer.visual_effects.add_effect('sparkle', pos, 1.5)
+            logger.debug(f"Transform: {target.name}")
+    
+    def _on_copy(self, event) -> None:
+        """Handle Copy Event - VISUAL EFFECTS."""
+        target = event.data.get('target')
+        if target:
+            pos = self._get_monster_position(target, target == self.battle_state.player_active)
+            self.renderer.visual_effects.add_effect('sparkle', pos)
+            logger.debug(f"Copy: {target.name}")
+    
+    def _on_steal(self, event) -> None:
+        """Handle Steal Event - VISUAL EFFECTS."""
+        target = event.data.get('target')
+        if target:
+            pos = self._get_monster_position(target, target == self.battle_state.player_active)
+            self.renderer.visual_effects.add_effect('sparkle', pos)
+            logger.debug(f"Steal: {target.name}")
+    
+    def _on_swap(self, event) -> None:
+        """Handle Swap Event - VISUAL EFFECTS."""
+        target = event.data.get('target')
+        if target:
+            pos = self._get_monster_position(target, target == self.battle_state.player_active)
+            self.renderer.visual_effects.add_effect('sparkle', pos)
+            logger.debug(f"Swap: {target.name}")
+    
+    def _on_trap(self, event) -> None:
+        """Handle Trap Event - VISUAL EFFECTS."""
+        target = event.data.get('target')
+        if target:
+            pos = self._get_monster_position(target, target == self.battle_state.player_active)
+            self.renderer.visual_effects.add_effect('explosion', pos, 0.8)
+            logger.debug(f"Trap: {target.name}")
     
     def apply_update(self, update: Dict[str, Any]) -> None:
         """Wende Battle Update an."""
@@ -475,10 +1317,29 @@ class BattleUI:
         return self.waiting_for_input
     
     def reset_to_main_menu(self):
-        """Reset zu Hauptmenü."""
+        """PROFESSIONAL RESET zu Hauptmenü mit detailliertem Debug."""
+        logger.info("🔄 PROFESSIONAL UI RESET: Starting complete reset")
+        
+        # PROFESSIONAL DEBUG: Log current state
+        logger.info(f"   Before reset: waiting_for_input={self.waiting_for_input}")
+        logger.info(f"   Before reset: menu_state={getattr(self, 'current_menu_state', 'UNKNOWN')}")
+        logger.info(f"   Before reset: selected_option={getattr(self, 'selected_option', 'UNKNOWN')}")
+        logger.info(f"   Before reset: pending_action={getattr(self, '_pending_action', 'UNKNOWN')}")
+        
+        # PROFESSIONAL RESET: Complete state reset
         self.menu_manager.show_main_menu()
         self.waiting_for_input = True
-        logger.info("Reset to main menu")
+        self.current_menu_state = BattleMenuState.MAIN
+        self.selected_option = 0
+        self._pending_action = None
+        self.current_message = None
+        self.message_timer = 0
+        
+        # PROFESSIONAL DEBUG: Verify reset
+        logger.info(f"   After reset: waiting_for_input={self.waiting_for_input}")
+        logger.info(f"   After reset: menu_state={getattr(self, 'current_menu_state', 'UNKNOWN')}")
+        logger.info(f"   After reset: selected_option={getattr(self, 'selected_option', 'UNKNOWN')}")
+        logger.info("✅ PROFESSIONAL UI RESET COMPLETE - ready for next turn")
     
     def init_demo_inventory(self):
         """Initialisiere Demo-Inventar für Tests."""
@@ -559,394 +1420,16 @@ class BattleUI:
         else:
             return (3 * LOGICAL_WIDTH // 4, LOGICAL_HEIGHT // 2)
     
-    def _update_animations(self, dt):
-        """Update Animationen und Effekte using BattleUIState."""
-        # Update all animations through BattleUIState
-        self.state.update_animations(dt)
-        
-        # Update message timer
-        if self.message_timer > 0:
-            self.message_timer -= dt
-            if self.message_timer <= 0:
-                self._next_message()
-    
-    def _next_message(self):
-        """Nächste Nachricht aus Queue."""
-        if self.message_queue:
-            self.current_message = self.message_queue.pop(0)
-            self.message_timer = 2.0  # 2 seconds per message
-        else:
-            self.current_message = ""
-            self.waiting_for_input = True
+    # ===== REDUNDANT METHODS REMOVED =====
+    # _update_animations() and _next_message() are now handled by:
+    # - BattleUIState.update_animations() for animations
+    # - BattleUIState.update_message_timer() for message queue
     
     # Event processing methods - LEGACY VERSION REMOVED
     
-    def _handle_message_event(self, event):
-        """Handle Message Event - ENHANCED Priority-System."""
-        message = event.get('message', '')
-        duration = event.get('duration', 2.0)  # Erhöhte Standard-Dauer
-        priority = event.get('priority', 'normal')  # Message-Priorität
-        
-        if message:
-            # Sofortige Message-Anzeige mit Priority-System
-            self.add_message(message, wait=True, duration=duration, priority=priority)
-            
-            # Zusätzliche Timer-Überprüfung für Priority-System
-            if priority == "important" and self.message_timer < 3.0:
-                self.message_timer = 3.0
-            elif priority == "critical" and self.message_timer < 4.0:
-                self.message_timer = 4.0
-            elif priority == "quick" and self.message_timer > 1.0:
-                self.message_timer = 1.0
-            
-            logger.info(f"✓ Message displayed immediately: '{message}' (priority: {priority}, duration: {self.message_timer}s)")
-    
-    def _handle_hp_update_event(self, event):
-        """Handle HP Update Event - OPTIMIERTE SOFORTIGE UI-UPDATES."""
-        target = event.get('target')
-        if target:
-            # IMMEDIATE update - keine Verzögerung
-            self.update_hp_bar(target, animated=True)
-            
-            # Get monster ID
-            if hasattr(target, 'id'):
-                monster_id = target.id
-            else:
-                monster_id = id(target)
-            
-            old_hp = event.get('old_hp', target.current_hp)
-            new_hp = target.current_hp
-            max_hp = target.max_hp
-            
-            # Start smooth animation immediately
-            self.state.add_hp_animation(monster_id, old_hp, new_hp, max_hp, duration=0.4)
-            
-            # Sofortige UI-State-Aktualisierung für sofortige Anzeige
-            self.state.animations["hp_bars"][monster_id] = {
-                "active": True,
-                "current": new_hp,  # Sofort aktueller Wert
-                "target": new_hp,
-                "max_hp": max_hp,
-                "speed": 150,  # Schnellere Animation
-                "timer": 0.4,  # Kürzere Animationszeit
-                "original_timer": 0.4,  # Für bessere Interpolation
-                "old_hp": old_hp,
-                "new_hp": new_hp
-            }
-            
-            logger.info(f"✓ HP update processed immediately: {target.name} {old_hp} -> {new_hp}/{max_hp}")
-    
-    def _handle_damage_event(self, event):
-        """Handle Damage Event - ENHANCED."""
-        target = event.get('target')
-        damage = event.get('damage', 0)
-        is_critical = event.get('is_critical', False)
-        is_super_effective = event.get('is_super_effective', False)
-        
-        if target and damage > 0:
-            # Show damage number with enhanced effects
-            self.show_damage_number(target, damage, is_critical, is_super_effective)
-            
-            # Add damage number to state for animation
-            pos = self._get_monster_position(target, target == self.battle_state.player_active)
-            color = (255, 0, 0) if not is_super_effective else (255, 100, 0)
-            if is_critical:
-                color = (255, 255, 0)
-            
-            self.state.add_damage_number(damage, pos, color, is_critical)
-            logger.info(f"Damage event: {target.name} takes {damage} damage (critical: {is_critical})")
-    
-    def _handle_status_event(self, event):
-        """Handle Status Event - ENHANCED."""
-        target = event.get('target')
-        status = event.get('status')
-        applied = event.get('applied', True)
-        
-        if target and status:
-            if applied:
-                # Show status effect applied
-                self.show_status_effect(target, status)
-                
-                # Add status effect to state for animation
-                if hasattr(target, 'id'):
-                    monster_id = target.id
-                else:
-                    monster_id = id(target)
-                
-                self.state.add_status_effect(monster_id, status, 2.0)
-                logger.info(f"Status applied: {target.name} -> {status}")
-            else:
-                # Status removed
-                logger.info(f"Status removed: {target.name} -> {status}")
-    
-    def _handle_healing_event(self, event):
-        """Handle Healing Event - ENHANCED."""
-        target = event.get('target')
-        healing = event.get('healing', 0)
-        
-        if target and healing > 0:
-            # Show healing number
-            self.show_healing_number(target, healing)
-            
-            # Add healing number to state for animation
-            pos = self._get_monster_position(target, target == self.battle_state.player_active)
-            self.state.add_damage_number(healing, pos, (0, 255, 0), False)
-            logger.info(f"Healing event: {target.name} healed for {healing}")
-    
-    def _handle_faint_event(self, event):
-        """Handle Faint Event - ENHANCED."""
-        monster = event.get('monster')
-        if monster:
-            # Play faint animation
-            self.play_faint_animation(monster)
-            
-            # Add faint animation to state
-            if hasattr(monster, 'id'):
-                monster_id = monster.id
-            else:
-                monster_id = id(monster)
-            
-            self.state.start_faint_animation(monster_id)
-            logger.info(f"Faint event: {monster.name} fainted")
-    
-    def _handle_switch_event(self, event):
-        """Handle Switch Event - ENHANCED."""
-        # Update monster sprites
-        if 'player_active' in event:
-            monster = event['player_active']
-            if monster:
-                self.player_sprite = BattleSprite(
-                    surface=self._get_monster_sprite(monster),
-                    position=self._get_monster_position(monster, True),
-                    is_player_side=True
-                )
-                
-                # Add appear animation
-                if hasattr(monster, 'id'):
-                    monster_id = monster.id
-                else:
-                    monster_id = id(monster)
-                
-                self.state.start_appear_animation(monster_id)
-                logger.info(f"Switch event: {monster.name} appeared")
-        
-        if 'enemy_active' in event:
-            monster = event['enemy_active']
-            if monster:
-                self.enemy_sprite = BattleSprite(
-                    surface=self._get_monster_sprite(monster),
-                    position=self._get_monster_position(monster, False),
-                    is_player_side=False
-                )
-                
-                # Add appear animation
-                if hasattr(monster, 'id'):
-                    monster_id = monster.id
-                else:
-                    monster_id = id(monster)
-                
-                self.state.start_appear_animation(monster_id)
-                logger.info(f"Switch event: {monster.name} appeared")
-    
-    def _handle_turn_start_event(self, event):
-        """Handle Turn Start Event - ENHANCED."""
-        self.waiting_for_input = True
-        self.state.message_wait = True
-        logger.info("Turn start: UI waiting for input")
-    
-    def _handle_turn_end_event(self, event):
-        """Handle Turn End Event - ENHANCED."""
-        self.waiting_for_input = False
-        self.state.message_wait = False
-        logger.info("Turn end: UI not waiting for input")
-    
-    def _handle_battle_end_event(self, event):
-        """Handle Battle End Event - ENHANCED."""
-        self.waiting_for_input = False
-        self.state.message_wait = False
-        
-        result = event.get('result', 'unknown')
-        if result == 'victory':
-            self.add_message("Du hast gewonnen!")
-        elif result == 'defeat':
-            self.add_message("Du hast verloren!")
-        elif result == 'fled':
-            self.add_message("Erfolgreich geflohen!")
-        elif result == 'caught':
-            self.add_message("Monster gefangen!")
-        else:
-            self.add_message("Battle beendet!")
-        
-        logger.info(f"Battle end event: {result}")
-    
-    def _handle_animation_event(self, event):
-        """Handle Animation Event - ENHANCED."""
-        animation_type = event.get('animation_type', 'generic')
-        target = event.get('target')
-        
-        if animation_type == 'attack' and target:
-            # Add attack animation
-            if hasattr(target, 'id'):
-                target_id = target.id
-            else:
-                target_id = id(target)
-            
-            self.state.add_attack_animation(target_id, target_id, 'physical')
-            logger.info(f"Attack animation: {target.name}")
-        
-        elif animation_type == 'particle' and target:
-            # Add particle effect
-            pos = self._get_monster_position(target, target == self.battle_state.player_active)
-            self.state.add_particle_effect(pos, 'sparkle', 10)
-            logger.info(f"Particle effect: {target.name}")
-    
-    def _handle_screen_flash_event(self, event):
-        """Handle Screen Flash Event - ENHANCED."""
-        intensity = event.get('intensity', 128)
-        color = event.get('color', (255, 255, 255))
-        duration = event.get('duration', 0.3)
-        
-        self.trigger_screen_flash(intensity)
-        self.state.trigger_screen_flash(color, intensity / 255.0, duration)
-        logger.info(f"Screen flash: intensity={intensity}, color={color}")
-    
-    def _handle_screen_shake_event(self, event):
-        """Handle Screen Shake Event - ENHANCED."""
-        intensity = event.get('intensity', 5)
-        duration = event.get('duration', 0.3)
-        
-        self.trigger_screen_shake(intensity, duration)
-        self.state.trigger_screen_shake(intensity, duration)
-        logger.info(f"Screen shake: intensity={intensity}, duration={duration}")
-    
-    def _handle_status_tick_event(self, event):
-        """Handle Status Tick Event - ENHANCED."""
-        target = event.get('target')
-        status = event.get('status')
-        damage = event.get('damage', 0)
-        
-        if target and status:
-            if damage > 0:
-                # Show status damage
-                self.show_damage_number(target, damage, False, True)
-                logger.info(f"Status tick: {target.name} takes {damage} {status} damage")
-            else:
-                logger.info(f"Status tick: {target.name} {status} effect")
-    
-    def _handle_phase_change_event(self, event):
-        """Handle Phase Change Event - ENHANCED."""
-        phase = event.get('phase')
-        if phase:
-            self._handle_phase_change({'phase': phase})
-            logger.info(f"Phase change event processed: {phase}")
-    
-    def _handle_phase_change(self, data):
-        """Handle Phase Change - ROBUST IMPLEMENTATION."""
-        phase = data.get('phase')
-        logger.info(f"Phase change event received: {phase}")
-        
-        # Import BattlePhase if not already imported
-        try:
-            from engine.systems.battle.battle_enums import BattlePhase
-        except ImportError:
-            # Fallback if import fails
-            class BattlePhase:
-                INPUT = 'input'
-                EXECUTION = 'execution'
-                START = 'start'
-                END = 'end'
-        
-        if phase == 'input' or phase == BattlePhase.INPUT:
-            self.waiting_for_input = True
-            self.state.message_wait = True
-            logger.info("✓ UI set to waiting for input")
-        elif phase == 'execution' or phase == BattlePhase.EXECUTION:
-            self.waiting_for_input = False
-            self.state.message_wait = False
-            logger.info("✓ UI set to not waiting for input")
-        elif phase == 'start' or phase == BattlePhase.START:
-            self.waiting_for_input = True
-            self.state.message_wait = True
-            logger.info("✓ UI set to waiting for input (battle start)")
-        elif phase == 'end' or phase == BattlePhase.END:
-            self.waiting_for_input = False
-            self.state.message_wait = False
-            logger.info("✓ UI set to not waiting for input (battle end)")
-    
-    # Additional Event Handlers for Complete Coverage
-    def _handle_critical_hit_event(self, event):
-        """Handle Critical Hit Event."""
-        target = event.get('target')
-        if target:
-            # Add critical hit effect
-            pos = self._get_monster_position(target, target == self.battle_state.player_active)
-            self.state.add_particle_effect(pos, 'critical', 15)
-            logger.info(f"Critical hit: {target.name}")
-    
-    def _handle_miss_event(self, event):
-        """Handle Miss Event."""
-        target = event.get('target')
-        if target:
-            # Add miss effect
-            pos = self._get_monster_position(target, target == self.battle_state.player_active)
-            self.state.add_particle_effect(pos, 'miss', 8)
-            logger.info(f"Miss: {target.name}")
-    
-    def _handle_stat_change_event(self, event):
-        """Handle Stat Change Event."""
-        target = event.get('target')
-        stat = event.get('stat')
-        change = event.get('change', 0)
-        
-        if target and stat and change != 0:
-            direction = "increased" if change > 0 else "decreased"
-            self.add_message(f"{target.name}'s {stat} {direction}!")
-            logger.info(f"Stat change: {target.name} {stat} {change:+d}")
-    
-    # Enhanced Event Processing with Complete Coverage
-    def process_battle_event(self, event: dict):
-        """Verarbeite Battle Event - ENHANCED VERSION."""
-        event_type = event.get('type')
-        
-        # Enhanced event routing with all EventTypes
-        if event_type == 'message':
-            self._handle_message_event(event)
-        elif event_type == 'hp_update' or event_type == 'hp_bar':
-            self._handle_hp_update_event(event)
-        elif event_type == 'damage':
-            self._handle_damage_event(event)
-        elif event_type == 'status_change' or event_type == 'status':
-            self._handle_status_event(event)
-        elif event_type == 'healing':
-            self._handle_healing_event(event)
-        elif event_type == 'monster_faint' or event_type == 'faint':
-            self._handle_faint_event(event)
-        elif event_type == 'monster_switch' or event_type == 'switch':
-            self._handle_switch_event(event)
-        elif event_type == 'turn_start':
-            self._handle_turn_start_event(event)
-        elif event_type == 'turn_end':
-            self._handle_turn_end_event(event)
-        elif event_type == 'battle_end':
-            self._handle_battle_end_event(event)
-        elif event_type == 'animation':
-            self._handle_animation_event(event)
-        elif event_type == 'screen_flash':
-            self._handle_screen_flash_event(event)
-        elif event_type == 'camera_shake' or event_type == 'screen_shake':
-            self._handle_screen_shake_event(event)
-        elif event_type == 'status_tick':
-            self._handle_status_tick_event(event)
-        elif event_type == 'phase_change':
-            self._handle_phase_change_event(event)
-        elif event_type == 'critical':
-            self._handle_critical_hit_event(event)
-        elif event_type == 'miss':
-            self._handle_miss_event(event)
-        elif event_type == 'stat_change':
-            self._handle_stat_change_event(event)
-        else:
-            logger.warning(f"Unknown event type: {event_type}")
+    # ===== LEGACY EVENT HANDLERS REMOVED =====
+    # These methods have been replaced by the new _on_* event handlers
+    # that are automatically registered with the EventProcessor system.
     
     # Utility methods
     def update_hp_bar(self, target, animated=True):
@@ -978,179 +1461,59 @@ class BattleUI:
         
         logger.info(f"✓ HP bar updated immediately: {target.name} {target.current_hp}/{target.max_hp}")
     
-    def show_damage_number(self, target, damage, is_critical=False, is_status=False, is_super_effective=False):
-        """Zeige Damage Number - VERBESSERTE POSITIONIERUNG."""
-        pos = self._get_monster_position(target, target == self.battle_state.player_active)
-        
-        # Verbesserte Positionierung - zentriert über Monster
-        if target == self.battle_state.player_active:
-            # Player side - zentriert über Monster
-            pos = (pos[0] + 16, pos[1] - 10)  # 16 = halbe Sprite-Breite
-        else:
-            # Enemy side - zentriert über Monster
-            pos = (pos[0] + 16, pos[1] - 10)
-        
-        # Enhanced color logic
-        if is_critical:
-            color = (255, 255, 0)  # Yellow for critical
-        elif is_super_effective:
-            color = (255, 100, 0)  # Orange for super effective
-        elif is_status:
-            color = (255, 100, 100)  # Light red for status
-        else:
-            color = (255, 0, 0)  # Red for normal damage
-        
-        damage_num = DamageNumber(
-            value=damage,
-            position=pos,
-            timer=2.0,
-            velocity=(0, -50),
-            color=color,
-            is_critical=is_critical
-        )
-        self.damage_numbers.append(damage_num)
-        
-        # Also add to state for animation
-        self.state.add_damage_number(damage, pos, color, is_critical)
-        
-        logger.info(f"✓ Damage number: {damage} at {pos} (critical: {is_critical})")
+    # ===== REDUNDANT METHODS REMOVED =====
+    # These methods are now handled by the Event System:
+    # - show_damage_number() -> _on_damage_dealt()
+    # - show_healing_number() -> _on_healing_done()
+    # - show_status_effect() -> _on_status_applied()
+    # - play_faint_animation() -> _on_monster_fainted()
+    # - play_appear_animation() -> _on_monster_appear()
     
-    def show_status_effect(self, target, status):
-        """Zeige Status Effect - ENHANCED."""
-        # Status effect display delegated to renderer
-        if self.renderer and hasattr(self.renderer, 'show_status_effect'):
-            self.renderer.show_status_effect(target, status)
-        else:
-            # Fallback: add message
-            self.add_message(f"{target.name} ist {status}!")
-        
-        # Add status effect to state for animation
-        if hasattr(target, 'id'):
-            monster_id = target.id
-        else:
-            monster_id = id(target)
-        
-        self.state.add_status_effect(monster_id, status, 2.0)
-    
-    def play_faint_animation(self, monster):
-        """Spiele Faint Animation - ENHANCED."""
-        # Faint animation delegated to renderer
-        if self.renderer and hasattr(self.renderer, 'play_faint_animation'):
-            self.renderer.play_faint_animation(monster)
-        else:
-            # Fallback: add message
-            self.add_message(f"{monster.name} ist ohnmächtig!")
-        
-        # Add faint animation to state
-        if hasattr(monster, 'id'):
-            monster_id = monster.id
-        else:
-            monster_id = id(monster)
-        
-        self.state.start_faint_animation(monster_id)
-    
-    def show_healing_number(self, target, healing):
-        """Zeige Healing Number - ENHANCED."""
-        pos = self._get_monster_position(target, target == self.battle_state.player_active)
-        
-        damage_num = DamageNumber(
-            value=healing,
-            position=pos,
-            timer=2.0,
-            velocity=(0, -50),
-            color=(0, 255, 0)
-        )
-        self.damage_numbers.append(damage_num)
-        
-        # Also add to state for animation
-        self.state.add_damage_number(healing, pos, (0, 255, 0), False)
-    
-    def play_appear_animation(self, monster):
-        """Spiele Appear Animation - ENHANCED."""
-        # Appear animation delegated to renderer
-        if self.renderer and hasattr(self.renderer, 'play_appear_animation'):
-            self.renderer.play_appear_animation(monster)
-        else:
-            # Fallback: add message
-            self.add_message(f"{monster.name} erscheint!")
-        
-        # Add appear animation to state
-        if hasattr(monster, 'id'):
-            monster_id = monster.id
-        else:
-            monster_id = id(monster)
-        
-        self.state.start_appear_animation(monster_id)
+    def get_current_message(self) -> str:
+        """Get current message from message queue."""
+        if self.state and self.state.message_queue_system:
+            return self.state.message_queue_system.get_current_message()
+        return ""
     
     def show_message(self, message: str) -> None:
         """Zeige Nachricht - ENHANCED."""
+        # CRITICAL: Set current_message IMMEDIATELY
         self.current_message = message
-        self.message_timer = 0.0
+        self.state.current_message = message
+        
+        # CRITICAL: Set message_wait and menu_state
         self.message_wait = True
-        # Don't set to MESSAGE state if we're in MAIN
-        if self.state.menu_state != BattleMenuState.MAIN:
-            self.state.menu_state = BattleMenuState.MESSAGE
+        self.state.message_wait = True
+        self.state.menu_state = BattleMenuState.MESSAGE
+        
+        # Set timer for auto-advance
+        self.message_timer = 2.0
+        self.state.message_timer = 2.0
         
         logger.info(f"Message displayed: {message}")
     
     def add_message(self, message: str, wait: bool = True, duration: float = 2.0, priority: str = "normal"):
         """Füge Nachricht zur Queue hinzu - ENHANCED mit Priority-System."""
-        # Sofort anzeigen
-        self.show_message(message)
+        # Use new message queue system
+        self.state.add_message_to_queue(message, duration, priority, "normal", wait)
         
-        # Priority-basierte Duration
-        if priority == "important":
-            duration = 3.0  # 3 Sekunden für wichtige Messages
-        elif priority == "critical":
-            duration = 4.0  # 4 Sekunden für kritische Messages
-        elif priority == "quick":
-            duration = 1.0  # 1 Sekunde für schnelle Messages
-        
-        # Timer für automatisches Weiterschalten setzen
+        # Update core properties for compatibility
+        self.current_message = message
+        self.message_wait = wait
         self.message_timer = duration
         
-        if not wait:
-            self.message_wait = False
-        
-        logger.info(f"✓ Message displayed: '{message}' (duration: {duration}s, priority: {priority})")
+        logger.info(f"✓ Message queued: '{message}' (duration: {duration}s, priority: {priority})")
     
-    def add_damage_number(self, value: int, x: int, y: int, is_critical: bool = False, 
-                         is_effective: bool = False, is_heal: bool = False, is_status: bool = False) -> None:
-        """Füge Schadens-Nummer hinzu - ENHANCED."""
-        color = (255, 255, 255)  # Default color
-        if is_critical:
-            color = (255, 255, 0)  # Yellow
-        elif is_effective:
-            color = (255, 0, 0)  # Red
-        elif is_heal:
-            color = (0, 255, 0)  # Green
-        elif is_status:
-            color = (255, 0, 255)  # Magenta
-        
-        self.damage_numbers.append({
-            "value": value,
-            "x": x,
-            "y": y,
-            "timer": 1.0,
-            "velocity": (0, -30),
-            "color": color,
-            "is_critical": is_critical,
-            "is_effective": is_effective,
-            "is_heal": is_heal,
-            "is_status": is_status
-        })
-        
-        # Also add to state for animation
-        self.state.add_damage_number(value, (x, y), color, is_critical)
+    def process_message_input(self, action: str) -> bool:
+        """Verarbeite Input für Message-Queue."""
+        return self.state.process_message_input(action)
     
-    def trigger_screen_flash(self, intensity=128):
-        """Trigger Screen Flash - ENHANCED."""
-        self.screen_flash_timer = 0.2
-        # Flash effect handled by renderer
-        self.state.trigger_screen_flash((255, 255, 255), intensity / 255.0, 0.2)
+    def get_current_message_data(self) -> Optional[Dict[str, Any]]:
+        """Hole aktuelle Message-Daten."""
+        return self.state.get_current_message_data()
     
-    def trigger_screen_shake(self, intensity=5, duration=0.3):
-        """Trigger Screen Shake - ENHANCED."""
-        self.screen_shake_timer = duration
-        self.screen_shake_intensity = intensity
-        self.state.trigger_screen_shake(intensity, duration)
+    # ===== REDUNDANT METHODS REMOVED =====
+    # These methods are now handled by the Event System:
+    # - add_damage_number() -> _on_damage_dealt() + _on_healing_done()
+    # - trigger_screen_flash() -> _on_screen_flash() + renderer methods
+    # - trigger_screen_shake() -> _on_camera_shake() + renderer methods

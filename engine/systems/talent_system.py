@@ -96,10 +96,24 @@ class Talent:
                     'effect_type': ability.effect_type,
                     'value': ability.value,
                     'conditions': ability.conditions,
-                    'talent_id': self.id
+                    'talent_id': self.id,
+                    'stat': self._get_stat_from_ability_name(ability.name)  # Add stat mapping
                 })
         
         return passive_abilities
+    
+    def _get_stat_from_ability_name(self, ability_name: str) -> str:
+        """Mappe Ability-Namen zu Stat-Namen"""
+        stat_mapping = {
+            'Körperkraft': 'atk',
+            'Widerstandsfähigkeit': 'def',
+            'Magische Kraft': 'mag',
+            'Magischer Widerstand': 'res',
+            'Geschwindigkeit': 'spd',
+            'Feuerresistenz': 'def',  # Fire resistance affects defense
+            'Verbrennungsschutz': 'def'  # Burn protection affects defense
+        }
+        return stat_mapping.get(ability_name, '')
 
 @dataclass
 class TalentInstance:
@@ -108,6 +122,54 @@ class TalentInstance:
     current_tier: TalentTier = TalentTier.BASIC
     experience: int = 0
     is_learned: bool = False
+    
+    def get_passive_abilities(self) -> List[Dict[str, Any]]:
+        """Hole passive Fähigkeiten für diese Talent-Instanz"""
+        try:
+            from engine.systems.talent_system import get_talent_database
+            talent_db = get_talent_database()
+            talent = talent_db.get_talent(self.talent_id)
+            
+            if not talent:
+                return []
+            
+            return talent.get_passive_abilities_for_tier(self.current_tier)
+            
+        except Exception as e:
+            logger.error(f"Error getting passive abilities for talent {self.talent_id}: {e}")
+            return []
+    
+    def get_progress_to_next_tier(self) -> Dict[str, Any]:
+        """Hole Fortschritt zum nächsten Tier"""
+        if self.current_tier == TalentTier.GRANDMASTER:
+            return {'current': 100, 'total': 100, 'percentage': 100.0}
+        
+        exp_to_next = self.get_experience_to_next_tier()
+        if exp_to_next <= 0:
+            return {'current': 100, 'total': 100, 'percentage': 100.0}
+        
+        # Berechne Fortschritt basierend auf aktueller Erfahrung
+        tier_costs = {
+            TalentTier.BASIC: 0,
+            TalentTier.INTERMEDIATE: 100,
+            TalentTier.ADVANCED: 300,
+            TalentTier.MASTER: 600,
+            TalentTier.GRANDMASTER: 1000
+        }
+        
+        current_tier_exp = tier_costs[self.current_tier]
+        next_tier_exp = tier_costs[TalentTier(self.current_tier.value + 1)]
+        
+        progress = self.experience - current_tier_exp
+        total_needed = next_tier_exp - current_tier_exp
+        
+        percentage = (progress / total_needed) * 100 if total_needed > 0 else 100.0
+        
+        return {
+            'current': progress,
+            'total': total_needed,
+            'percentage': min(100.0, max(0.0, percentage))
+        }
     
     def get_experience_to_next_tier(self) -> int:
         """Berechne benötigte Erfahrung für nächste Stufe"""
@@ -572,8 +634,8 @@ class TalentDatabase:
                 logger.warning(f"Move-Daten für {move_id} nicht gefunden in Talents")
                 return None
             
-            # Bestimme korrekte Kategorie basierend auf Talent
-            category_str = self._get_category_from_talent_category(talent.category)
+            # Bestimme korrekte Kategorie basierend auf Move-Daten
+            category_str = move_data.get('category', 'PHYSICAL')
             try:
                 category = MoveCategory(category_str)
             except ValueError:
@@ -588,7 +650,7 @@ class TalentDatabase:
                 power=move_data.get('power', 40),
                 accuracy=move_data.get('accuracy', 100),
                 priority=move_data.get('priority', 0),
-                targeting=MoveTarget(move_data.get('targeting', 'ENEMY')),
+                targeting=MoveTarget.ENEMY,
                 effects=self._create_move_effects(move_data.get('effects', [])),
                 description=move_data.get('description', '')
             )
@@ -637,7 +699,7 @@ class TalentDatabase:
             TalentCategory.SPECIAL: "Bestie",
             TalentCategory.SYNTHESIS: "Mystik"
         }
-        return type_mapping.get(category, "Normal")
+        return type_mapping.get(category, "Bestie")
 
     def _get_category_from_talent_category(self, category: TalentCategory) -> str:
         """Konvertiere Talent-Kategorie zu Move-Kategorie"""
@@ -934,28 +996,43 @@ class TalentDatabase:
             Move-Objekt oder None
         """
         try:
-            from engine.systems.moves import move_registry
+            # Versuche zuerst Move aus Move-Registry zu holen
+            try:
+                from engine.systems.moves import move_registry
+                move = move_registry.create_move_instance(move_id)
+                if move:
+                    return move
+            except Exception as e:
+                logger.debug(f"Move {move_id} nicht in Move-Registry gefunden: {e}")
             
-            # Versuche Move aus Move-Registry zu holen
-            move = move_registry.create_move_instance(move_id)
-            if move:
-                return move
+            # Fallback: Erstelle Move aus Talent-Daten
+            move_data = self._get_move_data_from_talents(move_id)
+            if not move_data:
+                logger.warning(f"Move-Daten für {move_id} nicht gefunden in Talents")
+                return self._create_fallback_move(move_id)
             
-            # Fallback: Erstelle Dummy-Move
-            logger.warning(f"Move {move_id} nicht in Move-Registry gefunden, erstelle Dummy-Move")
+            # Erstelle Move-Objekt
             from engine.systems.moves import Move, MoveCategory, MoveTarget, MoveEffect, EffectKind
             
-            return Move(
+            # Bestimme korrekte Kategorie
+            category_str = move_data.get('category', 'PHYSICAL')
+            try:
+                category = MoveCategory(category_str)
+            except ValueError:
+                category = MoveCategory.PHYSICAL
+            
+            # Erstelle Move-Objekt
+            move = Move(
                 id=move_id,
-                name=move_id.replace('_', ' ').title(),
-                type="Bestie",
-                category=MoveCategory.PHYSICAL,
-                power=40,
-                accuracy=100,
-                priority=0,
+                name=move_data.get('name', move_id.replace('_', ' ').title()),
+                type=move_data.get('type', 'Bestie'),
+                category=category,
+                power=move_data.get('power', 40),
+                accuracy=move_data.get('accuracy', 100),
+                priority=move_data.get('priority', 0),
                 targeting=MoveTarget.ENEMY,
-                effects=[MoveEffect(kind=EffectKind.DAMAGE, power=40)],
-                description=f"Talent-basierter Move: {move_id}",
+                effects=self._create_move_effects(move_data.get('effects', [])),
+                description=move_data.get('description', f"Talent-basierter Move: {move_id}"),
                 contact=False,
                 sound_based=False,
                 punching=False,
@@ -968,9 +1045,38 @@ class TalentDatabase:
                 multi_hit_max=1
             )
             
+            return move
+            
         except Exception as e:
             logger.error(f"Fehler beim Erstellen des Moves aus Talent-Daten: {e}")
-            return None
+            return self._create_fallback_move(move_id)
+    
+    def _create_fallback_move(self, move_id: str) -> 'Move':
+        """Erstelle Fallback-Move wenn keine Daten gefunden werden"""
+        from engine.systems.moves import Move, MoveCategory, MoveTarget, MoveEffect, EffectKind
+        
+        return Move(
+            id=move_id,
+            name=move_id.replace('_', ' ').title(),
+            type="Bestie",
+            category=MoveCategory.PHYSICAL,
+            power=40,
+            accuracy=100,
+            priority=0,
+            targeting=MoveTarget.ENEMY,
+            effects=[MoveEffect(kind=EffectKind.DAMAGE, power=40)],
+            description=f"Fallback Move: {move_id}",
+            contact=False,
+            sound_based=False,
+            punching=False,
+            biting=False,
+            pulse=False,
+            multi_hit=None,
+            drain_percent=0,
+            recoil_percent=0,
+            multi_hit_min=1,
+            multi_hit_max=1
+        )
     
     def export_to_json(self, filepath: str):
         """Exportiere Talent-Datenbank als JSON"""

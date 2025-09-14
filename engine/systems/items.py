@@ -9,8 +9,6 @@ from enum import Enum, auto
 import json
 import random
 
-# Import Meat System für DQM-Integration
-from engine.systems.battle.meat_system import get_meat_system, handle_meat_item_use
 
 if TYPE_CHECKING:
     from engine.systems.monster_instance import MonsterInstance
@@ -270,8 +268,9 @@ class ItemEffectExecutor:
             amount = effect.value.get('amount', 10)
             
             # Check if target has moves and the specified move exists
-            if hasattr(target, 'moves') and target.moves and move_index < len(target.moves):
-                move = target.moves[move_index]
+            available_moves = target.get_available_moves()
+            if available_moves and move_index < len(available_moves):
+                move = available_moves[move_index]
                 if hasattr(move, 'current_pp'):
                     old_pp = move.current_pp
                     move.current_pp = min(move.max_pp, move.current_pp + amount)
@@ -644,29 +643,44 @@ class ItemManager:
     
     def _handle_taming_item(self, item: Item, target: Optional['MonsterInstance']) -> Dict[str, Any]:
         """Handle taming items (meat) - DQM-Integration."""
-        # Check if it's a meat item using MeatSystem
-        meat_system = get_meat_system()
-        if meat_system.is_meat_item(item.id):
-            # Use the meat item bridge for proper DQM-style handling
-            item_data = {
-                'id': item.id,
-                'name': item.name,
-                'description': item.description
-            }
+        # Check if it's a meat item
+        if self._is_meat_item(item.id):
+            # Get meat bonus based on item type
+            meat_bonus = self._get_meat_bonus(item.id)
             
-            # Get battle state from context (if available)
-            battle_state = getattr(self, '_current_battle_state', None)
-            if battle_state:
-                return handle_meat_item_use(item_data, battle_state)
+            # Check if there's an enemy to tame
+            if not target:
+                return {'success': False, 'message': 'Kein Monster zum Zähmen verfügbar!'}
+            
+            # Check if enemy is wild
+            if not getattr(target, 'is_wild', True):
+                return {'success': False, 'message': 'Dieses Monster kann nicht gezähmt werden!'}
+            
+            # Calculate taming chance
+            base_chance = 0.15  # 15% base chance
+            meat_bonus_percent = meat_bonus / 100.0
+            final_chance = min(base_chance + meat_bonus_percent, 0.95)  # Max 95%
+            
+            # Roll for success
+            import random
+            success = random.random() < final_chance
+            
+            if success:
+                # Taming successful
+                message = f"{target.name} wurde erfolgreich gezähmt!"
+                return {
+                    'success': True,
+                    'message': message,
+                    'effects': {'taming_success': True, 'consume_turn': True}
+                }
             else:
-                # Fallback for non-battle usage
-                meat_type = meat_system.get_meat_type_from_item_id(item.id)
-                if meat_type:
-                    return {
-                        'success': True,
-                        'message': f"{item.name} wurde vorbereitet! Zähm-Bonus: +{int(meat_type.bonus * 100)}%",
-                        'effects': {'taming_bonus': 1.0 + meat_type.bonus, 'consume_turn': True}
-                    }
+                # Taming failed
+                message = f"Zähmversuch fehlgeschlagen! {target.name} ist nicht interessiert."
+                return {
+                    'success': True,
+                    'message': message,
+                    'effects': {'taming_success': False, 'consume_turn': True}
+                }
         
         # Fallback for non-meat taming items
         taming_bonus = 1.0
@@ -682,6 +696,21 @@ class ItemManager:
             'message': f"{item.name} wurde vorbereitet! Zähm-Bonus: +{int((taming_bonus - 1) * 100)}%",
             'effects': {'taming_bonus': taming_bonus, 'consume_turn': True}
         }
+    
+    def _is_meat_item(self, item_id: str) -> bool:
+        """Check if item is a meat item for taming."""
+        meat_items = ['fleisch', 'lecker_fleisch', 'edelfleisch', 'goldfleisch']
+        return item_id in meat_items
+    
+    def _get_meat_bonus(self, item_id: str) -> int:
+        """Get meat bonus based on item type."""
+        meat_bonuses = {
+            'fleisch': 20,
+            'lecker_fleisch': 30,
+            'edelfleisch': 40,
+            'goldfleisch': 80
+        }
+        return meat_bonuses.get(item_id, 0)
     
     def _handle_generic_item(self, item: Item, target: Optional['MonsterInstance']) -> Dict[str, Any]:
         """Handle generic items."""

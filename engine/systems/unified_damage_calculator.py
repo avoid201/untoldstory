@@ -10,7 +10,7 @@ import logging
 import time
 import random
 import math
-from engine.systems.talent_system import get_talent_database
+from engine.systems.talent_system import get_talent_database, TalentTier
 
 if TYPE_CHECKING:
     # Lazy imports für zirkuläre Dependencies
@@ -163,17 +163,19 @@ class UnifiedDamageCalculator:
                     if hasattr(talent_instance, 'talent_id'):
                         talent_data = talent_db.get_talent(talent_instance.talent_id)
                         if talent_data:
-                            # Apply passive abilities
-                            passive_abilities = talent_data.get('passive_abilities', [])
+                            # Apply passive abilities - talent_data is a Talent object, not dict
+                            passive_abilities = talent_data.get_passive_abilities_for_tier(talent_instance.current_tier)
                             for ability in passive_abilities:
-                                ability_type = ability.get('type', '')
+                                ability_type = ability.get('effect_type', '')
                                 value = ability.get('value', 1.0)
                                 
-                                if ability_type == 'atk_boost':
-                                    modifiers['atk_multiplier'] *= value
-                                elif ability_type == 'mag_boost':
-                                    modifiers['mag_multiplier'] *= value
-                                elif ability_type == 'power_boost':
+                                if ability_type == 'stat_boost':
+                                    stat_type = ability.get('stat', '')
+                                    if stat_type == 'atk':
+                                        modifiers['atk_multiplier'] *= value
+                                    elif stat_type == 'mag':
+                                        modifiers['mag_multiplier'] *= value
+                                elif ability_type == 'move_power_boost':
                                     modifiers['power_multiplier'] *= value
                                 elif ability_type == 'accuracy_boost':
                                     modifiers['accuracy_multiplier'] *= value
@@ -186,29 +188,34 @@ class UnifiedDamageCalculator:
                     if hasattr(talent_instance, 'talent_id'):
                         talent_data = talent_db.get_talent(talent_instance.talent_id)
                         if talent_data:
-                            # Apply passive abilities
-                            passive_abilities = talent_data.get('passive_abilities', [])
+                            # Apply passive abilities - talent_data is a Talent object, not dict
+                            passive_abilities = talent_data.get_passive_abilities_for_tier(talent_instance.current_tier)
                             for ability in passive_abilities:
-                                ability_type = ability.get('type', '')
+                                ability_type = ability.get('effect_type', '')
                                 value = ability.get('value', 1.0)
                                 
-                                if ability_type == 'def_boost':
-                                    modifiers['def_multiplier'] *= value
-                                elif ability_type == 'res_boost':
-                                    modifiers['res_multiplier'] *= value
+                                if ability_type == 'stat_boost':
+                                    stat_type = ability.get('stat', '')
+                                    if stat_type == 'def':
+                                        modifiers['def_multiplier'] *= value
+                                    elif stat_type == 'res':
+                                        modifiers['res_multiplier'] *= value
+                                elif ability_type == 'damage_reduction':
+                                    modifiers['def_multiplier'] *= (1.0 + value)  # Convert reduction to multiplier
             
             # Apply move-specific talent bonuses
             if hasattr(move, 'talent_id') and move.talent_id:
                 talent_data = talent_db.get_talent(move.talent_id)
                 if talent_data:
-                    move_bonuses = talent_data.get('move_bonuses', [])
-                    for bonus in move_bonuses:
-                        bonus_type = bonus.get('type', '')
-                        value = bonus.get('value', 1.0)
+                    # Get passive abilities for move-specific bonuses
+                    passive_abilities = talent_data.get_passive_abilities_for_tier(TalentTier.BASIC)
+                    for ability in passive_abilities:
+                        ability_type = ability.get('effect_type', '')
+                        value = ability.get('value', 1.0)
                         
-                        if bonus_type == 'power_boost':
+                        if ability_type == 'move_power_boost':
                             modifiers['power_multiplier'] *= value
-                        elif bonus_type == 'accuracy_boost':
+                        elif ability_type == 'accuracy_boost':
                             modifiers['accuracy_multiplier'] *= value
             
             return modifiers
@@ -553,9 +560,14 @@ class UnifiedDamageCalculator:
             # Apply passive abilities from talents
             passive_modifiers = self._calculate_passive_abilities(attacker, move, defender, kwargs)
             
+            # Apply talent modifiers to stats
             attacker_atk = attacker_stats.get('atk', 100) * passive_modifiers.get('atk_multiplier', 1.0)
             defender_def = defender_stats.get('def', 50) * passive_modifiers.get('def_multiplier', 1.0)
             power = move.power * passive_modifiers.get('power_multiplier', 1.0)
+            
+            # Log talent modifiers for debugging
+            if any(mod != 1.0 for mod in passive_modifiers.values()):
+                logger.debug(f"Talent modifiers applied: {passive_modifiers}")
             
             # Check for miss (DQM accuracy calculation)
             if self._check_miss(attacker_stats, defender_stats):
@@ -665,9 +677,14 @@ class UnifiedDamageCalculator:
             # Apply passive abilities from talents
             passive_modifiers = self._calculate_passive_abilities(attacker, move, defender, kwargs)
             
+            # Apply talent modifiers to stats
             attacker_mag = attacker_stats.get('mag', 100) * passive_modifiers.get('mag_multiplier', 1.0)
             defender_res = defender_stats.get('res', 50) * passive_modifiers.get('res_multiplier', 1.0)
             power = move.power * passive_modifiers.get('power_multiplier', 1.0)
+            
+            # Log talent modifiers for debugging
+            if any(mod != 1.0 for mod in passive_modifiers.values()):
+                logger.debug(f"Talent modifiers applied: {passive_modifiers}")
             
             # Check for miss (DQM accuracy calculation)
             if self._check_miss(attacker_stats, defender_stats):

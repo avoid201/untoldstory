@@ -163,7 +163,7 @@ Area ← {MapLoader, TileRenderer}
 **Untold Story** ist ein 2D top-down Pixel JRPG in Python mit pygame-ce, inspiriert von Dragon Quest Monsters und Pokémon. Das Spiel spielt im Ruhrpott mit deutschen Dialogen und lokalen Slang.
 
 ### 🎯 Kern-Features
-- **Monster-Taming-System**: DQM-inspiriert (ohne Pokéballs)
+- **Monster-Taming-System**: DQM-inspiriert mit persistenten Fleisch-Effekten (ohne Pokéballs)
 - **Turn-based Battle**: Mit 12 Typen und 9 Rängen (F-X)
 - **1v1 Battles - 6 Monster Team**: Strategische Teamkämpfe
 - **Ruhrpott-Setting**: Deutsche Dialoge mit lokalem Slang

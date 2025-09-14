@@ -93,30 +93,7 @@ class TalentManager:
         
         return passive_abilities
     
-    def get_available_moves(self, monster: 'MonsterInstance') -> List[str]:
-        """Hole alle verfügbaren Moves eines Monsters aus seinen Talenten"""
-        moves = []
-        
-        try:
-            for talent_instance in monster.talents:
-                if not talent_instance.is_learned:
-                    continue
-                
-                talent = self.talent_db.get_talent(talent_instance.talent_id)
-                if not talent:
-                    continue
-                
-                talent_moves = talent.get_moves_for_tier(
-                    talent_instance.current_tier, 
-                    monster.level
-                )
-                moves.extend(talent_moves)
-            
-            return list(set(moves))  # Entferne Duplikate
-            
-        except Exception as e:
-            logger.error(f"Fehler beim Laden der Moves: {e}")
-            return []
+    # Diese Methode wurde entfernt - monster.get_available_moves() wird direkt verwendet
     
     def get_passive_abilities(self, monster: 'MonsterInstance') -> List[Dict[str, Any]]:
         """Hole alle passiven Fähigkeiten eines Monsters"""
@@ -186,8 +163,7 @@ class TalentManager:
             talent_instance = TalentInstance(talent_id, is_learned=True)
             monster.talents.append(talent_instance)
             
-            # Aktualisiere Moves
-            monster.moves = monster._initialize_moves()
+            # Moves werden automatisch über get_available_moves() aus Talents geladen
             
             logger.info(f"{monster.name} hat Talent {talent_id} gelernt!")
             return True
@@ -210,8 +186,7 @@ class TalentManager:
                     if talent.can_upgrade_to_tier(talent_instance.current_tier, monster.level):
                         talent_instance.current_tier = TalentTier(talent_instance.current_tier.value + 1)
                         
-                        # Aktualisiere Moves
-                        monster.moves = monster._initialize_moves()
+                        # Moves werden automatisch über get_available_moves() aus Talents geladen
                         
                         logger.info(f"{monster.name} hat Talent {talent_id} auf Stufe {talent_instance.current_tier.value} upgegradet!")
                         return True

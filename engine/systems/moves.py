@@ -1131,43 +1131,7 @@ class MoveRegistry:
             logger.error(f"Fehler beim Abrufen der Moves für Talent {talent_id}: {e}")
             return []
     
-    def can_monster_use_move(self, monster: 'MonsterInstance', move_id: str) -> bool:
-        """
-        Check if a monster can use a specific move based on its talents.
-        
-        Args:
-            monster: Monster to check
-            move_id: ID of the move to check
-            
-        Returns:
-            True if monster can use the move
-        """
-        try:
-            if not monster or not hasattr(monster, 'talents'):
-                return False
-            
-            # Check if move is available through any learned talent
-            for talent_instance in monster.talents:
-                if not talent_instance.is_learned:
-                    continue
-                
-                # Get moves for this talent
-                talent_moves = self.get_moves_for_talent(
-                    talent_instance.talent_id,
-                    talent_instance.current_tier,
-                    monster.level
-                )
-                
-                # Check if move is in the list
-                for move in talent_moves:
-                    if move.id == move_id:
-                        return True
-            
-            return False
-            
-        except Exception as e:
-            logger.error(f"Fehler beim Prüfen der Move-Verfügbarkeit: {e}")
-            return False
+    # Diese Methode wurde entfernt - validate_move_availability() wird jetzt verwendet
 
 
 

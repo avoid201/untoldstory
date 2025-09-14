@@ -12,6 +12,7 @@ from dataclasses import dataclass, field
 from enum import Enum, auto
 from typing import Tuple, List, Optional, Dict, Any
 import pygame
+import time
 
 
 class BattleMenuState(Enum):
@@ -20,13 +21,95 @@ class BattleMenuState(Enum):
     MOVE_SELECT = auto()    # Move-Auswahl nach Kategorien
     ITEM_SELECT = auto()    # Item-Menü mit Kategorien
     SWITCH_SELECT = auto()  # Team-Wechsel
-    TAME_MEAT = auto()      # Fleisch-Auswahl für Zähmen
-    TAME_CONFIRM = auto()   # Zähm-Bestätigung mit Chancen
     SCOUT = auto()          # Monster-Analyse
     WAITING = auto()        # Warte auf Animation
     MESSAGE = auto()        # Zeige Nachricht
+    WAIT_FOR_INPUT = auto() # Warte auf SPACE/ENTER Input
+    MESSAGE_DISPLAY = auto() # Zeige Message mit Prompt
+    ACTION_ANIMATION = auto() # Attack-Animation läuft
     SKILL_SELECT = auto()   # Erweiterte Skill-Auswahl
     ENHANCED_ITEM = auto()  # Erweiterte Item-Auswahl
+    BATTLE_RESULT = auto()  # Victory/Defeat Screen
+
+
+@dataclass
+class MessageQueue:
+    """Message Queue System für sequenzielle Battle-Nachrichten."""
+    
+    messages: List[Dict[str, Any]] = field(default_factory=list)
+    current_message: Optional[Dict[str, Any]] = None
+    is_blocking: bool = False
+    input_wait: bool = False
+    
+    def add_message(self, text: str, duration: float = 2.0, priority: str = "normal", 
+                   style: str = "normal", blocking: bool = True) -> None:
+        """Füge Message zur Queue hinzu."""
+        message_data = {
+            'text': text,
+            'duration': duration,
+            'priority': priority,
+            'style': style,
+            'blocking': blocking,
+            'timestamp': time.time()
+        }
+        
+        # Sortiere nach Priorität einfügen
+        if priority == "critical":
+            # Critical Messages am Anfang, aber in FIFO-Reihenfolge
+            # Finde letzte Critical Message und füge danach ein
+            insert_index = 0
+            for i, msg in enumerate(self.messages):
+                if msg['priority'] == "critical":
+                    insert_index = i + 1
+                else:
+                    break
+            self.messages.insert(insert_index, message_data)
+        elif priority == "important":
+            # Finde erste normale Message und füge davor ein
+            insert_index = len(self.messages)
+            for i, msg in enumerate(self.messages):
+                if msg['priority'] == "normal":
+                    insert_index = i
+                    break
+            self.messages.insert(insert_index, message_data)
+        else:
+            self.messages.append(message_data)
+    
+    def get_next_message(self) -> Optional[Dict[str, Any]]:
+        """Hole nächste Message aus der Queue."""
+        if self.messages:
+            self.current_message = self.messages.pop(0)
+            self.is_blocking = self.current_message.get('blocking', True)
+            self.input_wait = self.is_blocking
+            return self.current_message
+        return None
+    
+    def has_pending_messages(self) -> bool:
+        """Prüfe ob Messages in der Queue sind."""
+        return len(self.messages) > 0 or self.current_message is not None
+    
+    def get_current_message(self) -> str:
+        """Get current message text."""
+        if self.current_message and isinstance(self.current_message, dict):
+            return self.current_message.get('text', '')
+        return ""
+    
+    def clear_all(self) -> None:
+        """Lösche alle Messages."""
+        self.messages.clear()
+        self.current_message = None
+        self.is_blocking = False
+        self.input_wait = False
+    
+    def process_input(self, action: str) -> bool:
+        """Verarbeite Input für Message-Queue."""
+        if action in ["confirm", "cancel"] and self.input_wait:
+            # Message bestätigt, current_message löschen
+            self.current_message = None
+            self.input_wait = False
+            self.is_blocking = False
+            return True
+        return False
 
 
 @dataclass
@@ -75,11 +158,14 @@ class BattleUIState:
     # Item categories  
     current_item_category: int = 0  # 0: Healing, 1: Battle, 2: Meat
     
-    # Message system
+    # Message system - NEW MESSAGE QUEUE SYSTEM
     current_message: str = ""
     message_timer: float = 0.0
     message_wait: bool = False
-    message_queue: List[str] = field(default_factory=list)
+    message_queue_system: MessageQueue = field(default_factory=MessageQueue)
+    
+    # Input state
+    waiting_for_input: bool = True
     
     # Screen effects
     screen_flash_timer: float = 0.0
@@ -89,11 +175,9 @@ class BattleUIState:
     screen_shake_intensity: float = 0.0
     shake_offset: Tuple[int, int] = (0, 0)
     
-    # Taming state
+    # Taming state - simplified for direct meat usage
     taming_state: Dict[str, Any] = field(default_factory=lambda: {
-        "meat_selected": None,
-        "taming_chance": 0.0,
-        "show_chance": False,
+        "meat_bonus": 0.0,
         "animation_phase": 0
     })
     
@@ -118,6 +202,12 @@ class BattleUIState:
     last_action_time: float = 0.0
     action_cooldown: float = 0.5
     
+    # Victory/Defeat screens
+    show_victory_screen: bool = False
+    show_defeat_screen: bool = False
+    victory_screen_data: Optional[Dict[str, Any]] = None
+    defeat_screen_data: Optional[Dict[str, Any]] = None
+    
     # Performance tracking
     fps_counter: int = 0
     fps_timer: float = 0.0
@@ -139,7 +229,6 @@ class BattleUIState:
         self.current_message = ""
         self.message_timer = 0.0
         self.message_wait = False
-        self.message_queue.clear()
         
         self.screen_flash_timer = 0.0
         self.screen_shake_timer = 0.0
@@ -155,6 +244,12 @@ class BattleUIState:
         
         self.pending_action = None
         self.last_action_time = 0.0
+        
+        # Reset Victory/Defeat screens
+        self.show_victory_screen = False
+        self.show_defeat_screen = False
+        self.victory_screen_data = None
+        self.defeat_screen_data = None
     
     def set_waiting_for_input(self, waiting: bool) -> None:
         """Set waiting for input state."""
@@ -388,5 +483,73 @@ class BattleUIState:
             return True
         
         return False
+    
+    # ===== MESSAGE QUEUE SYSTEM =====
+    
+    def clear_all_messages(self) -> None:
+        """Clear all message queues."""
+        self.current_message = ""
+        self.message_timer = 0.0
+        self.message_queue_system.clear_all()
+    
+    def add_message_to_queue(self, text: str, duration: float = 2.0, priority: str = "normal", 
+                           style: str = "normal", blocking: bool = True) -> None:
+        """Füge Message zur neuen Queue hinzu."""
+        self.message_queue_system.add_message(text, duration, priority, style, blocking)
+        
+        # Sofort anzeigen wenn keine andere Message aktiv
+        if not self.message_queue_system.current_message:
+            self.message_queue_system.get_next_message()
+            if self.message_queue_system.current_message:
+                self.current_message = self.message_queue_system.current_message['text']
+                self.message_timer = self.message_queue_system.current_message['duration']
+                self.message_wait = self.message_queue_system.input_wait
+                self.menu_state = BattleMenuState.MESSAGE_DISPLAY
+    
+    def process_message_input(self, action: str) -> bool:
+        """Verarbeite Input für Message-Queue."""
+        result = self.message_queue_system.process_input(action)
+        
+        # Wenn Input verarbeitet wurde, nächste Message laden
+        if result and self.message_queue_system.has_pending_messages():
+            self.message_queue_system.get_next_message()
+            if self.message_queue_system.current_message:
+                self.current_message = self.message_queue_system.current_message['text']
+                self.message_timer = self.message_queue_system.current_message['duration']
+                self.message_wait = self.message_queue_system.input_wait
+                self.menu_state = BattleMenuState.MESSAGE_DISPLAY
+        
+        return result
+    
+    def get_current_message_data(self) -> Optional[Dict[str, Any]]:
+        """Hole aktuelle Message-Daten."""
+        return self.message_queue_system.current_message
+    
+    def get_next_message(self) -> Optional[Dict[str, Any]]:
+        """Get next message from queue."""
+        return self.message_queue_system.get_next_message()
+
+    def has_pending_messages(self) -> bool:
+        """Check if there are pending messages."""
+        return self.message_queue_system.has_pending_messages()
+
+    def update_message_timer(self, dt: float) -> None:
+        """Update message timer and handle message transitions."""
+        if self.message_timer > 0:
+            self.message_timer -= dt
+            if self.message_timer <= 0:
+                # Current message finished, get next one
+                next_message = self.get_next_message()
+                if next_message:
+                    self.current_message = next_message['text']
+                    self.message_timer = next_message['duration']
+                    self.message_wait = True
+                    # CRITICAL: Keep menu state as MESSAGE_DISPLAY
+                    self.menu_state = BattleMenuState.MESSAGE_DISPLAY
+                else:
+                    # No more messages, return to main menu
+                    self.current_message = ""
+                    self.message_wait = False
+                    self.menu_state = BattleMenuState.MAIN
 
 

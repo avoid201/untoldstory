@@ -85,8 +85,8 @@ class BattleUIFontManager:
     
     @property
     def move_name(self) -> pygame.font.Font:
-        """Special font for move names - larger and bold (18px bold)"""
-        return self.get_font(18, bold=True)
+        """Special font for move names - optimized size (14px bold)"""
+        return self.get_font(14, bold=True)
     
     @property
     def monster_name(self) -> pygame.font.Font:

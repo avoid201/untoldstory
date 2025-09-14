@@ -17,7 +17,8 @@ if TYPE_CHECKING:
 class SynthesisResult:
     """Result of a synthesis attempt."""
     offspring_species: 'MonsterSpecies'
-    inherited_moves: List['Move']
+    inherited_moves: List['Move']  # Legacy compatibility
+    inherited_talents: List[str]   # NEW: Inherited talent IDs
     inherited_traits: List[str]
     plus_value: int
     parent1_consumed: bool
@@ -146,8 +147,11 @@ class SynthesisCalculator:
         # Calculate plus value
         plus_value = self._calculate_plus_value(parent1, parent2)
         
-        # Inherit moves
+        # Inherit moves (legacy compatibility)
         inherited_moves = self._inherit_moves(parent1, parent2, offspring_species)
+        
+        # Inherit talents (NEW: DQM-style talent inheritance)
+        inherited_talents = self._inherit_talents(parent1, parent2)
         
         # Inherit traits
         inherited_traits = self._inherit_traits(parent1, parent2)
@@ -160,6 +164,7 @@ class SynthesisCalculator:
         return SynthesisResult(
             offspring_species=offspring_species,
             inherited_moves=inherited_moves,
+            inherited_talents=inherited_talents,
             inherited_traits=inherited_traits,
             plus_value=plus_value,
             parent1_consumed=parent1_consumed,
@@ -186,12 +191,14 @@ class SynthesisCalculator:
             
             # Special fusions get bonus inherited moves and traits
             inherited_moves = self._inherit_moves(parent1, parent2, offspring_species, bonus=2)
+            inherited_talents = self._inherit_talents(parent1, parent2)
             inherited_traits = self._inherit_traits(parent1, parent2, special=True)
             plus_value = self._calculate_plus_value(parent1, parent2) + 10  # Bonus
             
             return SynthesisResult(
                 offspring_species=offspring_species,
                 inherited_moves=inherited_moves,
+                inherited_talents=inherited_talents,
                 inherited_traits=inherited_traits,
                 plus_value=plus_value,
                 parent1_consumed=True,
@@ -288,12 +295,13 @@ class SynthesisCalculator:
         """Determine inherited moves."""
         inherited = []
         
-        # Get all parent moves
+        # Get all parent moves from talents
+        parent1_moves = parent1.get_available_moves()
+        parent2_moves = parent2.get_available_moves()
+        
+        # Combine and deduplicate moves
         parent_moves = []
-        for move in parent1.moves:
-            if move and move not in parent_moves:
-                parent_moves.append(move)
-        for move in parent2.moves:
+        for move in parent1_moves + parent2_moves:
             if move and move not in parent_moves:
                 parent_moves.append(move)
         
@@ -312,6 +320,28 @@ class SynthesisCalculator:
                 inherited.append(move)
         
         return inherited
+    
+    def _inherit_talents(self, parent1: 'MonsterInstance', parent2: 'MonsterInstance') -> List[str]:
+        """DQM-style talent inheritance for synthesis."""
+        try:
+            from engine.systems.battle.skills_dqm_integrated import SkillsDQMIntegrated
+            
+            skills_integrated = SkillsDQMIntegrated()
+            return skills_integrated.synthesize_monster_talents(parent1, parent2)
+            
+        except Exception as e:
+            # Fallback: Basic talent inheritance
+            inherited_talents = []
+            
+            # Get all learned talents from both parents
+            parent1_talents = [t.talent_id for t in parent1.get_learned_talents()]
+            parent2_talents = [t.talent_id for t in parent2.get_learned_talents()]
+            
+            # Inherit all unique talents
+            all_talents = set(parent1_talents + parent2_talents)
+            inherited_talents = list(all_talents)
+            
+            return inherited_talents[:8]  # Max 8 inherited talents
     
     def _can_species_learn_move(self, species: 'MonsterSpecies', move: 'Move') -> bool:
         """Check if a species can learn a move."""
@@ -438,6 +468,7 @@ class SynthesisPreview:
             'estimated_plus': f"+{result.plus_value}",
             'special': result.special_fusion,
             'inherited_moves_count': len(result.inherited_moves),
+            'inherited_talents_count': len(result.inherited_talents),
             'inherited_traits_count': len(result.inherited_traits)
         }
 

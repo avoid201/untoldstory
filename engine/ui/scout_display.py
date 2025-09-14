@@ -5,12 +5,16 @@ Shows detailed monster analysis in DQM style.
 
 import pygame
 import math
+import logging
 from typing import Optional, Dict, List, Tuple, Any
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from enum import Enum
 
 from engine.core.config import LOGICAL_WIDTH, LOGICAL_HEIGHT, Colors
 from engine.ui.battle_ui_utils import fonts, types, sprites, colors, text_utils
+
+# Setup logger
+logger = logging.getLogger(__name__)
 
 
 class ScoutDisplayTab(Enum):
@@ -645,11 +649,14 @@ class ScoutDisplay:
             surface.blit(status_text, (x + 20, status_y + 20))
     
     def _draw_taming_tab(self, surface: pygame.Surface, x: int, y: int, w: int, h: int):
-        """Draw taming tab content."""
+        """Draw taming tab content with enhanced calculations."""
         data = self.monster_data
         
         taming_label = self.font_normal.render("Zähm-Information:", True, Colors.WHITE)
         surface.blit(taming_label, (x + 10, y + 10))
+        
+        # Calculate comprehensive taming chance
+        taming_chance = self._calculate_comprehensive_taming_chance(data)
         
         # Taming difficulty
         diff_y = y + 35
@@ -667,22 +674,58 @@ class ScoutDisplay:
         diff_text = self.font_large.render(data.taming_difficulty, True, diff_color)
         surface.blit(diff_text, (x + 120, diff_y - 2))
         
-        # Base taming chance based on rank
+        # Current taming chance with visual indicator
         chance_y = diff_y + 30
-        rank_chances = {
-            'F': 25, 'E': 20, 'D': 15, 'C': 10,
-            'B': 8, 'A': 5, 'S': 3, 'SS': 2, 'X': 1
-        }
-        base_chance = rank_chances.get(data.rank, 10)
-        
-        chance_label = self.font_small.render(f"Basis-Chance (Rang {data.rank}):", True, Colors.WHITE)
+        chance_label = self.font_normal.render("Aktuelle Zähm-Chance:", True, Colors.WHITE)
         surface.blit(chance_label, (x + 20, chance_y))
         
-        chance_text = self.font_normal.render(f"{base_chance}%", True, Colors.YELLOW)
-        surface.blit(chance_text, (x + 180, chance_y))
+        # Visual progress bar for taming chance
+        bar_x = x + 20
+        bar_y = chance_y + 25
+        bar_width = w - 40
+        bar_height = 20
+        
+        # Background
+        pygame.draw.rect(surface, (40, 40, 40), (bar_x, bar_y, bar_width, bar_height))
+        pygame.draw.rect(surface, Colors.WHITE, (bar_x, bar_y, bar_width, bar_height), 2)
+        
+        # Progress fill
+        progress_width = int(bar_width * taming_chance)
+        progress_color = self._get_taming_chance_color(taming_chance)
+        pygame.draw.rect(surface, progress_color, (bar_x, bar_y, progress_width, bar_height))
+        
+        # Percentage text
+        chance_text = f"{int(taming_chance * 100)}%"
+        chance_surface = self.font_normal.render(chance_text, True, Colors.WHITE)
+        text_rect = chance_surface.get_rect(center=(bar_x + bar_width // 2, bar_y + bar_height // 2))
+        surface.blit(chance_surface, text_rect)
+        
+        # Modifier breakdown
+        mod_y = bar_y + 35
+        mod_label = self.font_small.render("Modifikatoren:", True, Colors.WHITE)
+        surface.blit(mod_label, (x + 20, mod_y))
+        
+        # HP bonus
+        hp_ratio = data.current_hp / max(1, data.max_hp)
+        hp_bonus = (1.0 - hp_ratio) * 30
+        hp_text = f"HP niedrig: +{int(hp_bonus)}%"
+        hp_color = Colors.GREEN if hp_bonus > 0 else Colors.LIGHT_GRAY
+        surface.blit(self.font_small.render(hp_text, True, hp_color), (x + 30, mod_y + 15))
+        
+        # Meat bonus
+        meat_bonus = self._get_meat_bonus()
+        meat_text = f"Fleisch: +{int(meat_bonus * 100)}%"
+        meat_color = Colors.YELLOW if meat_bonus > 0 else Colors.LIGHT_GRAY
+        surface.blit(self.font_small.render(meat_text, True, meat_color), (x + 30, mod_y + 30))
+        
+        # Status bonus
+        status_bonus = self._get_status_bonus(data.status)
+        status_text = f"Status: +{int(status_bonus * 100)}%"
+        status_color = Colors.CYAN if status_bonus > 0 else Colors.LIGHT_GRAY
+        surface.blit(self.font_small.render(status_text, True, status_color), (x + 30, mod_y + 45))
         
         # Taming tips
-        tips_y = chance_y + 40
+        tips_y = mod_y + 80
         tips_label = self.font_normal.render("Zähm-Tipps:", True, Colors.WHITE)
         surface.blit(tips_label, (x + 20, tips_y))
         
@@ -714,6 +757,70 @@ class ScoutDisplay:
         
         meat_text = self.font_normal.render(meat_rec, True, meat_color)
         surface.blit(meat_text, (x + 30, meat_y + 20))
+    
+    def _calculate_comprehensive_taming_chance(self, data) -> float:
+        """Calculate comprehensive taming chance with all modifiers."""
+        # Base chance from rank
+        rank_chances = {
+            'F': 0.25, 'E': 0.20, 'D': 0.15, 'C': 0.10,
+            'B': 0.08, 'A': 0.05, 'S': 0.03, 'SS': 0.02, 'X': 0.01
+        }
+        base_chance = rank_chances.get(data.rank, 0.10)
+        
+        # HP bonus (0-30%)
+        hp_ratio = data.current_hp / max(1, data.max_hp)
+        hp_bonus = (1.0 - hp_ratio) * 0.30
+        
+        # Meat bonus (0-80%)
+        meat_bonus = self._get_meat_bonus()
+        
+        # Status bonus (0-15%)
+        status_bonus = self._get_status_bonus(data.status)
+        
+        # Calculate final chance
+        final_chance = base_chance + hp_bonus + meat_bonus + status_bonus
+        final_chance = min(0.95, max(0.01, final_chance))  # Clamp between 1% and 95%
+        
+        return final_chance
+    
+    def _get_meat_bonus(self) -> float:
+        """Get current meat bonus."""
+        try:
+            from engine.systems.battle.meat_system import get_meat_system
+            meat_system = get_meat_system()
+            if meat_system.has_active_effect():
+                return meat_system.get_active_bonus()
+        except Exception:
+            pass
+        return 0.0
+    
+    def _get_status_bonus(self, status) -> float:
+        """Get status bonus for taming."""
+        if not status:
+            return 0.0
+        
+        status_bonuses = {
+            'SLEEP': 0.15,
+            'PARALYSIS': 0.10,
+            'FREEZE': 0.10,
+            'CONFUSION': 0.05,
+            'POISON': 0.0,
+            'BURN': 0.0
+        }
+        return status_bonuses.get(str(status).upper(), 0.0)
+    
+    def _get_taming_chance_color(self, chance: float) -> Tuple[int, int, int]:
+        """Get color for taming chance progress bar."""
+        if chance >= 0.8:
+            return Colors.GREEN
+        elif chance >= 0.6:
+            return Colors.LIGHT_GREEN
+        elif chance >= 0.4:
+            return Colors.YELLOW
+        elif chance >= 0.2:
+            return Colors.ORANGE
+        else:
+            return Colors.RED
     
     def _get_type_color(self, type_name: str) -> Tuple[int, int, int]:
         """Get color for a type using centralized type manager."""
